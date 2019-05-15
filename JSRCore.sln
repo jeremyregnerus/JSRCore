@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSRBaseClassLibrary", "JSRBaseClassLibrary\JSRBaseClassLibrary.csproj", "{ED79D95B-CC0A-45E4-991C-46D00E1E77AA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E2F3468-95A1-4475-A386-6654AB90FB1E}"
+	ProjectSection(SolutionItems) = preProject
+		JSRCore.ruleset = JSRCore.ruleset
+		stylecop.json = stylecop.json
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSR.Utilities", "JSR.Utilities\JSR.Utilities.csproj", "{73FDD3AC-A74A-4904-8A28-3A32CF67C178}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSR.BaseClassLibrary", "JSR.BaseClassLibrary\JSR.BaseClassLibrary.csproj", "{08725F8B-D41B-4558-94D0-BECF5FFC2728}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9B073D2D-2819-4557-97AD-1BCB769C146D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +21,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ED79D95B-CC0A-45E4-991C-46D00E1E77AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED79D95B-CC0A-45E4-991C-46D00E1E77AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED79D95B-CC0A-45E4-991C-46D00E1E77AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED79D95B-CC0A-45E4-991C-46D00E1E77AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73FDD3AC-A74A-4904-8A28-3A32CF67C178}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73FDD3AC-A74A-4904-8A28-3A32CF67C178}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73FDD3AC-A74A-4904-8A28-3A32CF67C178}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73FDD3AC-A74A-4904-8A28-3A32CF67C178}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08725F8B-D41B-4558-94D0-BECF5FFC2728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08725F8B-D41B-4558-94D0-BECF5FFC2728}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08725F8B-D41B-4558-94D0-BECF5FFC2728}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08725F8B-D41B-4558-94D0-BECF5FFC2728}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

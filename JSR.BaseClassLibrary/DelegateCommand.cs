@@ -5,7 +5,7 @@
 using System;
 using System.Windows.Input;
 
-namespace JSRBaseClassLibrary
+namespace JSR.BaseClassLibrary
 {
     /// <summary>
     /// Provides a default implementation of the <see cref="ICommand"/> interface for use within MVVM and WPF.

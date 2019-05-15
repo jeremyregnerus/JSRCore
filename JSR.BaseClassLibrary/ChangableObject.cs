@@ -4,7 +4,7 @@
 
 using System.Runtime.CompilerServices;
 
-namespace JSRBaseClassLibrary
+namespace JSR.BaseClassLibrary
 {
     /// <summary>
     /// Provides the default implementation of <see cref="IChangableObject"/> interface layered on top of the <see cref="NotifyableObject"/> base class.

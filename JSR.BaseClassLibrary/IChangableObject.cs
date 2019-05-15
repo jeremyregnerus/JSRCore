@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace JSRBaseClassLibrary
+namespace JSR.BaseClassLibrary
 {
     /// <summary>
     /// This event handler is raised and an IChangeable Object changes.

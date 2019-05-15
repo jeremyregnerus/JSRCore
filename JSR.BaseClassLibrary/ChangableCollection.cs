@@ -10,7 +10,7 @@ using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace JSRBaseClassLibrary
+namespace JSR.BaseClassLibrary
 {
     /// <summary>
     /// Provides an <see cref="ObservableCollection{T}"/> that also implements <see cref="IChangableObject"/>.

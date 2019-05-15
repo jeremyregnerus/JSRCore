@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace JSRBaseClassLibrary
+namespace JSR.BaseClassLibrary
 {
     /// <summary>
     /// Provides a default implementation of the <see cref="INotifyPropertyChanged"/> interface.
