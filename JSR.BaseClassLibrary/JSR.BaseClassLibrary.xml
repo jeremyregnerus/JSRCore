@@ -1,0 +1,334 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JSR.BaseClassLibrary</name>
+    </assembly>
+    <members>
+        <member name="T:JSR.BaseClassLibrary.ChangableCollection`1">
+            <summary>
+            Provides an <see cref="T:System.Collections.ObjectModel.ObservableCollection`1"/> that also implements <see cref="T:JSR.BaseClassLibrary.IChangableObject"/>.
+            </summary>
+            <typeparam name="T">Type of List objects that implement <see cref="T:JSR.BaseClassLibrary.IChangableObject"/>.</typeparam>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableCollection`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.ChangableCollection`1"/> class.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableCollection`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.ChangableCollection`1"/> class.
+            </summary>
+            <param name="collection">An IEnumberable of the Collection Type implementing <see cref="T:JSR.BaseClassLibrary.IChangableObject"/>.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableCollection`1.#ctor(System.Collections.Generic.List{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.ChangableCollection`1"/> class.
+            </summary>
+            <param name="list">A List of the Collection Type implementing <see cref="T:JSR.BaseClassLibrary.IChangableObject"/>.</param>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.ChangableCollection`1.OnChanged">
+            <inheritdoc/>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.ChangableCollection`1.IsChanged">
+            <summary>
+            Gets a value indicating whether this object or any items in the collection has changed.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableCollection`1.AcceptChanges">
+            <summary>
+            Accepts changes to this object and its collection.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableCollection`1.OnDeserialized(System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            This method is called by the serializer when this object is deserialized.
+            </summary>
+            <param name="s">Streaming Context to deserialize..</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableCollection`1.OnCreated">
+            <summary>
+            When this object is created this method should be called to register change notification events for all items in the collection.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableCollection`1.CollectionListChanged(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+            This method should be called whenever the collection changes
+            This includes new items being added and existing items being removed.
+            </summary>
+            <param name="sender">The object requesting to send the change notification.</param>
+            <param name="args">Notify Collection Changed Event Arguments that contains lists of items added or removed from the collection.</param>
+        </member>
+        <member name="T:JSR.BaseClassLibrary.ChangableMessagingCollection`1">
+            <summary>
+            Provides an <see cref="T:System.Collections.ObjectModel.ObservableCollection`1"/> that also implements <see cref="T:JSR.BaseClassLibrary.IChangableObject"/> and <see cref="T:JSR.BaseClassLibrary.IMessenger"/>.
+            </summary>
+            <typeparam name="T">Type of List objects that implement <see cref="T:JSR.BaseClassLibrary.IChangableObject"/> and <see cref="T:JSR.BaseClassLibrary.IMessenger"/>.</typeparam>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableMessagingCollection`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.ChangableMessagingCollection`1"/> class.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableMessagingCollection`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.ChangableMessagingCollection`1"/> class.
+            </summary>
+            <param name="collection">An IEnumberable of the Collection Type implementing both <see cref="T:JSR.BaseClassLibrary.IChangableObject"/> and <see cref="T:JSR.BaseClassLibrary.IMessenger"/>.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableMessagingCollection`1.#ctor(System.Collections.Generic.List{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.ChangableMessagingCollection`1"/> class.
+            </summary>
+            <param name="list">A List of the Collection Type implementing both <see cref="T:JSR.BaseClassLibrary.IChangableObject"/> and <see cref="T:JSR.BaseClassLibrary.IMessenger"/>.</param>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.ChangableMessagingCollection`1.OnChanged">
+            <inheritdoc/>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.ChangableMessagingCollection`1.OnMessage">
+            <inheritdoc/>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.ChangableMessagingCollection`1.IsChanged">
+            <inheritdoc/>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.ChangableMessagingCollection`1.Message">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableMessagingCollection`1.AcceptChanges">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableMessagingCollection`1.OnDeserialized(System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Called when this object is deserialized.
+            </summary>
+            <param name="s">Streaming Context provided by the deserializer.</param>
+        </member>
+        <member name="T:JSR.BaseClassLibrary.ChangableMessagingObject">
+            <summary>
+            Provides an implementation of the <see cref="T:JSR.BaseClassLibrary.IMessenger"/> interface layered on the <see cref="T:JSR.BaseClassLibrary.ChangableObject"/> base class.
+            </summary>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.ChangableMessagingObject.OnMessage">
+            <inheritdoc/>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.ChangableMessagingObject.Message">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableMessagingObject.SetValue``1(``0,``0@,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="T:JSR.BaseClassLibrary.ChangableObject">
+            <summary>
+            Provides the default implementation of <see cref="T:JSR.BaseClassLibrary.IChangableObject"/> interface layered on top of the <see cref="T:JSR.BaseClassLibrary.NotifyableObject"/> base class.
+            </summary>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.ChangableObject.OnChanged">
+            <inheritdoc/>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.ChangableObject.IsChanged">
+            <summary>
+            Gets or sets a value indicating whether this item has changed.
+            To include children, override this method and check this.isChanged with Or Else statements on each child.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableObject.AcceptChanges">
+            <summary>
+            Accepts the current changes on this object.
+            To accept changes on ChildOjects, they should override this method and update the children before calling base.AcceptChanges.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableObject.SetValue``1(``0,``0@,System.String)">
+            <summary>
+            Sets the value of a property.
+            Determines if the property's value has changed.
+            Raises a Change Notification if the property has changed.
+            </summary>
+            <typeparam name="T">Type of value of the Property being changed.</typeparam>
+            <param name="value">The new value for the property.</param>
+            <param name="backingField">The backing field that contains the exposed property's value.</param>
+            <param name="propertyName">The name of the property being changed.</param>
+            <returns>Returns true of the value of the property changed. This value will be false if the value is the same as the previous value.</returns>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableObject.ChildChanged(System.Object,System.Boolean)">
+            <summary>
+            Changes the IsChanged property of this object when a child object is changed.
+            </summary>
+            <param name="sender"><see cref="T:JSR.BaseClassLibrary.IChangableObject"/> to track changes.</param>
+            <param name="isChanged">A value stating if the child has changed.</param>
+        </member>
+        <member name="T:JSR.BaseClassLibrary.DelegateCommand">
+            <summary>
+            Provides a default implementation of the <see cref="T:System.Windows.Input.ICommand"/> interface for use within MVVM and WPF.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.DelegateCommand.#ctor(System.Action)">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.DelegateCommand"/> class.
+            </summary>
+            <param name="exectute">Action to execute.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.DelegateCommand.#ctor(System.Action,System.Func{System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.DelegateCommand"/> class.
+            </summary>
+            <param name="execute">Action to execute.</param>
+            <param name="canExecute">Function specifying if this action can execute when called.</param>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.DelegateCommand.CanExecuteChanged">
+            <summary>
+            Raised when the ability for the Action to execute changes.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.DelegateCommand.CanExecute(System.Object)">
+            <summary>
+            Checks in the Action can execute.
+            </summary>
+            <param name="parameter">Unused in this object, required by the Interface.</param>
+            <returns>Returns true if the Action can execute.</returns>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.DelegateCommand.Execute(System.Object)">
+            <summary>
+            Executes the Action of this object.
+            </summary>
+            <param name="parameter">Unused in this object, required by the Interface.</param>
+        </member>
+        <member name="T:JSR.BaseClassLibrary.OnChangedEventHandler">
+            <summary>
+            This event handler is raised and an IChangeable Object changes.
+            </summary>
+            <param name="sender">the object sending the event.</param>
+            <param name="isChanged">Boolean value stating if the object is changed or not.</param>
+        </member>
+        <member name="T:JSR.BaseClassLibrary.IChangableObject">
+            <summary>
+            IChangableObject implements INotifyPropertyChanged and IChangeTracking together.
+            </summary>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.IChangableObject.OnChanged">
+            <summary>
+            This event is raised when the object's IsChanged value changes.
+            </summary>
+        </member>
+        <member name="T:JSR.BaseClassLibrary.OnMessageEventHandler">
+            <summary>
+            This event handler is raised when a message is raised by an object.
+            </summary>
+            <param name="sender">Object raiding the message.</param>
+            <param name="message">The message text.</param>
+        </member>
+        <member name="T:JSR.BaseClassLibrary.IMessenger">
+            <summary>
+            IMessenger raises a PropertyChange notification when a Property called Message is changed.
+            </summary>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.IMessenger.OnMessage">
+            <summary>
+            Event raised when the Message changes.
+            </summary>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.IMessenger.Message">
+            <summary>
+            Gets the Message to raise.
+            </summary>
+        </member>
+        <member name="T:JSR.BaseClassLibrary.MessagingCollection`1">
+            <summary>
+            Provides an <see cref="T:System.Collections.ObjectModel.ObservableCollection`1"/> that also implements <see cref="T:JSR.BaseClassLibrary.IMessenger"/>.
+            </summary>
+            <typeparam name="T">Type of list objects that implement <see cref="T:JSR.BaseClassLibrary.IMessenger"/>.</typeparam>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.MessagingCollection`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.MessagingCollection`1"/> class.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.MessagingCollection`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.MessagingCollection`1"/> class.
+            </summary>
+            <param name="collection">An IEnumberable of the Collection Type implementing <see cref="T:JSR.BaseClassLibrary.IMessenger"/>.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.MessagingCollection`1.#ctor(System.Collections.Generic.List{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.MessagingCollection`1"/> class.
+            </summary>
+            <param name="list">A List of the Collection Type implementing <see cref="T:JSR.BaseClassLibrary.IMessenger"/>.</param>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.MessagingCollection`1.OnMessage">
+            <inheritdoc/>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.MessagingCollection`1.Message">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.MessagingCollection`1.OnDeserialized(System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Called when this object is deserialized.
+            </summary>
+            <param name="s">Streaming object provided by the deserializer.</param>
+        </member>
+        <member name="T:JSR.BaseClassLibrary.MessagingObject">
+            <summary>
+            Provides a default implementation of the <see cref="T:JSR.BaseClassLibrary.IMessenger"/> interface layered on the <see cref="T:JSR.BaseClassLibrary.NotifyableObject"/> base class.
+            </summary>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.MessagingObject.OnMessage">
+            <inheritdoc/>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.MessagingObject.Message">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.MessagingObject.SetValue``1(``0,``0@,System.String)">
+            <summary>
+            Sets a new Value for a property.
+            Checks for equality to determine if the value has changed.
+            Raises PropertyChanged if the value has changed.
+            If the property implements IMessenger, removes and adds event notification for Message bubbling.
+            </summary>
+            <typeparam name="T">Type of property value.</typeparam>
+            <param name="value">New value to apply to the property.</param>
+            <param name="backingField">Backing field of the property.</param>
+            <param name="propertyName">Name of the property to raise the PropertyChange event for. If ommitted, will use the calling member's name.</param>
+            <returns>True if the value was changed, false otherwise.</returns>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.MessagingObject.ChildRaisedMessage(System.Object,System.String)">
+            <summary>
+            Changes the value of Message when a child object raises it's message.
+            </summary>
+            <param name="sender"><see cref="T:JSR.BaseClassLibrary.IMessenger"/> object.</param>
+            <param name="message">Message being raised by the child object.</param>
+        </member>
+        <member name="T:JSR.BaseClassLibrary.NotifyableObject">
+            <summary>
+            Provides a default implementation of the <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> interface.
+            </summary>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.NotifyableObject.PropertyChanged">
+            <summary>
+            Event Handler referenced when property values are changed
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.NotifyableObject.NotifyAllPropertiesChanged">
+            <summary>
+            Raises PropertyChanged for every property on the Object.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.NotifyableObject.NotifyPropertyChanged(System.String)">
+            <summary>
+            Raise the PropertyChanged event.
+            </summary>
+            <param name="propertyName">Name of the property to raise the PropertyChange event for.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.NotifyableObject.SetValue``1(``0,``0@,System.String)">
+            <summary>
+            Sets a new Value for a property.
+            Checks for equality to determine if the value has changed.
+            Raises PropertyChanged if the value has changed..
+            </summary>
+            <typeparam name="T">Type of property value.</typeparam>
+            <param name="value">New value to apply to the property.</param>
+            <param name="backingField">Backing field of the property.</param>
+            <param name="propertyName">Name of the property to raise the PropertyChange event for. If ommitted, will use the calling member's name.</param>
+            <returns>True if the value was changed, false otherwise.</returns>
+        </member>
+    </members>
+</doc>

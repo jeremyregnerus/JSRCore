@@ -30,12 +30,18 @@ namespace JSR.Utilities
         /// <param name="objectToCopyTo">Object to copy values to.</param>
         public static void CopyValuesFromObjectToObject<T>(T objectToCopyFrom, T objectToCopyTo)
         {
-            foreach (PropertyInfo property in typeof(T).GetRuntimeProperties().Where(x => x.GetMethod.IsPublic && x.SetMethod.IsPublic))
+            // TODO: 2: Determine if this check is required.
+            if (typeof(T) != objectToCopyFrom.GetType())
+            {
+                throw new Exception($"The generic type {typeof(T)} does not match the object {nameof(objectToCopyFrom)} type of {objectToCopyFrom.GetType()}.");
+            }
+
+            foreach (PropertyInfo property in PropertyUtilities.GetListOfPropertiesWithPublicSetMethod(objectToCopyFrom))
             {
                 property.SetValue(objectToCopyTo, property.GetValue(objectToCopyFrom));
             }
 
-            foreach (PropertyInfo property in typeof(T).GetRuntimeProperties().Where(x => x.GetMethod.IsPublic && !x.SetMethod.IsPublic && typeof(IList).IsAssignableFrom(x.PropertyType) && x.PropertyType != typeof(string)))
+            foreach (PropertyInfo property in PropertyUtilities.GetListOfReadOnlyProperties(typeof(T)).Where(p => typeof(IList).IsAssignableFrom(p.PropertyType)))
             {
                 IList objectFromList = (IList)property.GetValue(objectToCopyFrom);
                 IList objectToList = (IList)property.GetValue(objectToCopyTo);
@@ -57,6 +63,12 @@ namespace JSR.Utilities
         /// <returns>A copy of <paramref name="objectToCopy"/>.</returns>
         public static T GetSerializedCopyOfObject<T>(T objectToCopy)
         {
+            // TODO: 2: Determine if this check is required.
+            if (typeof(T) != objectToCopy.GetType())
+            {
+                throw new Exception($"The generic type {typeof(T)} does not match the object {nameof(objectToCopy)} type of {objectToCopy.GetType()}.");
+            }
+
             DataContractSerializer s = new DataContractSerializer(typeof(T), new DataContractSerializerSettings() { PreserveObjectReferences = true });
 
             using (MemoryStream stream = new MemoryStream())
@@ -87,7 +99,7 @@ namespace JSR.Utilities
         {
             T obj = Activator.CreateInstance<T>();
 
-            if (typeof(IList).IsAssignableFrom(obj.GetType()) && obj.GetType() != typeof(string))
+            if (typeof(IList).IsAssignableFrom(obj.GetType()))
             {
                 PopulateListWithRandomValues((IList)obj);
             }
@@ -134,7 +146,7 @@ namespace JSR.Utilities
         {
             var obj = Activator.CreateInstance(type);
 
-            if (typeof(IList).IsAssignableFrom(type) && type != typeof(string))
+            if (typeof(IList).IsAssignableFrom(type))
             {
                 PopulateListWithRandomValues((IList)obj);
             }
@@ -183,18 +195,20 @@ namespace JSR.Utilities
         /// <param name="objectToPopulate"><see cref="object"/> to populate with random values.</param>
         public static void PopulateObjectWithRandomValues<T>(T objectToPopulate)
         {
-            if (typeof(IList).IsAssignableFrom(typeof(T)) && typeof(T) != typeof(string))
+            Type type = objectToPopulate.GetType();
+
+            if (typeof(IList).IsAssignableFrom(type))
             {
                 RemoveRandomItemsFromList((IList)objectToPopulate);
                 PopulateListWithRandomValues((IList)objectToPopulate);
             }
             else
             {
-                PopulatePropertiesWithRandomValues(objectToPopulate, new List<PropertyInfo>(typeof(T).GetRuntimeProperties().Where(x => x.SetMethod.IsPublic)));
+                PopulatePropertiesWithRandomValues(objectToPopulate, PropertyUtilities.GetListOfPropertiesWithPublicSetMethod(objectToPopulate));
 
-                foreach (var item in typeof(T).GetRuntimeProperties().Where(x => x.SetMethod.IsPrivate && (x.PropertyType.IsClass || typeof(IList).IsAssignableFrom(x.PropertyType))))
+                foreach (PropertyInfo propertyInfo in PropertyUtilities.GetListOfReadOnlyProperties(objectToPopulate).Where(p => p.PropertyType.IsClass || typeof(IList).IsAssignableFrom(p.PropertyType)))
                 {
-                    PopulateObjectWithRandomValues(item);
+                    PopulateObjectWithRandomValues(propertyInfo.GetValue(objectToPopulate));
                 }
             }
         }
@@ -243,6 +257,12 @@ namespace JSR.Utilities
         /// <param name="propertyName">Name of the property to add a random value to.</param>
         public static void PopulatePropertyWithRandomValue<T>(T objectWithProperty, string propertyName)
         {
+            // TODO: 2: Determine if this check is required.
+            if (typeof(T) != objectWithProperty.GetType())
+            {
+                throw new Exception($"The generic type {typeof(T)} does not match the object {nameof(objectWithProperty)} type of {objectWithProperty.GetType()}.");
+            }
+
             PopulatePropertyWithRandomValue(objectWithProperty, typeof(T).GetRuntimeProperty(propertyName));
         }
 
@@ -259,7 +279,7 @@ namespace JSR.Utilities
                 throw new ArgumentNullException(nameof(property), $"{nameof(property)}cannot be null. Check that the property exists.");
             }
 
-            if (property.SetMethod != null && property.SetMethod.IsPublic)
+            if (PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod(property))
             {
                 switch (property.PropertyType)
                 {
@@ -267,7 +287,7 @@ namespace JSR.Utilities
                         property.SetValue(objectWithProperty, RandomUtilities.GetRandomString((string)property.GetValue(objectWithProperty)));
                         break;
                     case Type t when t.IsEnum:
-                        // TODO: Need to verify this works.
+                        // TODO: 1: Need to verify this works.
                         property.SetValue(objectWithProperty, RandomUtilities.GetRandomEnum((Enum)property.GetValue(objectWithProperty)));
                         break;
                     case Type t when t == typeof(bool):
@@ -306,25 +326,8 @@ namespace JSR.Utilities
         /// </summary>
         /// <typeparam name="T">Type of list to populate.</typeparam>
         /// <param name="listToPopulate">List to populate with random values.</param>
-        public static void PopulateListWithRandomValues<T>(T listToPopulate) where T : IList
-        {
-            if (listToPopulate == null)
-            {
-                throw new ArgumentNullException(nameof(listToPopulate));
-            }
-
-            for (int i = 0; i < new Random().Next(5, 20); i++)
-            {
-                PopulateListWithRandomValue(listToPopulate);
-            }
-        }
-
-        /// <summary>
-        /// Adds a random value to a list.
-        /// </summary>
-        /// <typeparam name="T"><see cref="Type"/> of list to add the value to.</typeparam>
-        /// <param name="listToPopulate"><see cref="List{T}"/> to add the new random value to.</param>
-        public static void PopulateListWithRandomValue<T>(T listToPopulate) where T : IList
+        /// <param name="parentObjectType">Type of the object that contains the list.</param>
+        public static void PopulateListWithRandomValues<T>(T listToPopulate, Type parentObjectType = null) where T : IList
         {
             if (listToPopulate == null)
             {
@@ -333,7 +336,37 @@ namespace JSR.Utilities
 
             Type listType = listToPopulate.GetType().GenericTypeArguments[0];
 
-            // TODO: Possibly consider type switch here for different value types.
+            if (listType == parentObjectType)
+            {
+                return;
+            }
+
+            for (int i = 0; i < new Random().Next(5, 20); i++)
+            {
+                PopulateListWithRandomValue(listToPopulate, parentObjectType);
+            }
+        }
+
+        /// <summary>
+        /// Adds a random value to a list.
+        /// </summary>
+        /// <typeparam name="T"><see cref="Type"/> of list to add the value to.</typeparam>
+        /// <param name="listToPopulate"><see cref="List{T}"/> to add the new random value to.</param>
+        /// <param name="parentObjectType">Type of the object that contains the list.</param>
+        public static void PopulateListWithRandomValue<T>(T listToPopulate, Type parentObjectType = null) where T : IList
+        {
+            if (listToPopulate == null)
+            {
+                throw new ArgumentNullException(nameof(listToPopulate));
+            }
+
+            Type listType = listToPopulate.GetType().GenericTypeArguments[0];
+
+            if (listType == parentObjectType)
+            {
+                return;
+            }
+
             if (listType == typeof(string))
             {
                 listToPopulate.Add(RandomUtilities.GetRandomString());

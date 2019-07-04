@@ -5,13 +5,15 @@
 using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 
 namespace JSR.BaseClassLibrary
 {
     /// <summary>
     /// Provides a default implementation of the <see cref="INotifyPropertyChanged"/> interface.
     /// </summary>
-    public abstract class NotifyableObject
+    [DataContract]
+    public abstract class NotifyableObject : INotifyPropertyChanged
     {
         /// <summary>
         /// Event Handler referenced when property values are changed

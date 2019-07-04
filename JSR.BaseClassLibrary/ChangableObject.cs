@@ -2,13 +2,16 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
+using System;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 
 namespace JSR.BaseClassLibrary
 {
     /// <summary>
     /// Provides the default implementation of <see cref="IChangableObject"/> interface layered on top of the <see cref="NotifyableObject"/> base class.
     /// </summary>
+    [DataContract]
     public abstract class ChangableObject : NotifyableObject, IChangableObject
     {
         private bool isChanged;
@@ -17,16 +20,16 @@ namespace JSR.BaseClassLibrary
         public event OnChangedEventHandler OnChanged;
 
         /// <summary>
-        /// Gets a value indicating whether this item has changed.
+        /// Gets or sets a value indicating whether this item has changed.
         /// To include children, override this method and check this.isChanged with Or Else statements on each child.
         /// </summary>
         public bool IsChanged
         {
             get => isChanged;
 
-            private set
+            protected set
             {
-                if (value != IsChanged)
+                if (value != isChanged)
                 {
                     isChanged = value;
                     NotifyPropertyChanged(nameof(IsChanged));
@@ -56,27 +59,38 @@ namespace JSR.BaseClassLibrary
         /// <returns>Returns true of the value of the property changed. This value will be false if the value is the same as the previous value.</returns>
         protected override bool SetValue<T>(T value, ref T backingField, [CallerMemberName] string propertyName = null)
         {
-            if ((value != null && !value.Equals(backingField)) || (backingField != null && !backingField.Equals(value)))
+            T oldValue = backingField;
+            bool retVal = base.SetValue(value, ref backingField, propertyName);
+
+            if (retVal)
             {
-                if (typeof(IChangableObject).IsAssignableFrom(typeof(T)) && backingField != null)
+                if (typeof(IChangableObject).IsAssignableFrom(typeof(T)))
                 {
-                    ((IChangableObject)backingField).OnChanged -= (o, c) => IsChanged = true;
+                    if (oldValue != null)
+                    {
+                        ((IChangableObject)oldValue).OnChanged -= ChildChanged;
+                    }
+
+                    if (backingField != null)
+                    {
+                        ((IChangableObject)backingField).OnChanged += ChildChanged;
+                    }
                 }
 
-                backingField = value;
-
-                if (typeof(IChangableObject).IsAssignableFrom(typeof(T)) && backingField != null)
-                {
-                    ((IChangableObject)backingField).OnChanged += (o, c) => IsChanged = true;
-                }
-
-                NotifyPropertyChanged(propertyName);
                 IsChanged = true;
-
-                return true;
             }
 
-            return false;
+            return retVal;
+        }
+
+        /// <summary>
+        /// Changes the IsChanged property of this object when a child object is changed.
+        /// </summary>
+        /// <param name="sender"><see cref="IChangableObject"/> to track changes.</param>
+        /// <param name="isChanged">A value stating if the child has changed.</param>
+        protected void ChildChanged(object sender, bool isChanged)
+        {
+            IsChanged = true;
         }
     }
 }

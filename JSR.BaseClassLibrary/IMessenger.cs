@@ -24,7 +24,7 @@ namespace JSR.BaseClassLibrary
         event OnMessageEventHandler OnMessage;
 
         /// <summary>
-        /// Gets the Message from this object.
+        /// Gets the Message to raise.
         /// </summary>
         string Message { get; }
     }

@@ -1,0 +1,676 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JSR.Utilities</name>
+    </assembly>
+    <members>
+        <member name="T:JSR.Utilities.ObjectUtilities">
+            <summary>
+            Creates and manipulates objects and their properties.
+            </summary>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.CopyValuesFromObjectToObject``1(``0,``0)">
+            <summary>
+            Copies the values from one object to another.
+            </summary>
+            <typeparam name="T">Type of object to perform the copy.</typeparam>
+            <param name="objectToCopyFrom">Object to copy values from.</param>
+            <param name="objectToCopyTo">Object to copy values to.</param>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.GetSerializedCopyOfObject``1(``0)">
+            <summary>
+            Creates a copy of an object using serialization.
+            </summary>
+            <typeparam name="T">Type of object to serialize.</typeparam>
+            <param name="objectToCopy">Object to copy.</param>
+            <returns>A copy of <paramref name="objectToCopy"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.CreateInstanceWithRandomValues``1">
+            <summary>
+            Creates a new Instance of a specified Type and populates all of its public properties.
+            </summary>
+            <typeparam name="T">Type of object to create.</typeparam>
+            <returns>A new object of the specified type with populated values.</returns>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.CreateInstanceWithRandomValues``1(System.Collections.Generic.List{System.String})">
+            <summary>
+            Creates a new Instance of a specified Type and populates all of its public set properties.
+            </summary>
+            <typeparam name="T">Type of object to create.</typeparam>
+            <param name="propertyNamesToPopulate">List of property names to add random values to.</param>
+            <returns>A new object of the specified type with populated values.</returns>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.CreateInstanceWithRandomValues``1(System.Collections.Generic.List{System.Reflection.PropertyInfo})">
+            <summary>
+            Creates a new instance of a specified Type and populates specific properties with random values.
+            </summary>
+            <typeparam name="T">Type of object to create.</typeparam>
+            <param name="propertiesToPopulate">List of <see cref="T:System.Reflection.PropertyInfo"/> to populate with random values.</param>
+            <returns>A new object of the specified Type.</returns>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.CreateInstanceWithRandomValues(System.Type)">
+            <summary>
+            Creates a new Instance of a specified Type and populates all of its public set properties.
+            </summary>
+            <param name="type">Type of object to create.</param>
+            <returns>A new object of the specified type with populated values.</returns>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.CreateInstanceWithRandomValues(System.Type,System.Collections.Generic.List{System.String})">
+            <summary>
+            Creates a new Instance of a specified Type and populates all of its public set properties.
+            </summary>
+            <param name="type">Type of object to create.</param>
+            <param name="propertyNamesToPopulate">List of property names to add random values to.</param>
+            <returns>A new object of the defined type with populated values.</returns>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.CreateInstanceWithRandomValues(System.Type,System.Collections.Generic.List{System.Reflection.PropertyInfo})">
+            <summary>
+            Creates a new Instance of a specified Type and populates specific properties with random values.
+            </summary>
+            <param name="type">Type of object to create.</param>
+            <param name="propertiesToPopulate">List of <see cref="T:System.Reflection.PropertyInfo"/> to populate with random values.</param>
+            <returns>A new object of the specified type with populated values is specific properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.PopulateObjectWithRandomValues``1(``0)">
+            <summary>
+            Populates an object's properties with random values.
+            </summary>
+            <typeparam name="T"><see cref="T:System.Type"/> of <see cref="T:System.Object"/> to populate.</typeparam>
+            <param name="objectToPopulate"><see cref="T:System.Object"/> to populate with random values.</param>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertiesWithRandomValues``1(``0,System.Collections.Generic.List{System.String})">
+            <summary>
+            Adds random values to the specified properties of an object.
+            </summary>
+            <typeparam name="T">Type of object with properties to populate.</typeparam>
+            <param name="objectWithProperties">Object to populate properties to.</param>
+            <param name="propertyNames">List of Property Names specifying which properties to populate values.</param>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertiesWithRandomValues``1(``0,System.Collections.Generic.List{System.Reflection.PropertyInfo})">
+            <summary>
+            Adds random values to the specified properties of an object.
+            </summary>
+            <typeparam name="T">Type of object with properties to populate.</typeparam>
+            <param name="objectWithProperties">Object to populate properties to.</param>
+            <param name="properties">List of <see cref="T:System.Reflection.PropertyInfo"/> specifying which properties to populate values.</param>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertyWithRandomValue``1(``0,System.String)">
+            <summary>
+            Adds a random value to a property.
+            </summary>
+            <typeparam name="T">Type to add the property value to.</typeparam>
+            <param name="objectWithProperty">Object to add the property value to.</param>
+            <param name="propertyName">Name of the property to add a random value to.</param>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertyWithRandomValue``1(``0,System.Reflection.PropertyInfo)">
+            <summary>
+            Adds a random value to a property.
+            </summary>
+            <typeparam name="T">Type to add the property value to.</typeparam>
+            <param name="objectWithProperty">Object to add the property value to.</param>
+            <param name="property">Property to add the value to.</param>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.PopulateListWithRandomValues``1(``0,System.Type)">
+            <summary>
+            Populates a list with Random Values.
+            </summary>
+            <typeparam name="T">Type of list to populate.</typeparam>
+            <param name="listToPopulate">List to populate with random values.</param>
+            <param name="parentObjectType">Type of the object that contains the list.</param>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.PopulateListWithRandomValue``1(``0,System.Type)">
+            <summary>
+            Adds a random value to a list.
+            </summary>
+            <typeparam name="T"><see cref="T:System.Type"/> of list to add the value to.</typeparam>
+            <param name="listToPopulate"><see cref="T:System.Collections.Generic.List`1"/> to add the new random value to.</param>
+            <param name="parentObjectType">Type of the object that contains the list.</param>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.ChangeListItems``1(``0)">
+            <summary>
+            Changes the items within a list to populate them with new random values.
+            </summary>
+            <typeparam name="T">Type of list with items to change.</typeparam>
+            <param name="listToChange">List with items to change.</param>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.RemoveRandomItemsFromList``1(``0)">
+            <summary>
+            Randomly removes items from a list.
+            </summary>
+            <typeparam name="T">Type of list to remove items from.</typeparam>
+            <param name="listToRemoveItems">List to remove items from.</param>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.GetObjectListByPropertyName``1(``0,System.String)">
+            <summary>
+            Gets a list from an object using the property name where the list is.
+            </summary>
+            <typeparam name="T"><see cref="T:System.Type"/> of <see cref="T:System.Object"/> that contains the <see cref="T:System.Collections.IList"/> property.</typeparam>
+            <param name="objectWithList"><see cref="T:System.Object"/> that contains a property of type <see cref="T:System.Collections.IList"/>.</param>
+            <param name="listPropertyName">Name of the property that contains the <see cref="T:System.Collections.IList"/>.</param>
+            <returns>The <see cref="T:System.Collections.IList"/> contained within the named property.</returns>
+        </member>
+        <member name="T:JSR.Utilities.PropertyUtilities">
+            <summary>
+            Provides Utilties for Class <see cref="T:System.Reflection.PropertyInfo"/> properties.
+            </summary>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod``1(System.String)">
+            <summary>
+            Checks if a property has a public Get and Set method for a Type.
+            </summary>
+            <typeparam name="T">Type of object that contains the named property.</typeparam>
+            <param name="propertyName">Name of the property to check.</param>
+            <returns>True if the property is both public Get and Set.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod``1(System.String,``0)">
+            <summary>
+            Checks if a property has a public Get and Set method for a Type.
+            </summary>
+            <typeparam name="T">Type of object that contains the named property.</typeparam>
+            <param name="propertyName">Name of the property to check.</param>
+            <param name="objectWithProperty">An object that contains the named property.</param>
+            <returns>True if the property is both public Get and Set.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod(System.String,System.Type)">
+            <summary>
+            Checks if a property has a public Get and Set method for a Type.
+            </summary>
+            <param name="propertyName">Name of the property to check.</param>
+            <param name="type">Type of object that contains the named property.</param>
+            <returns>True if the property is both public Get and Set.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod(System.Reflection.PropertyInfo)">
+            <summary>
+            Checks if a property has a public Get and Set method for a Type.
+            </summary>
+            <param name="property">Property to check.</param>
+            <returns>True if the property is both public Get and Set.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicGetAndSetMethods``1">
+            <summary>
+            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> for each property that has both public Get and Set accessors.
+            </summary>
+            <typeparam name="T">Type of object to get the properties from.</typeparam>
+            <returns>List of <see cref="T:System.Reflection.PropertyInfo"/> with public Get and Set Accessors.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicGetAndSetMethods``1(``0)">
+            <summary>
+            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> for each property that has both public Get and Set accessors.
+            </summary>
+            <typeparam name="T">Type of object to get the properties from.</typeparam>
+            <param name="objectWithProperties">An Object that contains properties to evaluate.</param>
+            <returns>List of <see cref="T:System.Reflection.PropertyInfo"/> with public Get and Set Accessors.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicGetAndSetMethods(System.Type)">
+            <summary>
+            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> for each property that has both public Get and Set accessors.
+            </summary>
+            <param name="type">Type of object to get the properties from.</param>
+            <returns>List of <see cref="T:System.Reflection.PropertyInfo"/> with public Get and Set Accessors.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicGetAndSetMethods``1">
+            <summary>
+            Gets a list of Property Names that have public Get and Set methods.
+            </summary>
+            <typeparam name="T">Type of object to evaluate.</typeparam>
+            <returns>A list of <see cref="T:System.String"/> for each property that has a public get and set method.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicGetAndSetMethods``1(``0)">
+            <summary>
+            Gets a list of Property Names that have public Get and Set methods.
+            </summary>
+            <typeparam name="T">Type of object to evaluate.</typeparam>
+            <param name="objectWithProperties">Object to evaluate.</param>
+            <returns>A list of <see cref="T:System.String"/> for each property that has a public get and set method.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicGetAndSetMethods(System.Type)">
+            <summary>
+            Gets a list of Property Names that have public Get and Set methods.
+            </summary>
+            <param name="type">Type of object to evaluate.</param>
+            <returns>A list of <see cref="T:System.String"/> for each property that has a public get and set method.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicGetMethod``1(System.String)">
+            <summary>
+            Checks if a property has a public get method for a Type.
+            </summary>
+            <typeparam name="T">Type with the named property.</typeparam>
+            <param name="propertyName">Name of property to evaluate.</param>
+            <returns>True if the property has a public get method, otherwise false.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicGetMethod``1(System.String,``0)">
+            <summary>
+            Checks if a property has a public get method for an object.
+            </summary>
+            <typeparam name="T">Type of object with named property.</typeparam>
+            <param name="propertyName">Name of the property to evaluate.</param>
+            <param name="objectWithProperty">Object with named property.</param>
+            <returns>True if the property has a public get method, otherwise false.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicGetMethod(System.String,System.Type)">
+            <summary>
+            Checks if a property has a public get method for an object.
+            </summary>
+            <param name="propertyName">Name of the property to evaluate.</param>
+            <param name="type">Type with named property.</param>
+            <returns>True if the property has a public get method, otherwise false.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicGetMethod(System.Reflection.PropertyInfo)">
+            <summary>
+            Checks if a property has a public get method.
+            </summary>
+            <param name="property"><see cref="T:System.Reflection.PropertyInfo"/> to check for public Get method.</param>
+            <returns>True if the property has a public get method, otherwise false.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicGetMethod``1">
+            <summary>
+            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Get methods.
+            </summary>
+            <typeparam name="T">Type that contains properties.</typeparam>
+            <returns>A list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Get methods.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicGetMethod``1(``0)">
+            <summary>
+            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Get methods.
+            </summary>
+            <typeparam name="T">Type that contains properties.</typeparam>
+            <param name="objectWithProperties">Object that contains properties.</param>
+            <returns>A list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Get methods.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicGetMethod(System.Type)">
+            <summary>
+            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Get methods.
+            </summary>
+            <param name="type">Type that has properties.</param>
+            <returns>A list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Get methods.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicGetMethod``1">
+            <summary>
+            Get a list of property names that have public Get methods.
+            </summary>
+            <typeparam name="T">Type that contains properties.</typeparam>
+            <returns>A list of property names that have public get methods.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicGetMethod``1(``0)">
+            <summary>
+            Get a list of property names that have public Get methods.
+            </summary>
+            <typeparam name="T">Type that contains properties.</typeparam>
+            <param name="objectWithProperties">Object that contains properties.</param>
+            <returns>A list of property names that have public get methods.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicGetMethod(System.Type)">
+            <summary>
+            Get a list of property names that have public Get methods.
+            </summary>
+            <param name="type">Type that contains properties.</param>
+            <returns>A list of property names that have public get methods.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyProperties``1">
+            <summary>
+            Gets a list of properties that are read-only.
+            </summary>
+            <typeparam name="T">Type of object with proeprties to evaluate.</typeparam>
+            <returns>A list of properties that are read-only.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyProperties``1(``0)">
+            <summary>
+            Gets a list of properties that are read-only.
+            </summary>
+            <typeparam name="T">Type of object with proeprties to evaluate.</typeparam>
+            <param name="objectWithProperties">Object with properties to evaluate.</param>
+            <returns>A list of properties that are read-only.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyProperties(System.Type)">
+            <summary>
+            Gets a list of properties that are read-only.
+            </summary>
+            <param name="type">Type of object with proeprties to evaluate.</param>
+            <returns>A list of properties that are read-only.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicSetMethod``1(System.String)">
+            <summary>
+            Checks if the property has a public set method.
+            </summary>
+            <typeparam name="T">Type that contains the named property.</typeparam>
+            <param name="propertyName">Name of property to evaluate.</param>
+            <returns>True if the property has a public set method, otherwise false.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicSetMethod``1(System.String,``0)">
+            <summary>
+            Checks if the property has a public set method.
+            </summary>
+            <typeparam name="T">Type that contains the named property.</typeparam>
+            <param name="propertyName">Name of property to evaluate.</param>
+            <param name="objectWithProperty">Object that contains the named property.</param>
+            <returns>True if the property has a public set method, otherwise false.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicSetMethod(System.String,System.Type)">
+            <summary>
+            Checks if the property has a public set method.
+            </summary>
+            <param name="propertyName">Name of property to evaluate.</param>
+            <param name="type">Type with named property to check.</param>
+            <returns>True if the property has a public set method, otherwise false.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicSetMethod(System.Reflection.PropertyInfo)">
+            <summary>
+            Checks if the property has a public set method.
+            </summary>
+            <param name="property"><see cref="T:System.Reflection.PropertyInfo"/> to check for public Set method.</param>
+            <returns>True if the property has a public set method, otherwise false.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicSetMethod``1">
+            <summary>
+            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Set methods.
+            </summary>
+            <typeparam name="T">Type that contains properties.</typeparam>
+            <returns>A list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Set methods.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicSetMethod``1(``0)">
+            <summary>
+            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Set methods.
+            </summary>
+            <typeparam name="T">Type that contains properties.</typeparam>
+            <param name="objectWithProperties">Object that contains properties.</param>
+            <returns>A list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Set methods.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicSetMethod(System.Type)">
+            <summary>
+            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Set methods.
+            </summary>
+            <param name="type">Type that contains properties.</param>
+            <returns>A list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Set methods.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicSetMethod``1">
+            <summary>
+            Get a list of property names that have public set methods.
+            </summary>
+            <typeparam name="T">Type that contains properties.</typeparam>
+            <returns>A list of property names that have public set methods.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicSetMethod``1(``0)">
+            <summary>
+            Get a list of property names that have public set methods.
+            </summary>
+            <typeparam name="T">Type that contains properties.</typeparam>
+            <param name="objectWithProperties">Object that contains properties.</param>
+            <returns>A list of property names that have public set methods.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicSetMethod(System.Type)">
+            <summary>
+            Get a list of property names that have public set methods.
+            </summary>
+            <param name="type">Type that contains properties.</param>
+            <returns>A list of property names that have public set methods.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyProperties``1">
+            <summary>
+            Gets a list of properties that are write-only.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <returns>A list of properties that are write-only.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyProperties``1(``0)">
+            <summary>
+            Gets a list of properties that are write-only.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <param name="objectWithProperties">Object with properties to evalute.</param>
+            <returns>A list of properties that are write-only.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyProperties(System.Type)">
+            <summary>
+            Gets a list of properties that are write-only.
+            </summary>
+            <param name="type">Type of object with properties to evaluate.</param>
+            <returns>A list of properties that are write-only.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithClassValues``1">
+            <summary>
+            Gets a list of Properties where their value type is a class.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <returns>A list of properties with class value types.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithClassValues``1(``0)">
+            <summary>
+            Gets a list of Properties where their value type is a class.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <param name="objectWithProperties">Object with properties to evaluate.</param>
+            <returns>A list of properties with class value types.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithClassValues(System.Type)">
+            <summary>
+            Gets a list of Properties where their value type is a class.
+            </summary>
+            <param name="type">Type of object with properties to evaluate.</param>
+            <returns>A list of properties with class value types.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithClassValues``1">
+            <summary>
+            Gets a list of property names where their value type is a class.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <returns>A list of property names that have class value types.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithClassValues``1(``0)">
+            <summary>
+            Gets a list of property names where their value type is a class.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <param name="objectWithProperties">Object with properties to evaluate.</param>
+            <returns>A list of property names that have class value types.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithClassValues(System.Type)">
+            <summary>
+            Gets a list of property names where their value type is a class.
+            </summary>
+            <param name="type">Type of object with properties to evaluate.</param>
+            <returns>A list of property names that have class value types.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithListValues``1">
+            <summary>
+            Gets a list of properties that have lists as their value type.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <returns>A list of properties with lists as their value type.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithListValues``1(``0)">
+            <summary>
+            Gets a list of properties that have lists as their value type.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <param name="objectWithProperties">Object with properties to evaluate.</param>
+            <returns>A list of properties with lists as their value type.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithListValues(System.Type)">
+            <summary>
+            Gets a list of properties that have lists as their value type.
+            </summary>
+            <param name="type">Type of object with properties to evaluate.</param>
+            <returns>A list of properties with lists as their value type.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyValuesWithListValues``1">
+            <summary>
+            Gets a list of property names that have lists as their value type.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <returns>A list of property names with lists as their value type.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyValuesWithListValues``1(``0)">
+            <summary>
+            Gets a list of property names that have lists as their value type.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <param name="objectWithProperties">An object with properties to evaluate.</param>
+            <returns>A list of property names with lists as their value type.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyValuesWithListValues(System.Type)">
+            <summary>
+            Gets a list of property names that have lists as their value type.
+            </summary>
+            <param name="type">Type of object with properties to evaluate.</param>
+            <returns>A list of property names with lists as their value type.</returns>
+        </member>
+        <member name="T:JSR.Utilities.RandomUtilities">
+            <summary>
+            Generates and manipulates random values.
+            </summary>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomBoolean">
+            <summary>
+            Generates a random <see cref="T:System.Boolean"/>.
+            </summary>
+            <returns>A random <see cref="T:System.Boolean"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomBoolean(System.Nullable{System.Boolean})">
+            <summary>
+            Generates a random <see cref="T:System.Boolean"/> different than the provided value.
+            </summary>
+            <param name="currentValue">Value to not match.</param>
+            <returns>Random <see cref="T:System.Boolean"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomDateTime">
+            <summary>
+            Generates a random <see cref="T:System.DateTime"/>.
+            </summary>
+            <returns>A random <see cref="T:System.DateTime"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomDateTime(System.Nullable{System.DateTime})">
+            <summary>
+            Generates a random <see cref="T:System.DateTime"/> different than the provided value.
+            </summary>
+            <param name="currentValue">Current value to not match.</param>
+            <returns>Random <see cref="T:System.DateTime"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomDecimal">
+            <summary>
+            Generates a random <see cref="T:System.Decimal"/>.
+            </summary>
+            <returns>A random <see cref="T:System.Decimal"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomDecimal(System.Decimal)">
+            <summary>
+            Generates a random <see cref="T:System.Decimal"/> different than the provided value.
+            </summary>
+            <param name="currentValue">Current value to not match.</param>
+            <returns>Random <see cref="T:System.Decimal"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomDouble">
+            <summary>
+            Generates a random <see cref="T:System.Double"/>.
+            </summary>
+            <returns>A random <see cref="T:System.Double"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomDouble(System.Double)">
+            <summary>
+            Generates a random <see cref="T:System.Double"/> different than the provided value.
+            </summary>
+            <param name="currentValue">Current value to not match.</param>
+            <returns>A random <see cref="T:System.Double"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomEnum``1(``0)">
+            <summary>
+            Generates a random Enum value different than the one specified.
+            </summary>
+            <typeparam name="T">Type of <see cref="T:System.Enum"/> to generate a random value for.</typeparam>
+            <param name="currentValue">Current value not to match.</param>
+            <returns>A random <see cref="T:System.Enum"/> value.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomInteger">
+            <summary>
+            Generates a random <see cref="T:System.Int32"/>.
+            </summary>
+            <returns>A random <see cref="T:System.Int32"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomInteger(System.Int32)">
+            <summary>
+            Generates a random <see cref="T:System.Int32"/> different from the provided value.
+            </summary>
+            <param name="currentValue">Current value not to match.</param>
+            <returns>A random <see cref="T:System.Int32"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomInteger(System.Int32,System.Int32)">
+            <summary>
+            Generates a random <see cref="T:System.Int32"/> different from the specified value, for a specific range.
+            </summary>
+            <param name="currentValue">Current value to not match.</param>
+            <param name="maxValue">Range the integer should fall within.</param>
+            <returns>A random <see cref="T:System.Int32"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomInteger(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Generates a random <see cref="T:System.Int32"/> different from the specified value, for a specific range.
+            </summary>
+            <param name="currentValue">Current value to not match.</param>
+            <param name="minValue">Minimum value of the range.</param>
+            <param name="maxValue">Maximum value of the range.</param>
+            <returns>A random <see cref="T:System.Int32"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomString">
+            <summary>
+            Generates a random <see cref="T:System.String"/>.
+            </summary>
+            <returns>A random <see cref="T:System.String"/> from 4 to 20 characters long.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomString(System.String)">
+            <summary>
+            Generates a random string different from the provided value.
+            </summary>
+            <param name="currentValue">Current value not to match.</param>
+            <returns>A random <see cref="T:System.String"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomString(System.Int32)">
+            <summary>
+            Gernates a random <see cref="T:System.String"/>.
+            </summary>
+            <param name="length">Number of characters / letters the string should contain.</param>
+            <returns>A random <see cref="T:System.String"/> with the specified number of characters.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.NextBool(System.Random)">
+            <summary>
+            Returns a random <see cref="T:System.Boolean"/>.
+            </summary>
+            <param name="random"><see cref="T:System.Random"/> to add extension.</param>
+            <returns>A random <see cref="T:System.Boolean"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.NextDateTime(System.Random)">
+            <summary>
+            Returns a random <see cref="T:System.DateTime"/> value.
+            </summary>
+            <param name="random"><see cref="T:System.Random"/> to add extension.</param>
+            <returns>A random <see cref="T:System.DateTime"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.NextDecimal(System.Random)">
+            <summary>
+            Returns a random <see cref="T:System.Decimal"/> value.
+            </summary>
+            <param name="random"><see cref="T:System.Random"/> to add extension.</param>
+            <returns>A random <see cref="T:System.Decimal"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.NextInt32(System.Random)">
+            <summary>
+            Returns a random 32bit <see cref="T:System.Int32"/>.
+            </summary>
+            <param name="random"><see cref="T:System.Random"/> to add extension.</param>
+            <returns>A random 32 bit <see cref="T:System.Int32"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.NextString(System.Random)">
+            <summary>
+            Returns a random <see cref="T:System.String"/> between 4 and 20 characters long.
+            </summary>
+            <param name="random"><see cref="T:System.Random"/> to add extension.</param>
+            <returns>A random <see cref="T:System.String"/> between 4 and 20 characters long.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.NextString(System.Random,System.Int32)">
+            <summary>
+            Returns a random <see cref="T:System.String"/>.
+            </summary>
+            <param name="random"><see cref="T:System.Random"/> to add extension.</param>
+            <param name="length">Length of the string in characters.</param>
+            <returns>A random <see cref="T:System.String"/>.</returns>
+        </member>
+    </members>
+</doc>

@@ -2,13 +2,11 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace JSR.BaseClassLibrary
 {
@@ -95,11 +93,11 @@ namespace JSR.BaseClassLibrary
         /// </summary>
         private void OnCreated()
         {
-            CollectionChanged += CollectionItemsChanged;
+            CollectionChanged += CollectionListChanged;
 
             foreach (T item in Items)
             {
-                item.OnChanged += (x, y) => IsChanged = true;
+                item.OnChanged += CollectionItemChanged;
             }
 
             AcceptChanges();
@@ -111,24 +109,29 @@ namespace JSR.BaseClassLibrary
         /// </summary>
         /// <param name="sender">The object requesting to send the change notification.</param>
         /// <param name="args">Notify Collection Changed Event Arguments that contains lists of items added or removed from the collection.</param>
-        private void CollectionItemsChanged(object sender, NotifyCollectionChangedEventArgs args)
+        private void CollectionListChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
-            if (args.NewItems != null)
-            {
-                foreach (IChangableObject item in args.NewItems)
-                {
-                    item.OnChanged += (x, y) => IsChanged = true;
-                }
-            }
-
             if (args.OldItems != null)
             {
                 foreach (IChangableObject item in args.OldItems)
                 {
-                    item.OnChanged -= (x, y) => IsChanged = true;
+                    item.OnChanged -= CollectionItemChanged;
                 }
             }
 
+            if (args.NewItems != null)
+            {
+                foreach (IChangableObject item in args.NewItems)
+                {
+                    item.OnChanged += CollectionItemChanged;
+                }
+            }
+
+            IsChanged = true;
+        }
+
+        private void CollectionItemChanged(object sender, bool isChanged)
+        {
             IsChanged = true;
         }
     }

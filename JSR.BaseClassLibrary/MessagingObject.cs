@@ -2,29 +2,23 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
+using System.Runtime.Serialization;
 
 namespace JSR.BaseClassLibrary
 {
     /// <summary>
     /// Provides a default implementation of the <see cref="IMessenger"/> interface layered on the <see cref="NotifyableObject"/> base class.
     /// </summary>
+    [DataContract]
     public abstract class MessagingObject : NotifyableObject, IMessenger
     {
         private string message;
 
-        /// <summary>
-        /// This event should be raised whenever the message for this object is changed.
-        /// </summary>
+        /// <inheritdoc/>
         public event OnMessageEventHandler OnMessage;
 
-        /// <summary>
-        /// Gets or sets the Message to raise.
-        /// </summary>
+        /// <inheritdoc/>
         public string Message
         {
             get => message;
@@ -51,25 +45,33 @@ namespace JSR.BaseClassLibrary
         /// <returns>True if the value was changed, false otherwise.</returns>
         protected override bool SetValue<T>(T value, ref T backingField, [CallerMemberName] string propertyName = null)
         {
-            if ((value != null && !value.Equals(backingField)) || (backingField != null && !backingField.Equals(value)))
+            T oldVal = backingField;
+            bool retVal = base.SetValue(value, ref backingField, propertyName);
+
+            if (retVal && typeof(IMessenger).IsAssignableFrom(typeof(T)))
             {
-                if (typeof(IMessenger).IsAssignableFrom(typeof(T)) && backingField != null)
+                if (oldVal != null)
                 {
-                    ((IMessenger)backingField).OnMessage -= (o, m) => Message = m;
+                    ((IMessenger)oldVal).OnMessage -= ChildRaisedMessage;
                 }
 
-                backingField = value;
-
-                if (typeof(IMessenger).IsAssignableFrom(typeof(T)) && backingField != null)
+                if (backingField != null)
                 {
-                    ((IMessenger)backingField).OnMessage += (o, m) => Message = m;
+                    ((IMessenger)backingField).OnMessage += ChildRaisedMessage;
                 }
-
-                NotifyPropertyChanged(propertyName);
-                return true;
             }
 
-            return false;
+            return retVal;
+        }
+
+        /// <summary>
+        /// Changes the value of Message when a child object raises it's message.
+        /// </summary>
+        /// <param name="sender"><see cref="IMessenger"/> object.</param>
+        /// <param name="message">Message being raised by the child object.</param>
+        private void ChildRaisedMessage(object sender, string message)
+        {
+            Message = message;
         }
     }
 }
