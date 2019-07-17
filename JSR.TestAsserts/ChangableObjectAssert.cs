@@ -311,7 +311,7 @@ namespace JSR.TestAsserts
             List<bool> wasChanged = new List<bool>();
             testObj.OnChanged += (o, changeState) => wasChanged.Add(changeState);
 
-            foreach (var item in list)
+            foreach (dynamic item in list)
             {
                 ObjectUtilities.PopulateObjectWithRandomValues(item);
 

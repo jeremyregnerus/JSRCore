@@ -42,7 +42,7 @@ namespace JSR.BaseClassLibrary.Tests
         [TestMethod]
         public void NotifiesPropertyChanges()
         {
-            PropertyChangeAssert.NotifiesEachPropertyChanges<MockChangableMessagingObject>();
+            PropertyNotificationAssert.NotifiesPropertiesChanged<MockChangableMessagingObject>();
         }
 
         [TestMethod]
@@ -62,8 +62,10 @@ namespace JSR.BaseClassLibrary.Tests
         [TestMethod]
         public void NotifiesIsChangedOnChildChanges()
         {
-            MockChangableMessagingObjectWithChildren obj = new MockChangableMessagingObjectWithChildren();
-            obj.Child = new MockChangableMessagingObject();
+            MockChangableMessagingObjectWithChildren obj = new MockChangableMessagingObjectWithChildren
+            {
+                Child = new MockChangableMessagingObject(),
+            };
             obj.AcceptChanges();
 
             List<string> propertiesChanged = new List<string>();

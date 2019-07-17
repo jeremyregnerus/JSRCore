@@ -25,7 +25,7 @@ namespace JSR.BaseClassLibrary.Tests
         [TestMethod]
         public void NotifiesPropertyChanges()
         {
-            PropertyChangeAssert.NotifiesEachPropertyChanges<MockNotifyableObject>();
+            PropertyNotificationAssert.NotifiesPropertiesChanged<MockNotifyableObject>();
         }
 
         [TestMethod]

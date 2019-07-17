@@ -269,7 +269,7 @@ namespace JSR.TestAsserts
             testObj.AcceptChanges();
             Assert.IsFalse(testObj.IsChanged);
 
-            foreach (var item in list)
+            foreach (dynamic item in list)
             {
                 ObjectUtilities.PopulateObjectWithRandomValues(item);
                 Assert.IsTrue(testObj.IsChanged);

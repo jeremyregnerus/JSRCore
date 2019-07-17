@@ -193,7 +193,7 @@ namespace JSR.BaseClassLibrary.Tests
 
             Assert.IsFalse(list.IsChanged);
 
-            foreach (var item in list)
+            foreach (IChangeTracking item in list)
             {
                 Assert.IsFalse(item.IsChanged);
             }

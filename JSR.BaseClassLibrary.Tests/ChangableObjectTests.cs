@@ -41,7 +41,7 @@ namespace JSR.BaseClassLibrary.Tests
         [TestMethod]
         public void NotifiesPropertyChanges()
         {
-            PropertyChangeAssert.NotifiesEachPropertyChanges<MockChangableObjectWithChildren>();
+            PropertyNotificationAssert.NotifiesPropertiesChanged<MockChangableObjectWithChildren>();
         }
 
         [TestMethod]
@@ -61,8 +61,10 @@ namespace JSR.BaseClassLibrary.Tests
         [TestMethod]
         public void NotifiesIsChangedOnChildChanges()
         {
-            MockChangableObjectWithChildren obj = new MockChangableObjectWithChildren();
-            obj.Child = new MockChangableObject();
+            MockChangableObjectWithChildren obj = new MockChangableObjectWithChildren
+            {
+                Child = new MockChangableObject(),
+            };
             obj.AcceptChanges();
 
             List<string> propertiesChanged = new List<string>();
@@ -348,12 +350,12 @@ namespace JSR.BaseClassLibrary.Tests
             List<bool> wasChanged = new List<bool>();
             obj.OnChanged += (sender, changed) => wasChanged.Add(changed);
 
-            foreach (var item in obj.ChildCollection)
+            foreach (dynamic item in obj.ChildCollection)
             {
                 ObjectUtilities.PopulateObjectWithRandomValues(item);
             }
 
-            foreach (var item in obj.ChildCollectionReadOnly)
+            foreach (dynamic item in obj.ChildCollectionReadOnly)
             {
                 ObjectUtilities.PopulateObjectWithRandomValues(item);
             }

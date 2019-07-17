@@ -27,12 +27,6 @@ namespace JSR.Utilities
         /// <returns>True if the property is both public Get and Set.</returns>
         public static bool CheckIfPropertyHasPublicGetAndSetMethod<T>(string propertyName)
         {
-            // TODO: 2: Determine if this check is required.
-            if (typeof(T) == typeof(object))
-            {
-                throw new Exception($"The generic type {typeof(T)} should not be type {typeof(object)}.");
-            }
-
             return CheckIfPropertyHasPublicGetAndSetMethod(typeof(T).GetRuntimeProperty(propertyName));
         }
 
@@ -66,11 +60,6 @@ namespace JSR.Utilities
         /// <returns>True if the property is both public Get and Set.</returns>
         public static bool CheckIfPropertyHasPublicGetAndSetMethod(PropertyInfo property)
         {
-            if (property == null)
-            {
-                throw new ArgumentNullException(nameof(property));
-            }
-
             return property.GetMethod != null && property.GetMethod.IsPublic && property.SetMethod != null && property.SetMethod.IsPublic;
         }
 
@@ -504,7 +493,7 @@ namespace JSR.Utilities
         /// <returns>A list of properties with class value types.</returns>
         public static List<PropertyInfo> GetListOfPropertiesWithClassValues(Type type)
         {
-            return new List<PropertyInfo>(type.GetRuntimeProperties().Where(p => p.PropertyType.IsClass));
+            return new List<PropertyInfo>(type.GetRuntimeProperties().Where(p => p.PropertyType.IsClass && p.PropertyType != typeof(string)));
         }
 
         /// <summary>
@@ -570,7 +559,7 @@ namespace JSR.Utilities
         /// <returns>A list of properties with lists as their value type.</returns>
         public static List<PropertyInfo> GetListOfPropertiesWithListValues(Type type)
         {
-            return new List<PropertyInfo>(type.GetRuntimeProperties().Where(p => typeof(IList).IsAssignableFrom(p.PropertyType)));
+            return new List<PropertyInfo>(type.GetRuntimeProperties().Where(p => typeof(IList).IsAssignableFrom(p.PropertyType) && p.PropertyType != typeof(string)));
         }
 
         /// <summary>

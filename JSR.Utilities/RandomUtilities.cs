@@ -14,6 +14,145 @@ namespace JSR.Utilities
     public static class RandomUtilities
     {
         /// <summary>
+        /// Generates a random value of the specified type.
+        /// </summary>
+        /// <typeparam name="T">Type of value to generate.</typeparam>
+        /// <returns>A random value of the specified type.</returns>
+        public static T GetRandom<T>()
+        {
+            return GetRandom(typeof(T), null);
+        }
+
+        /// <summary>
+        /// Generates a random value of the specified type.
+        /// </summary>
+        /// <typeparam name="T">Type of value to generate.</typeparam>
+        /// <param name="currentValue">Current value to not match.</param>
+        /// <returns>A random value of the specified type.</returns>
+        public static T GetRandom<T>(T currentValue)
+        {
+            switch (typeof(T))
+            {
+                case Type t when t == typeof(string):
+                    return (T)(object)GetRandomString((string)(object)currentValue);
+                case Type t when t.IsEnum:
+                    return (T)(object)GetRandomEnum((dynamic)currentValue);
+                case Type t when t == typeof(bool):
+                    return (T)(object)GetRandomBoolean((bool)(object)currentValue);
+                case Type t when t == typeof(int):
+                    return (T)(object)GetRandomInteger((int)(object)currentValue);
+                case Type t when t == typeof(DateTime):
+                    return (T)(object)GetRandomDateTime((DateTime)(object)currentValue);
+                case Type t when t == typeof(double):
+                    return (T)(object)GetRandomDouble((double)(object)currentValue);
+                case Type t when t == typeof(decimal):
+                    return (T)(object)GetRandomDecimal((decimal)(object)currentValue);
+                default:
+                    throw new ArgumentException($"The type {currentValue.GetType()} is an unsupported value type for the {nameof(GetRandom)} method.", nameof(currentValue));
+            }
+        }
+
+        /// <summary>
+        /// Generates a random value of the specified type.
+        /// </summary>
+        /// <param name="type">Type of value to generate.</param>
+        /// <returns>A random value of the specified type.</returns>
+        public static dynamic GetRandom(Type type)
+        {
+            return GetRandom(type, null);
+        }
+
+        /// <summary>
+        /// Generates a random value of the provided type.
+        /// </summary>
+        /// <param name="type">Type of value to generate.</param>
+        /// <param name="currentValue">Current value to not reproduce.</param>
+        /// <returns>A random Value of the specified type.</returns>
+        public static dynamic GetRandom(Type type, dynamic currentValue)
+        {
+            if (currentValue != null && type != currentValue.GetType())
+            {
+                throw new ArgumentOutOfRangeException($"The type {type} does not match the type {currentValue.GetType()} of {nameof(currentValue)}.", nameof(currentValue));
+            }
+
+            switch (type)
+            {
+                case Type t when t == typeof(string):
+                    if (currentValue == null)
+                    {
+                        return GetRandomString();
+                    }
+                    else
+                    {
+                        return GetRandomString(currentValue);
+                    }
+
+                case Type t when t.IsEnum:
+                    if (currentValue == null)
+                    {
+                        return GetRandomEnum(type);
+                    }
+                    else
+                    {
+                        return GetRandomEnum(currentValue);
+                    }
+
+                case Type t when t == typeof(bool):
+                    if (currentValue == null)
+                    {
+                        return GetRandomBoolean();
+                    }
+                    else
+                    {
+                        return GetRandomBoolean(currentValue);
+                    }
+
+                case Type t when t == typeof(int):
+                    if (currentValue == null)
+                    {
+                        return GetRandomInteger();
+                    }
+                    else
+                    {
+                        return GetRandomInteger(currentValue);
+                    }
+
+                case Type t when t == typeof(DateTime):
+                    if (currentValue == null)
+                    {
+                        return GetRandomDateTime();
+                    }
+                    else
+                    {
+                        return GetRandomDateTime(currentValue);
+                    }
+
+                case Type t when t == typeof(double):
+                    if (currentValue == null)
+                    {
+                        return GetRandomDouble();
+                    }
+                    else
+                    {
+                        return GetRandomDouble(currentValue);
+                    }
+
+                case Type t when t == typeof(decimal):
+                    if (currentValue == null)
+                    {
+                        return GetRandomDecimal();
+                    }
+                    else
+                    {
+                        return GetRandomDecimal(currentValue);
+                    }
+
+                default:
+                    throw new ArgumentException($"The type {type} is an unsupported value type for the {nameof(GetRandom)} method.", nameof(type));
+            }
+        }
+
+        /// <summary>
         /// Generates a random <see cref="bool"/>.
         /// </summary>
         /// <returns>A random <see cref="bool"/>.</returns>
@@ -122,6 +261,33 @@ namespace JSR.Utilities
         }
 
         /// <summary>
+        /// Generates a random Enum value.
+        /// </summary>
+        /// <typeparam name="T">Type of enum value to generate.</typeparam>
+        /// <returns>A random Enum value.</returns>
+        public static T GetRandomEnum<T>() where T : Enum
+        {
+            Array values = Enum.GetValues(typeof(T));
+            return (T)values.GetValue(new Random().Next(values.Length));
+        }
+
+        /// <summary>
+        /// Generates a random Enum value.
+        /// </summary>
+        /// <param name="enumType">Type of enum to generate.</param>
+        /// <returns>A random enum.</returns>
+        public static dynamic GetRandomEnum(Type enumType)
+        {
+            if (!enumType.IsEnum)
+            {
+                throw new ArgumentException($"{nameof(enumType)} is not an enum.", nameof(enumType));
+            }
+
+            Array values = Enum.GetValues(enumType);
+            return values.GetValue(new Random().Next(values.Length));
+        }
+
+        /// <summary>
         /// Generates a random Enum value different than the one specified.
         /// </summary>
         /// <typeparam name="T">Type of <see cref="Enum"/> to generate a random value for.</typeparam>
@@ -135,11 +301,9 @@ namespace JSR.Utilities
                 throw new Exception($"The generic type {typeof(T)} does not match the object {nameof(currentValue)} type of {currentValue.GetType()}.");
             }
 
-            Array values = Enum.GetValues(typeof(T));
-
             do
             {
-                T newVal = (T)values.GetValue(new Random().Next(values.Length));
+                T newVal = GetRandomEnum<T>();
 
                 if (!newVal.Equals(currentValue))
                 {

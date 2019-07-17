@@ -49,8 +49,8 @@ namespace JSR.TestAsserts
                 {
                     if (property.PropertyType == typeof(bool) || property.PropertyType == typeof(int) || property.PropertyType == typeof(string) || property.PropertyType == typeof(DateTime) || property.PropertyType == typeof(double) || property.PropertyType == typeof(long) || property.PropertyType == typeof(decimal) || property.PropertyType == typeof(float))
                     {
-                        var expectedValue = property.GetValue(expected);
-                        var actualValue = property.GetValue(actual);
+                        dynamic expectedValue = property.GetValue(expected);
+                        dynamic actualValue = property.GetValue(actual);
 
                         Assert.AreEqual(expectedValue, actualValue);
                     }
@@ -144,8 +144,8 @@ namespace JSR.TestAsserts
                     {
                         if (property.SetMethod != null && property.SetMethod.IsPublic)
                         {
-                            var expectedValue = property.GetValue(expected);
-                            var actualValue = property.GetValue(actual);
+                            dynamic expectedValue = property.GetValue(expected);
+                            dynamic actualValue = property.GetValue(actual);
 
                             if ((expectedValue != null && !expectedValue.Equals(actualValue)) || (actualValue != null && !actualValue.Equals(expectedValue)))
                             {

@@ -27,22 +27,22 @@
         </member>
         <member name="M:JSR.Utilities.ObjectUtilities.CreateInstanceWithRandomValues``1">
             <summary>
-            Creates a new Instance of a specified Type and populates all of its public properties.
+            Creates a new instance of a specified type and populates all of its properties with random values.
             </summary>
             <typeparam name="T">Type of object to create.</typeparam>
-            <returns>A new object of the specified type with populated values.</returns>
+            <returns>A new object with random property values.</returns>
         </member>
         <member name="M:JSR.Utilities.ObjectUtilities.CreateInstanceWithRandomValues``1(System.Collections.Generic.List{System.String})">
             <summary>
-            Creates a new Instance of a specified Type and populates all of its public set properties.
+            Creates a new instance of a specified type and populates specified properties with random values.
             </summary>
             <typeparam name="T">Type of object to create.</typeparam>
             <param name="propertyNamesToPopulate">List of property names to add random values to.</param>
-            <returns>A new object of the specified type with populated values.</returns>
+            <returns>A new object with random property values for the provided property names.</returns>
         </member>
         <member name="M:JSR.Utilities.ObjectUtilities.CreateInstanceWithRandomValues``1(System.Collections.Generic.List{System.Reflection.PropertyInfo})">
             <summary>
-            Creates a new instance of a specified Type and populates specific properties with random values.
+            Creates a new instance of a specified Type and populates specified properties with random values.
             </summary>
             <typeparam name="T">Type of object to create.</typeparam>
             <param name="propertiesToPopulate">List of <see cref="T:System.Reflection.PropertyInfo"/> to populate with random values.</param>
@@ -50,7 +50,7 @@
         </member>
         <member name="M:JSR.Utilities.ObjectUtilities.CreateInstanceWithRandomValues(System.Type)">
             <summary>
-            Creates a new Instance of a specified Type and populates all of its public set properties.
+            Creates a new Instance of a specified Type and populates all of its properties with random values.
             </summary>
             <param name="type">Type of object to create.</param>
             <returns>A new object of the specified type with populated values.</returns>
@@ -519,6 +519,36 @@
             Generates and manipulates random values.
             </summary>
         </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandom``1">
+            <summary>
+            Generates a random value of the specified type.
+            </summary>
+            <typeparam name="T">Type of value to generate.</typeparam>
+            <returns>A random value of the specified type.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandom``1(``0)">
+            <summary>
+            Generates a random value of the specified type.
+            </summary>
+            <typeparam name="T">Type of value to generate.</typeparam>
+            <param name="currentValue">Current value to not match.</param>
+            <returns>A random value of the specified type.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandom(System.Type)">
+            <summary>
+            Generates a random value of the specified type.
+            </summary>
+            <param name="type">Type of value to generate.</param>
+            <returns>A random value of the specified type.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandom(System.Type,System.Object)">
+            <summary>
+            Generates a random value of the provided type.
+            </summary>
+            <param name="type">Type of value to generate.</param>
+            <param name="currentValue">Current value to not reproduce.</param>
+            <returns>A random Value of the specified type.</returns>
+        </member>
         <member name="M:JSR.Utilities.RandomUtilities.GetRandomBoolean">
             <summary>
             Generates a random <see cref="T:System.Boolean"/>.
@@ -570,6 +600,20 @@
             </summary>
             <param name="currentValue">Current value to not match.</param>
             <returns>A random <see cref="T:System.Double"/>.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomEnum``1">
+            <summary>
+            Generates a random Enum value.
+            </summary>
+            <typeparam name="T">Type of enum value to generate.</typeparam>
+            <returns>A random Enum value.</returns>
+        </member>
+        <member name="M:JSR.Utilities.RandomUtilities.GetRandomEnum(System.Type)">
+            <summary>
+            Generates a random Enum value.
+            </summary>
+            <param name="enumType">Type of enum to generate.</param>
+            <returns>A random enum.</returns>
         </member>
         <member name="M:JSR.Utilities.RandomUtilities.GetRandomEnum``1(``0)">
             <summary>

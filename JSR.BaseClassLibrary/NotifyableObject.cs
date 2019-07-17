@@ -25,9 +25,9 @@ namespace JSR.BaseClassLibrary
         /// </summary>
         protected void NotifyAllPropertiesChanged()
         {
-            foreach (var p in GetType().GetRuntimeProperties())
+            foreach (PropertyInfo property in GetType().GetRuntimeProperties())
             {
-                NotifyPropertyChanged(p.Name);
+                NotifyPropertyChanged(property.Name);
             }
         }
 

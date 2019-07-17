@@ -347,70 +347,229 @@
         </member>
         <member name="T:JSR.TestAsserts.PropertyChangeAssert">
             <summary>
-            Tests objects that support property change and property change notification.
+            Tests property changes within objects.
             </summary>
         </member>
         <member name="M:JSR.TestAsserts.PropertyChangeAssert.ChangesValues``1">
             <summary>
+            Tests that an type's property values can be changed.
+            </summary>
+            <typeparam name="T">Type to test properties.</typeparam>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyChangeAssert.ChangesValues(System.Type)">
+            <summary>
             Tests that an object's property values can be changed.
             </summary>
-            <typeparam name="T">Type of object to test.</typeparam>
+            <param name="typeToTest">Type of object to test.</param>
         </member>
         <member name="M:JSR.TestAsserts.PropertyChangeAssert.ChangesValues``1(``0)">
             <summary>
             Test that an object's property values can be changed.
             </summary>
-            <typeparam name="T"><see cref="T:System.Type"/> of <see cref="T:System.Object"/> to test.</typeparam>
-            <param name="objectToTest"><see cref="T:System.Object"/> to test.</param>
+            <typeparam name="T">Type to test properties.</typeparam>
+            <param name="objectToTest">Object with properties to test properties.</param>
         </member>
-        <member name="M:JSR.TestAsserts.PropertyChangeAssert.ChangesValues(System.Type)">
+        <member name="M:JSR.TestAsserts.PropertyChangeAssert.ChangesValues``1(System.Collections.Generic.List{System.String})">
             <summary>
-            Test that an object's property values can be changed.
+            Tests that a type's property values can be changed.
             </summary>
+            <typeparam name="T">Type to test properties.</typeparam>
+            <param name="propertyNamesToTest">List of property names to test.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyChangeAssert.ChangesValues``1(System.Collections.Generic.List{System.Reflection.PropertyInfo})">
+            <summary>
+            Tests that a type's property values can be changed.
+            </summary>
+            <typeparam name="T">Type to test properties.</typeparam>
+            <param name="propertiesToTest">List of properties to test.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyChangeAssert.ChangesValues(System.Collections.Generic.List{System.String},System.Type)">
+            <summary>
+            Tests that a type's property values can be changed.
+            </summary>
+            <param name="propertyNamesToTest">List of property names to test.</param>
             <param name="typeToTest">Type of object to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.PropertyChangeAssert.NotifiesEachPropertyChanges``1">
+        <member name="M:JSR.TestAsserts.PropertyChangeAssert.ChangesValues(System.Collections.Generic.List{System.Reflection.PropertyInfo},System.Type)">
             <summary>
-            Tests that all properties on a Type notify property changes.
+            Tests that a type's property values can be changed.
             </summary>
-            <typeparam name="T"><see cref="T:System.Type"/> of <see cref="T:System.Object"/> that implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.</typeparam>
+            <param name="propertiesToTest">List of properties to test.</param>
+            <param name="typeToTest">Type of object to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.PropertyChangeAssert.NotifiesEachPropertyChanges``1(``0)">
+        <member name="M:JSR.TestAsserts.PropertyChangeAssert.ChangesValues``1(System.Collections.Generic.List{System.String},``0)">
             <summary>
-            Tests that all properties on an object notify property changes.
+            Tests that an object's propery values can be changed.
             </summary>
-            <typeparam name="T"><see cref="T:System.Type"/> of <see cref="T:System.Object"/> that implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.</typeparam>
-            <param name="objectToTest"><see cref="T:System.Object"/> to test.</param>
+            <typeparam name="T">Type to test properties.</typeparam>
+            <param name="propertyNamesToTest">List of property names to test.</param>
+            <param name="objectToTest">Object with properties to test properties.</param>
         </member>
-        <member name="M:JSR.TestAsserts.PropertyChangeAssert.NotifiesPropertiesChanged``1(System.Collections.Generic.List{System.String})">
+        <member name="M:JSR.TestAsserts.PropertyChangeAssert.ChangesValues``1(System.Collections.Generic.List{System.Reflection.PropertyInfo},``0)">
             <summary>
-            Tests that specified properties raise the PropertyChanged event for a Type.
+            Tests that an object's property values can be changed.
             </summary>
-            <typeparam name="T"><see cref="T:System.Type"/> of <see cref="T:System.Object"/> that implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.</typeparam>
-            <param name="propertyNames">List of properties to test for the PropertyChanged event.</param>
+            <typeparam name="T">Type to test properties.</typeparam>
+            <param name="propertiesToTest">List of properties to test.</param>
+            <param name="objectToTest">Object with properties to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.PropertyChangeAssert.NotifiesPropertiesChanged``1(System.Collections.Generic.List{System.String},``0)">
+        <member name="M:JSR.TestAsserts.PropertyChangeAssert.ChangesValue``1(System.String)">
             <summary>
-            Tests that specified properties raise the PropertyChanged event for an object.
+            Test that a specific property within an object's value can be changed.
             </summary>
-            <typeparam name="T"><see cref="T:System.Type"/> of <see cref="T:System.Object"/> that implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.</typeparam>
-            <param name="propertyNames">List of properties to test for the PropertyChanged event.</param>
+            <typeparam name="T">Type of object with the property to test.</typeparam>
+            <param name="propertyName">Name of the property to test.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyChangeAssert.ChangesValue``1(System.Reflection.PropertyInfo)">
+            <summary>
+            Test that a specific property within an object's value can be changed.
+            </summary>
+            <typeparam name="T">Type of object with the property to test.</typeparam>
+            <param name="property">Property to test.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyChangeAssert.ChangesValue(System.String,System.Type)">
+            <summary>
+            Tests that a specific property within an object's value can be changed.
+            </summary>
+            <param name="propertyName">Name of property to test.</param>
+            <param name="typeToTest">Type of object to test.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyChangeAssert.ChangesValue(System.Reflection.PropertyInfo,System.Type)">
+            <summary>
+            Tests that a specific property with an object can change it's value.
+            </summary>
+            <param name="property">Property to test.</param>
+            <param name="typeToTest">Type of object to test.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyChangeAssert.ChangesValue``1(System.String,``0)">
+            <summary>
+            Test that a specific property within an object's value can be changed.
+            </summary>
+            <typeparam name="T">Type of object with the property to test.</typeparam>
+            <param name="propertyName">Name of the property to test.</param>
+            <param name="objectToTest">Object with the property to test.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyChangeAssert.ChangesValue``1(System.Reflection.PropertyInfo,``0)">
+            <summary>
+            Tests that a specific property of an object changes values.
+            </summary>
+            <typeparam name="T">Type of object to test.</typeparam>
+            <param name="property">Property to test.</param>
+            <param name="objectToTest">Object with property to test.</param>
+        </member>
+        <member name="T:JSR.TestAsserts.PropertyNotificationAssert">
+            <summary>
+            Tests objects that object that implement <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> raise property change notifications.
+            </summary>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyNotificationAssert.NotifiesPropertiesChanged``1">
+            <summary>
+            Tests that all properties within a Type raise the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/>.
+            </summary>
+            <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.</typeparam>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyNotificationAssert.NotifiesPropertiesChanged``1(``0)">
+            <summary>
+            Tests that all properties within an object raise the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/>.
+            </summary>
+            <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.</typeparam>
             <param name="objectToTest">Object to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.PropertyChangeAssert.NotifiesPropertyChanged``1(System.String)">
+        <member name="M:JSR.TestAsserts.PropertyNotificationAssert.NotifiesPropertiesChanged``1(System.Collections.Generic.List{System.String})">
             <summary>
-            Tests that a property raises the PropertyChanged event for a Type.
+            Tests that specified properties within a type raise the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/>.
             </summary>
-            <typeparam name="T"><see cref="T:System.Type"/> of <see cref="T:System.Object"/> that implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.</typeparam>
-            <param name="propertyName">Name of property to test for the PropertyChanged event.</param>
+            <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.</typeparam>
+            <param name="propertyNames">List of properties to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.PropertyChangeAssert.NotifiesPropertyChanged``1(System.String,``0)">
+        <member name="M:JSR.TestAsserts.PropertyNotificationAssert.NotifiesPropertiesChanged``1(System.Collections.Generic.List{System.String},``0)">
             <summary>
-            Tests that a property raises the PropertyChanged event for an object.
+            Tests that specified properties within an object raise the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/>.
             </summary>
-            <typeparam name="T"><see cref="T:System.Type"/> of <see cref="T:System.Object"/> that implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.</typeparam>
-            <param name="propertyName">Name of property to test for the PropertyChanged event.</param>
+            <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.</typeparam>
+            <param name="propertyNames">List of properties to test.</param>
+            <param name="objectToTest">Object with properties to test.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyNotificationAssert.NotifiesPropertiesChanged``1(System.Collections.Generic.List{System.Reflection.PropertyInfo})">
+            <summary>
+            Tests that specified properties raise the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/>.
+            </summary>
+            <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.</typeparam>
+            <param name="properties">List of properties to test.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyNotificationAssert.NotifiesPropertiesChanged``1(System.Collections.Generic.List{System.Reflection.PropertyInfo},``0)">
+            <summary>
+            Tests that specific properties raise the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/>.
+            </summary>
+            <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.</typeparam>
+            <param name="properties">List of properties to test.</param>
+            <param name="objectToTest">Object with properties to test.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyNotificationAssert.NotifiesPropertyChanged``1(System.String)">
+            <summary>
+            Tests that a property raises the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/>.
+            </summary>
+            <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.</typeparam>
+            <param name="propertyName">Name of property to test.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyNotificationAssert.NotifiesPropertyChanged``1(System.Reflection.PropertyInfo)">
+            <summary>
+            Tests that a property raises the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/>.
+            </summary>
+            <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.</typeparam>
+            <param name="property">Property to test.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyNotificationAssert.NotifiesPropertyChanged``1(System.String,``0)">
+            <summary>
+            Tests that a property raises the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/>.
+            </summary>
+            <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.</typeparam>
+            <param name="propertyName">Name of property to test.</param>
             <param name="objectToTest">Object to test.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyNotificationAssert.NotifiesPropertyChanged``1(System.Reflection.PropertyInfo,``0)">
+            <summary>
+            Tests that a property raises the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/>.
+            </summary>
+            <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.</typeparam>
+            <param name="property">Property to test.</param>
+            <param name="objectToTest">Object with property to test.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyNotificationAssert.NotifiesListChangedOnItemsAdded``1(System.String,``0)">
+            <summary>
+            Tests that when items are added to a list, the object containing the list notifies change.
+            </summary>
+            <typeparam name="T">Type of object that contains the list property.</typeparam>
+            <param name="listPropertyName">Name of the property that contains the list.</param>
+            <param name="objectToTest">Object that contains the list.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyNotificationAssert.NotifiesListChangedOnItemsAdded``1(System.Reflection.PropertyInfo,``0)">
+            <summary>
+            Tests that when items are added to a list, the object containing the list notifies change.
+            </summary>
+            <typeparam name="T">Type of object that contains the list property.</typeparam>
+            <param name="listProperty">Property that contains the list.</param>
+            <param name="objectToTest">Object that contains the list.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyNotificationAssert.NotifiesListChangedOnItemsAdded``2(System.Reflection.PropertyInfo,``0,System.Collections.ObjectModel.ObservableCollection{``1})">
+            <summary>
+            Tests that lists raise the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/> when items are added.
+            </summary>
+            <typeparam name="T">Type that contains the list property.</typeparam>
+            <typeparam name="TlistItem">Type of object contained within the list.</typeparam>
+            <param name="listProperty">Property that contains the list.</param>
+            <param name="objectToTest">Object that contains the list.</param>
+            <param name="list">List to test.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.PropertyNotificationAssert.NotifiesListChangedOnItemsAdded``2(System.String,``0,System.Collections.ObjectModel.ObservableCollection{``1})">
+            <summary>
+            Tests that lists raise the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/> when items are added.
+            </summary>
+            <typeparam name="T">Type that contains the list property.</typeparam>
+            <typeparam name="TlistItem">Type of object contained within the list.</typeparam>
+            <param name="listPropertyName">Name of the property that contains the list.</param>
+            <param name="objectToTest">Object that contains the list.</param>
+            <param name="list">The list to add items to.</param>
         </member>
         <member name="T:JSR.TestAsserts.SerializationAssert">
             <summary>
