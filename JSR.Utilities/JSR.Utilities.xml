@@ -71,14 +71,14 @@
             <param name="propertiesToPopulate">List of <see cref="T:System.Reflection.PropertyInfo"/> to populate with random values.</param>
             <returns>A new object of the specified type with populated values is specific properties.</returns>
         </member>
-        <member name="M:JSR.Utilities.ObjectUtilities.PopulateObjectWithRandomValues``1(``0)">
+        <member name="M:JSR.Utilities.ObjectUtilities.PopulateObjectWithRandomValues(System.Object)">
             <summary>
             Populates an object's properties with random values.
             </summary>
             <typeparam name="T"><see cref="T:System.Type"/> of <see cref="T:System.Object"/> to populate.</typeparam>
             <param name="objectToPopulate"><see cref="T:System.Object"/> to populate with random values.</param>
         </member>
-        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertiesWithRandomValues``1(``0,System.Collections.Generic.List{System.String})">
+        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertiesWithRandomValues(System.Object,System.Collections.Generic.List{System.String})">
             <summary>
             Adds random values to the specified properties of an object.
             </summary>
@@ -86,7 +86,7 @@
             <param name="objectWithProperties">Object to populate properties to.</param>
             <param name="propertyNames">List of Property Names specifying which properties to populate values.</param>
         </member>
-        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertiesWithRandomValues``1(``0,System.Collections.Generic.List{System.Reflection.PropertyInfo})">
+        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertiesWithRandomValues(System.Object,System.Collections.Generic.List{System.Reflection.PropertyInfo})">
             <summary>
             Adds random values to the specified properties of an object.
             </summary>
@@ -94,7 +94,7 @@
             <param name="objectWithProperties">Object to populate properties to.</param>
             <param name="properties">List of <see cref="T:System.Reflection.PropertyInfo"/> specifying which properties to populate values.</param>
         </member>
-        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertyWithRandomValue``1(``0,System.String)">
+        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertyWithRandomValue(System.Object,System.String)">
             <summary>
             Adds a random value to a property.
             </summary>
@@ -102,7 +102,7 @@
             <param name="objectWithProperty">Object to add the property value to.</param>
             <param name="propertyName">Name of the property to add a random value to.</param>
         </member>
-        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertyWithRandomValue``1(``0,System.Reflection.PropertyInfo)">
+        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertyWithRandomValue(System.Object,System.Reflection.PropertyInfo)">
             <summary>
             Adds a random value to a property.
             </summary>
@@ -148,6 +148,26 @@
             <param name="objectWithList"><see cref="T:System.Object"/> that contains a property of type <see cref="T:System.Collections.IList"/>.</param>
             <param name="listPropertyName">Name of the property that contains the <see cref="T:System.Collections.IList"/>.</param>
             <returns>The <see cref="T:System.Collections.IList"/> contained within the named property.</returns>
+        </member>
+        <member name="T:JSR.Utilities.OutputUtilities">
+            <summary>
+            Provides console output utilities for objects.
+            </summary>
+        </member>
+        <member name="M:JSR.Utilities.OutputUtilities.PrintObjectProperties``1(``0)">
+            <summary>
+            Prints the property values of an object, and controls indentation by level.
+            </summary>
+            <typeparam name="T">Type to print property values from.</typeparam>
+            <param name="objectToPrint">Object to print property values from.</param>
+        </member>
+        <member name="M:JSR.Utilities.OutputUtilities.PrintObjectProperties``1(``0,System.Int32)">
+            <summary>
+            Prints the property values of an object, and controls indentation by level.
+            </summary>
+            <typeparam name="T">Type to print property values from.</typeparam>
+            <param name="objectToPrint">Object to print property values from.</param>
+            <param name="level">Level of indentation.</param>
         </member>
         <member name="T:JSR.Utilities.PropertyUtilities">
             <summary>

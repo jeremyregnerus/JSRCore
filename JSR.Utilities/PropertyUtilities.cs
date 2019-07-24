@@ -5,7 +5,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
@@ -14,585 +13,638 @@ namespace JSR.Utilities
     /// <summary>
     /// Provides Utilties for Class <see cref="PropertyInfo"/> properties.
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1124:DoNotUseRegions", Justification = "Used for Signature separation.")]
     public static class PropertyUtilities
     {
-        #region CheckIfPropertyHasPublicGetAndSetMethod
-
         /// <summary>
-        /// Checks if a property has a public Get and Set method for a Type.
+        /// Checks if a property is readwrite.
         /// </summary>
-        /// <typeparam name="T">Type of object that contains the named property.</typeparam>
-        /// <param name="propertyName">Name of the property to check.</param>
-        /// <returns>True if the property is both public Get and Set.</returns>
-        public static bool CheckIfPropertyHasPublicGetAndSetMethod<T>(string propertyName)
+        /// <typeparam name="T">Type with property to check.</typeparam>
+        /// <param name="propertyName">Name of property to check.</param>
+        /// <returns>True if the property is readwrite.</returns>
+        public static bool CheckIfPropertyIsReadWrite<T>(string propertyName)
         {
-            return CheckIfPropertyHasPublicGetAndSetMethod(typeof(T).GetRuntimeProperty(propertyName));
+            return CheckIfPropertyIsReadWrite(typeof(T).GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if a property has a public Get and Set method for a Type.
+        /// Check if a property is readwrite.
         /// </summary>
-        /// <typeparam name="T">Type of object that contains the named property.</typeparam>
-        /// <param name="propertyName">Name of the property to check.</param>
-        /// <param name="objectWithProperty">An object that contains the named property.</param>
-        /// <returns>True if the property is both public Get and Set.</returns>
-        public static bool CheckIfPropertyHasPublicGetAndSetMethod<T>(string propertyName, T objectWithProperty)
+        /// <typeparam name="T">Type with property to check.</typeparam>
+        /// <param name="objectWithProperty">Object with property to check.</param>
+        /// <param name="propertyName">Name of property to check.</param>
+        /// <returns>True if the property is readwrite.</returns>
+        public static bool CheckIfPropertyIsReadWrite<T>(T objectWithProperty, string propertyName)
         {
-            return CheckIfPropertyHasPublicGetAndSetMethod(objectWithProperty.GetType().GetRuntimeProperty(propertyName));
+            return CheckIfPropertyIsReadWrite(objectWithProperty.GetType().GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if a property has a public Get and Set method for a Type.
+        /// Checks if a property is readwrite.
         /// </summary>
-        /// <param name="propertyName">Name of the property to check.</param>
-        /// <param name="type">Type of object that contains the named property.</param>
-        /// <returns>True if the property is both public Get and Set.</returns>
-        public static bool CheckIfPropertyHasPublicGetAndSetMethod(string propertyName, Type type)
+        /// <param name="type">Type with property to check.</param>
+        /// <param name="propertyName">Name of property to check.</param>
+        /// <returns>True if the property is readwrite.</returns>
+        public static bool CheckIfPropertyIsReadWrite(Type type, string propertyName)
         {
-            return CheckIfPropertyHasPublicGetAndSetMethod(type.GetRuntimeProperty(propertyName));
+            return CheckIfPropertyIsReadWrite(type.GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if a property has a public Get and Set method for a Type.
+        /// Checks if a property is readwrite.
         /// </summary>
         /// <param name="property">Property to check.</param>
-        /// <returns>True if the property is both public Get and Set.</returns>
-        public static bool CheckIfPropertyHasPublicGetAndSetMethod(PropertyInfo property)
+        /// <returns>True if the property is readwrite.</returns>
+        public static bool CheckIfPropertyIsReadWrite(PropertyInfo property)
         {
             return property.GetMethod != null && property.GetMethod.IsPublic && property.SetMethod != null && property.SetMethod.IsPublic;
         }
 
-        #endregion
-
-        #region GetListOfPropertiesWithPublicGetAndSetMethods
-
         /// <summary>
-        /// Get a list of <see cref="PropertyInfo"/> for each property that has both public Get and Set accessors.
+        /// Checks if a property is readonly.
         /// </summary>
-        /// <typeparam name="T">Type of object to get the properties from.</typeparam>
-        /// <returns>List of <see cref="PropertyInfo"/> with public Get and Set Accessors.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithPublicGetAndSetMethods<T>()
+        /// <typeparam name="T">Type with property to check.</typeparam>
+        /// <param name="propertyName">Name of property to check.</param>
+        /// <returns>True if the property is readonly.</returns>
+        public static bool CheckIfPropertyIsReadOnly<T>(string propertyName)
         {
-            return GetListOfPropertiesWithPublicGetAndSetMethods(typeof(T));
+            return CheckIfPropertyIsReadOnly(typeof(T).GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Get a list of <see cref="PropertyInfo"/> for each property that has both public Get and Set accessors.
+        /// Checks if a property is readonly.
         /// </summary>
-        /// <typeparam name="T">Type of object to get the properties from.</typeparam>
-        /// <param name="objectWithProperties">An Object that contains properties to evaluate.</param>
-        /// <returns>List of <see cref="PropertyInfo"/> with public Get and Set Accessors.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithPublicGetAndSetMethods<T>(T objectWithProperties)
+        /// <typeparam name="T">Type with property to check.</typeparam>
+        /// <param name="objectWithProperty">Object with property to check.</param>
+        /// <param name="propertyName">Name of property to check.</param>
+        /// <returns>True if the property is readonly.</returns>
+        public static bool CheckIfPropertyIsReadOnly<T>(T objectWithProperty, string propertyName)
         {
-            return GetListOfPropertiesWithPublicGetAndSetMethods(objectWithProperties.GetType());
+            return CheckIfPropertyIsReadOnly(objectWithProperty.GetType().GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Get a list of <see cref="PropertyInfo"/> for each property that has both public Get and Set accessors.
+        /// Checks if a property is readonly.
         /// </summary>
-        /// <param name="type">Type of object to get the properties from.</param>
-        /// <returns>List of <see cref="PropertyInfo"/> with public Get and Set Accessors.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithPublicGetAndSetMethods(Type type)
+        /// <param name="type">Type with property to check.</param>
+        /// <param name="propertyName">Name of property to check.</param>
+        /// <returns>True if the property is readonly.</returns>
+        public static bool CheckIfPropertyIsReadOnly(Type type, string propertyName)
         {
-            return new List<PropertyInfo>(type.GetRuntimeProperties().Where(property => property.GetMethod != null && property.GetMethod.IsPublic && property.SetMethod != null && property.SetMethod.IsPublic));
+            return CheckIfPropertyIsReadOnly(type.GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Gets a list of Property Names that have public Get and Set methods.
+        /// Checks if a property is readonly.
         /// </summary>
-        /// <typeparam name="T">Type of object to evaluate.</typeparam>
-        /// <returns>A list of <see cref="string"/> for each property that has a public get and set method.</returns>
-        public static List<string> GetListOfPropertyNamesWithPublicGetAndSetMethods<T>()
+        /// <param name="property">Property to check.</param>
+        /// <returns>True if the property is readonly.</returns>
+        public static bool CheckIfPropertyIsReadOnly(PropertyInfo property)
         {
-            return GetListOfPropertyNamesWithPublicGetAndSetMethods(typeof(T));
+            return property.GetMethod != null && property.GetMethod.IsPublic && (property.SetMethod == null || !property.SetMethod.IsPublic);
         }
 
         /// <summary>
-        /// Gets a list of Property Names that have public Get and Set methods.
+        /// Checks if a property is writeonly.
         /// </summary>
-        /// <typeparam name="T">Type of object to evaluate.</typeparam>
-        /// <param name="objectWithProperties">Object to evaluate.</param>
-        /// <returns>A list of <see cref="string"/> for each property that has a public get and set method.</returns>
-        public static List<string> GetListOfPropertyNamesWithPublicGetAndSetMethods<T>(T objectWithProperties)
+        /// <typeparam name="T">Type with property to check.</typeparam>
+        /// <param name="propertyName">Name of property to check.</param>
+        /// <returns>True if the property is writeonly.</returns>
+        public static bool CheckIfPropertyIsWriteOnly<T>(string propertyName)
         {
-            return GetListOfPropertyNamesWithPublicGetAndSetMethods(objectWithProperties.GetType());
+            return CheckIfPropertyIsWriteOnly(typeof(T).GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Gets a list of Property Names that have public Get and Set methods.
+        /// Checks if a property is writeonly.
         /// </summary>
-        /// <param name="type">Type of object to evaluate.</param>
-        /// <returns>A list of <see cref="string"/> for each property that has a public get and set method.</returns>
-        public static List<string> GetListOfPropertyNamesWithPublicGetAndSetMethods(Type type)
+        /// <typeparam name="T">Type with property to check.</typeparam>
+        /// <param name="objectWithProperty">Object with property to check.</param>
+        /// <param name="propertyName">Name of property to check.</param>
+        /// <returns>True if the property is writeonly.</returns>
+        public static bool CheckIfPropertyIsWriteOnly<T>(T objectWithProperty, string propertyName)
         {
-            return new List<string>(GetListOfPropertiesWithPublicGetAndSetMethods(type).Select(property => property.Name));
+            return CheckIfPropertyIsWriteOnly(objectWithProperty.GetType().GetProperty(propertyName));
         }
 
-        #endregion
-
-        #region CheckIfPropertyHasPublicGetMethod
+        /// <summary>
+        /// Checks if a property is writeonly.
+        /// </summary>
+        /// <param name="type">Type with property to check.</param>
+        /// <param name="propertyName">Name of property to check.</param>
+        /// <returns>True if the property is writeonly.</returns>
+        public static bool CheckIfPropertyIsWriteOnly(Type type, string propertyName)
+        {
+            return CheckIfPropertyIsWriteOnly(type.GetProperty(propertyName));
+        }
 
         /// <summary>
-        /// Checks if a property has a public get method for a Type.
+        /// Checks if a property is writeonly.
         /// </summary>
-        /// <typeparam name="T">Type with the named property.</typeparam>
-        /// <param name="propertyName">Name of property to evaluate.</param>
-        /// <returns>True if the property has a public get method, otherwise false.</returns>
-        public static bool CheckIfPropertyHasPublicGetMethod<T>(string propertyName)
+        /// <param name="property">Property to check.</param>
+        /// <returns>True if the property is writeonly.</returns>
+        public static bool CheckIfPropertyIsWriteOnly(PropertyInfo property)
         {
-            // TODO: 2: Determine if this check is required.
-            if (typeof(T) == typeof(object))
+            return property.SetMethod != null && property.SetMethod.IsPublic && (property.GetMethod == null || !property.GetMethod.IsPublic);
+        }
+
+        /// <summary>
+        /// Checks if a property contains a class type.
+        /// </summary>
+        /// <typeparam name="T">Type with property to check.</typeparam>
+        /// <param name="propertyName">Property name to check.</param>
+        /// <returns>True if the property is a class.</returns>
+        public static bool CheckIfPropertyIsClass<T>(string propertyName)
+        {
+            return CheckIfPropertyIsClass(typeof(T), propertyName);
+        }
+
+        /// <summary>
+        /// Checks if a property contains a class type.
+        /// </summary>
+        /// <typeparam name="T">Type with property to check.</typeparam>
+        /// <param name="objectWithProperty">Object with property to check.</param>
+        /// <param name="propertyName">Property name to check.</param>
+        /// <returns>True if the property is a class.</returns>
+        public static bool CheckIfPropertyIsClass<T>(T objectWithProperty, string propertyName)
+        {
+            return CheckIfPropertyIsClass(objectWithProperty.GetType(), propertyName);
+        }
+
+        /// <summary>
+        /// Checks if a property contains a class type.
+        /// </summary>
+        /// <param name="type">Type with property to check.</param>
+        /// <param name="propertyName">Property name to check.</param>
+        /// <returns>True if the property is a class.</returns>
+        public static bool CheckIfPropertyIsClass(Type type, string propertyName)
+        {
+            return CheckIfPropertyIsClass(type.GetProperty(propertyName));
+        }
+
+        /// <summary>
+        /// Checks if a property contains class type.
+        /// </summary>
+        /// <param name="property">Property to check.</param>
+        /// <returns>True if the property is a class.</returns>
+        public static bool CheckIfPropertyIsClass(PropertyInfo property)
+        {
+            return property.PropertyType.IsClass && property.PropertyType != typeof(string);
+        }
+
+        /// <summary>
+        /// Checks if the property is a list.
+        /// </summary>
+        /// <typeparam name="T">Type with property to check.</typeparam>
+        /// <param name="propertyName">Name of property to check.</param>
+        /// <returns>True if the property is a list.</returns>
+        public static bool CheckIfPropertyIsList<T>(string propertyName)
+        {
+            return CheckIfPropertyIsList(typeof(T).GetProperty(propertyName));
+        }
+
+        /// <summary>
+        /// Checks if the property is a list.
+        /// </summary>
+        /// <typeparam name="T">Type with property to check.</typeparam>
+        /// <param name="objectWithProperty">Object with property to check.</param>
+        /// <param name="propertyName">Name of property to check.</param>
+        /// <returns>True if the property is a list.</returns>
+        public static bool CheckIfPropertyIsList<T>(T objectWithProperty, string propertyName)
+        {
+            return CheckIfPropertyIsList(objectWithProperty.GetType().GetProperty(propertyName));
+        }
+
+        /// <summary>
+        /// Checks if a property contains a list type.
+        /// </summary>
+        /// <param name="type">Type with property to check.</param>
+        /// <param name="propertyName">Property Name to check.</param>
+        /// <returns>True if the property is a list.</returns>
+        public static bool CheckIfPropertyIsList(Type type, string propertyName)
+        {
+            return CheckIfPropertyIsList(type.GetProperty(propertyName));
+        }
+
+        /// <summary>
+        /// Checks if a property contains a list type.
+        /// </summary>
+        /// <param name="property">Property to check.</param>
+        /// <returns>True if the property is a list.</returns>
+        public static bool CheckIfPropertyIsList(PropertyInfo property)
+        {
+            return typeof(IList).IsAssignableFrom(property.PropertyType) && property.PropertyType != typeof(string);
+        }
+
+        /// <summary>
+        /// Returns a list of properties that meet the argument criteria.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <param name="valueTypes">Include properties with value types.</param>
+        /// <param name="classTypes">Include properties with class types.</param>
+        /// <param name="listTypes">Include properties with list types.</param>
+        /// <returns>A list of <see cref="PropertyInfo"/>.</returns>
+        public static List<PropertyInfo> GetListOfProperties<T>(bool readWrite, bool readOnly, bool writeOnly, bool valueTypes, bool classTypes, bool listTypes)
+        {
+            return GetListOfProperties(typeof(T), readWrite, readOnly, writeOnly, valueTypes, classTypes, listTypes);
+        }
+
+        /// <summary>
+        /// Returns a list of properties that meet the argument criteria.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="objectWithProperties">Object to get properties from.</param>
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <param name="valueTypes">Include properties with value types.</param>
+        /// <param name="classTypes">Include properties with class types.</param>
+        /// <param name="listTypes">Include properties with list types.</param>
+        /// <returns>A list of <see cref="PropertyInfo"/>.</returns>
+        public static List<PropertyInfo> GetListOfProperties<T>(T objectWithProperties, bool readWrite, bool readOnly, bool writeOnly, bool valueTypes, bool classTypes, bool listTypes)
+        {
+            return GetListOfProperties(objectWithProperties.GetType(), readWrite, readOnly, writeOnly, valueTypes, classTypes, listTypes);
+        }
+
+        /// <summary>
+        /// Returns a list of properties that meet the argument criteria.
+        /// </summary>
+        /// <param name="type">Type to get the properties from.</param>
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <param name="valueTypes">Include properties with value types.</param>
+        /// <param name="classTypes">Include properties with class types.</param>
+        /// <param name="listTypes">Include properties with list types.</param>
+        /// <returns>A list of <see cref="PropertyInfo"/>.</returns>
+        public static List<PropertyInfo> GetListOfProperties(Type type, bool readWrite, bool readOnly, bool writeOnly, bool valueTypes, bool classTypes, bool listTypes)
+        {
+            List<PropertyInfo> returnProperties = new List<PropertyInfo>();
+
+            if (valueTypes)
             {
-                throw new Exception($"The generic type {typeof(T)} should not be type {typeof(object)}.");
+                returnProperties.AddRange(GetListOfPropertiesWithValueTypes(type, readWrite, readOnly, writeOnly));
             }
 
-            return CheckIfPropertyHasPublicGetMethod(typeof(T).GetRuntimeProperty(propertyName));
-        }
-
-        /// <summary>
-        /// Checks if a property has a public get method for an object.
-        /// </summary>
-        /// <typeparam name="T">Type of object with named property.</typeparam>
-        /// <param name="propertyName">Name of the property to evaluate.</param>
-        /// <param name="objectWithProperty">Object with named property.</param>
-        /// <returns>True if the property has a public get method, otherwise false.</returns>
-        public static bool CheckIfPropertyHasPublicGetMethod<T>(string propertyName, T objectWithProperty)
-        {
-            return CheckIfPropertyHasPublicGetMethod(objectWithProperty.GetType().GetRuntimeProperty(propertyName));
-        }
-
-        /// <summary>
-        /// Checks if a property has a public get method for an object.
-        /// </summary>
-        /// <param name="propertyName">Name of the property to evaluate.</param>
-        /// <param name="type">Type with named property.</param>
-        /// <returns>True if the property has a public get method, otherwise false.</returns>
-        public static bool CheckIfPropertyHasPublicGetMethod(string propertyName, Type type)
-        {
-            return CheckIfPropertyHasPublicGetMethod(type.GetRuntimeProperty(propertyName));
-        }
-
-        /// <summary>
-        /// Checks if a property has a public get method.
-        /// </summary>
-        /// <param name="property"><see cref="PropertyInfo"/> to check for public Get method.</param>
-        /// <returns>True if the property has a public get method, otherwise false.</returns>
-        public static bool CheckIfPropertyHasPublicGetMethod(PropertyInfo property)
-        {
-            if (property == null)
+            if (classTypes)
             {
-                throw new ArgumentNullException(nameof(property), $"The argument {nameof(property)} cannot be null. Ensure the property exists.");
+                returnProperties.AddRange(GetListOfPropertiesWithClassTypes(type, readWrite, readOnly, writeOnly));
             }
 
-            return property.GetMethod != null && property.GetMethod.IsPublic;
-        }
-
-        #endregion
-
-        #region GetListOfPropertiesWithPublicGetMethod
-
-        /// <summary>
-        /// Get a list of <see cref="PropertyInfo"/> that have public Get methods.
-        /// </summary>
-        /// <typeparam name="T">Type that contains properties.</typeparam>
-        /// <returns>A list of <see cref="PropertyInfo"/> that have public Get methods.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithPublicGetMethod<T>()
-        {
-            return GetListOfPropertiesWithPublicGetMethod(typeof(T));
-        }
-
-        /// <summary>
-        /// Get a list of <see cref="PropertyInfo"/> that have public Get methods.
-        /// </summary>
-        /// <typeparam name="T">Type that contains properties.</typeparam>
-        /// <param name="objectWithProperties">Object that contains properties.</param>
-        /// <returns>A list of <see cref="PropertyInfo"/> that have public Get methods.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithPublicGetMethod<T>(T objectWithProperties)
-        {
-            return GetListOfPropertiesWithPublicGetMethod(objectWithProperties.GetType());
-        }
-
-        /// <summary>
-        /// Get a list of <see cref="PropertyInfo"/> that have public Get methods.
-        /// </summary>
-        /// <param name="type">Type that has properties.</param>
-        /// <returns>A list of <see cref="PropertyInfo"/> that have public Get methods.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithPublicGetMethod(Type type)
-        {
-            // TODO: 2: Determine if this check is required.
-            if (type == typeof(object))
+            if (listTypes)
             {
-                throw new Exception($"The {nameof(type)} object should not be type {typeof(object)}.");
+                returnProperties.AddRange(GetListOfPropertiesWithListTypes(type, readWrite, readOnly, writeOnly));
             }
 
-            return new List<PropertyInfo>(type.GetRuntimeProperties().Where(property => property.GetMethod != null && property.GetMethod.IsPublic));
+            return returnProperties;
         }
 
         /// <summary>
-        /// Get a list of property names that have public Get methods.
+        /// Returns a list of properties names that meet the argument criteria.
         /// </summary>
-        /// <typeparam name="T">Type that contains properties.</typeparam>
-        /// <returns>A list of property names that have public get methods.</returns>
-        public static List<string> GetListOfPropertyNamesWithPublicGetMethod<T>()
+        /// <typeparam name="T">Type to get property names from.</typeparam>
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <param name="valueTypes">Include properties with value types.</param>
+        /// <param name="classTypes">Include properties with class types.</param>
+        /// <param name="listTypes">Include properties with list types.</param>
+        /// <returns>A list of property names.</returns>
+        public static List<string> GetListOfPropertyNames<T>(bool readWrite, bool readOnly, bool writeOnly, bool valueTypes, bool classTypes, bool listTypes)
         {
-            return GetListOfPropertyNamesWithPublicGetMethod(typeof(T));
+            return GetListOfPropertyNames(typeof(T), readWrite, readOnly, writeOnly, valueTypes, classTypes, listTypes);
         }
 
         /// <summary>
-        /// Get a list of property names that have public Get methods.
+        /// Returns a list of properties names that meet the argument criteria.
         /// </summary>
-        /// <typeparam name="T">Type that contains properties.</typeparam>
-        /// <param name="objectWithProperties">Object that contains properties.</param>
-        /// <returns>A list of property names that have public get methods.</returns>
-        public static List<string> GetListOfPropertyNamesWithPublicGetMethod<T>(T objectWithProperties)
+        /// <typeparam name="T">Type to get property names from.</typeparam>
+        /// <param name="objectWithProperties">Object to get property names from.</param>
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <param name="valueTypes">Include properties with value types.</param>
+        /// <param name="classTypes">Include properties with class types.</param>
+        /// <param name="listTypes">Include properties with list types.</param>
+        /// <returns>A list of property names.</returns>
+        public static List<string> GetListOfPropertyNames<T>(T objectWithProperties, bool readWrite, bool readOnly, bool writeOnly, bool valueTypes, bool classTypes, bool listTypes)
         {
-            return GetListOfPropertyNamesWithPublicGetMethod(objectWithProperties.GetType());
+            return GetListOfPropertyNames(objectWithProperties.GetType(), readWrite, readOnly, writeOnly, valueTypes, classTypes, listTypes);
         }
 
         /// <summary>
-        /// Get a list of property names that have public Get methods.
+        /// Returns a list of property names that meet the argument criteria.
         /// </summary>
-        /// <param name="type">Type that contains properties.</param>
-        /// <returns>A list of property names that have public get methods.</returns>
-        public static List<string> GetListOfPropertyNamesWithPublicGetMethod(Type type)
+        /// <param name="type">Type to get property names from.</param>
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <param name="valueTypes">Include properties with value types.</param>
+        /// <param name="classTypes">Include properties with class types.</param>
+        /// <param name="listTypes">Include properties with list types.</param>
+        /// <returns>A list of property names.</returns>
+        public static List<string> GetListOfPropertyNames(Type type, bool readWrite, bool readOnly, bool writeOnly, bool valueTypes, bool classTypes, bool listTypes)
         {
-            return new List<string>(GetListOfPropertiesWithPublicGetMethod(type).Select(property => property.Name));
-        }
-
-        #endregion
-
-        #region GetListOfReadOnlyProperties
-
-        /// <summary>
-        /// Gets a list of properties that are read-only.
-        /// </summary>
-        /// <typeparam name="T">Type of object with proeprties to evaluate.</typeparam>
-        /// <returns>A list of properties that are read-only.</returns>
-        public static List<PropertyInfo> GetListOfReadOnlyProperties<T>()
-        {
-            return GetListOfReadOnlyProperties(typeof(T));
+            return new List<string>(GetListOfProperties(type, readWrite, readOnly, writeOnly, valueTypes, classTypes, listTypes).Select(property => property.Name));
         }
 
         /// <summary>
-        /// Gets a list of properties that are read-only.
-        /// </summary>
-        /// <typeparam name="T">Type of object with proeprties to evaluate.</typeparam>
-        /// <param name="objectWithProperties">Object with properties to evaluate.</param>
-        /// <returns>A list of properties that are read-only.</returns>
-        public static List<PropertyInfo> GetListOfReadOnlyProperties<T>(T objectWithProperties)
-        {
-            return GetListOfReadOnlyProperties(objectWithProperties.GetType());
-        }
-
-        /// <summary>
-        /// Gets a list of properties that are read-only.
-        /// </summary>
-        /// <param name="type">Type of object with proeprties to evaluate.</param>
-        /// <returns>A list of properties that are read-only.</returns>
-        public static List<PropertyInfo> GetListOfReadOnlyProperties(Type type)
-        {
-            return new List<PropertyInfo>(type.GetRuntimeProperties().Where(p => p.GetMethod != null && p.GetMethod.IsPublic && (p.SetMethod == null || !p.SetMethod.IsPublic)));
-        }
-
-        #endregion
-
-        #region CheckIfPropertyHasPublicSetMethod
-
-        /// <summary>
-        /// Checks if the property has a public set method.
-        /// </summary>
-        /// <typeparam name="T">Type that contains the named property.</typeparam>
-        /// <param name="propertyName">Name of property to evaluate.</param>
-        /// <returns>True if the property has a public set method, otherwise false.</returns>
-        public static bool CheckIfPropertyHasPublicSetMethod<T>(string propertyName)
-        {
-            // TODO: 2: Determine if this check is required.
-            if (typeof(T) == typeof(object))
-            {
-                throw new Exception($"The generic type {typeof(T)} should not be type {typeof(object)}.");
-            }
-
-            return CheckIfPropertyHasPublicSetMethod(typeof(T).GetRuntimeProperty(propertyName));
-        }
-
-        /// <summary>
-        /// Checks if the property has a public set method.
-        /// </summary>
-        /// <typeparam name="T">Type that contains the named property.</typeparam>
-        /// <param name="propertyName">Name of property to evaluate.</param>
-        /// <param name="objectWithProperty">Object that contains the named property.</param>
-        /// <returns>True if the property has a public set method, otherwise false.</returns>
-        public static bool CheckIfPropertyHasPublicSetMethod<T>(string propertyName, T objectWithProperty)
-        {
-            return CheckIfPropertyHasPublicSetMethod(objectWithProperty.GetType().GetRuntimeProperty(propertyName));
-        }
-
-        /// <summary>
-        /// Checks if the property has a public set method.
-        /// </summary>
-        /// <param name="propertyName">Name of property to evaluate.</param>
-        /// <param name="type">Type with named property to check.</param>
-        /// <returns>True if the property has a public set method, otherwise false.</returns>
-        public static bool CheckIfPropertyHasPublicSetMethod(string propertyName, Type type)
-        {
-            return CheckIfPropertyHasPublicSetMethod(type.GetRuntimeProperty(propertyName));
-        }
-
-        /// <summary>
-        /// Checks if the property has a public set method.
-        /// </summary>
-        /// <param name="property"><see cref="PropertyInfo"/> to check for public Set method.</param>
-        /// <returns>True if the property has a public set method, otherwise false.</returns>
-        public static bool CheckIfPropertyHasPublicSetMethod(PropertyInfo property)
-        {
-            if (property == null)
-            {
-                throw new ArgumentNullException(nameof(property), $"The argument {nameof(property)} cannot be null. Ensure the property exists.");
-            }
-
-            return property.SetMethod != null && property.SetMethod.IsPublic;
-        }
-
-        #endregion
-
-        #region GetListOfPropertiesWithPublicSetMethod
-
-        /// <summary>
-        /// Get a list of <see cref="PropertyInfo"/> that have public Set methods.
-        /// </summary>
-        /// <typeparam name="T">Type that contains properties.</typeparam>
-        /// <returns>A list of <see cref="PropertyInfo"/> that have public Set methods.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithPublicSetMethod<T>()
-        {
-            return GetListOfPropertiesWithPublicSetMethod(typeof(T));
-        }
-
-        /// <summary>
-        /// Get a list of <see cref="PropertyInfo"/> that have public Set methods.
-        /// </summary>
-        /// <typeparam name="T">Type that contains properties.</typeparam>
-        /// <param name="objectWithProperties">Object that contains properties.</param>
-        /// <returns>A list of <see cref="PropertyInfo"/> that have public Set methods.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithPublicSetMethod<T>(T objectWithProperties)
-        {
-            return GetListOfPropertiesWithPublicSetMethod(objectWithProperties.GetType());
-        }
-
-        /// <summary>
-        /// Get a list of <see cref="PropertyInfo"/> that have public Set methods.
-        /// </summary>
-        /// <param name="type">Type that contains properties.</param>
-        /// <returns>A list of <see cref="PropertyInfo"/> that have public Set methods.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithPublicSetMethod(Type type)
-        {
-            // TODO: 2: Determine if this check is required.
-            if (type == typeof(object))
-            {
-                throw new Exception($"The {nameof(type)} object should not be type {typeof(object)}.");
-            }
-
-            return new List<PropertyInfo>(type.GetRuntimeProperties().Where(property => property.SetMethod != null && property.SetMethod.IsPublic));
-        }
-
-        /// <summary>
-        /// Get a list of property names that have public set methods.
-        /// </summary>
-        /// <typeparam name="T">Type that contains properties.</typeparam>
-        /// <returns>A list of property names that have public set methods.</returns>
-        public static List<string> GetListOfPropertyNamesWithPublicSetMethod<T>()
-        {
-            return GetListOfPropertyNamesWithPublicSetMethod(typeof(T));
-        }
-
-        /// <summary>
-        /// Get a list of property names that have public set methods.
-        /// </summary>
-        /// <typeparam name="T">Type that contains properties.</typeparam>
-        /// <param name="objectWithProperties">Object that contains properties.</param>
-        /// <returns>A list of property names that have public set methods.</returns>
-        public static List<string> GetListOfPropertyNamesWithPublicSetMethod<T>(T objectWithProperties)
-        {
-            return GetListOfPropertyNamesWithPublicSetMethod(objectWithProperties.GetType());
-        }
-
-        /// <summary>
-        /// Get a list of property names that have public set methods.
-        /// </summary>
-        /// <param name="type">Type that contains properties.</param>
-        /// <returns>A list of property names that have public set methods.</returns>
-        public static List<string> GetListOfPropertyNamesWithPublicSetMethod(Type type)
-        {
-            return new List<string>(GetListOfPropertiesWithPublicSetMethod(type).Select(property => property.Name));
-        }
-
-        #endregion
-
-        #region GetListofWriteOnlyProperties
-
-        /// <summary>
-        /// Gets a list of properties that are write-only.
+        /// Gets a list of Properties with class values.
         /// </summary>
         /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <returns>A list of properties that are write-only.</returns>
-        public static List<PropertyInfo> GetListOfWriteOnlyProperties<T>()
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <returns>A list of properties with class values.</returns>
+        public static List<PropertyInfo> GetListOfPropertiesWithClassTypes<T>(bool readWrite, bool readOnly, bool writeOnly)
         {
-            return GetListOfPropertiesWithClassValues(typeof(T));
+            return GetListOfPropertiesWithClassTypes(typeof(T), readWrite, readOnly, writeOnly);
         }
 
         /// <summary>
-        /// Gets a list of properties that are write-only.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <param name="objectWithProperties">Object with properties to evalute.</param>
-        /// <returns>A list of properties that are write-only.</returns>
-        public static List<PropertyInfo> GetListOfWriteOnlyProperties<T>(T objectWithProperties)
-        {
-            return GetListOfPropertiesWithClassValues(objectWithProperties.GetType());
-        }
-
-        /// <summary>
-        /// Gets a list of properties that are write-only.
-        /// </summary>
-        /// <param name="type">Type of object with properties to evaluate.</param>
-        /// <returns>A list of properties that are write-only.</returns>
-        public static List<PropertyInfo> GetListOfWriteOnlyProperties(Type type)
-        {
-            return new List<PropertyInfo>(type.GetRuntimeProperties().Where(p => p.SetMethod != null && p.SetMethod.IsPublic && (p.GetMethod == null || !p.SetMethod.IsPublic)));
-        }
-
-        #endregion
-
-        #region GetListOfPropertiesWithClassValues
-
-        /// <summary>
-        /// Gets a list of Properties where their value type is a class.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <returns>A list of properties with class value types.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithClassValues<T>()
-        {
-            return GetListOfPropertiesWithClassValues(typeof(T));
-        }
-
-        /// <summary>
-        /// Gets a list of Properties where their value type is a class.
+        /// Gets a list of Properties with class values.
         /// </summary>
         /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
         /// <param name="objectWithProperties">Object with properties to evaluate.</param>
-        /// <returns>A list of properties with class value types.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithClassValues<T>(T objectWithProperties)
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <returns>A list of properties with class values.</returns>
+        public static List<PropertyInfo> GetListOfPropertiesWithClassTypes<T>(T objectWithProperties, bool readWrite, bool readOnly, bool writeOnly)
         {
-            return GetListOfPropertiesWithClassValues(objectWithProperties.GetType());
+            return GetListOfPropertiesWithClassTypes(objectWithProperties.GetType(), readWrite, readOnly, writeOnly);
         }
 
         /// <summary>
-        /// Gets a list of Properties where their value type is a class.
+        /// Gets a list of Properties with class values.
         /// </summary>
         /// <param name="type">Type of object with properties to evaluate.</param>
-        /// <returns>A list of properties with class value types.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithClassValues(Type type)
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <returns>A list of properties with class values.</returns>
+        public static List<PropertyInfo> GetListOfPropertiesWithClassTypes(Type type, bool readWrite, bool readOnly, bool writeOnly)
         {
-            return new List<PropertyInfo>(type.GetRuntimeProperties().Where(p => p.PropertyType.IsClass && p.PropertyType != typeof(string)));
+            List<PropertyInfo> classProperties = new List<PropertyInfo>(type.GetProperties().Where(property => property.PropertyType.IsClass && property.PropertyType != typeof(string)));
+
+            List<PropertyInfo> properties = new List<PropertyInfo>();
+
+            if (readWrite)
+            {
+                properties.AddRange(classProperties.Where(property => CheckIfPropertyIsReadWrite(property)));
+            }
+
+            if (readOnly)
+            {
+                properties.AddRange(classProperties.Where(property => CheckIfPropertyIsReadOnly(property)));
+            }
+
+            if (writeOnly)
+            {
+                properties.AddRange(classProperties.Where(property => CheckIfPropertyIsWriteOnly(property)));
+            }
+
+            return properties;
         }
 
         /// <summary>
-        /// Gets a list of property names where their value type is a class.
+        /// Gets a list of property names with class values.
         /// </summary>
         /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <returns>A list of property names that have class value types.</returns>
-        public static List<string> GetListOfPropertyNamesWithClassValues<T>()
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <returns>A list of property names with class values.</returns>
+        public static List<string> GetListOfPropertyNamesWithClassTypes<T>(bool readWrite, bool readOnly, bool writeOnly)
         {
-            return new List<string>(GetListOfPropertiesWithClassValues(typeof(T)).Select(p => p.Name));
+            return GetListOfPropertyNamesWithClassTypes(typeof(T), readWrite, readOnly, writeOnly);
         }
 
         /// <summary>
-        /// Gets a list of property names where their value type is a class.
+        /// Gets a list of property names with class values.
         /// </summary>
         /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
         /// <param name="objectWithProperties">Object with properties to evaluate.</param>
-        /// <returns>A list of property names that have class value types.</returns>
-        public static List<string> GetListOfPropertyNamesWithClassValues<T>(T objectWithProperties)
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <returns>A list of property names with class values.</returns>
+        public static List<string> GetListOfPropertyNamesWithClassTypes<T>(T objectWithProperties, bool readWrite, bool readOnly, bool writeOnly)
         {
-            return new List<string>(GetListOfPropertiesWithClassValues(objectWithProperties.GetType()).Select(p => p.Name));
+            return GetListOfPropertyNamesWithClassTypes(objectWithProperties.GetType(), readWrite, readOnly, writeOnly);
         }
 
         /// <summary>
-        /// Gets a list of property names where their value type is a class.
+        /// Gets a list of property names with class values.
         /// </summary>
         /// <param name="type">Type of object with properties to evaluate.</param>
-        /// <returns>A list of property names that have class value types.</returns>
-        public static List<string> GetListOfPropertyNamesWithClassValues(Type type)
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <returns>A list of property names with class values.</returns>
+        public static List<string> GetListOfPropertyNamesWithClassTypes(Type type, bool readWrite, bool readOnly, bool writeOnly)
         {
-            return new List<string>(GetListOfPropertiesWithClassValues(type).Select(p => p.Name));
+            return new List<string>(GetListOfPropertiesWithClassTypes(type, readWrite, readOnly, writeOnly).Select(p => p.Name));
         }
 
-        #endregion
-
-        #region GetListOfPropertiesWithListValues
-
         /// <summary>
-        /// Gets a list of properties that have lists as their value type.
+        /// Gets a list of properties with list values.
         /// </summary>
         /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <returns>A list of properties with lists as their value type.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithListValues<T>()
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <returns>A list of properties with list values.</returns>
+        public static List<PropertyInfo> GetListOfPropertiesWithListTypes<T>(bool readWrite, bool readOnly, bool writeOnly)
         {
-            return GetListOfPropertiesWithListValues(typeof(T));
+            return GetListOfPropertiesWithListTypes(typeof(T), readWrite, readOnly, writeOnly);
         }
 
         /// <summary>
-        /// Gets a list of properties that have lists as their value type.
+        /// Gets a list of properties with list values.
         /// </summary>
         /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
         /// <param name="objectWithProperties">Object with properties to evaluate.</param>
-        /// <returns>A list of properties with lists as their value type.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithListValues<T>(T objectWithProperties)
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <returns>A list of properties with lists values.</returns>
+        public static List<PropertyInfo> GetListOfPropertiesWithListTypes<T>(T objectWithProperties, bool readWrite, bool readOnly, bool writeOnly)
         {
-            return GetListOfPropertiesWithListValues(objectWithProperties.GetType());
+            return GetListOfPropertiesWithListTypes(objectWithProperties.GetType(), readWrite, readOnly, writeOnly);
         }
 
         /// <summary>
-        /// Gets a list of properties that have lists as their value type.
+        /// Gets a list of properties with list values.
         /// </summary>
-        /// <param name="type">Type of object with properties to evaluate.</param>
-        /// <returns>A list of properties with lists as their value type.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithListValues(Type type)
+        /// <param name="type">Type with properties to evaluate.</param>
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <returns>A list of properties with lists values.</returns>
+        public static List<PropertyInfo> GetListOfPropertiesWithListTypes(Type type, bool readWrite, bool readOnly, bool writeOnly)
         {
-            return new List<PropertyInfo>(type.GetRuntimeProperties().Where(p => typeof(IList).IsAssignableFrom(p.PropertyType) && p.PropertyType != typeof(string)));
+            List<PropertyInfo> listProperties = new List<PropertyInfo>(type.GetProperties().Where(property => typeof(IList).IsAssignableFrom(property.PropertyType) && property.PropertyType != typeof(string)));
+
+            List<PropertyInfo> properties = new List<PropertyInfo>();
+
+            if (readWrite)
+            {
+                properties.AddRange(listProperties.Where(property => CheckIfPropertyIsReadWrite(property)));
+            }
+
+            if (readOnly)
+            {
+                properties.AddRange(listProperties.Where(property => CheckIfPropertyIsReadOnly(property)));
+            }
+
+            if (writeOnly)
+            {
+                properties.AddRange(listProperties.Where(property => CheckIfPropertyIsWriteOnly(property)));
+            }
+
+            return properties;
         }
 
         /// <summary>
-        /// Gets a list of property names that have lists as their value type.
+        /// Gets a list of property names with list values.
         /// </summary>
         /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <returns>A list of property names with lists as their value type.</returns>
-        public static List<string> GetListOfPropertyValuesWithListValues<T>()
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <returns>A list of property names with list values.</returns>
+        public static List<string> GetListOfPropertyNamesWithListTypes<T>(bool readWrite, bool readOnly, bool writeOnly)
         {
-            return new List<string>(GetListOfPropertiesWithListValues(typeof(T)).Select(p => p.Name));
+            return GetListOfPropertyNamesWithListTypes(typeof(T), readWrite, readOnly, writeOnly);
         }
 
         /// <summary>
-        /// Gets a list of property names that have lists as their value type.
+        /// Gets a list of property names with list values.
         /// </summary>
         /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
         /// <param name="objectWithProperties">An object with properties to evaluate.</param>
-        /// <returns>A list of property names with lists as their value type.</returns>
-        public static List<string> GetListOfPropertyValuesWithListValues<T>(T objectWithProperties)
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <returns>A list of property names with list values.</returns>
+        public static List<string> GetListOfPropertyNamesWithListTypes<T>(T objectWithProperties, bool readWrite, bool readOnly, bool writeOnly)
         {
-            return new List<string>(GetListOfPropertiesWithListValues(objectWithProperties.GetType()).Select(p => p.Name));
+            return GetListOfPropertyNamesWithListTypes(objectWithProperties.GetType(), readWrite, readOnly, writeOnly);
         }
 
         /// <summary>
-        /// Gets a list of property names that have lists as their value type.
+        /// Gets a list of property names with list values.
         /// </summary>
         /// <param name="type">Type of object with properties to evaluate.</param>
-        /// <returns>A list of property names with lists as their value type.</returns>
-        public static List<string> GetListOfPropertyValuesWithListValues(Type type)
+        /// <param name="readWrite">Include ReadWrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <returns>A list of property names with list values.</returns>
+        public static List<string> GetListOfPropertyNamesWithListTypes(Type type, bool readWrite, bool readOnly, bool writeOnly)
         {
-            return new List<string>(GetListOfPropertiesWithListValues(type).Select(p => p.Name));
+            return new List<string>(GetListOfPropertiesWithListTypes(type, readWrite, readOnly, writeOnly).Select(p => p.Name));
         }
 
-        #endregion
+        /// <summary>
+        /// Get a list of properties with value types.
+        /// </summary>
+        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <returns>A list of properties with value types.</returns>
+        public static List<PropertyInfo> GetListOfPropertiesWithValueTypes<T>(bool readWrite, bool readOnly, bool writeOnly)
+        {
+            return GetListOfPropertiesWithValueTypes(typeof(T), readWrite, readOnly, writeOnly);
+        }
+
+        /// <summary>
+        /// Get a list of properties with value types.
+        /// </summary>
+        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
+        /// <param name="objectWithProperties">Object with properties to evaluate.</param>
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <returns>A list of properties with value types.</returns>
+        public static List<PropertyInfo> GetListOfPropertiesWithValueTypes<T>(T objectWithProperties, bool readWrite, bool readOnly, bool writeOnly)
+        {
+            return GetListOfPropertiesWithValueTypes(objectWithProperties.GetType(), readWrite, readOnly, writeOnly);
+        }
+
+        /// <summary>
+        /// Get a list of properties with value types.
+        /// </summary>
+        /// <param name="type">Type with properties to evaluate.</param>
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">include writeonly properties.</param>
+        /// <returns>A list of properties with value types.</returns>
+        public static List<PropertyInfo> GetListOfPropertiesWithValueTypes(Type type, bool readWrite, bool readOnly, bool writeOnly)
+        {
+            List<PropertyInfo> allValueProperties = new List<PropertyInfo>(type.GetProperties().Where(property => !CheckIfPropertyIsClass(property) && !CheckIfPropertyIsList(property)));
+
+            List<PropertyInfo> returnProperties = new List<PropertyInfo>();
+
+            if (readWrite)
+            {
+                returnProperties.AddRange(allValueProperties.Where(property => CheckIfPropertyIsReadWrite(property)));
+            }
+
+            if (readOnly)
+            {
+                returnProperties.AddRange(allValueProperties.Where(property => CheckIfPropertyIsReadOnly(property)));
+            }
+
+            if (writeOnly)
+            {
+                returnProperties.AddRange(allValueProperties.Where(property => CheckIfPropertyIsWriteOnly(property)));
+            }
+
+            return returnProperties;
+        }
+
+        /// <summary>
+        /// Get a list of property names with value types.
+        /// </summary>
+        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <returns>A list of property names with value types.</returns>
+        public static List<string> GetListOfPropertyNamesWithValueTypes<T>(bool readWrite, bool readOnly, bool writeOnly)
+        {
+            return GetListOfPropertyNamesWithValueTypes(typeof(T), readWrite, readOnly, writeOnly);
+        }
+
+        /// <summary>
+        /// Get a list of property names with value types.
+        /// </summary>
+        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
+        /// <param name="objectWithProperties">Object with properties to evaluate.</param>
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <returns>A list of property names with value types.</returns>
+        public static List<string> GetListOfPropertyNamesWithValueTypes<T>(T objectWithProperties, bool readWrite, bool readOnly, bool writeOnly)
+        {
+            return GetListOfPropertyNamesWithValueTypes(objectWithProperties.GetType(), readWrite, readOnly, writeOnly);
+        }
+
+        /// <summary>
+        /// Get a list of property names with value types.
+        /// </summary>
+        /// <param name="type">Type with properties to evaluate.</param>
+        /// <param name="readWrite">Include readwrite properties.</param>
+        /// <param name="readOnly">Include readonly properties.</param>
+        /// <param name="writeOnly">Include writeonly properties.</param>
+        /// <returns>A list of property names with value types.</returns>
+        public static List<string> GetListOfPropertyNamesWithValueTypes(Type type, bool readWrite, bool readOnly, bool writeOnly)
+        {
+            return new List<string>(GetListOfPropertiesWithValueTypes(type, readWrite, readOnly, writeOnly).Select(property => property.Name));
+        }
     }
 }
