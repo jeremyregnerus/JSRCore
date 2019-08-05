@@ -700,5 +700,215 @@ namespace JSR.Utilities
         }
 
         #endregion
+
+        #region GetListOfReadWriteProperties
+
+        /// <summary>
+        /// Get a list of all the readwrite properties.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <returns>List of readwrite properties.</returns>
+        public static List<PropertyInfo> GetListOfReadWriteProperties<T>()
+        {
+            return new List<PropertyInfo>(typeof(T).GetProperties().Where(property => CheckIfPropertyIsReadWrite(property)));
+        }
+
+        /// <summary>
+        /// Get a list of all the readwrite properties.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <param name="objectWithProperties">Object with properties.</param>
+        /// <returns>List of readwrite properties.</returns>
+        public static List<PropertyInfo> GetListOfReadWriteProperties<T>(T objectWithProperties)
+        {
+            return new List<PropertyInfo>(objectWithProperties.GetType().GetProperties().Where(property => CheckIfPropertyIsReadWrite(property)));
+        }
+
+        /// <summary>
+        /// Get a list of all the readwrite properties.
+        /// </summary>
+        /// <param name="type">Type with properties.</param>
+        /// <returns>List of readwrite properties.</returns>
+        public static List<PropertyInfo> GetListOfReadWriteProperties(Type type)
+        {
+            return new List<PropertyInfo>(type.GetProperties().Where(property => CheckIfPropertyIsReadWrite(property)));
+        }
+
+        #endregion
+
+        #region GetListOfReadWritePropertyNames
+
+        /// <summary>
+        /// Get a list of all the readwrite property names.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <returns>List of readwrite property names.</returns>
+        public static List<string> GetListOfReadWritePropertyNames<T>()
+        {
+            return new List<string>(GetListOfReadWriteProperties<T>().Select(property => property.Name));
+        }
+
+        /// <summary>
+        /// Get a list of all the readwrite property names.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <param name="objectWithProperties">Object with properties.</param>
+        /// <returns>List of readwrite property names.</returns>
+        public static List<string> GetListOfReadWritePropertyNames<T>(T objectWithProperties)
+        {
+            return new List<string>(GetListOfReadWriteProperties(objectWithProperties).Select(property => property.Name));
+        }
+
+        /// <summary>
+        /// Get a list of all the readwrite property names.
+        /// </summary>
+        /// <param name="type">Type with properties.</param>
+        /// <returns>List of readwrite property names.</returns>
+        public static List<string> GetListOfReadWritePropertyNames(Type type)
+        {
+            return new List<string>(GetListOfReadWriteProperties(type).Select(property => property.Name));
+        }
+
+        #endregion
+
+        #region GetListOfReadOnlyProperties
+
+        /// <summary>
+        /// Get a list of all the readonly properties.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <returns>List of readonly properties.</returns>
+        public static List<PropertyInfo> GetListOfReadOnlyProperties<T>()
+        {
+            return new List<PropertyInfo>(typeof(T).GetProperties().Where(property => CheckIfPropertyIsReadOnly(property)));
+        }
+
+        /// <summary>
+        /// Get a list of all the readonly properties.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <param name="objectWithProperties">Object with properties.</param>
+        /// <returns>List of readonly properties.</returns>
+        public static List<PropertyInfo> GetListOfReadOnlyProperties<T>(T objectWithProperties)
+        {
+            return new List<PropertyInfo>(objectWithProperties.GetType().GetProperties().Where(property => CheckIfPropertyIsReadOnly(property)));
+        }
+
+        /// <summary>
+        /// Get a list of all the readonly properties.
+        /// </summary>
+        /// <param name="type">Type with properties.</param>
+        /// <returns>List of readonly properties.</returns>
+        public static List<PropertyInfo> GetListOfReadOnlyProperties(Type type)
+        {
+            return new List<PropertyInfo>(type.GetProperties().Where(property => CheckIfPropertyIsReadOnly(property)));
+        }
+
+        #endregion
+
+        #region GetListOfReadOnlyPropertyNames
+
+        /// <summary>
+        /// Get a list of all the readonly property names.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <returns>List of readonly property names.</returns>
+        public static List<string> GetListOfReadOnlyPropertyNames<T>()
+        {
+            return new List<string>(GetListOfReadOnlyProperties<T>().Select(property => property.Name));
+        }
+
+        /// <summary>
+        /// Get a list of all the readonly property names.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <param name="objectWithProperties">Object with properties.</param>
+        /// <returns>List of readonly property names.</returns>
+        public static List<string> GetListOfReadOnlyPropertyNames<T>(T objectWithProperties)
+        {
+            return new List<string>(GetListOfReadOnlyProperties(objectWithProperties).Select(property => property.Name));
+        }
+
+        /// <summary>
+        /// get a list of all the readonly property names.
+        /// </summary>
+        /// <param name="type">Type with properties.</param>
+        /// <returns>List of readonly property names.</returns>
+        public static List<string> GetListOfReadOnlyPropertyNames(Type type)
+        {
+            return new List<string>(GetListOfReadOnlyProperties(type).Select(property => property.Name));
+        }
+
+        #endregion
+
+        #region GetListOfWriteOnlyProperties
+
+        /// <summary>
+        /// Get a list of all the writeonly properties.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <returns>List of writeonly properties.</returns>
+        public static List<PropertyInfo> GetListOfWriteOnlyProperties<T>()
+        {
+            return new List<PropertyInfo>(typeof(T).GetProperties().Where(property => CheckIfPropertyIsWriteOnly(property)));
+        }
+
+        /// <summary>
+        /// Get a list of all the writeonly properties.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <param name="objectWithProperties">Object with properties.</param>
+        /// <returns>List of writeonly properties.</returns>
+        public static List<PropertyInfo> GetListOfWriteOnlyProperties<T>(T objectWithProperties)
+        {
+            return new List<PropertyInfo>(objectWithProperties.GetType().GetProperties().Where(property => CheckIfPropertyIsWriteOnly(property)));
+        }
+
+        /// <summary>
+        /// Get a list of all the writeonly properties.
+        /// </summary>
+        /// <param name="type">Type with properties.</param>
+        /// <returns>List of writeonly properties.</returns>
+        public static List<PropertyInfo> GetListOfWriteOnlyProperties(Type type)
+        {
+            return new List<PropertyInfo>(type.GetProperties().Where(property => CheckIfPropertyIsWriteOnly(property)));
+        }
+
+        #endregion
+
+        #region GetListOfWriteOnlyPropertyNames
+
+        /// <summary>
+        /// Get a list of all the writeonly property names.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <returns>List of writeonly property names.</returns>
+        public static List<string> GetListOfWriteOnlyPropertyNames<T>()
+        {
+            return new List<string>(GetListOfWriteOnlyProperties<T>().Select(property => property.Name));
+        }
+
+        /// <summary>
+        /// Get a list of all the writeonly property names.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <param name="objectWithProperties">Object with properties.</param>
+        /// <returns>List of writeonly property names.</returns>
+        public static List<string> GetListOfWriteOnlyPropertyNames<T>(T objectWithProperties)
+        {
+            return new List<string>(GetListOfWriteOnlyProperties(objectWithProperties).Select(property => property.Name));
+        }
+
+        /// <summary>
+        /// Get a list of all the writeonly property names.
+        /// </summary>
+        /// <param name="type">Type with properties.</param>
+        /// <returns>List of writeonly property names.</returns>
+        public static List<string> GetListOfWriteOnlyPropertyNames(Type type)
+        {
+            return new List<string>(GetListOfWriteOnlyProperties(type).Select(property => property.Name));
+        }
+
+        #endregion
     }
 }
