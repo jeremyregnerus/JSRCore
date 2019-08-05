@@ -167,11 +167,10 @@ namespace JSR.Utilities
             }
             else
             {
-                PopulatePropertiesWithRandomValues(objectToPopulate, PropertyUtilities.GetListOfPropertiesWithValueTypes(objectToPopulate, true, false, false));
-                PopulatePropertiesWithRandomValues(objectToPopulate, PropertyUtilities.GetListOfPropertiesWithClassTypes(objectToPopulate, true, true, false));
-                PopulatePropertiesWithRandomValues(objectToPopulate, PropertyUtilities.GetListOfPropertiesWithListTypes(objectToPopulate, true, true, false));
-
+                // Populates all of the readwrite properties including values, classes and lists with values.
                 PopulatePropertiesWithRandomValues(objectToPopulate, PropertyUtilities.GetListOfProperties(objectToPopulate.GetType(), true, false, false, true, true, true));
+
+                // populates all of the readonly classes and lists with values.
                 PopulatePropertiesWithRandomValues(objectToPopulate, PropertyUtilities.GetListOfProperties(objectToPopulate.GetType(), false, true, false, false, true, true));
             }
         }
@@ -227,13 +226,17 @@ namespace JSR.Utilities
             {
                 if (PropertyUtilities.CheckIfPropertyIsReadWrite(property))
                 {
-                    property.SetValue(objectWithProperty, CreateInstanceWithRandomValues(property.PropertyType));
-                }
-                else if (PropertyUtilities.CheckIfPropertyIsReadOnly(property))
-                {
-                    PopulateObjectWithRandomValues(property.GetValue(objectWithProperty));
+                    property.SetValue(objectWithProperty, Activator.CreateInstance(property.PropertyType));
                 }
 
+                PopulateObjectWithRandomValues(property.GetValue(objectWithProperty));
+
+                return;
+            }
+
+            if (!PropertyUtilities.CheckIfPropertyIsReadWrite(property))
+            {
+                Console.Write($"{property.Name} property was read-only and not assigned a value.");
                 return;
             }
 
@@ -272,16 +275,19 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type of list to populate.</typeparam>
         /// <param name="listToPopulate">List to populate with random values.</param>
         /// <param name="parentObjectType">Type of the object that contains the list.</param>
-        public static void PopulateListWithRandomValues<T>(T listToPopulate, Type parentObjectType = null) where T : IList
+        /// <returns>Number of items modified in the list.</returns>
+        public static int PopulateListWithRandomValues<T>(T listToPopulate, Type parentObjectType = null) where T : IList
         {
-            RemoveRandomItemsFromList(listToPopulate);
+            int count = RemoveRandomItemsFromList(listToPopulate);
 
             if (listToPopulate.GetType().GenericTypeArguments[0] == parentObjectType)
             {
-                return;
+                return count;
             }
 
-            AddRandomItemsToList(listToPopulate);
+            count += AddRandomItemsToList(listToPopulate);
+
+            return count;
         }
 
         /// <summary>
@@ -317,9 +323,10 @@ namespace JSR.Utilities
         /// </summary>
         /// <typeparam name="T">Type of list.</typeparam>
         /// <param name="listToAddItemsTo">List to add items to.</param>
-        public static void AddRandomItemsToList<T>(T listToAddItemsTo) where T : IList
+        /// <returns>Number of items added to the list.</returns>
+        public static int AddRandomItemsToList<T>(T listToAddItemsTo) where T : IList
         {
-            AddRandomItemsToList(listToAddItemsTo, listToAddItemsTo.GetType().GenericTypeArguments[0]);
+            return AddRandomItemsToList(listToAddItemsTo, listToAddItemsTo.GetType().GenericTypeArguments[0]);
         }
 
         /// <summary>
@@ -328,12 +335,17 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type of list.</typeparam>
         /// <param name="listToAddItems">List to add items to.</param>
         /// <param name="listObjectType">Type of items to add to list.</param>
-        public static void AddRandomItemsToList<T>(T listToAddItems, Type listObjectType) where T : IList
+        /// <returns>Number of items added to the list.</returns>
+        public static int AddRandomItemsToList<T>(T listToAddItems, Type listObjectType) where T : IList
         {
-            for (int i = 0; i < new Random().Next(5, 20); i++)
+            int count = new Random().Next(5, 20);
+
+            for (int i = 0; i < count; i++)
             {
                 AddRandomItemToList(listToAddItems, listObjectType);
             }
+
+            return count;
         }
 
         /// <summary>
@@ -358,7 +370,8 @@ namespace JSR.Utilities
         /// </summary>
         /// <typeparam name="T">Type of list to remove items from.</typeparam>
         /// <param name="listToRemoveItems">List to remove items from.</param>
-        public static void RemoveRandomItemsFromList<T>(T listToRemoveItems) where T : IList
+        /// <returns>The number of items removed from the list.</returns>
+        public static int RemoveRandomItemsFromList<T>(T listToRemoveItems) where T : IList
         {
             int count = new Random().Next(listToRemoveItems.Count);
 
@@ -366,6 +379,8 @@ namespace JSR.Utilities
             {
                 listToRemoveItems.RemoveAt(new Random().Next(0, listToRemoveItems.Count));
             }
+
+            return count;
         }
     }
 }

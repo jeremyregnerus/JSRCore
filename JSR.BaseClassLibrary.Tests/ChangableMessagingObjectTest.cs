@@ -140,7 +140,6 @@ namespace JSR.BaseClassLibrary.Tests
         [TestMethod]
         public void NotifiesIsChangeOnEachListItemAdded()
         {
-
         }
     }
 }

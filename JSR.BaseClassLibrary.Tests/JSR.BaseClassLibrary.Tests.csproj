@@ -8,7 +8,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <CodeAnalysisRuleSet>$(SolutionDir)JSRCore.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile></DocumentationFile>
+    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.BaseClassLibrary.Tests\JSR.BaseClassLibrary.Tests.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

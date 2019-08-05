@@ -21,40 +21,25 @@ namespace JSR.Utilities.Tests
         /// Tests if the utility validates a property has public get and set methods.
         /// </summary>
         [TestMethod]
-        public void CheckIfPropertyHasPublicGetAndSetMethod()
+        public void ChecksPropertyAccessability()
         {
-            Assert.IsTrue(PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod<UtilityMock>(nameof(UtilityMock.PublicStringProperty)));
-            Assert.IsFalse(PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod<UtilityMock>(nameof(UtilityMock.ReadOnlyStringProperty)));
-            Assert.IsFalse(PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod<UtilityMock>(nameof(UtilityMock.WriteOnlyStringProperty)));
+            Assert.IsTrue(PropertyUtilities.CheckIfPropertyIsReadWrite<UtilityMock>(nameof(UtilityMock.PublicStringProperty)));
+            Assert.IsTrue(PropertyUtilities.CheckIfPropertyIsReadOnly<UtilityMock>(nameof(UtilityMock.ReadOnlyStringProperty)));
+            Assert.IsTrue(PropertyUtilities.CheckIfPropertyIsWriteOnly<UtilityMock>(nameof(UtilityMock.WriteOnlyStringProperty)));
 
             UtilityMock obj = new UtilityMock();
-            Assert.IsTrue(PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod(nameof(obj.PublicIntProperty), obj));
-            Assert.IsFalse(PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod(nameof(obj.ReadOnlyStringProperty), obj));
-            Assert.IsFalse(PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod(nameof(obj.WriteOnlyStringProperty), obj));
 
-            Assert.IsTrue(PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod(nameof(UtilityMock.PublicIntProperty), typeof(UtilityMock)));
-            Assert.IsFalse(PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod(nameof(UtilityMock.ReadOnlyStringProperty), typeof(UtilityMock)));
-            Assert.IsFalse(PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod(nameof(UtilityMock.WriteOnlyStringProperty), typeof(UtilityMock)));
+            Assert.IsTrue(PropertyUtilities.CheckIfPropertyIsReadWrite(obj, nameof(obj.PublicStringProperty)));
+            Assert.IsTrue(PropertyUtilities.CheckIfPropertyIsReadOnly(obj, nameof(obj.ReadOnlyStringProperty)));
+            Assert.IsTrue(PropertyUtilities.CheckIfPropertyIsWriteOnly(obj, nameof(obj.WriteOnlyStringProperty)));
 
-            Assert.IsTrue(PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod(typeof(UtilityMock).GetProperty(nameof(UtilityMock.PublicStringProperty))));
-            Assert.IsFalse(PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod(typeof(UtilityMock).GetProperty(nameof(UtilityMock.ReadOnlyStringProperty))));
-            Assert.IsFalse(PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod(typeof(UtilityMock).GetProperty(nameof(UtilityMock.WriteOnlyStringProperty))));
-        }
+            Assert.IsTrue(PropertyUtilities.CheckIfPropertyIsReadWrite(typeof(UtilityMock), nameof(UtilityMock.PublicStringProperty)));
+            Assert.IsTrue(PropertyUtilities.CheckIfPropertyIsReadOnly(typeof(UtilityMock), nameof(UtilityMock.ReadOnlyStringProperty)));
+            Assert.IsTrue(PropertyUtilities.CheckIfPropertyIsWriteOnly(typeof(UtilityMock), nameof(UtilityMock.WriteOnlyStringProperty)));
 
-        /// <summary>
-        /// Tests if the utility gets the public properties with get and set methods.
-        /// </summary>
-        [TestMethod]
-        public void GetListOfPropertiesWithPubligGetAndSetMethods()
-        {
-            List<string> propertyNames = new List<string> { nameof(UtilityMock.PublicBoolProperty), nameof(UtilityMock.PublicIntProperty), nameof(UtilityMock.PublicStringProperty) };
-
-            List<PropertyInfo> properties = PropertyUtilities.GetListOfPropertiesWithPublicGetAndSetMethods<UtilityMock>();
-
-            foreach (string propertyName in propertyNames)
-            {
-                CollectionAssert.Contains(properties.Select(x => x.Name).ToList(), propertyName);
-            }
+            Assert.IsTrue(PropertyUtilities.CheckIfPropertyIsReadWrite(typeof(UtilityMock).GetProperty(nameof(UtilityMock.PublicStringProperty))));
+            Assert.IsTrue(PropertyUtilities.CheckIfPropertyIsReadOnly(typeof(UtilityMock).GetProperty(nameof(UtilityMock.ReadOnlyStringProperty))));
+            Assert.IsTrue(PropertyUtilities.CheckIfPropertyIsWriteOnly(typeof(UtilityMock).GetProperty(nameof(UtilityMock.WriteOnlyStringProperty))));
         }
     }
 }

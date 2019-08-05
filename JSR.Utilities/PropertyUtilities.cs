@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
@@ -13,8 +14,11 @@ namespace JSR.Utilities
     /// <summary>
     /// Provides Utilties for Class <see cref="PropertyInfo"/> properties.
     /// </summary>
+    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1124:DoNotUseRegions", Justification = "Regions used for signatures.")]
     public static class PropertyUtilities
     {
+        #region CheckIfPropertyIsReadWrite
+
         /// <summary>
         /// Checks if a property is readwrite.
         /// </summary>
@@ -58,6 +62,10 @@ namespace JSR.Utilities
         {
             return property.GetMethod != null && property.GetMethod.IsPublic && property.SetMethod != null && property.SetMethod.IsPublic;
         }
+
+        #endregion
+
+        #region CheckIfPropertyIsReadOnly
 
         /// <summary>
         /// Checks if a property is readonly.
@@ -103,6 +111,10 @@ namespace JSR.Utilities
             return property.GetMethod != null && property.GetMethod.IsPublic && (property.SetMethod == null || !property.SetMethod.IsPublic);
         }
 
+        #endregion
+
+        #region CheckIfPropertyIsWriteOnly
+
         /// <summary>
         /// Checks if a property is writeonly.
         /// </summary>
@@ -146,6 +158,10 @@ namespace JSR.Utilities
         {
             return property.SetMethod != null && property.SetMethod.IsPublic && (property.GetMethod == null || !property.GetMethod.IsPublic);
         }
+
+        #endregion
+
+        #region CheckIfPropertyIsClass
 
         /// <summary>
         /// Checks if a property contains a class type.
@@ -191,6 +207,10 @@ namespace JSR.Utilities
             return property.PropertyType.IsClass && property.PropertyType != typeof(string);
         }
 
+        #endregion
+
+        #region CheckIfPropertyIsList
+
         /// <summary>
         /// Checks if the property is a list.
         /// </summary>
@@ -234,6 +254,10 @@ namespace JSR.Utilities
         {
             return typeof(IList).IsAssignableFrom(property.PropertyType) && property.PropertyType != typeof(string);
         }
+
+        #endregion
+
+        #region GetListOfProperties
 
         /// <summary>
         /// Returns a list of properties that meet the argument criteria.
@@ -301,6 +325,10 @@ namespace JSR.Utilities
             return returnProperties;
         }
 
+        #endregion
+
+        #region GetListOfPropertyNames
+
         /// <summary>
         /// Returns a list of properties names that meet the argument criteria.
         /// </summary>
@@ -349,6 +377,10 @@ namespace JSR.Utilities
         {
             return new List<string>(GetListOfProperties(type, readWrite, readOnly, writeOnly, valueTypes, classTypes, listTypes).Select(property => property.Name));
         }
+
+        #endregion
+
+        #region GetListOfPropertiesWithClassTypes
 
         /// <summary>
         /// Gets a list of Properties with class values.
@@ -409,6 +441,10 @@ namespace JSR.Utilities
             return properties;
         }
 
+        #endregion
+
+        #region GetListOfPropertyNamesWithClassTypes
+
         /// <summary>
         /// Gets a list of property names with class values.
         /// </summary>
@@ -448,6 +484,10 @@ namespace JSR.Utilities
         {
             return new List<string>(GetListOfPropertiesWithClassTypes(type, readWrite, readOnly, writeOnly).Select(p => p.Name));
         }
+
+        #endregion
+
+        #region GetListOfPropertiesWithListTypes
 
         /// <summary>
         /// Gets a list of properties with list values.
@@ -508,6 +548,10 @@ namespace JSR.Utilities
             return properties;
         }
 
+        #endregion
+
+        #region GetListOfPropertyNamesWithListTypes
+
         /// <summary>
         /// Gets a list of property names with list values.
         /// </summary>
@@ -547,6 +591,10 @@ namespace JSR.Utilities
         {
             return new List<string>(GetListOfPropertiesWithListTypes(type, readWrite, readOnly, writeOnly).Select(p => p.Name));
         }
+
+        #endregion
+
+        #region GetListOfPropertiesWithValueTypes
 
         /// <summary>
         /// Get a list of properties with value types.
@@ -607,6 +655,10 @@ namespace JSR.Utilities
             return returnProperties;
         }
 
+        #endregion
+
+        #region GetListOfPropertyNamesWithValueTypes
+
         /// <summary>
         /// Get a list of property names with value types.
         /// </summary>
@@ -646,5 +698,7 @@ namespace JSR.Utilities
         {
             return new List<string>(GetListOfPropertiesWithValueTypes(type, readWrite, readOnly, writeOnly).Select(property => property.Name));
         }
+
+        #endregion
     }
 }

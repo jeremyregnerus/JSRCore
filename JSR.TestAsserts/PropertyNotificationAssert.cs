@@ -40,10 +40,8 @@ namespace JSR.TestAsserts
         /// <param name="objectToTest">Object to test.</param>
         public static void NotifiesPropertiesChanged<T>(T objectToTest) where T : INotifyPropertyChanged
         {
-            NotifiesPropertiesChanged(PropertyUtilities.GetListOfPropertiesWithPublicGetAndSetMethods(objectToTest), objectToTest);
-
-            // TODO: - 1 Implement checking for items added and removed from a list.
-            ////NotifiesListChangedOnItemsAdded(PropertyUtilities.GetListOfPropertiesWithListValues(objectToTest), objectToTest);
+            NotifiesPropertiesChanged(PropertyUtilities.GetListOfProperties(objectToTest, true, false, false, true, true, true), objectToTest);
+            NotifiesListsChange(objectToTest);
         }
 
         /// <summary>
@@ -145,21 +143,160 @@ namespace JSR.TestAsserts
             for (int i = 0; i < count; i++)
             {
                 ObjectUtilities.PopulatePropertyWithRandomValue(objectToTest, property);
-
-                CollectionAssert.Contains(propertiesChanged, property.Name);
-                propertiesChanged.Clear();
             }
+
+            Assert.AreEqual(count, propertiesChanged.Count(p => p == property.Name));
+        }
+
+        #endregion
+
+        #region NotifiesListsChange
+
+        /// <summary>
+        /// Tests that the lists within an object notify property change.
+        /// </summary>
+        /// <typeparam name="T">Type with list properties.</typeparam>
+        public static void NotifiesListsChange<T>() where T : INotifyPropertyChanged
+        {
+            NotifiesListsChange(Activator.CreateInstance<T>());
+        }
+
+        /// <summary>
+        /// Tests that the lists within an object notify property change.
+        /// </summary>
+        /// <typeparam name="T">Type with list properties.</typeparam>
+        /// <param name="objectToTest">Object with list properties to test.</param>
+        public static void NotifiesListsChange<T>(T objectToTest) where T : INotifyPropertyChanged
+        {
+            NotifiesListsChange(PropertyUtilities.GetListOfPropertiesWithListTypes(objectToTest, true, true, true), objectToTest);
+        }
+
+        /// <summary>
+        /// Tests that the lists within an object notify property change.
+        /// </summary>
+        /// <typeparam name="T">Type with list properties.</typeparam>
+        /// <param name="properties">List of properties to test.</param>
+        public static void NotifiesListsChange<T>(List<PropertyInfo> properties) where T : INotifyPropertyChanged
+        {
+            NotifiesListsChange(properties, Activator.CreateInstance<T>());
+        }
+
+        /// <summary>
+        /// Tests that the list within an object notify property change.
+        /// </summary>
+        /// <typeparam name="T">Type with list properties.</typeparam>
+        /// <param name="propertyNames">List of property names to test.</param>
+        public static void NotifiesListsChange<T>(List<string> propertyNames) where T : INotifyPropertyChanged
+        {
+            NotifiesListsChange(propertyNames, Activator.CreateInstance<T>());
+        }
+
+        /// <summary>
+        /// Tests that the lists within an object notify property change.
+        /// </summary>
+        /// <typeparam name="T">Type with list properties.</typeparam>
+        /// <param name="propertyNames">List of properties to test.</param>
+        /// <param name="objectToTest">Object to with list properties to test.</param>
+        public static void NotifiesListsChange<T>(List<string> propertyNames, T objectToTest) where T : INotifyPropertyChanged
+        {
+            foreach (string propertyName in propertyNames)
+            {
+                NotifiesListChanged(propertyName, objectToTest);
+            }
+        }
+
+        /// <summary>
+        /// Tests that the lists within an object notify property change.
+        /// </summary>
+        /// <typeparam name="T">Type with list properties.</typeparam>
+        /// <param name="properties">List of list properties to test.</param>
+        /// <param name="objectToTest">Object with list properties to test.</param>
+        public static void NotifiesListsChange<T>(List<PropertyInfo> properties, T objectToTest) where T : INotifyPropertyChanged
+        {
+            foreach (PropertyInfo property in properties)
+            {
+                NotifiesListChanged(property, objectToTest);
+            }
+        }
+
+        #endregion
+
+        #region NotifiesListChanged
+
+        /// <summary>
+        /// Tests that a list notifies when items are randomly added and removed.
+        /// </summary>
+        /// <typeparam name="T">Type with list property to test.</typeparam>
+        /// <param name="propertyName">Name of property with list to test.</param>
+        public static void NotifiesListChanged<T>(string propertyName) where T : INotifyPropertyChanged
+        {
+            NotifiesListChanged(propertyName, Activator.CreateInstance<T>());
+        }
+
+        /// <summary>
+        /// Tests that a list notifies when items are randomly added and removed.
+        /// </summary>
+        /// <typeparam name="T">Type with list property to test.</typeparam>
+        /// <param name="property">Property with list to test.</param>
+        public static void NotifiesListChanged<T>(PropertyInfo property) where T : INotifyPropertyChanged
+        {
+            NotifiesListChanged(property, Activator.CreateInstance<T>());
+        }
+
+        /// <summary>
+        /// Tests that a list notifies when items are randomly added and removed.
+        /// </summary>
+        /// <typeparam name="T">Type with list property to test.</typeparam>
+        /// <param name="propertyName">Name of property with list to test.</param>
+        /// <param name="objectToTest">Object with list property to test.</param>
+        public static void NotifiesListChanged<T>(string propertyName, T objectToTest) where T : INotifyPropertyChanged
+        {
+            NotifiesListChanged(objectToTest.GetType().GetProperty(propertyName), objectToTest);
+        }
+
+        /// <summary>
+        /// Tests that a list notifies when items are randomly added and removed.
+        /// </summary>
+        /// <typeparam name="T">Type with list property to test.</typeparam>
+        /// <param name="property">Property with list to test.</param>
+        /// <param name="objectToTest">Object with list property to test.</param>
+        public static void NotifiesListChanged<T>(PropertyInfo property, T objectToTest) where T : INotifyPropertyChanged
+        {
+            NotifiesListChanged(property.Name, objectToTest, (IList)property.GetValue(objectToTest));
+        }
+
+        /// <summary>
+        /// Tests that a list notifies when items are randomly added and removed.
+        /// </summary>
+        /// <typeparam name="T">Type with list property to test.</typeparam>
+        /// <param name="propertyName">Name of property with list to test.</param>
+        /// <param name="objectToTest">Object with list property to test.</param>
+        /// <param name="listToTest">List to test. This list should derive from <see cref="ObservableCollection{T}"/>.</param>
+        public static void NotifiesListChanged<T>(string propertyName, T objectToTest, IList listToTest) where T : INotifyPropertyChanged
+        {
+            NotifiesListChangedOnItemsAdded(propertyName, objectToTest, listToTest);
+            NotifiesListChangedOnItemsRemoved(propertyName, objectToTest, listToTest);
         }
 
         #endregion
 
         #region NotifiesListChangedOnItemsAdded
 
+        /// <summary>
+        /// Tests that when items are added to a list, the object containing the list notifies change.
+        /// </summary>
+        /// <typeparam name="T">Type with list property to test.</typeparam>
+        /// <param name="listPropertyName">Name of property with list to test.</param>
         public static void NotifiesListChangedOnItemsAdded<T>(string listPropertyName) where T : INotifyPropertyChanged
         {
             NotifiesListChangedOnItemsAdded(typeof(T).GetType().GetProperty(listPropertyName), Activator.CreateInstance<T>());
         }
 
+        /// <summary>
+        /// Tests that when items are added to a list, the object containing the list notifies change.
+        /// </summary>
+        /// <typeparam name="T">Type with list property to test.</typeparam>
+        /// <param name="listProperty">Property with list to test.</param>
         public static void NotifiesListChangedOnItemsAdded<T>(PropertyInfo listProperty) where T : INotifyPropertyChanged
         {
             NotifiesListChangedOnItemsAdded(listProperty, Activator.CreateInstance<T>());
@@ -168,9 +305,9 @@ namespace JSR.TestAsserts
         /// <summary>
         /// Tests that when items are added to a list, the object containing the list notifies change.
         /// </summary>
-        /// <typeparam name="T">Type of object that contains the list property.</typeparam>
-        /// <param name="listPropertyName">Name of the property that contains the list.</param>
-        /// <param name="objectToTest">Object that contains the list.</param>
+        /// <typeparam name="T">Type with list property to test.</typeparam>
+        /// <param name="listPropertyName">Name of property with list to test.</param>
+        /// <param name="objectToTest">Object twith list property to test.</param>
         public static void NotifiesListChangedOnItemsAdded<T>(string listPropertyName, T objectToTest) where T : INotifyPropertyChanged
         {
             NotifiesListChangedOnItemsAdded(typeof(T).GetType().GetProperty(listPropertyName), objectToTest);
@@ -179,78 +316,93 @@ namespace JSR.TestAsserts
         /// <summary>
         /// Tests that when items are added to a list, the object containing the list notifies change.
         /// </summary>
-        /// <typeparam name="T">Type of object that contains the list property.</typeparam>
-        /// <param name="listProperty">Property that contains the list.</param>
-        /// <param name="objectToTest">Object that contains the list.</param>
+        /// <typeparam name="T">Type with list property to test..</typeparam>
+        /// <param name="listProperty">Property with list to test.</param>
+        /// <param name="objectToTest">Object with list to test.</param>
         public static void NotifiesListChangedOnItemsAdded<T>(PropertyInfo listProperty, T objectToTest) where T : INotifyPropertyChanged
         {
-            dynamic list = listProperty.GetValue(objectToTest);
-
-            NotifiesListChangedOnItemsAdded(listProperty, objectToTest, list);
-
-
-
-            if (!typeof(IList).IsAssignableFrom(listProperty.PropertyType) || !typeof(INotifyPropertyChanged).IsAssignableFrom(listProperty.PropertyType))
-            {
-                throw new ArgumentException($"The property {listProperty.Name} does not implement either or both IList or INotifyPropertyChanged", listProperty.Name);
-            }
-
-
-
-
-
-
-            Type listType = list.GetType().GenericTypeArguments[0];
-
-            List<string> propertiesChanged = new List<string>();
-            objectToTest.PropertyChanged += (sender, args) => propertiesChanged.Add(args.PropertyName);
-
-            int count = new Random().Next(5, 20);
-
-            for (int i = 0; i < count; i++)
-            {
-                ((IList)list).Add(Activator.CreateInstance(listType));
-
-                Assert.AreEqual(i, propertiesChanged.Count(x => x == listProperty.Name));
-            }
+            NotifiesListChangedOnItemsAdded(listProperty.Name, objectToTest, (IList)listProperty.GetValue(objectToTest));
         }
 
         /// <summary>
-        /// Tests that lists raise the <see cref="PropertyChangedEventHandler"/> when items are added.
+        /// Tests that when items are added to a list, the object containing the list notifies change.
         /// </summary>
-        /// <typeparam name="T">Type that contains the list property.</typeparam>
-        /// <typeparam name="TlistItem">Type of object contained within the list.</typeparam>
-        /// <param name="listProperty">Property that contains the list.</param>
-        /// <param name="objectToTest">Object that contains the list.</param>
-        /// <param name="list">List to test.</param>
-        public static void NotifiesListChangedOnItemsAdded<T, TlistItem>(PropertyInfo listProperty, T objectToTest, ObservableCollection<TlistItem> list) where T : INotifyPropertyChanged
-        {
-            NotifiesListChangedOnItemsAdded(listProperty.Name, objectToTest, list);
-        }
-
-        /// <summary>
-        /// Tests that lists raise the <see cref="PropertyChangedEventHandler"/> when items are added.
-        /// </summary>
-        /// <typeparam name="T">Type that contains the list property.</typeparam>
-        /// <typeparam name="TlistItem">Type of object contained within the list.</typeparam>
-        /// <param name="listPropertyName">Name of the property that contains the list.</param>
-        /// <param name="objectToTest">Object that contains the list.</param>
-        /// <param name="list">The list to add items to.</param>
-        public static void NotifiesListChangedOnItemsAdded<T, TlistItem>(string listPropertyName, T objectToTest, ObservableCollection<TlistItem> list) where T : INotifyPropertyChanged
+        /// <typeparam name="T">Type with list property to test.</typeparam>
+        /// <param name="listPropertyName">Name of property with list to test.</param>
+        /// <param name="objectToTest">Object with list property to test.</param>
+        /// <param name="listToTest">List to test. This list should derive from <see cref="ObservableCollection{T}"/>.</param>
+        public static void NotifiesListChangedOnItemsAdded<T>(string listPropertyName, T objectToTest, IList listToTest) where T : INotifyPropertyChanged
         {
             List<string> propertiesChanged = new List<string>();
             objectToTest.PropertyChanged += (sender, args) => propertiesChanged.Add(args.PropertyName);
 
-            int count = new Random().Next(5, 20);
+            Assert.AreEqual(ObjectUtilities.AddRandomItemsToList(listToTest), propertiesChanged.Count(x => x == listPropertyName));
+        }
 
-            for (int i = 0; i < count; i++)
+        #endregion
+
+        #region NotifiesListChangesOnItemsRemoved
+
+        /// <summary>
+        /// Tests that a list notifies change when a random number of items are removed.
+        /// </summary>
+        /// <typeparam name="T">Type with list property to test.</typeparam>
+        /// <param name="listPropertyName">Name of property with list to test.</param>
+        public static void NotifiesListChangedOnItemsRemoved<T>(string listPropertyName) where T : INotifyPropertyChanged
+        {
+            NotifiesListChangedOnItemsRemoved(listPropertyName, Activator.CreateInstance<T>());
+        }
+
+        /// <summary>
+        /// Tests that a list notifies change when a random number of items are removed.
+        /// </summary>
+        /// <typeparam name="T">Type with list property to test.</typeparam>
+        /// <param name="listProperty">Property with list to test.</param>
+        public static void NotifiesListChangedOnItemsRemoved<T>(PropertyInfo listProperty) where T : INotifyPropertyChanged
+        {
+            NotifiesListChangedOnItemsRemoved(listProperty, Activator.CreateInstance<T>());
+        }
+
+        /// <summary>
+        /// Tests that a list notifies change when a random number of items are removed.
+        /// </summary>
+        /// <typeparam name="T">Type with list property to test.</typeparam>
+        /// <param name="listPropertyName">Name of property with list to test.</param>
+        /// <param name="objectToTest">Object with list property to test.</param>
+        public static void NotifiesListChangedOnItemsRemoved<T>(string listPropertyName, T objectToTest) where T : INotifyPropertyChanged
+        {
+            NotifiesListChangedOnItemsRemoved(objectToTest.GetType().GetProperty(listPropertyName), objectToTest);
+        }
+
+        /// <summary>
+        /// Tests that a list notifies change when a random number of items are removed.
+        /// </summary>
+        /// <typeparam name="T">Type with list property to test.</typeparam>
+        /// <param name="listProperty">Property with list to test.</param>
+        /// <param name="objectToTest">Object with list property to test.</param>
+        public static void NotifiesListChangedOnItemsRemoved<T>(PropertyInfo listProperty, T objectToTest) where T : INotifyPropertyChanged
+        {
+            NotifiesListChangedOnItemsRemoved(listProperty.Name, objectToTest, (IList)listProperty.GetValue(objectToTest));
+        }
+
+        /// <summary>
+        /// Tests that a list notifies change when a random number of items are removed.
+        /// </summary>
+        /// <typeparam name="T">Type with list property to test.</typeparam>
+        /// <param name="listPropertyName">Name of the property containing the list.</param>
+        /// <param name="objectToTest">Object that contains the list.</param>
+        /// <param name="listToTest">List to test. This list should derive from <see cref="ObservableCollection{T}"/>.</param>
+        public static void NotifiesListChangedOnItemsRemoved<T>(string listPropertyName, T objectToTest, IList listToTest) where T : INotifyPropertyChanged
+        {
+            if (listToTest.Count <= 0)
             {
-                list.Add(Activator.CreateInstance<TlistItem>());
-
-                CollectionAssert.Contains(propertiesChanged, listPropertyName);
+                ObjectUtilities.PopulateListWithRandomValues(listToTest);
             }
 
-            Assert.AreEqual(count, propertiesChanged.Count(x => x == listPropertyName));
+            List<string> propertiesChanged = new List<string>();
+            objectToTest.PropertyChanged += (sender, args) => propertiesChanged.Add(args.PropertyName);
+
+            Assert.AreEqual(ObjectUtilities.RemoveRandomItemsFromList(listToTest), propertiesChanged.Count(x => x == listPropertyName));
         }
 
         #endregion

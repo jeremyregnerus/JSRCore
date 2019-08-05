@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using JSR.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,6 +14,7 @@ namespace JSR.TestAsserts
     /// <summary>
     /// Tests property changes within objects.
     /// </summary>
+    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1124:DoNotUseRegions", Justification = "Regions used for signatures.")]
     public static class PropertyChangeAssert
     {
         /// <summary>
@@ -24,14 +26,14 @@ namespace JSR.TestAsserts
             ChangesValues(Activator.CreateInstance<T>());
         }
 
-        /// <summary>
-        /// Tests that an object's property values can be changed.
-        /// </summary>
-        /// <param name="typeToTest">Type of object to test.</param>
-        public static void ChangesValues(Type typeToTest)
-        {
-            ChangesValues((dynamic)Activator.CreateInstance(typeToTest));
-        }
+        /////// <summary>
+        /////// Tests that an object's property values can be changed.
+        /////// </summary>
+        /////// <param name="typeToTest">Type of object to test.</param>
+        ////public static void ChangesValues(Type typeToTest)
+        ////{
+        ////    ChangesValues(Activator.CreateInstance(typeToTest));
+        ////}
 
         /// <summary>
         /// Test that an object's property values can be changed.
@@ -40,12 +42,8 @@ namespace JSR.TestAsserts
         /// <param name="objectToTest">Object with properties to test properties.</param>
         public static void ChangesValues<T>(T objectToTest)
         {
-            ChangesValues(PropertyUtilities.GetListOfPropertiesWithPublicGetAndSetMethods<T>(), objectToTest);
-
-            foreach (PropertyInfo property in PropertyUtilities.GetListOfPropertiesWithClassValues(objectToTest))
-            {
-                ChangesValues((dynamic)property.GetValue(objectToTest));
-            }
+            ChangesValues(PropertyUtilities.GetListOfProperties(objectToTest, true, false, false, true, true, true), objectToTest);
+            ChangesValues(PropertyUtilities.GetListOfPropertiesWithClassTypes(objectToTest, true, true, true));
         }
 
         /// <summary>
@@ -68,27 +66,25 @@ namespace JSR.TestAsserts
             ChangesValues(propertiesToTest, Activator.CreateInstance<T>());
         }
 
-        /// <summary>
-        /// Tests that a type's property values can be changed.
-        /// </summary>
-        /// <param name="propertyNamesToTest">List of property names to test.</param>
-        /// <param name="typeToTest">Type of object to test.</param>
-        public static void ChangesValues(List<string> propertyNamesToTest, Type typeToTest)
-        {
-            dynamic obj = Activator.CreateInstance(typeToTest);
-            ChangesValues(propertyNamesToTest, obj);
-        }
+        /////// <summary>
+        /////// Tests that a type's property values can be changed.
+        /////// </summary>
+        /////// <param name="propertyNamesToTest">List of property names to test.</param>
+        /////// <param name="typeToTest">Type of object to test.</param>
+        ////public static void ChangesValues(List<string> propertyNamesToTest, Type typeToTest)
+        ////{
+        ////    ChangesValues(propertyNamesToTest, Activator.CreateInstance(typeToTest));
+        ////}
 
-        /// <summary>
-        /// Tests that a type's property values can be changed.
-        /// </summary>
-        /// <param name="propertiesToTest">List of properties to test.</param>
-        /// <param name="typeToTest">Type of object to test.</param>
-        public static void ChangesValues(List<PropertyInfo> propertiesToTest, Type typeToTest)
-        {
-            dynamic obj = Activator.CreateInstance(typeToTest);
-            ChangesValues(propertiesToTest, obj);
-        }
+        /////// <summary>
+        /////// Tests that a type's property values can be changed.
+        /////// </summary>
+        /////// <param name="propertiesToTest">List of properties to test.</param>
+        /////// <param name="typeToTest">Type of object to test.</param>
+        ////public static void ChangesValues(List<PropertyInfo> propertiesToTest, Type typeToTest)
+        ////{
+        ////    ChangesValues(propertiesToTest, Activator.CreateInstance(typeToTest));
+        ////}
 
         /// <summary>
         /// Tests that an object's propery values can be changed.
@@ -138,27 +134,25 @@ namespace JSR.TestAsserts
             ChangesValue(property, Activator.CreateInstance<T>());
         }
 
-        /// <summary>
-        /// Tests that a specific property within an object's value can be changed.
-        /// </summary>
-        /// <param name="propertyName">Name of property to test.</param>
-        /// <param name="typeToTest">Type of object to test.</param>
-        public static void ChangesValue(string propertyName, Type typeToTest)
-        {
-            dynamic obj = Activator.CreateInstance(typeToTest);
-            ChangesValue(propertyName, obj);
-        }
+        /////// <summary>
+        /////// Tests that a specific property within an object's value can be changed.
+        /////// </summary>
+        /////// <param name="propertyName">Name of property to test.</param>
+        /////// <param name="typeToTest">Type of object to test.</param>
+        ////public static void ChangesValue(string propertyName, Type typeToTest)
+        ////{
+        ////    ChangesValue(propertyName, Activator.CreateInstance(typeToTest));
+        ////}
 
-        /// <summary>
-        /// Tests that a specific property with an object can change it's value.
-        /// </summary>
-        /// <param name="property">Property to test.</param>
-        /// <param name="typeToTest">Type of object to test.</param>
-        public static void ChangesValue(PropertyInfo property, Type typeToTest)
-        {
-            dynamic obj = Activator.CreateInstance(typeToTest);
-            ChangesValue(property, obj);
-        }
+        /////// <summary>
+        /////// Tests that a specific property with an object can change it's value.
+        /////// </summary>
+        /////// <param name="property">Property to test.</param>
+        /////// <param name="typeToTest">Type of object to test.</param>
+        ////public static void ChangesValue(PropertyInfo property, Type typeToTest)
+        ////{
+        ////    ChangesValue(property, Activator.CreateInstance(typeToTest));
+        ////}
 
         /// <summary>
         /// Test that a specific property within an object's value can be changed.
@@ -168,7 +162,7 @@ namespace JSR.TestAsserts
         /// <param name="objectToTest">Object with the property to test.</param>
         public static void ChangesValue<T>(string propertyName, T objectToTest)
         {
-            ChangesValue(typeof(T).GetProperty(propertyName), objectToTest);
+            ChangesValue(objectToTest.GetType().GetProperty(propertyName), objectToTest);
         }
 
         /// <summary>

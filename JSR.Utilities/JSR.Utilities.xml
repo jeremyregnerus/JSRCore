@@ -71,14 +71,14 @@
             <param name="propertiesToPopulate">List of <see cref="T:System.Reflection.PropertyInfo"/> to populate with random values.</param>
             <returns>A new object of the specified type with populated values is specific properties.</returns>
         </member>
-        <member name="M:JSR.Utilities.ObjectUtilities.PopulateObjectWithRandomValues(System.Object)">
+        <member name="M:JSR.Utilities.ObjectUtilities.PopulateObjectWithRandomValues``1(``0)">
             <summary>
             Populates an object's properties with random values.
             </summary>
             <typeparam name="T"><see cref="T:System.Type"/> of <see cref="T:System.Object"/> to populate.</typeparam>
             <param name="objectToPopulate"><see cref="T:System.Object"/> to populate with random values.</param>
         </member>
-        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertiesWithRandomValues(System.Object,System.Collections.Generic.List{System.String})">
+        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertiesWithRandomValues``1(``0,System.Collections.Generic.List{System.String})">
             <summary>
             Adds random values to the specified properties of an object.
             </summary>
@@ -86,7 +86,7 @@
             <param name="objectWithProperties">Object to populate properties to.</param>
             <param name="propertyNames">List of Property Names specifying which properties to populate values.</param>
         </member>
-        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertiesWithRandomValues(System.Object,System.Collections.Generic.List{System.Reflection.PropertyInfo})">
+        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertiesWithRandomValues``1(``0,System.Collections.Generic.List{System.Reflection.PropertyInfo})">
             <summary>
             Adds random values to the specified properties of an object.
             </summary>
@@ -94,7 +94,7 @@
             <param name="objectWithProperties">Object to populate properties to.</param>
             <param name="properties">List of <see cref="T:System.Reflection.PropertyInfo"/> specifying which properties to populate values.</param>
         </member>
-        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertyWithRandomValue(System.Object,System.String)">
+        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertyWithRandomValue``1(``0,System.String)">
             <summary>
             Adds a random value to a property.
             </summary>
@@ -102,7 +102,7 @@
             <param name="objectWithProperty">Object to add the property value to.</param>
             <param name="propertyName">Name of the property to add a random value to.</param>
         </member>
-        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertyWithRandomValue(System.Object,System.Reflection.PropertyInfo)">
+        <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertyWithRandomValue``1(``0,System.Reflection.PropertyInfo)">
             <summary>
             Adds a random value to a property.
             </summary>
@@ -118,20 +118,43 @@
             <param name="listToPopulate">List to populate with random values.</param>
             <param name="parentObjectType">Type of the object that contains the list.</param>
         </member>
-        <member name="M:JSR.Utilities.ObjectUtilities.PopulateListWithRandomValue``1(``0,System.Type)">
+        <member name="M:JSR.Utilities.ObjectUtilities.AddRandomItemToList``1(``0)">
             <summary>
             Adds a random value to a list.
             </summary>
-            <typeparam name="T"><see cref="T:System.Type"/> of list to add the value to.</typeparam>
-            <param name="listToPopulate"><see cref="T:System.Collections.Generic.List`1"/> to add the new random value to.</param>
-            <param name="parentObjectType">Type of the object that contains the list.</param>
+            <typeparam name="T">Type of list.</typeparam>
+            <param name="listToAddItem">List to add item to.</param>
         </member>
-        <member name="M:JSR.Utilities.ObjectUtilities.ChangeListItems``1(``0)">
+        <member name="M:JSR.Utilities.ObjectUtilities.AddRandomItemToList``1(``0,System.Type)">
+            <summary>
+            Adds a random value to a list.
+            </summary>
+            <typeparam name="T">Type of list.</typeparam>
+            <param name="listToAddItem">List to add item to.</param>
+            <param name="listObjectType">Type of item to add to list.</param>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.AddRandomItemsToList``1(``0)">
+            <summary>
+            Add a random number of new items to a list.
+            </summary>
+            <typeparam name="T">Type of list.</typeparam>
+            <param name="listToAddItemsTo">List to add items to.</param>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.AddRandomItemsToList``1(``0,System.Type)">
+            <summary>
+            Add a random number of new items to a list.
+            </summary>
+            <typeparam name="T">Type of list.</typeparam>
+            <param name="listToAddItems">List to add items to.</param>
+            <param name="listObjectType">Type of items to add to list.</param>
+        </member>
+        <member name="M:JSR.Utilities.ObjectUtilities.ChangeListItems``1(``0,System.Boolean)">
             <summary>
             Changes the items within a list to populate them with new random values.
             </summary>
             <typeparam name="T">Type of list with items to change.</typeparam>
             <param name="listToChange">List with items to change.</param>
+            <param name="allItems">Change all items in list. False changes random items.</param>
         </member>
         <member name="M:JSR.Utilities.ObjectUtilities.RemoveRandomItemsFromList``1(``0)">
             <summary>
@@ -140,399 +163,436 @@
             <typeparam name="T">Type of list to remove items from.</typeparam>
             <param name="listToRemoveItems">List to remove items from.</param>
         </member>
-        <member name="M:JSR.Utilities.ObjectUtilities.GetObjectListByPropertyName``1(``0,System.String)">
-            <summary>
-            Gets a list from an object using the property name where the list is.
-            </summary>
-            <typeparam name="T"><see cref="T:System.Type"/> of <see cref="T:System.Object"/> that contains the <see cref="T:System.Collections.IList"/> property.</typeparam>
-            <param name="objectWithList"><see cref="T:System.Object"/> that contains a property of type <see cref="T:System.Collections.IList"/>.</param>
-            <param name="listPropertyName">Name of the property that contains the <see cref="T:System.Collections.IList"/>.</param>
-            <returns>The <see cref="T:System.Collections.IList"/> contained within the named property.</returns>
-        </member>
-        <member name="T:JSR.Utilities.OutputUtilities">
-            <summary>
-            Provides console output utilities for objects.
-            </summary>
-        </member>
-        <member name="M:JSR.Utilities.OutputUtilities.PrintObjectProperties``1(``0)">
-            <summary>
-            Prints the property values of an object, and controls indentation by level.
-            </summary>
-            <typeparam name="T">Type to print property values from.</typeparam>
-            <param name="objectToPrint">Object to print property values from.</param>
-        </member>
-        <member name="M:JSR.Utilities.OutputUtilities.PrintObjectProperties``1(``0,System.Int32)">
-            <summary>
-            Prints the property values of an object, and controls indentation by level.
-            </summary>
-            <typeparam name="T">Type to print property values from.</typeparam>
-            <param name="objectToPrint">Object to print property values from.</param>
-            <param name="level">Level of indentation.</param>
-        </member>
         <member name="T:JSR.Utilities.PropertyUtilities">
             <summary>
             Provides Utilties for Class <see cref="T:System.Reflection.PropertyInfo"/> properties.
             </summary>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod``1(System.String)">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsReadWrite``1(System.String)">
             <summary>
-            Checks if a property has a public Get and Set method for a Type.
+            Checks if a property is readwrite.
             </summary>
-            <typeparam name="T">Type of object that contains the named property.</typeparam>
-            <param name="propertyName">Name of the property to check.</param>
-            <returns>True if the property is both public Get and Set.</returns>
+            <typeparam name="T">Type with property to check.</typeparam>
+            <param name="propertyName">Name of property to check.</param>
+            <returns>True if the property is readwrite.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod``1(System.String,``0)">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsReadWrite``1(``0,System.String)">
             <summary>
-            Checks if a property has a public Get and Set method for a Type.
+            Check if a property is readwrite.
             </summary>
-            <typeparam name="T">Type of object that contains the named property.</typeparam>
-            <param name="propertyName">Name of the property to check.</param>
-            <param name="objectWithProperty">An object that contains the named property.</param>
-            <returns>True if the property is both public Get and Set.</returns>
+            <typeparam name="T">Type with property to check.</typeparam>
+            <param name="objectWithProperty">Object with property to check.</param>
+            <param name="propertyName">Name of property to check.</param>
+            <returns>True if the property is readwrite.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod(System.String,System.Type)">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsReadWrite(System.Type,System.String)">
             <summary>
-            Checks if a property has a public Get and Set method for a Type.
+            Checks if a property is readwrite.
             </summary>
-            <param name="propertyName">Name of the property to check.</param>
-            <param name="type">Type of object that contains the named property.</param>
-            <returns>True if the property is both public Get and Set.</returns>
+            <param name="type">Type with property to check.</param>
+            <param name="propertyName">Name of property to check.</param>
+            <returns>True if the property is readwrite.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicGetAndSetMethod(System.Reflection.PropertyInfo)">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsReadWrite(System.Reflection.PropertyInfo)">
             <summary>
-            Checks if a property has a public Get and Set method for a Type.
+            Checks if a property is readwrite.
             </summary>
             <param name="property">Property to check.</param>
-            <returns>True if the property is both public Get and Set.</returns>
+            <returns>True if the property is readwrite.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicGetAndSetMethods``1">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsReadOnly``1(System.String)">
             <summary>
-            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> for each property that has both public Get and Set accessors.
+            Checks if a property is readonly.
             </summary>
-            <typeparam name="T">Type of object to get the properties from.</typeparam>
-            <returns>List of <see cref="T:System.Reflection.PropertyInfo"/> with public Get and Set Accessors.</returns>
+            <typeparam name="T">Type with property to check.</typeparam>
+            <param name="propertyName">Name of property to check.</param>
+            <returns>True if the property is readonly.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicGetAndSetMethods``1(``0)">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsReadOnly``1(``0,System.String)">
             <summary>
-            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> for each property that has both public Get and Set accessors.
+            Checks if a property is readonly.
             </summary>
-            <typeparam name="T">Type of object to get the properties from.</typeparam>
-            <param name="objectWithProperties">An Object that contains properties to evaluate.</param>
-            <returns>List of <see cref="T:System.Reflection.PropertyInfo"/> with public Get and Set Accessors.</returns>
+            <typeparam name="T">Type with property to check.</typeparam>
+            <param name="objectWithProperty">Object with property to check.</param>
+            <param name="propertyName">Name of property to check.</param>
+            <returns>True if the property is readonly.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicGetAndSetMethods(System.Type)">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsReadOnly(System.Type,System.String)">
             <summary>
-            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> for each property that has both public Get and Set accessors.
+            Checks if a property is readonly.
             </summary>
-            <param name="type">Type of object to get the properties from.</param>
-            <returns>List of <see cref="T:System.Reflection.PropertyInfo"/> with public Get and Set Accessors.</returns>
+            <param name="type">Type with property to check.</param>
+            <param name="propertyName">Name of property to check.</param>
+            <returns>True if the property is readonly.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicGetAndSetMethods``1">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsReadOnly(System.Reflection.PropertyInfo)">
             <summary>
-            Gets a list of Property Names that have public Get and Set methods.
+            Checks if a property is readonly.
             </summary>
-            <typeparam name="T">Type of object to evaluate.</typeparam>
-            <returns>A list of <see cref="T:System.String"/> for each property that has a public get and set method.</returns>
+            <param name="property">Property to check.</param>
+            <returns>True if the property is readonly.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicGetAndSetMethods``1(``0)">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsWriteOnly``1(System.String)">
             <summary>
-            Gets a list of Property Names that have public Get and Set methods.
+            Checks if a property is writeonly.
             </summary>
-            <typeparam name="T">Type of object to evaluate.</typeparam>
-            <param name="objectWithProperties">Object to evaluate.</param>
-            <returns>A list of <see cref="T:System.String"/> for each property that has a public get and set method.</returns>
+            <typeparam name="T">Type with property to check.</typeparam>
+            <param name="propertyName">Name of property to check.</param>
+            <returns>True if the property is writeonly.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicGetAndSetMethods(System.Type)">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsWriteOnly``1(``0,System.String)">
             <summary>
-            Gets a list of Property Names that have public Get and Set methods.
+            Checks if a property is writeonly.
             </summary>
-            <param name="type">Type of object to evaluate.</param>
-            <returns>A list of <see cref="T:System.String"/> for each property that has a public get and set method.</returns>
+            <typeparam name="T">Type with property to check.</typeparam>
+            <param name="objectWithProperty">Object with property to check.</param>
+            <param name="propertyName">Name of property to check.</param>
+            <returns>True if the property is writeonly.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicGetMethod``1(System.String)">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsWriteOnly(System.Type,System.String)">
             <summary>
-            Checks if a property has a public get method for a Type.
+            Checks if a property is writeonly.
             </summary>
-            <typeparam name="T">Type with the named property.</typeparam>
-            <param name="propertyName">Name of property to evaluate.</param>
-            <returns>True if the property has a public get method, otherwise false.</returns>
+            <param name="type">Type with property to check.</param>
+            <param name="propertyName">Name of property to check.</param>
+            <returns>True if the property is writeonly.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicGetMethod``1(System.String,``0)">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsWriteOnly(System.Reflection.PropertyInfo)">
             <summary>
-            Checks if a property has a public get method for an object.
+            Checks if a property is writeonly.
             </summary>
-            <typeparam name="T">Type of object with named property.</typeparam>
-            <param name="propertyName">Name of the property to evaluate.</param>
-            <param name="objectWithProperty">Object with named property.</param>
-            <returns>True if the property has a public get method, otherwise false.</returns>
+            <param name="property">Property to check.</param>
+            <returns>True if the property is writeonly.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicGetMethod(System.String,System.Type)">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsClass``1(System.String)">
             <summary>
-            Checks if a property has a public get method for an object.
+            Checks if a property contains a class type.
             </summary>
-            <param name="propertyName">Name of the property to evaluate.</param>
-            <param name="type">Type with named property.</param>
-            <returns>True if the property has a public get method, otherwise false.</returns>
+            <typeparam name="T">Type with property to check.</typeparam>
+            <param name="propertyName">Property name to check.</param>
+            <returns>True if the property is a class.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicGetMethod(System.Reflection.PropertyInfo)">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsClass``1(``0,System.String)">
             <summary>
-            Checks if a property has a public get method.
+            Checks if a property contains a class type.
             </summary>
-            <param name="property"><see cref="T:System.Reflection.PropertyInfo"/> to check for public Get method.</param>
-            <returns>True if the property has a public get method, otherwise false.</returns>
+            <typeparam name="T">Type with property to check.</typeparam>
+            <param name="objectWithProperty">Object with property to check.</param>
+            <param name="propertyName">Property name to check.</param>
+            <returns>True if the property is a class.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicGetMethod``1">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsClass(System.Type,System.String)">
             <summary>
-            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Get methods.
+            Checks if a property contains a class type.
             </summary>
-            <typeparam name="T">Type that contains properties.</typeparam>
-            <returns>A list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Get methods.</returns>
+            <param name="type">Type with property to check.</param>
+            <param name="propertyName">Property name to check.</param>
+            <returns>True if the property is a class.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicGetMethod``1(``0)">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsClass(System.Reflection.PropertyInfo)">
             <summary>
-            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Get methods.
+            Checks if a property contains class type.
             </summary>
-            <typeparam name="T">Type that contains properties.</typeparam>
-            <param name="objectWithProperties">Object that contains properties.</param>
-            <returns>A list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Get methods.</returns>
+            <param name="property">Property to check.</param>
+            <returns>True if the property is a class.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicGetMethod(System.Type)">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsList``1(System.String)">
             <summary>
-            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Get methods.
+            Checks if the property is a list.
             </summary>
-            <param name="type">Type that has properties.</param>
-            <returns>A list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Get methods.</returns>
+            <typeparam name="T">Type with property to check.</typeparam>
+            <param name="propertyName">Name of property to check.</param>
+            <returns>True if the property is a list.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicGetMethod``1">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsList``1(``0,System.String)">
             <summary>
-            Get a list of property names that have public Get methods.
+            Checks if the property is a list.
             </summary>
-            <typeparam name="T">Type that contains properties.</typeparam>
-            <returns>A list of property names that have public get methods.</returns>
+            <typeparam name="T">Type with property to check.</typeparam>
+            <param name="objectWithProperty">Object with property to check.</param>
+            <param name="propertyName">Name of property to check.</param>
+            <returns>True if the property is a list.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicGetMethod``1(``0)">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsList(System.Type,System.String)">
             <summary>
-            Get a list of property names that have public Get methods.
+            Checks if a property contains a list type.
             </summary>
-            <typeparam name="T">Type that contains properties.</typeparam>
-            <param name="objectWithProperties">Object that contains properties.</param>
-            <returns>A list of property names that have public get methods.</returns>
+            <param name="type">Type with property to check.</param>
+            <param name="propertyName">Property Name to check.</param>
+            <returns>True if the property is a list.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicGetMethod(System.Type)">
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsList(System.Reflection.PropertyInfo)">
             <summary>
-            Get a list of property names that have public Get methods.
+            Checks if a property contains a list type.
             </summary>
-            <param name="type">Type that contains properties.</param>
-            <returns>A list of property names that have public get methods.</returns>
+            <param name="property">Property to check.</param>
+            <returns>True if the property is a list.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyProperties``1">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfProperties``1(System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Gets a list of properties that are read-only.
+            Returns a list of properties that meet the argument criteria.
             </summary>
-            <typeparam name="T">Type of object with proeprties to evaluate.</typeparam>
-            <returns>A list of properties that are read-only.</returns>
+            <typeparam name="T">Type to get the properties from.</typeparam>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>A list of <see cref="T:System.Reflection.PropertyInfo"/>.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyProperties``1(``0)">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfProperties``1(``0,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Gets a list of properties that are read-only.
+            Returns a list of properties that meet the argument criteria.
             </summary>
-            <typeparam name="T">Type of object with proeprties to evaluate.</typeparam>
-            <param name="objectWithProperties">Object with properties to evaluate.</param>
-            <returns>A list of properties that are read-only.</returns>
+            <typeparam name="T">Type to get the properties from.</typeparam>
+            <param name="objectWithProperties">Object to get properties from.</param>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>A list of <see cref="T:System.Reflection.PropertyInfo"/>.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyProperties(System.Type)">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfProperties(System.Type,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Gets a list of properties that are read-only.
+            Returns a list of properties that meet the argument criteria.
             </summary>
-            <param name="type">Type of object with proeprties to evaluate.</param>
-            <returns>A list of properties that are read-only.</returns>
+            <param name="type">Type to get the properties from.</param>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>A list of <see cref="T:System.Reflection.PropertyInfo"/>.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicSetMethod``1(System.String)">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNames``1(System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Checks if the property has a public set method.
+            Returns a list of properties names that meet the argument criteria.
             </summary>
-            <typeparam name="T">Type that contains the named property.</typeparam>
-            <param name="propertyName">Name of property to evaluate.</param>
-            <returns>True if the property has a public set method, otherwise false.</returns>
+            <typeparam name="T">Type to get property names from.</typeparam>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>A list of property names.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicSetMethod``1(System.String,``0)">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNames``1(``0,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Checks if the property has a public set method.
+            Returns a list of properties names that meet the argument criteria.
             </summary>
-            <typeparam name="T">Type that contains the named property.</typeparam>
-            <param name="propertyName">Name of property to evaluate.</param>
-            <param name="objectWithProperty">Object that contains the named property.</param>
-            <returns>True if the property has a public set method, otherwise false.</returns>
+            <typeparam name="T">Type to get property names from.</typeparam>
+            <param name="objectWithProperties">Object to get property names from.</param>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>A list of property names.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicSetMethod(System.String,System.Type)">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNames(System.Type,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Checks if the property has a public set method.
+            Returns a list of property names that meet the argument criteria.
             </summary>
-            <param name="propertyName">Name of property to evaluate.</param>
-            <param name="type">Type with named property to check.</param>
-            <returns>True if the property has a public set method, otherwise false.</returns>
+            <param name="type">Type to get property names from.</param>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>A list of property names.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyHasPublicSetMethod(System.Reflection.PropertyInfo)">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithClassTypes``1(System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Checks if the property has a public set method.
-            </summary>
-            <param name="property"><see cref="T:System.Reflection.PropertyInfo"/> to check for public Set method.</param>
-            <returns>True if the property has a public set method, otherwise false.</returns>
-        </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicSetMethod``1">
-            <summary>
-            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Set methods.
-            </summary>
-            <typeparam name="T">Type that contains properties.</typeparam>
-            <returns>A list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Set methods.</returns>
-        </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicSetMethod``1(``0)">
-            <summary>
-            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Set methods.
-            </summary>
-            <typeparam name="T">Type that contains properties.</typeparam>
-            <param name="objectWithProperties">Object that contains properties.</param>
-            <returns>A list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Set methods.</returns>
-        </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithPublicSetMethod(System.Type)">
-            <summary>
-            Get a list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Set methods.
-            </summary>
-            <param name="type">Type that contains properties.</param>
-            <returns>A list of <see cref="T:System.Reflection.PropertyInfo"/> that have public Set methods.</returns>
-        </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicSetMethod``1">
-            <summary>
-            Get a list of property names that have public set methods.
-            </summary>
-            <typeparam name="T">Type that contains properties.</typeparam>
-            <returns>A list of property names that have public set methods.</returns>
-        </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicSetMethod``1(``0)">
-            <summary>
-            Get a list of property names that have public set methods.
-            </summary>
-            <typeparam name="T">Type that contains properties.</typeparam>
-            <param name="objectWithProperties">Object that contains properties.</param>
-            <returns>A list of property names that have public set methods.</returns>
-        </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithPublicSetMethod(System.Type)">
-            <summary>
-            Get a list of property names that have public set methods.
-            </summary>
-            <param name="type">Type that contains properties.</param>
-            <returns>A list of property names that have public set methods.</returns>
-        </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyProperties``1">
-            <summary>
-            Gets a list of properties that are write-only.
+            Gets a list of Properties with class values.
             </summary>
             <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-            <returns>A list of properties that are write-only.</returns>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <returns>A list of properties with class values.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyProperties``1(``0)">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithClassTypes``1(``0,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Gets a list of properties that are write-only.
-            </summary>
-            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-            <param name="objectWithProperties">Object with properties to evalute.</param>
-            <returns>A list of properties that are write-only.</returns>
-        </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyProperties(System.Type)">
-            <summary>
-            Gets a list of properties that are write-only.
-            </summary>
-            <param name="type">Type of object with properties to evaluate.</param>
-            <returns>A list of properties that are write-only.</returns>
-        </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithClassValues``1">
-            <summary>
-            Gets a list of Properties where their value type is a class.
-            </summary>
-            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-            <returns>A list of properties with class value types.</returns>
-        </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithClassValues``1(``0)">
-            <summary>
-            Gets a list of Properties where their value type is a class.
+            Gets a list of Properties with class values.
             </summary>
             <typeparam name="T">Type of object with properties to evaluate.</typeparam>
             <param name="objectWithProperties">Object with properties to evaluate.</param>
-            <returns>A list of properties with class value types.</returns>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <returns>A list of properties with class values.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithClassValues(System.Type)">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithClassTypes(System.Type,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Gets a list of Properties where their value type is a class.
+            Gets a list of Properties with class values.
             </summary>
             <param name="type">Type of object with properties to evaluate.</param>
-            <returns>A list of properties with class value types.</returns>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <returns>A list of properties with class values.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithClassValues``1">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithClassTypes``1(System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Gets a list of property names where their value type is a class.
+            Gets a list of property names with class values.
             </summary>
             <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-            <returns>A list of property names that have class value types.</returns>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <returns>A list of property names with class values.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithClassValues``1(``0)">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithClassTypes``1(``0,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Gets a list of property names where their value type is a class.
+            Gets a list of property names with class values.
             </summary>
             <typeparam name="T">Type of object with properties to evaluate.</typeparam>
             <param name="objectWithProperties">Object with properties to evaluate.</param>
-            <returns>A list of property names that have class value types.</returns>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <returns>A list of property names with class values.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithClassValues(System.Type)">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithClassTypes(System.Type,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Gets a list of property names where their value type is a class.
+            Gets a list of property names with class values.
             </summary>
             <param name="type">Type of object with properties to evaluate.</param>
-            <returns>A list of property names that have class value types.</returns>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <returns>A list of property names with class values.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithListValues``1">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithListTypes``1(System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Gets a list of properties that have lists as their value type.
+            Gets a list of properties with list values.
             </summary>
             <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-            <returns>A list of properties with lists as their value type.</returns>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <returns>A list of properties with list values.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithListValues``1(``0)">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithListTypes``1(``0,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Gets a list of properties that have lists as their value type.
+            Gets a list of properties with list values.
             </summary>
             <typeparam name="T">Type of object with properties to evaluate.</typeparam>
             <param name="objectWithProperties">Object with properties to evaluate.</param>
-            <returns>A list of properties with lists as their value type.</returns>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <returns>A list of properties with lists values.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithListValues(System.Type)">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithListTypes(System.Type,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Gets a list of properties that have lists as their value type.
+            Gets a list of properties with list values.
             </summary>
-            <param name="type">Type of object with properties to evaluate.</param>
-            <returns>A list of properties with lists as their value type.</returns>
+            <param name="type">Type with properties to evaluate.</param>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <returns>A list of properties with lists values.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyValuesWithListValues``1">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithListTypes``1(System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Gets a list of property names that have lists as their value type.
+            Gets a list of property names with list values.
             </summary>
             <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-            <returns>A list of property names with lists as their value type.</returns>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <returns>A list of property names with list values.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyValuesWithListValues``1(``0)">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithListTypes``1(``0,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Gets a list of property names that have lists as their value type.
+            Gets a list of property names with list values.
             </summary>
             <typeparam name="T">Type of object with properties to evaluate.</typeparam>
             <param name="objectWithProperties">An object with properties to evaluate.</param>
-            <returns>A list of property names with lists as their value type.</returns>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <returns>A list of property names with list values.</returns>
         </member>
-        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyValuesWithListValues(System.Type)">
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithListTypes(System.Type,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Gets a list of property names that have lists as their value type.
+            Gets a list of property names with list values.
             </summary>
             <param name="type">Type of object with properties to evaluate.</param>
-            <returns>A list of property names with lists as their value type.</returns>
+            <param name="readWrite">Include ReadWrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <returns>A list of property names with list values.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithValueTypes``1(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of properties with value types.
+            </summary>
+            <typeparam name="T">Type with properties to evaluate.</typeparam>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <returns>A list of properties with value types.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithValueTypes``1(``0,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of properties with value types.
+            </summary>
+            <typeparam name="T">Type with properties to evaluate.</typeparam>
+            <param name="objectWithProperties">Object with properties to evaluate.</param>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <returns>A list of properties with value types.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithValueTypes(System.Type,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of properties with value types.
+            </summary>
+            <param name="type">Type with properties to evaluate.</param>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">include writeonly properties.</param>
+            <returns>A list of properties with value types.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithValueTypes``1(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of property names with value types.
+            </summary>
+            <typeparam name="T">Type with properties to evaluate.</typeparam>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <returns>A list of property names with value types.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithValueTypes``1(``0,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of property names with value types.
+            </summary>
+            <typeparam name="T">Type with properties to evaluate.</typeparam>
+            <param name="objectWithProperties">Object with properties to evaluate.</param>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <returns>A list of property names with value types.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithValueTypes(System.Type,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of property names with value types.
+            </summary>
+            <param name="type">Type with properties to evaluate.</param>
+            <param name="readWrite">Include readwrite properties.</param>
+            <param name="readOnly">Include readonly properties.</param>
+            <param name="writeOnly">Include writeonly properties.</param>
+            <returns>A list of property names with value types.</returns>
         </member>
         <member name="T:JSR.Utilities.RandomUtilities">
             <summary>
