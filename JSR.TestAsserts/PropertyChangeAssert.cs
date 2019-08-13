@@ -17,6 +17,37 @@ namespace JSR.TestAsserts
     [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1124:DoNotUseRegions", Justification = "Regions used for signatures.")]
     public static class PropertyChangeAssert
     {
+        #region ChangesValues
+
+        /// <summary>
+        /// Tests that an object's property values can be changed.
+        /// </summary>
+        /// <param name="type">Type of object to test.</param>
+        public static void ChangesValues(Type type)
+        {
+            ChangesValues(Activator.CreateInstance(type));
+        }
+
+        /// <summary>
+        /// Tests that a type's property values can be changed.
+        /// </summary>
+        /// <param name="type">Type of object to test.</param>
+        /// <param name="propertyNames">List of property names to test.</param>
+        public static void ChangesValues(Type type, List<string> propertyNames)
+        {
+            ChangesValues(Activator.CreateInstance(type), propertyNames);
+        }
+
+        /// <summary>
+        /// Tests that a type's property values can be changed.
+        /// </summary>
+        /// <param name="type">Type of object to test.</param>
+        /// <param name="properties">List of properties to test.</param>
+        public static void ChangesValues(Type type, List<PropertyInfo> properties)
+        {
+            ChangesValues(Activator.CreateInstance(type), properties);
+        }
+
         /// <summary>
         /// Tests that an type's property values can be changed.
         /// </summary>
@@ -27,76 +58,46 @@ namespace JSR.TestAsserts
         }
 
         /// <summary>
-        /// Tests that an object's property values can be changed.
+        /// Tests that a type's property values can be changed.
         /// </summary>
-        /// <param name="typeToTest">Type of object to test.</param>
-        public static void ChangesValues(Type typeToTest)
+        /// <typeparam name="T">Type to test properties.</typeparam>
+        /// <param name="propertyNames">List of property names to test.</param>
+        public static void ChangesValues<T>(List<string> propertyNames)
         {
-            ChangesValues(Activator.CreateInstance(typeToTest));
+            ChangesValues(Activator.CreateInstance<T>(), propertyNames);
+        }
+
+        /// <summary>
+        /// Tests that a type's property values can be changed.
+        /// </summary>
+        /// <typeparam name="T">Type to test properties.</typeparam>
+        /// <param name="properties">List of properties to test.</param>
+        public static void ChangesValues<T>(List<PropertyInfo> properties)
+        {
+            ChangesValues(Activator.CreateInstance<T>(), properties);
         }
 
         /// <summary>
         /// Test that an object's property values can be changed.
         /// </summary>
         /// <typeparam name="T">Type to test properties.</typeparam>
-        /// <param name="objectToTest">Object with properties to test properties.</param>
-        public static void ChangesValues<T>(T objectToTest)
+        /// <param name="obj">Object with properties to test properties.</param>
+        public static void ChangesValues<T>(T obj)
         {
-            ChangesValues(PropertyUtilities.GetListOfProperties(objectToTest, true, false, false, true, true, true), objectToTest);
-            ChangesValues(PropertyUtilities.GetListOfPropertiesWithClassTypes(objectToTest, true, true, true));
-        }
-
-        /// <summary>
-        /// Tests that a type's property values can be changed.
-        /// </summary>
-        /// <typeparam name="T">Type to test properties.</typeparam>
-        /// <param name="propertyNamesToTest">List of property names to test.</param>
-        public static void ChangesValues<T>(List<string> propertyNamesToTest)
-        {
-            ChangesValues(propertyNamesToTest, Activator.CreateInstance<T>());
-        }
-
-        /// <summary>
-        /// Tests that a type's property values can be changed.
-        /// </summary>
-        /// <typeparam name="T">Type to test properties.</typeparam>
-        /// <param name="propertiesToTest">List of properties to test.</param>
-        public static void ChangesValues<T>(List<PropertyInfo> propertiesToTest)
-        {
-            ChangesValues(propertiesToTest, Activator.CreateInstance<T>());
-        }
-
-        /// <summary>
-        /// Tests that a type's property values can be changed.
-        /// </summary>
-        /// <param name="propertyNamesToTest">List of property names to test.</param>
-        /// <param name="typeToTest">Type of object to test.</param>
-        public static void ChangesValues(List<string> propertyNamesToTest, Type typeToTest)
-        {
-            ChangesValues(propertyNamesToTest, Activator.CreateInstance(typeToTest));
-        }
-
-        /// <summary>
-        /// Tests that a type's property values can be changed.
-        /// </summary>
-        /// <param name="propertiesToTest">List of properties to test.</param>
-        /// <param name="typeToTest">Type of object to test.</param>
-        public static void ChangesValues(List<PropertyInfo> propertiesToTest, Type typeToTest)
-        {
-            ChangesValues(propertiesToTest, Activator.CreateInstance(typeToTest));
+            ChangesValues(obj, PropertyUtilities.GetListOfReadWriteProperties(obj));
         }
 
         /// <summary>
         /// Tests that an object's propery values can be changed.
         /// </summary>
         /// <typeparam name="T">Type to test properties.</typeparam>
-        /// <param name="propertyNamesToTest">List of property names to test.</param>
-        /// <param name="objectToTest">Object with properties to test properties.</param>
-        public static void ChangesValues<T>(List<string> propertyNamesToTest, T objectToTest)
+        /// <param name="obj">Object with properties to test properties.</param>
+        /// <param name="propertyNames">List of property names to test.</param>
+        public static void ChangesValues<T>(T obj, List<string> propertyNames)
         {
-            foreach (string propertyName in propertyNamesToTest)
+            foreach (string propertyName in propertyNames)
             {
-                ChangesValue(propertyName, objectToTest);
+                ChangesValue(obj, propertyName);
             }
         }
 
@@ -104,14 +105,38 @@ namespace JSR.TestAsserts
         /// Tests that an object's property values can be changed.
         /// </summary>
         /// <typeparam name="T">Type to test properties.</typeparam>
-        /// <param name="propertiesToTest">List of properties to test.</param>
-        /// <param name="objectToTest">Object with properties to test.</param>
-        public static void ChangesValues<T>(List<PropertyInfo> propertiesToTest, T objectToTest)
+        /// <param name="obj">Object with properties to test.</param>
+        /// <param name="properties">List of properties to test.</param>
+        public static void ChangesValues<T>(T obj, List<PropertyInfo> properties)
         {
-            foreach (PropertyInfo property in propertiesToTest)
+            foreach (PropertyInfo property in properties)
             {
-                ChangesValue(property, objectToTest);
+                ChangesValue(obj, property);
             }
+        }
+
+        #endregion
+
+        #region ChangesValue
+
+        /// <summary>
+        /// Tests that a specific property within an object's value can be changed.
+        /// </summary>
+        /// <param name="type">Type of object to test.</param>
+        /// <param name="propertyName">Name of property to test.</param>
+        public static void ChangesValue(Type type, string propertyName)
+        {
+            ChangesValue(Activator.CreateInstance(type), propertyName);
+        }
+
+        /// <summary>
+        /// Tests that a specific property with an object can change it's value.
+        /// </summary>
+        /// <param name="type">Type of object to test.</param>
+        /// <param name="property">Property to test.</param>
+        public static void ChangesValue(Type type, PropertyInfo property)
+        {
+            ChangesValue(Activator.CreateInstance(type), property);
         }
 
         /// <summary>
@@ -121,7 +146,7 @@ namespace JSR.TestAsserts
         /// <param name="propertyName">Name of the property to test.</param>
         public static void ChangesValue<T>(string propertyName)
         {
-            ChangesValue(typeof(T).GetProperty(propertyName), Activator.CreateInstance<T>());
+            ChangesValue(Activator.CreateInstance<T>(), typeof(T).GetProperty(propertyName));
         }
 
         /// <summary>
@@ -131,54 +156,41 @@ namespace JSR.TestAsserts
         /// <param name="property">Property to test.</param>
         public static void ChangesValue<T>(PropertyInfo property)
         {
-            ChangesValue(property, Activator.CreateInstance<T>());
-        }
-
-        /// <summary>
-        /// Tests that a specific property within an object's value can be changed.
-        /// </summary>
-        /// <param name="propertyName">Name of property to test.</param>
-        /// <param name="typeToTest">Type of object to test.</param>
-        public static void ChangesValue(string propertyName, Type typeToTest)
-        {
-            ChangesValue(propertyName, Activator.CreateInstance(typeToTest));
-        }
-
-        /// <summary>
-        /// Tests that a specific property with an object can change it's value.
-        /// </summary>
-        /// <param name="property">Property to test.</param>
-        /// <param name="typeToTest">Type of object to test.</param>
-        public static void ChangesValue(PropertyInfo property, Type typeToTest)
-        {
-            ChangesValue(property, Activator.CreateInstance(typeToTest));
+            ChangesValue(Activator.CreateInstance<T>(), property);
         }
 
         /// <summary>
         /// Test that a specific property within an object's value can be changed.
         /// </summary>
         /// <typeparam name="T">Type of object with the property to test.</typeparam>
+        /// <param name="obj">Object with the property to test.</param>
         /// <param name="propertyName">Name of the property to test.</param>
-        /// <param name="objectToTest">Object with the property to test.</param>
-        public static void ChangesValue<T>(string propertyName, T objectToTest)
+        public static void ChangesValue<T>(T obj, string propertyName)
         {
-            ChangesValue(objectToTest.GetType().GetProperty(propertyName), objectToTest);
+            ChangesValue(obj, obj.GetType().GetProperty(propertyName));
         }
 
         /// <summary>
         /// Tests that a specific property of an object changes values.
         /// </summary>
         /// <typeparam name="T">Type of object to test.</typeparam>
+        /// <param name="obj">Object with property to test.</param>
         /// <param name="property">Property to test.</param>
-        /// <param name="objectToTest">Object with property to test.</param>
-        public static void ChangesValue<T>(PropertyInfo property, T objectToTest)
+        public static void ChangesValue<T>(T obj, PropertyInfo property)
         {
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
-                T randomObject = ObjectUtilities.CreateInstanceWithRandomValues<T>();
-                property.SetValue(objectToTest, property.GetValue(randomObject));
-                Assert.AreEqual(property.GetValue(randomObject), property.GetValue(objectToTest));
+                var randomObject = ObjectUtilities.CreateInstanceWithRandomValues(obj.GetType());
+                property.SetValue(obj, property.GetValue(randomObject));
+                Assert.AreEqual(property.GetValue(randomObject), property.GetValue(obj));
+            }
+
+            if (PropertyUtilities.CheckIfPropertyIsClass(property))
+            {
+                ChangesValues(property.GetValue(obj));
             }
         }
+
+        #endregion
     }
 }

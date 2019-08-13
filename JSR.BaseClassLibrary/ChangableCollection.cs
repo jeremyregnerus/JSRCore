@@ -14,7 +14,7 @@ namespace JSR.BaseClassLibrary
     /// Provides an <see cref="ObservableCollection{T}"/> that also implements <see cref="IChangableObject"/>.
     /// </summary>
     /// <typeparam name="T">Type of List objects that implement <see cref="IChangableObject"/>.</typeparam>
-    public class ChangableCollection<T> : ObservableCollection<T>, IChangableObject where T : IChangableObject
+    public class ChangableCollection<T> : ObservableCollection<T>, IChangableCollection<T> where T : IChangableObject
     {
         private bool isChanged;
 

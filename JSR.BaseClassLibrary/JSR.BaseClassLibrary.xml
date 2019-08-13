@@ -192,6 +192,12 @@
             </summary>
             <param name="parameter">Unused in this object, required by the Interface.</param>
         </member>
+        <member name="T:JSR.BaseClassLibrary.IChangableCollection`1">
+            <summary>
+            <see cref="T:JSR.BaseClassLibrary.IChangableCollection`1"/> implements <see cref="T:JSR.BaseClassLibrary.IChangableObject"/> into a <see cref="T:System.Collections.IList"/>.
+            </summary>
+            <typeparam name="T">Type that implements <see cref="T:JSR.BaseClassLibrary.IChangableObject"/>.</typeparam>
+        </member>
         <member name="T:JSR.BaseClassLibrary.OnChangedEventHandler">
             <summary>
             This event handler is raised and an IChangeable Object changes.
@@ -208,6 +214,12 @@
             <summary>
             This event is raised when the object's IsChanged value changes.
             </summary>
+        </member>
+        <member name="T:JSR.BaseClassLibrary.IChangeTrackingCollection`1">
+            <summary>
+            <see cref="T:JSR.BaseClassLibrary.IChangeTrackingCollection`1"/> implements <see cref="T:System.ComponentModel.IChangeTracking"/> within an <see cref="T:System.Collections.IList"/>.
+            </summary>
+            <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
         </member>
         <member name="T:JSR.BaseClassLibrary.OnMessageEventHandler">
             <summary>
@@ -289,6 +301,20 @@
             <param name="backingField">Backing field of the property.</param>
             <param name="propertyName">Name of the property to raise the PropertyChange event for. If ommitted, will use the calling member's name.</param>
             <returns>True if the value was changed, false otherwise.</returns>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.MessagingObject.AddMessaging``1(``0)">
+            <summary>
+            Adds the <see cref="T:JSR.BaseClassLibrary.OnMessageEventHandler"/> to this object's messaging.
+            </summary>
+            <typeparam name="T">Type that implements the <see cref="T:JSR.BaseClassLibrary.IMessenger"/> interface.</typeparam>
+            <param name="obj">Object to raise message notifications.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.MessagingObject.RemoveMessaging``1(``0)">
+            <summary>
+            Removes the <see cref="E:JSR.BaseClassLibrary.MessagingObject.OnMessage"/> event from this object's messaging.
+            </summary>
+            <typeparam name="T">Type that implements the <see cref="T:JSR.BaseClassLibrary.IMessenger"/> interface.</typeparam>
+            <param name="obj">Object to remove message notifications.</param>
         </member>
         <member name="M:JSR.BaseClassLibrary.MessagingObject.ChildRaisedMessage(System.Object,System.String)">
             <summary>

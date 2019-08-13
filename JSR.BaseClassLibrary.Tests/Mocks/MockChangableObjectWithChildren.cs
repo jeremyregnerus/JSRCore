@@ -9,7 +9,7 @@ namespace JSR.BaseClassLibrary.Tests.Mocks
 {
     [DataContract]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Mock Object.")]
-    internal class MockChangableObjectWithChildren : MockChangableObject
+    public class MockChangableObjectWithChildren : MockChangableObject
     {
         [DataMember]
         private readonly MockChangableObject childReadOnly = new MockChangableObject();

@@ -37,7 +37,7 @@
             Creates a new instance of a specified type and populates specified properties with random values.
             </summary>
             <typeparam name="T">Type of object to create.</typeparam>
-            <param name="propertyNamesToPopulate">List of property names to add random values to.</param>
+            <param name="propertyNames">List of property names to add random values to.</param>
             <returns>A new object with random property values for the provided property names.</returns>
         </member>
         <member name="M:JSR.Utilities.ObjectUtilities.CreateInstanceWithRandomValues``1(System.Collections.Generic.List{System.Reflection.PropertyInfo})">
@@ -45,7 +45,7 @@
             Creates a new instance of a specified Type and populates specified properties with random values.
             </summary>
             <typeparam name="T">Type of object to create.</typeparam>
-            <param name="propertiesToPopulate">List of <see cref="T:System.Reflection.PropertyInfo"/> to populate with random values.</param>
+            <param name="properties">List of <see cref="T:System.Reflection.PropertyInfo"/> to populate with random values.</param>
             <returns>A new object of the specified Type.</returns>
         </member>
         <member name="M:JSR.Utilities.ObjectUtilities.CreateInstanceWithRandomValues(System.Type)">
@@ -60,7 +60,7 @@
             Creates a new Instance of a specified Type and populates all of its public set properties.
             </summary>
             <param name="type">Type of object to create.</param>
-            <param name="propertyNamesToPopulate">List of property names to add random values to.</param>
+            <param name="propertyNames">List of property names to add random values to.</param>
             <returns>A new object of the defined type with populated values.</returns>
         </member>
         <member name="M:JSR.Utilities.ObjectUtilities.CreateInstanceWithRandomValues(System.Type,System.Collections.Generic.List{System.Reflection.PropertyInfo})">
@@ -68,7 +68,7 @@
             Creates a new Instance of a specified Type and populates specific properties with random values.
             </summary>
             <param name="type">Type of object to create.</param>
-            <param name="propertiesToPopulate">List of <see cref="T:System.Reflection.PropertyInfo"/> to populate with random values.</param>
+            <param name="properties">List of <see cref="T:System.Reflection.PropertyInfo"/> to populate with random values.</param>
             <returns>A new object of the specified type with populated values is specific properties.</returns>
         </member>
         <member name="M:JSR.Utilities.ObjectUtilities.PopulateObjectWithRandomValues``1(``0)">
@@ -76,14 +76,14 @@
             Populates an object's properties with random values.
             </summary>
             <typeparam name="T"><see cref="T:System.Type"/> of <see cref="T:System.Object"/> to populate.</typeparam>
-            <param name="objectToPopulate"><see cref="T:System.Object"/> to populate with random values.</param>
+            <param name="obj"><see cref="T:System.Object"/> to populate with random values.</param>
         </member>
         <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertiesWithRandomValues``1(``0,System.Collections.Generic.List{System.String})">
             <summary>
             Adds random values to the specified properties of an object.
             </summary>
             <typeparam name="T">Type of object with properties to populate.</typeparam>
-            <param name="objectWithProperties">Object to populate properties to.</param>
+            <param name="obj">Object to populate properties to.</param>
             <param name="propertyNames">List of Property Names specifying which properties to populate values.</param>
         </member>
         <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertiesWithRandomValues``1(``0,System.Collections.Generic.List{System.Reflection.PropertyInfo})">
@@ -91,7 +91,7 @@
             Adds random values to the specified properties of an object.
             </summary>
             <typeparam name="T">Type of object with properties to populate.</typeparam>
-            <param name="objectWithProperties">Object to populate properties to.</param>
+            <param name="obj">Object to populate properties to.</param>
             <param name="properties">List of <see cref="T:System.Reflection.PropertyInfo"/> specifying which properties to populate values.</param>
         </member>
         <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertyWithRandomValue``1(``0,System.String)">
@@ -99,7 +99,7 @@
             Adds a random value to a property.
             </summary>
             <typeparam name="T">Type to add the property value to.</typeparam>
-            <param name="objectWithProperty">Object to add the property value to.</param>
+            <param name="obj">Object to add the property value to.</param>
             <param name="propertyName">Name of the property to add a random value to.</param>
         </member>
         <member name="M:JSR.Utilities.ObjectUtilities.PopulatePropertyWithRandomValue``1(``0,System.Reflection.PropertyInfo)">
@@ -107,7 +107,7 @@
             Adds a random value to a property.
             </summary>
             <typeparam name="T">Type to add the property value to.</typeparam>
-            <param name="objectWithProperty">Object to add the property value to.</param>
+            <param name="obj">Object to add the property value to.</param>
             <param name="property">Property to add the value to.</param>
         </member>
         <member name="M:JSR.Utilities.ObjectUtilities.PopulateListWithRandomValues``1(``0,System.Type)">
@@ -115,45 +115,22 @@
             Populates a list with Random Values.
             </summary>
             <typeparam name="T">Type of list to populate.</typeparam>
-            <param name="listToPopulate">List to populate with random values.</param>
-            <param name="parentObjectType">Type of the object that contains the list.</param>
-        </member>
-        <member name="M:JSR.Utilities.ObjectUtilities.AddRandomItemToList``1(``0)">
-            <summary>
-            Adds a random value to a list.
-            </summary>
-            <typeparam name="T">Type of list.</typeparam>
-            <param name="listToAddItem">List to add item to.</param>
-        </member>
-        <member name="M:JSR.Utilities.ObjectUtilities.AddRandomItemToList``1(``0,System.Type)">
-            <summary>
-            Adds a random value to a list.
-            </summary>
-            <typeparam name="T">Type of list.</typeparam>
-            <param name="listToAddItem">List to add item to.</param>
-            <param name="listObjectType">Type of item to add to list.</param>
+            <param name="list">List to populate with random values.</param>
+            <param name="parentType">Type of the object that contains the list.</param>
         </member>
         <member name="M:JSR.Utilities.ObjectUtilities.AddRandomItemsToList``1(``0)">
             <summary>
             Add a random number of new items to a list.
             </summary>
             <typeparam name="T">Type of list.</typeparam>
-            <param name="listToAddItemsTo">List to add items to.</param>
-        </member>
-        <member name="M:JSR.Utilities.ObjectUtilities.AddRandomItemsToList``1(``0,System.Type)">
-            <summary>
-            Add a random number of new items to a list.
-            </summary>
-            <typeparam name="T">Type of list.</typeparam>
-            <param name="listToAddItems">List to add items to.</param>
-            <param name="listObjectType">Type of items to add to list.</param>
+            <param name="list">List to add items to.</param>
         </member>
         <member name="M:JSR.Utilities.ObjectUtilities.ChangeListItems``1(``0,System.Boolean)">
             <summary>
             Changes the items within a list to populate them with new random values.
             </summary>
             <typeparam name="T">Type of list with items to change.</typeparam>
-            <param name="listToChange">List with items to change.</param>
+            <param name="list">List with items to change.</param>
             <param name="allItems">Change all items in list. False changes random items.</param>
         </member>
         <member name="M:JSR.Utilities.ObjectUtilities.RemoveRandomItemsFromList``1(``0)">
@@ -161,7 +138,7 @@
             Randomly removes items from a list.
             </summary>
             <typeparam name="T">Type of list to remove items from.</typeparam>
-            <param name="listToRemoveItems">List to remove items from.</param>
+            <param name="list">List to remove items from.</param>
         </member>
         <member name="T:JSR.Utilities.PropertyUtilities">
             <summary>
@@ -181,7 +158,7 @@
             Check if a property is readwrite.
             </summary>
             <typeparam name="T">Type with property to check.</typeparam>
-            <param name="objectWithProperty">Object with property to check.</param>
+            <param name="obj">Object with property to check.</param>
             <param name="propertyName">Name of property to check.</param>
             <returns>True if the property is readwrite.</returns>
         </member>
@@ -213,7 +190,7 @@
             Checks if a property is readonly.
             </summary>
             <typeparam name="T">Type with property to check.</typeparam>
-            <param name="objectWithProperty">Object with property to check.</param>
+            <param name="obj">Object with property to check.</param>
             <param name="propertyName">Name of property to check.</param>
             <returns>True if the property is readonly.</returns>
         </member>
@@ -245,7 +222,7 @@
             Checks if a property is writeonly.
             </summary>
             <typeparam name="T">Type with property to check.</typeparam>
-            <param name="objectWithProperty">Object with property to check.</param>
+            <param name="obj">Object with property to check.</param>
             <param name="propertyName">Name of property to check.</param>
             <returns>True if the property is writeonly.</returns>
         </member>
@@ -277,7 +254,7 @@
             Checks if a property contains a class type.
             </summary>
             <typeparam name="T">Type with property to check.</typeparam>
-            <param name="objectWithProperty">Object with property to check.</param>
+            <param name="obj">Object with property to check.</param>
             <param name="propertyName">Property name to check.</param>
             <returns>True if the property is a class.</returns>
         </member>
@@ -309,7 +286,7 @@
             Checks if the property is a list.
             </summary>
             <typeparam name="T">Type with property to check.</typeparam>
-            <param name="objectWithProperty">Object with property to check.</param>
+            <param name="obj">Object with property to check.</param>
             <param name="propertyName">Name of property to check.</param>
             <returns>True if the property is a list.</returns>
         </member>
@@ -327,6 +304,38 @@
             </summary>
             <param name="property">Property to check.</param>
             <returns>True if the property is a list.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsValue``1(System.String)">
+            <summary>
+            Checks if a property contains a value type.
+            </summary>
+            <typeparam name="T">Type with property to check.</typeparam>
+            <param name="propertyName">Name of property to check.</param>
+            <returns>True if the property is a value type.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsValue``1(``0,System.String)">
+            <summary>
+            Checks if a property contains a value type.
+            </summary>
+            <typeparam name="T">Type with property to check.</typeparam>
+            <param name="obj">Object with property to check.</param>
+            <param name="propertyName">Name of property to check.</param>
+            <returns>True if the property is a value type.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsValue(System.Type,System.String)">
+            <summary>
+            Checks if a property contains a value type.
+            </summary>
+            <param name="type">Type with property to check.</param>
+            <param name="propertyName">Name of property to check.</param>
+            <returns>True if the property is a value type.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.CheckIfPropertyIsValue(System.Reflection.PropertyInfo)">
+            <summary>
+            Checks if a property contains a value type.
+            </summary>
+            <param name="property">Property to check.</param>
+            <returns>True if the property is a value type.</returns>
         </member>
         <member name="M:JSR.Utilities.PropertyUtilities.GetListOfProperties``1(System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
@@ -346,7 +355,7 @@
             Returns a list of properties that meet the argument criteria.
             </summary>
             <typeparam name="T">Type to get the properties from.</typeparam>
-            <param name="objectWithProperties">Object to get properties from.</param>
+            <param name="obj">Object to get properties from.</param>
             <param name="readWrite">Include readwrite properties.</param>
             <param name="readOnly">Include readonly properties.</param>
             <param name="writeOnly">Include writeonly properties.</param>
@@ -386,7 +395,7 @@
             Returns a list of properties names that meet the argument criteria.
             </summary>
             <typeparam name="T">Type to get property names from.</typeparam>
-            <param name="objectWithProperties">Object to get property names from.</param>
+            <param name="obj">Object to get property names from.</param>
             <param name="readWrite">Include readwrite properties.</param>
             <param name="readOnly">Include readonly properties.</param>
             <param name="writeOnly">Include writeonly properties.</param>
@@ -408,6 +417,28 @@
             <param name="listTypes">Include properties with list types.</param>
             <returns>A list of property names.</returns>
         </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithClassTypes``1">
+            <summary>
+            Gets a list of Properties with class values.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <returns>A list of properties with class values.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithClassTypes``1(``0)">
+            <summary>
+            Gets a list of Properties with class values.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <param name="obj">Object with properties to evaluate.</param>
+            <returns>A list of properties with class values.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithClassTypes(System.Type)">
+            <summary>
+            Gets a list of Properties with class values.
+            </summary>
+            <param name="type">Type of object with properties to evaluate.</param>
+            <returns>A list of properties with class values.</returns>
+        </member>
         <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithClassTypes``1(System.Boolean,System.Boolean,System.Boolean)">
             <summary>
             Gets a list of Properties with class values.
@@ -423,7 +454,7 @@
             Gets a list of Properties with class values.
             </summary>
             <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-            <param name="objectWithProperties">Object with properties to evaluate.</param>
+            <param name="obj">Object with properties to evaluate.</param>
             <param name="readWrite">Include readwrite properties.</param>
             <param name="readOnly">Include readonly properties.</param>
             <param name="writeOnly">Include writeonly properties.</param>
@@ -438,6 +469,28 @@
             <param name="readOnly">Include readonly properties.</param>
             <param name="writeOnly">Include writeonly properties.</param>
             <returns>A list of properties with class values.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithClassTypes``1">
+            <summary>
+            Gets a list of property names with class values.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <returns>A list of property names with class values.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithClassTypes``1(``0)">
+            <summary>
+            Gets a list of property names with class values.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <param name="obj">Object with properties to evaluate.</param>
+            <returns>A list of property names with class values.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithClassTypes(System.Type)">
+            <summary>
+            Gets a list of property names with class values.
+            </summary>
+            <param name="type">Type of object with properties to evaluate.</param>
+            <returns>A list of property names with class values.</returns>
         </member>
         <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithClassTypes``1(System.Boolean,System.Boolean,System.Boolean)">
             <summary>
@@ -454,7 +507,7 @@
             Gets a list of property names with class values.
             </summary>
             <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-            <param name="objectWithProperties">Object with properties to evaluate.</param>
+            <param name="obj">Object with properties to evaluate.</param>
             <param name="readWrite">Include readwrite properties.</param>
             <param name="readOnly">Include readonly properties.</param>
             <param name="writeOnly">Include writeonly properties.</param>
@@ -469,6 +522,28 @@
             <param name="readOnly">Include readonly properties.</param>
             <param name="writeOnly">Include writeonly properties.</param>
             <returns>A list of property names with class values.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithListTypes``1">
+            <summary>
+            Gets a list of properties with list values.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <returns>A list of properties with list values.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithListTypes``1(``0)">
+            <summary>
+            Gets a list of properties with list values.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <param name="obj">Object with properties to evaluate.</param>
+            <returns>A list of properties with lists values.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithListTypes(System.Type)">
+            <summary>
+            Gets a list of properties with list values.
+            </summary>
+            <param name="type">Type with properties to evaluate.</param>
+            <returns>A list of properties with lists values.</returns>
         </member>
         <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithListTypes``1(System.Boolean,System.Boolean,System.Boolean)">
             <summary>
@@ -485,7 +560,7 @@
             Gets a list of properties with list values.
             </summary>
             <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-            <param name="objectWithProperties">Object with properties to evaluate.</param>
+            <param name="obj">Object with properties to evaluate.</param>
             <param name="readWrite">Include readwrite properties.</param>
             <param name="readOnly">Include readonly properties.</param>
             <param name="writeOnly">Include writeonly properties.</param>
@@ -500,6 +575,28 @@
             <param name="readOnly">Include readonly properties.</param>
             <param name="writeOnly">Include writeonly properties.</param>
             <returns>A list of properties with lists values.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithListTypes``1">
+            <summary>
+            Gets a list of property names with list values.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <returns>A list of property names with list values.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithListTypes``1(``0)">
+            <summary>
+            Gets a list of property names with list values.
+            </summary>
+            <typeparam name="T">Type of object with properties to evaluate.</typeparam>
+            <param name="obj">An object with properties to evaluate.</param>
+            <returns>A list of property names with list values.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithListTypes(System.Type)">
+            <summary>
+            Gets a list of property names with list values.
+            </summary>
+            <param name="type">Type of object with properties to evaluate.</param>
+            <returns>A list of property names with list values.</returns>
         </member>
         <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithListTypes``1(System.Boolean,System.Boolean,System.Boolean)">
             <summary>
@@ -516,7 +613,7 @@
             Gets a list of property names with list values.
             </summary>
             <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-            <param name="objectWithProperties">An object with properties to evaluate.</param>
+            <param name="obj">An object with properties to evaluate.</param>
             <param name="readWrite">Include readwrite properties.</param>
             <param name="readOnly">Include readonly properties.</param>
             <param name="writeOnly">Include writeonly properties.</param>
@@ -531,6 +628,28 @@
             <param name="readOnly">Include readonly properties.</param>
             <param name="writeOnly">Include writeonly properties.</param>
             <returns>A list of property names with list values.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithValueTypes``1">
+            <summary>
+            Get a list of properties with value types.
+            </summary>
+            <typeparam name="T">Type with properties to evaluate.</typeparam>
+            <returns>A list of properties with value types.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithValueTypes``1(``0)">
+            <summary>
+            Get a list of properties with value types.
+            </summary>
+            <typeparam name="T">Type with properties to evaluate.</typeparam>
+            <param name="obj">Object with properties to evaluate.</param>
+            <returns>A list of properties with value types.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithValueTypes(System.Type)">
+            <summary>
+            Get a list of properties with value types.
+            </summary>
+            <param name="type">Type with properties to evaluate.</param>
+            <returns>A list of properties with value types.</returns>
         </member>
         <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertiesWithValueTypes``1(System.Boolean,System.Boolean,System.Boolean)">
             <summary>
@@ -547,7 +666,7 @@
             Get a list of properties with value types.
             </summary>
             <typeparam name="T">Type with properties to evaluate.</typeparam>
-            <param name="objectWithProperties">Object with properties to evaluate.</param>
+            <param name="obj">Object with properties to evaluate.</param>
             <param name="readWrite">Include readwrite properties.</param>
             <param name="readOnly">Include readonly properties.</param>
             <param name="writeOnly">Include writeonly properties.</param>
@@ -562,6 +681,28 @@
             <param name="readOnly">Include readonly properties.</param>
             <param name="writeOnly">include writeonly properties.</param>
             <returns>A list of properties with value types.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithValueTypes``1">
+            <summary>
+            Get a list of property names with value types.
+            </summary>
+            <typeparam name="T">Type with properties to evaluate.</typeparam>
+            <returns>A list of property names with value types.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithValueTypes``1(``0)">
+            <summary>
+            Get a list of property names with value types.
+            </summary>
+            <typeparam name="T">Type with properties to evaluate.</typeparam>
+            <param name="obj">Object with properties to evaluate.</param>
+            <returns>A list of property names with value types.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithValueTypes(System.Type)">
+            <summary>
+            Get a list of property names with value types.
+            </summary>
+            <param name="type">Type with properties to evaluate.</param>
+            <returns>A list of property names with value types.</returns>
         </member>
         <member name="M:JSR.Utilities.PropertyUtilities.GetListOfPropertyNamesWithValueTypes``1(System.Boolean,System.Boolean,System.Boolean)">
             <summary>
@@ -578,7 +719,7 @@
             Get a list of property names with value types.
             </summary>
             <typeparam name="T">Type with properties to evaluate.</typeparam>
-            <param name="objectWithProperties">Object with properties to evaluate.</param>
+            <param name="obj">Object with properties to evaluate.</param>
             <param name="readWrite">Include readwrite properties.</param>
             <param name="readOnly">Include readonly properties.</param>
             <param name="writeOnly">Include writeonly properties.</param>
@@ -593,6 +734,324 @@
             <param name="readOnly">Include readonly properties.</param>
             <param name="writeOnly">Include writeonly properties.</param>
             <returns>A list of property names with value types.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadWriteProperties``1">
+            <summary>
+            Get a list of all the readwrite properties.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <returns>List of readwrite properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadWriteProperties``1(``0)">
+            <summary>
+            Get a list of all the readwrite properties.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="obj">Object with properties.</param>
+            <returns>List of readwrite properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadWriteProperties(System.Type)">
+            <summary>
+            Get a list of all the readwrite properties.
+            </summary>
+            <param name="type">Type with properties.</param>
+            <returns>List of readwrite properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadWriteProperties``1(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of all the readwrite properties.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of readwrite properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadWriteProperties``1(``0,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of all the readwrite properties.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="obj">Object with properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of readwrite properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadWriteProperties(System.Type,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of all the readwrite properties.
+            </summary>
+            <param name="type">Type with properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of readwrite properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadWritePropertyNames``1">
+            <summary>
+            Get a list of all the readwrite property names.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <returns>List of readwrite property names.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadWritePropertyNames``1(``0)">
+            <summary>
+            Get a list of all the readwrite property names.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="obj">Object with properties.</param>
+            <returns>List of readwrite property names.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadWritePropertyNames(System.Type)">
+            <summary>
+            Get a list of all the readwrite property names.
+            </summary>
+            <param name="type">Type with properties.</param>
+            <returns>List of readwrite property names.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadWritePropertyNames``1(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of all the readwrite property names.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of readwrite property names.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadWritePropertyNames``1(``0,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of all the readwrite property names.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="obj">Object with properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of readwrite property names.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadWritePropertyNames(System.Type,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of all the readwrite property names.
+            </summary>
+            <param name="type">Type with properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of readwrite property names.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyProperties``1">
+            <summary>
+            Get a list of all the readonly properties.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <returns>List of readonly properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyProperties``1(``0)">
+            <summary>
+            Get a list of all the readonly properties.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="obj">Object with properties.</param>
+            <returns>List of readonly properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyProperties(System.Type)">
+            <summary>
+            Get a list of all the readonly properties.
+            </summary>
+            <param name="type">Type with properties.</param>
+            <returns>List of readonly properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyProperties``1(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of all the readonly properties.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of readonly properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyProperties``1(``0,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of all the readonly properties.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="obj">Object with properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of readonly properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyProperties(System.Type,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of all the readonly properties.
+            </summary>
+            <param name="type">Type with properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of readonly properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyPropertyNames``1">
+            <summary>
+            Get a list of all the readonly property names.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <returns>List of readonly property names.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyPropertyNames``1(``0)">
+            <summary>
+            Get a list of all the readonly property names.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="obj">Object with properties.</param>
+            <returns>List of readonly property names.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyPropertyNames(System.Type)">
+            <summary>
+            get a list of all the readonly property names.
+            </summary>
+            <param name="type">Type with properties.</param>
+            <returns>List of readonly property names.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyPropertyNames``1(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of all the readonly property names.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of readonly property names.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyPropertyNames``1(``0,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of all the readonly property names.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="obj">Object with properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of readonly property names.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfReadOnlyPropertyNames(System.Type,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            get a list of all the readonly property names.
+            </summary>
+            <param name="type">Type with properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of readonly property names.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyProperties``1">
+            <summary>
+            Get a list of all the writeonly properties.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <returns>List of writeonly properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyProperties``1(``0)">
+            <summary>
+            Get a list of all the writeonly properties.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="obj">Object with properties.</param>
+            <returns>List of writeonly properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyProperties(System.Type)">
+            <summary>
+            Get a list of all the writeonly properties.
+            </summary>
+            <param name="type">Type with properties.</param>
+            <returns>List of writeonly properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyProperties``1(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of all the writeonly properties.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of writeonly properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyProperties``1(``0,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of all the writeonly properties.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="obj">Object with properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of writeonly properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyProperties(System.Type,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of all the writeonly properties.
+            </summary>
+            <param name="type">Type with properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of writeonly properties.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyPropertyNames``1">
+            <summary>
+            Get a list of all the writeonly property names.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <returns>List of writeonly property names.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyPropertyNames``1(``0)">
+            <summary>
+            Get a list of all the writeonly property names.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="obj">Object with properties.</param>
+            <returns>List of writeonly property names.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyPropertyNames(System.Type)">
+            <summary>
+            Get a list of all the writeonly property names.
+            </summary>
+            <param name="type">Type with properties.</param>
+            <returns>List of writeonly property names.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyPropertyNames``1(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of all the writeonly property names.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of writeonly property names.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyPropertyNames``1(``0,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of all the writeonly property names.
+            </summary>
+            <typeparam name="T">Type with properties.</typeparam>
+            <param name="obj">Object with properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of writeonly property names.</returns>
+        </member>
+        <member name="M:JSR.Utilities.PropertyUtilities.GetListOfWriteOnlyPropertyNames(System.Type,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of all the writeonly property names.
+            </summary>
+            <param name="type">Type with properties.</param>
+            <param name="valueTypes">Include properties with value types.</param>
+            <param name="classTypes">Include properties with class types.</param>
+            <param name="listTypes">Include properties with list types.</param>
+            <returns>List of writeonly property names.</returns>
         </member>
         <member name="T:JSR.Utilities.RandomUtilities">
             <summary>

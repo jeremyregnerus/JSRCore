@@ -295,7 +295,6 @@ namespace JSR.Utilities
         /// <returns>A random <see cref="Enum"/> value.</returns>
         public static T GetRandomEnum<T>(T currentValue) where T : Enum
         {
-            // TODO: 2: Determine if this check is required.
             if (typeof(T) != currentValue.GetType())
             {
                 throw new Exception($"The generic type {typeof(T)} does not match the object {nameof(currentValue)} type of {currentValue.GetType()}.");

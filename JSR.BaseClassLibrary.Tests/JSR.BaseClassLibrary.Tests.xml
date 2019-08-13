@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JSR.BaseClassLibrary.Tests</name>
+    </assembly>
+    <members>
+        <member name="T:JSR.BaseClassLibrary.Tests.ChangableObjectTests">
+            <summary>
+            Tests ChangableObjects.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.Tests.ChangableObjectTests.Initializes">
+            <summary>
+            Tests that ChangableObjects initialize properly.
+            </summary>
+        </member>
+        <member name="T:JSR.BaseClassLibrary.Tests.MessagingObjectTests">
+            <summary>
+            Tests the <see cref="T:JSR.BaseClassLibrary.MessagingObject"/> and the <see cref="T:JSR.BaseClassLibrary.MessagingCollection`1"/> classes.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.Tests.MessagingObjectTests.InitializesWithoutMessage">
+            <summary>
+            Tests that the messaging object initializes without a message value.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.Tests.MessagingObjectTests.SerializesAndDeserializes">
+            <summary>
+            Tests that messaging objects can serialize and deserialize.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.Tests.MessagingObjectTests.RaisesMessages">
+            <summary>
+            Tests that a <see cref="T:JSR.BaseClassLibrary.MessagingObject"/> object raises a message.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.Tests.MessagingObjectTests.DoesNotRaiseNotificationOnSameMessage">
+            <summary>
+            Tests that the same message does not raise the <see cref="T:JSR.BaseClassLibrary.OnMessageEventHandler"/>.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.Tests.MessagingObjectTests.RaisesChildMessages">
+            <summary>
+            Tests that an <see cref="T:JSR.BaseClassLibrary.MessagingObject"/> object raises its child messeging object's messages.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.Tests.MessagingObjectTests.RemovesChildNotifications">
+            <summary>
+            Tests that when a child is removed from an <see cref="T:JSR.BaseClassLibrary.MessagingObject"/>, the object no longer raises message notification.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.Tests.MessagingObjectTests.RaisesMessagesOfListItems">
+            <summary>
+            Tests that children of a messaging list raise a message to the top of the collection.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.Tests.MessagingObjectTests.ItemsRemoveNotificationsWhenRemoveFromList">
+            <summary>
+            Tests that when items are removed from a MessagingCollection, they no longer raise notifications.
+            </summary>
+        </member>
+        <member name="T:JSR.BaseClassLibrary.Tests.NotifyableObjectTests">
+            <summary>
+            Tests the <see cref="T:JSR.BaseClassLibrary.NotifyableObject"/> base class.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.Tests.NotifyableObjectTests.SerializesAndDeserializes">
+            <summary>
+            Tests that an object that implements <see cref="T:JSR.BaseClassLibrary.NotifyableObject"/> can serialize and deserialize.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.Tests.NotifyableObjectTests.ChangesValues">
+            <summary>
+            Tests that <see cref="T:JSR.BaseClassLibrary.NotifyableObject"/> updated the values of its properties.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.Tests.NotifyableObjectTests.NotifiesPropertyChanges">
+            <summary>
+            Tests that <see cref="T:JSR.BaseClassLibrary.NotifyableObject"/> raises the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/> when property values change.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.Tests.NotifyableObjectTests.DoesNotNotifyOnSameValues">
+            <summary>
+            Tests that <see cref="T:JSR.BaseClassLibrary.NotifyableObject"/> does not raise <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/> when properties get set with the same value they previously had.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using JSR.BaseClassLibrary.Tests.Mocks;
 using JSR.TestAsserts;
@@ -12,28 +13,42 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JSR.BaseClassLibrary.Tests
 {
+    /// <summary>
+    /// Tests the <see cref="NotifyableObject"/> base class.
+    /// </summary>
     [TestClass]
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Unit Test.")]
     public class NotifyableObjectTests
     {
+        /// <summary>
+        /// Tests that an object that implements <see cref="NotifyableObject"/> can serialize and deserialize.
+        /// </summary>
         [TestMethod]
         public void SerializesAndDeserializes()
         {
             SerializationAssert.SerializesAndDeserializes<MockNotifyableObject>();
         }
 
+        /// <summary>
+        /// Tests that <see cref="NotifyableObject"/> updated the values of its properties.
+        /// </summary>
         [TestMethod]
-        public void NotifiesPropertyChanges()
-        {
-            PropertyNotificationAssert.NotifiesPropertiesChanged<MockNotifyableObject>();
-        }
-
-        [TestMethod]
-        public void UpdatesPropertyValues()
+        public void ChangesValues()
         {
             PropertyChangeAssert.ChangesValues<MockNotifyableObject>();
         }
 
+        /// <summary>
+        /// Tests that <see cref="NotifyableObject"/> raises the <see cref="PropertyChangedEventHandler"/> when property values change.
+        /// </summary>
+        [TestMethod]
+        public void NotifiesPropertyChanges()
+        {
+            PropertyNotificationAssert.NotifiesChanges<MockNotifyableObject>();
+        }
+
+        /// <summary>
+        /// Tests that <see cref="NotifyableObject"/> does not raise <see cref="PropertyChangedEventHandler"/> when properties get set with the same value they previously had.
+        /// </summary>
         [TestMethod]
         public void DoesNotNotifyOnSameValues()
         {

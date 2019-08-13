@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
@@ -23,39 +24,248 @@ namespace JSR.TestAsserts
         #region NotifiesIsChangedOnAcceptChanges
 
         /// <summary>
-        /// Tests that when a Type Accepts Changes the IsChanged property value is set to false once and raises the OnChanged event once.
+        /// Tests that an object and it's class and list properties raise the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T"><see cref="Type"/> that implements <see cref="IChangableObject"/> to test.</typeparam>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
         public static void NotifiesIsChangedOnAcceptChanges<T>() where T : IChangableObject
         {
             NotifiesIsChangedOnAcceptChanges(Activator.CreateInstance<T>());
         }
 
         /// <summary>
-        /// Tests that when an object Accepts Changes the IsChanged property value is set to false once and raises the OnChanged event once.
+        /// Tests that an object and it's class and list properties raise the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T"><see cref="Type"/> that implements <see cref="IChangableObject"/> to test.</typeparam>
-        /// <param name="testObj"><see cref="object"/> that implements <see cref="IChangableObject"/> to test.</param>
-        public static void NotifiesIsChangedOnAcceptChanges<T>(T testObj) where T : IChangableObject
+        /// <param name="type">Type that implements <see cref="ChangableObject"/>.</param>
+        public static void NotfiesIsChagnedOnAcceptChanges(Type type)
         {
+            Assert.IsTrue(typeof(IChangableObject).IsAssignableFrom(type));
+
+            NotifiesIsChangedOnAcceptChanges((IChangableObject)Activator.CreateInstance(type));
+        }
+
+        /// <summary>
+        /// Tests that an object and it's class and list properties raise the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object to test.</param>
+        public static void NotifiesIsChangedOnAcceptChanges<T>(T obj) where T : IChangableObject
+        {
+            ChangableObjectAssertTracker<T> tracker = new ChangableObjectAssertTracker<T>(obj);
+
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
-                ObjectUtilities.PopulateObjectWithRandomValues(testObj);
+                ObjectUtilities.PopulateObjectWithRandomValues(obj);
 
-                List<string> propertiesChanged = new List<string>();
-                testObj.PropertyChanged += (o, eventArgs) => propertiesChanged.Add(eventArgs.PropertyName);
+                tracker.ClearNotifications();
 
-                List<bool> wasChanged = new List<bool>();
-                testObj.OnChanged += (o, changed) => wasChanged.Add(changed);
+                obj.AcceptChanges();
 
-                for (int x = 0; x < new Random().Next(5, 20); x++)
-                {
-                    testObj.AcceptChanges();
-                }
+                tracker.AssertWasChanged();
+            }
 
-                Assert.AreEqual(1, propertiesChanged.FindAll(x => x == nameof(IChangableObject.IsChanged)));
-                Assert.AreEqual(1, wasChanged.Count);
-                Assert.IsFalse(wasChanged[0]);
+            tracker.Reset();
+
+            ObjectUtilities.PopulateObjectWithRandomValues(obj);
+
+            tracker.ClearNotifications();
+
+            for (int i = 0; i < new Random().Next(5, 20); i++)
+            {
+                obj.AcceptChanges();
+            }
+
+            tracker.AssertWasChanged();
+        }
+
+        #endregion
+
+        #region NotifiesIsChangedWhenChanged
+
+        /// <summary>
+        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        public static void NotifiesIsChangedWhenChanged(Type type)
+        {
+            NotifiesIsChangedWhenChanged(CreateIChangableObjectInstance(type));
+        }
+
+        /// <summary>
+        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        /// <param name="propertyNames">List of property names to test.</param>
+        public static void NotifiesIsChangedWhenChanged(Type type, List<string> propertyNames)
+        {
+            NotifiesIsChangedWhenChanged(CreateIChangableObjectInstance(type), propertyNames);
+        }
+
+        /// <summary>
+        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        /// <param name="properties">List of properties to test.</param>
+        public static void NotifiesIsChangedWhenChanged(Type type, List<PropertyInfo> properties)
+        {
+            NotifiesIsChangedWhenChanged(CreateIChangableObjectInstance(type), properties);
+        }
+
+        /// <summary>
+        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        /// <param name="propertyName">Name of property to test.</param>
+        public static void NotifiesIsChangedWhenChanged(Type type, string propertyName)
+        {
+            NotifiesIsChangedWhenChanged(CreateIChangableObjectInstance(type), propertyName);
+        }
+
+        /// <summary>
+        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        /// <param name="property">Property to test.</param>
+        public static void NotifiesIsChangedWhenChanged(Type type, PropertyInfo property)
+        {
+            NotifiesIsChangedWhenChanged(CreateIChangableObjectInstance(type), property);
+        }
+
+        /// <summary>
+        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        public static void NotifiesIsChangedWhenChanged<T>() where T : IChangableObject
+        {
+            NotifiesIsChangedWhenChanged(Activator.CreateInstance<T>());
+        }
+
+        /// <summary>
+        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="propertyNames">List of property names to test.</param>
+        public static void NotifiesIsChangedWhenChanged<T>(List<string> propertyNames) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenChanged(Activator.CreateInstance<T>(), propertyNames);
+        }
+
+        /// <summary>
+        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="properties">List of properties to test.</param>
+        public static void NotifiesIsChangedWhenChanged<T>(List<PropertyInfo> properties) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenChanged(Activator.CreateInstance<T>(), properties);
+        }
+
+        /// <summary>
+        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="propertyName">Name of property to test.</param>
+        public static void NotifiesIsChangedWhenChanged<T>(string propertyName) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenChanged(Activator.CreateInstance<T>(), propertyName);
+        }
+
+        /// <summary>
+        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="property">Property to test.</param>
+        public static void NotifiesIsChangedWhenChanged<T>(PropertyInfo property) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenChanged(Activator.CreateInstance<T>(), property);
+        }
+
+        /// <summary>
+        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with properties to test.</param>
+        public static void NotifiesIsChangedWhenChanged<T>(T obj) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenChanged(obj, PropertyUtilities.GetListOfProperties(obj, true, true, true, true, true, true));
+        }
+
+        /// <summary>
+        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with properties to test.</param>
+        /// <param name="propertyNames">List of property names to test.</param>
+        public static void NotifiesIsChangedWhenChanged<T>(T obj, List<string> propertyNames) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenChanged(obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName))));
+        }
+
+        /// <summary>
+        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with properties to test.</param>
+        /// <param name="properties">List of properties to test.</param>
+        public static void NotifiesIsChangedWhenChanged<T>(T obj, List<PropertyInfo> properties) where T : IChangableObject
+        {
+            foreach (PropertyInfo property in properties)
+            {
+                NotifiesIsChangedWhenChanged(obj, property);
+            }
+
+            ChangableObjectAssertTracker<T> tracker = new ChangableObjectAssertTracker<T>(obj);
+
+            for (int i = 0; i < new Random().Next(5, 20); i++)
+            {
+                tracker.Reset();
+
+                ObjectUtilities.PopulateObjectWithRandomValues(obj);
+
+                tracker.AssertWasChanged();
+            }
+
+            tracker.Reset();
+
+            for (int i = 0; i < new Random().Next(5, 20); i++)
+            {
+                ObjectUtilities.PopulateObjectWithRandomValues(obj);
+            }
+
+            tracker.AssertWasChanged();
+        }
+
+        /// <summary>
+        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with properties to test.</param>
+        /// <param name="propertyName">Name of property to test.</param>
+        public static void NotifiesIsChangedWhenChanged<T>(T obj, string propertyName) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenChanged(obj, obj.GetType().GetProperty(propertyName));
+        }
+
+        /// <summary>
+        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with property to test.</param>
+        /// <param name="property">Property to test.</param>
+        public static void NotifiesIsChangedWhenChanged<T>(T obj, PropertyInfo property) where T : IChangableObject
+        {
+            if (PropertyUtilities.CheckIfPropertyIsReadWrite(property))
+            {
+                NotifiesIsChangedWhenPropertyChanges(obj, property);
+            }
+
+            if (PropertyUtilities.CheckIfPropertyIsClass(property))
+            {
+                NotifiesIsChangedWhenChildChanges(obj, property);
+            }
+
+            if (PropertyUtilities.CheckIfPropertyIsList(property))
+            {
+                NotifiesIsChangedWhenListChanges(obj, property, true, true, true);
             }
         }
 
@@ -64,94 +274,122 @@ namespace JSR.TestAsserts
         #region NotifiesIsChangedWhenPropertiesChange
 
         /// <summary>
-        /// Test that all properties raise the <see cref="OnChangedEventHandler"/> and change the IsChanged value of an <see cref="IChangableObject"/> object.
+        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T">Type to test that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        public static void NotifiesIsChangedWhenPropertiesChange(Type type)
+        {
+            NotifiesIsChangedWhenPropertiesChange(CreateIChangableObjectInstance(type));
+        }
+
+        /// <summary>
+        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        /// <param name="propertyNames">List of property names to test.</param>
+        public static void NotifiesIsChangedWhenPropertiesChange(Type type, List<string> propertyNames)
+        {
+            NotifiesIsChangedWhenPropertiesChange(CreateIChangableObjectInstance(type), propertyNames);
+        }
+
+        /// <summary>
+        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        /// <param name="properties">List of properties to test.</param>
+        public static void NotifiesIsChangedWhenPropertiesChange(Type type, List<PropertyInfo> properties)
+        {
+            NotifiesIsChangedWhenPropertiesChange(CreateIChangableObjectInstance(type), properties);
+        }
+
+        /// <summary>
+        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
         public static void NotifiesIsChangedWhenPropertiesChange<T>() where T : IChangableObject
         {
             NotifiesIsChangedWhenPropertiesChange(Activator.CreateInstance<T>());
         }
 
         /// <summary>
-        /// Test that properties raise the <see cref="OnChangedEventHandler"/> and change the IsChanged value of an <see cref="IChangableObject"/> object.
+        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T">Type to test that implements <see cref="IChangableObject"/>.</typeparam>
-        /// <param name="propertyNamesToChange">List to property names to test.</param>
-        public static void NotifiesIsChangedWhenPropertiesChange<T>(List<string> propertyNamesToChange) where T : IChangableObject
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="propertyNames">List of property names to test.</param>
+        public static void NotifiesIsChangedWhenPropertiesChange<T>(List<string> propertyNames) where T : IChangableObject
         {
-            NotifiesIsChangedWhenPropertiesChange(propertyNamesToChange, Activator.CreateInstance<T>());
+            NotifiesIsChangedWhenPropertiesChange(Activator.CreateInstance<T>(), propertyNames);
         }
 
         /// <summary>
-        /// Test that properties raise the <see cref="OnChangedEventHandler"/> and change the IsChanged value of an <see cref="IChangableObject"/> object.
+        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T">Type to test that implements <see cref="IChangableObject"/>.</typeparam>
-        /// <param name="propertiesToChange">List of properties to test.</param>
-        public static void NotifiesIsChangedWhenPropertiesChange<T>(List<PropertyInfo> propertiesToChange) where T : IChangableObject
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="properties">List of properties to test.</param>
+        public static void NotifiesIsChangedWhenPropertiesChange<T>(List<PropertyInfo> properties) where T : IChangableObject
         {
-            NotifiesIsChangedWhenPropertiesChange(propertiesToChange, Activator.CreateInstance<T>());
+            NotifiesIsChangedWhenPropertiesChange(Activator.CreateInstance<T>(), properties);
         }
 
         /// <summary>
-        /// Test that properties raise the <see cref="OnChangedEventHandler"/> and change the IsChanged value of an <see cref="IChangableObject"/> object.
+        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T">Type to test that implements <see cref="IChangableObject"/>.</typeparam>
-        /// <param name="objectToTest">Object to test that implements <see cref="IChangableObject"/>.</param>
-        public static void NotifiesIsChangedWhenPropertiesChange<T>(T objectToTest) where T : IChangableObject
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with properties to test.</param>
+        public static void NotifiesIsChangedWhenPropertiesChange<T>(T obj) where T : IChangableObject
         {
-            // Tests all of the readwrite properties
-            NotifiesIsChangedWhenPropertiesChange(PropertyUtilities.GetListOfProperties(objectToTest, true, false, false, true, true, true), objectToTest);
-
-            // Tests the readonly class Properties
-            NotifiesIsChangedWhenPropertiesChange(PropertyUtilities.GetListOfPropertiesWithClassTypes(objectToTest, true, true, true), objectToTest);
-
-            // Tests the readonly list Properties
-            NotifiesIsChangedWhenPropertiesChange(PropertyUtilities.GetListOfPropertiesWithListTypes(objectToTest, true, true, true), objectToTest);
+            NotifiesIsChangedWhenPropertiesChange(obj, PropertyUtilities.GetListOfReadWriteProperties(obj));
         }
 
         /// <summary>
-        /// Test that properties raise the <see cref="OnChangedEventHandler"/> and change the IsChanged value of an <see cref="IChangableObject"/> object.
+        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T">Type to test that implements <see cref="IChangableObject"/>.</typeparam>
-        /// <param name="propertyNamesToChange">List of property names to test.</param>
-        /// <param name="objectToTest">Object to test that implements <see cref="IChangableObject"/>.</param>
-        public static void NotifiesIsChangedWhenPropertiesChange<T>(List<string> propertyNamesToChange, T objectToTest) where T : IChangableObject
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with properties to test.</param>
+        /// <param name="propertyNames">List of property names to test.</param>
+        public static void NotifiesIsChangedWhenPropertiesChange<T>(T obj, List<string> propertyNames) where T : IChangableObject
         {
-            foreach (string propertyName in propertyNamesToChange)
+            NotifiesIsChangedWhenPropertiesChange(obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName))));
+        }
+
+        /// <summary>
+        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with properties to test.</param>
+        /// <param name="properties">List of properties to test.</param>
+        public static void NotifiesIsChangedWhenPropertiesChange<T>(T obj, List<PropertyInfo> properties) where T : IChangableObject
+        {
+            foreach (PropertyInfo property in properties)
             {
-                NotifiesIsChangedWhenPropertyChanges(propertyName, objectToTest);
-            }
-        }
-
-        /// <summary>
-        /// Test that properties raise the <see cref="OnChangedEventHandler"/> and change the IsChanged value of an <see cref="IChangableObject"/> object.
-        /// </summary>
-        /// <typeparam name="T">Type to test that implements <see cref="IChangableObject"/>.</typeparam>
-        /// <param name="propertiesToChange">List of properties to test.</param>
-        /// <param name="objectToTest">Object to test that implements <see cref="IChangableObject"/>.</param>
-        public static void NotifiesIsChangedWhenPropertiesChange<T>(List<PropertyInfo> propertiesToChange, T objectToTest) where T : IChangableObject
-        {
-            objectToTest.AcceptChanges();
-
-            List<string> propertiesChanged = new List<string>();
-            objectToTest.PropertyChanged += (sender, args) => propertiesChanged.Add(args.PropertyName);
-
-            List<bool> wasChanged = new List<bool>();
-            objectToTest.OnChanged += (sender, changed) => wasChanged.Add(changed);
-
-            foreach (PropertyInfo property in propertiesToChange)
-            {
-                ObjectUtilities.PopulatePropertyWithRandomValue(objectToTest, property);
+                NotifiesIsChangedWhenPropertyChanges(obj, property);
             }
 
-            Assert.IsTrue(objectToTest.IsChanged);
-            Assert.AreEqual(1, propertiesChanged.Count(x => x == nameof(IChangableObject.IsChanged)));
-            Assert.AreEqual(1, wasChanged.Count);
+            ChangableObjectAssertTracker<T> tracker = new ChangableObjectAssertTracker<T>(obj);
 
-            foreach (PropertyInfo property in propertiesToChange)
+            for (int i = 0; i < new Random().Next(5, 20); i++)
             {
-                NotifiesIsChangedWhenPropertyChanges(property, objectToTest);
+                tracker.Reset();
+
+                foreach (PropertyInfo property in properties)
+                {
+                    ObjectUtilities.PopulatePropertyWithRandomValue(obj, property);
+                }
+
+                tracker.AssertWasChanged();
             }
+
+            tracker.Reset();
+
+            for (int i = 0; i < new Random().Next(5, 20); i++)
+            {
+                foreach (PropertyInfo property in properties)
+                {
+                    ObjectUtilities.PopulatePropertyWithRandomValue(obj, property);
+                }
+            }
+
+            tracker.AssertWasChanged();
         }
 
         #endregion
@@ -159,111 +397,254 @@ namespace JSR.TestAsserts
         #region NotifiesIsChangedWhenPropertyChanges
 
         /// <summary>
-        /// Tests that a property raises the <see cref="OnChangedEventHandler"/> and changes the IsChanged value.
+        /// Tests that a property raises the object's <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/> with property to test.</typeparam>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        /// <param name="propertyName">Name of property to test.</param>
+        public static void NotifiesIsChangedWhenPropertyChanges(Type type, string propertyName)
+        {
+            NotifiesIsChangedWhenPropertyChanges(CreateIChangableObjectInstance(type), propertyName);
+        }
+
+        /// <summary>
+        /// Tests that a property raises the object's <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        /// <param name="property">Property to test.</param>
+        public static void NotifiesIsChangedWhenPropertyChanges(Type type, PropertyInfo property)
+        {
+            NotifiesIsChangedWhenPropertyChanges(CreateIChangableObjectInstance(type), property);
+        }
+
+        /// <summary>
+        /// Tests that a property raises the object's <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
         /// <param name="propertyName">Name of property to test.</param>
         public static void NotifiesIsChangedWhenPropertyChanges<T>(string propertyName) where T : IChangableObject
         {
-            NotifiesIsChangedWhenPropertyChanges(propertyName, Activator.CreateInstance<T>());
+            NotifiesIsChangedWhenPropertyChanges(Activator.CreateInstance<T>(), propertyName);
         }
 
         /// <summary>
-        /// Tests that a property raises the <see cref="OnChangedEventHandler"/> and changes the IsChanged value.
+        /// Tests that a property raises the object's <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/> with property to test.</typeparam>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
         /// <param name="property">Property to test.</param>
         public static void NotifiesIsChangedWhenPropertyChanges<T>(PropertyInfo property) where T : IChangableObject
         {
-            NotifiesIsChangedWhenPropertyChanges(property, Activator.CreateInstance<T>());
+            NotifiesIsChangedWhenPropertyChanges(Activator.CreateInstance<T>(), property);
         }
 
         /// <summary>
-        /// Tests that a property raises the <see cref="OnChangedEventHandler"/> and changes the IsChanged value.
+        /// Tests that a property raises the object's <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/> with property to test.</typeparam>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with property to test.</param>
         /// <param name="propertyName">Name of property to test.</param>
-        /// <param name="objectToTest">Object that implements <see cref="IChangableObject"/> with property to test.</param>
-        public static void NotifiesIsChangedWhenPropertyChanges<T>(string propertyName, T objectToTest) where T : IChangableObject
+        public static void NotifiesIsChangedWhenPropertyChanges<T>(T obj, string propertyName) where T : IChangableObject
         {
-            NotifiesIsChangedWhenPropertyChanges(objectToTest.GetType().GetProperty(propertyName), objectToTest);
+            NotifiesIsChangedWhenPropertyChanges(obj, obj.GetType().GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Tests that a property raises the <see cref="OnChangedEventHandler"/> and changes the IsChanged value.
+        /// Tests that a property raises the object's <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangableObject"/> with property to test.</typeparam>
+        /// <param name="obj">Object with property to test.</param>
         /// <param name="property">Property to test.</param>
-        /// <param name="objectToTest">Object that implements <see cref="IChangableObject"/> with property to test.</param>
-        public static void NotifiesIsChangedWhenPropertyChanges<T>(PropertyInfo property, T objectToTest) where T : IChangableObject
+        public static void NotifiesIsChangedWhenPropertyChanges<T>(T obj, PropertyInfo property) where T : IChangableObject
         {
-            objectToTest.AcceptChanges();
+            obj.AcceptChanges();
 
             List<string> propertiesChanged = new List<string>();
-            objectToTest.PropertyChanged += (sender, args) => propertiesChanged.Add(args.PropertyName);
+            obj.PropertyChanged += (sender, args) => propertiesChanged.Add(args.PropertyName);
 
-            List<bool> wasChanged = new List<bool>();
-            objectToTest.OnChanged += (sender, changed) => wasChanged.Add(changed);
+            List<bool> changeStates = new List<bool>();
+            obj.OnChanged += (sender, wasChanged) => changeStates.Add(wasChanged);
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
-                ObjectUtilities.PopulatePropertyWithRandomValue(objectToTest, property);
+                ObjectUtilities.PopulatePropertyWithRandomValue(obj, property);
             }
 
-            Assert.AreEqual(1, propertiesChanged.Count(x => x == nameof(IChangableObject.IsChanged)));
-            Assert.AreEqual(1, wasChanged.Count);
-            Assert.IsTrue(wasChanged[0]);
+            Assert.AreEqual(1, propertiesChanged.Count(propertyName => propertyName == nameof(IChangableObject.IsChanged)));
+            Assert.AreEqual(1, changeStates.Count(wasChanged => wasChanged == true));
+
+            for (int i = 0; i < new Random().Next(5, 20); i++)
+            {
+                obj.AcceptChanges();
+                propertiesChanged.Clear();
+                changeStates.Clear();
+
+                ObjectUtilities.PopulatePropertyWithRandomValue(obj, property);
+
+                Assert.AreEqual(1, propertiesChanged.Count(propertyName => propertyName == nameof(IChangableObject.IsChanged)));
+                Assert.AreEqual(1, changeStates.Count(wasChanged => wasChanged == true));
+            }
         }
 
         #endregion
 
-        #region NotifiesIsChangedWhenChildChanges
+        #region NotifiesIsChangedWhenChildrenChange
 
         /// <summary>
-        /// Tests that all properties implementing <see cref="IChangableObject"/> raise the <see cref="OnChangedEventHandler"/> and changes the parent's IsChanged property to true.
+        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T">Type with properties to test.</typeparam>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        public static void NotifiesIsChangedWhenChildrenChange(Type type)
+        {
+            NotifiesIsChangedWhenChildrenChange(CreateIChangableObjectInstance(type));
+        }
+
+        /// <summary>
+        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        /// <param name="propertyNames">List of property Names to test.</param>
+        public static void NotifiesIsChangedWhenChildrenChange(Type type, List<string> propertyNames)
+        {
+            NotifiesIsChangedWhenChildrenChange(CreateIChangableObjectInstance(type), propertyNames);
+        }
+
+        /// <summary>
+        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        /// <param name="properties">List of properties to test.</param>
+        public static void NotifiesIsChangedWhenChildrenChange(Type type, List<PropertyInfo> properties)
+        {
+            NotifiesIsChangedWhenChildrenChange(CreateIChangableObjectInstance(type), properties);
+        }
+
+        /// <summary>
+        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
         public static void NotifiesIsChangedWhenChildrenChange<T>() where T : IChangableObject
         {
             NotifiesIsChangedWhenChildrenChange(Activator.CreateInstance<T>());
         }
 
         /// <summary>
-        /// Tests that all properties implementing <see cref="IChangableObject"/> raise the <see cref="OnChangedEventHandler"/> and changes the parent's IsChanged property to true.
+        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T">Type to test.</typeparam>
-        /// <param name="objectToTest">Object to test.</param>
-        public static void NotifiesIsChangedWhenChildrenChange<T>(T objectToTest) where T : IChangableObject
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="propertyNames">List of property Names to test.</param>
+        public static void NotifiesIsChangedWhenChildrenChange<T>(List<string> propertyNames) where T : IChangableObject
         {
-            NotifiesIsChangedWhenChildrenChange(objectToTest, PropertyUtilities.GetListOfPropertiesWithClassTypes(objectToTest, true, true, true));
+            NotifiesIsChangedWhenChildrenChange(Activator.CreateInstance<T>(), propertyNames);
         }
 
         /// <summary>
-        /// Tests that properties implementing <see cref="IChangableObject"/> raise the <see cref="OnChangedEventHandler"/> and changes the parent's IsChanged property to true.
+        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T">Type to test.</typeparam>
-        /// <param name="objectToTest">Object to test.</param>
-        /// <param name="propertyNamesToTest">List of property names to test.</param>
-        public static void NotifiesIsChangedWhenChildrenChange<T>(T objectToTest, List<string> propertyNamesToTest) where T : IChangableObject
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="properties">List of properties to test.</param>
+        public static void NotifiesIsChangedWhenChildrenChange<T>(List<PropertyInfo> properties) where T : IChangableObject
         {
-            foreach (string propertyName in propertyNamesToTest)
-            {
-                NotifiesIsChangedWhenChildChanges(objectToTest, propertyName);
-            }
+            NotifiesIsChangedWhenChildrenChange(Activator.CreateInstance<T>(), properties);
         }
 
         /// <summary>
-        /// Tests that properties implementing <see cref="IChangableObject"/> raise the <see cref="OnChangedEventHandler"/> and changes the parent's IsChanged property to true.
+        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T">Type with properties to test.</typeparam>
-        /// <param name="objectToTest">Object with properties test.</param>
-        /// <param name="propertiesToTest">List of properties to test.</param>
-        public static void NotifiesIsChangedWhenChildrenChange<T>(T objectToTest, List<PropertyInfo> propertiesToTest) where T : IChangableObject
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with child objects to test.</param>
+        public static void NotifiesIsChangedWhenChildrenChange<T>(T obj) where T : IChangableObject
         {
-            foreach (PropertyInfo property in propertiesToTest)
+            NotifiesIsChangedWhenChildrenChange(obj, PropertyUtilities.GetListOfPropertiesWithClassTypes(obj, true, true, true));
+        }
+
+        /// <summary>
+        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with child objects to test.</param>
+        /// <param name="propertyNames">List of property Names to test.</param>
+        public static void NotifiesIsChangedWhenChildrenChange<T>(T obj, List<string> propertyNames) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenChildrenChange(obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName))));
+        }
+
+        /// <summary>
+        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with child objects to test.</param>
+        /// <param name="properties">List of properties to test.</param>
+        public static void NotifiesIsChangedWhenChildrenChange<T>(T obj, List<PropertyInfo> properties) where T : IChangableObject
+        {
+            foreach (PropertyInfo property in properties)
             {
-                NotifiesIsChangedWhenChildChanges(objectToTest, property);
+                NotifiesIsChangedWhenChildChanges(obj, property);
             }
+
+            ChangableObjectAssertTracker<T> tracker = new ChangableObjectAssertTracker<T>(obj);
+
+            for (int i = 0; i < new Random().Next(5, 20); i++)
+            {
+                tracker.Reset();
+
+                foreach (PropertyInfo property in properties)
+                {
+                    ObjectUtilities.PopulateObjectWithRandomValues(property.GetValue(obj));
+                }
+
+                tracker.AssertWasChanged();
+            }
+
+            tracker.Reset();
+
+            for (int i = 0; i < new Random().Next(5, 20); i++)
+            {
+                foreach (PropertyInfo property in properties)
+                {
+                    ObjectUtilities.PopulateObjectWithRandomValues(property.GetValue(obj));
+                }
+            }
+
+            tracker.AssertWasChanged();
+        }
+
+        /// <summary>
+        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with child objects to test.</param>
+        /// <param name="children">Child objects to change.</param>
+        public static void NotifiesIsChangedWhenChildrenChange<T>(T obj, List<IChangableObject> children) where T : IChangableObject
+        {
+            foreach (IChangableObject child in children)
+            {
+                NotifiesIsChangedWhenChildChanges(obj, child);
+            }
+
+            ChangableObjectAssertTracker<T> tracker = new ChangableObjectAssertTracker<T>(obj);
+
+            for (int i = 0; i < new Random().Next(5, 20); i++)
+            {
+                tracker.Reset();
+
+                foreach (var child in children)
+                {
+                    ObjectUtilities.PopulateObjectWithRandomValues(child);
+                }
+
+                tracker.AssertWasChanged();
+            }
+
+            tracker.Reset();
+
+            for (int i = 0; i < new Random().Next(5, 20); i++)
+            {
+                foreach (var child in children)
+                {
+                    ObjectUtilities.PopulateObjectWithRandomValues(child);
+                }
+            }
+
+            tracker.AssertWasChanged();
         }
 
         #endregion
@@ -271,254 +652,526 @@ namespace JSR.TestAsserts
         #region NotifiesIsChangedWhenChildChanges
 
         /// <summary>
-        /// Tests that a property implementing <see cref="IChangableObject"/> raises the <see cref="OnChangedEventHandler"/> and changes the parent's IsChanged property to true.
+        /// Tests that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T">Type with property to test.</typeparam>
-        /// <param name="objectToTest">Object with property to test.</param>
-        /// <param name="propertyNameToTest">Name of property to test.</param>
-        public static void NotifiesIsChangedWhenChildChanges<T>(T objectToTest, string propertyNameToTest) where T : IChangableObject
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        /// <param name="propertyName">Name of property to test.</param>
+        public static void NotifiesIsChangedWhenChildChanges(Type type, string propertyName)
         {
-            NotifiesIsChangedWhenChildChanges(objectToTest, objectToTest.GetType().GetProperty(propertyNameToTest));
+            NotifiesIsChangedWhenChildChanges(CreateIChangableObjectInstance(type), propertyName);
         }
 
         /// <summary>
-        /// Tests that a property implementing <see cref="IChangableObject"/> raises the <see cref="OnChangedEventHandler"/> and changes the parent's IsChanged property to true.
+        /// Tests that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T">Type with property to test.</typeparam>
-        /// <param name="objectToTest">Object with property to test.</param>
-        /// <param name="propertyToTest">Property to test.</param>
-        public static void NotifiesIsChangedWhenChildChanges<T>(T objectToTest, PropertyInfo propertyToTest) where T : IChangableObject
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        /// <param name="property">Property to test.</param>
+        public static void NotifiesIsChangedWhenChildChanges(Type type, PropertyInfo property)
         {
-            var value = propertyToTest.GetValue(objectToTest);
-
-            if (PropertyUtilities.CheckIfPropertyIsClass(propertyToTest) && value is IChangableObject)
-            {
-                NotifiesIsChangedWhenChildChanges(objectToTest, (IChangableObject)value);
-            }
+            NotifiesIsChangedWhenChildChanges(CreateIChangableObjectInstance(type), property);
         }
 
         /// <summary>
-        /// Tests that a property implementing <see cref="IChangableObject"/> raises the <see cref="OnChangedEventHandler"/> and changes the parent's IsChanged property to true.
+        /// Tests that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="TParent">Type of parent object to test.</typeparam>
-        /// <typeparam name="TChild">Type of child object to test.</typeparam>
-        /// <param name="objectToTest">Parent object to test.</param>
-        /// <param name="childToChange">Child object to change as child of parent object.</param>
-        public static void NotifiesIsChangedWhenChildChanges<TParent, TChild>(TParent objectToTest, TChild childToChange) where TParent : IChangableObject where TChild : IChangableObject
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="propertyName">Name of property to test.</param>
+        public static void NotifiesIsChangedWhenChildChanges<T>(string propertyName) where T : IChangableObject
         {
-            List<string> propertiesChanged = new List<string>();
-            objectToTest.PropertyChanged += (sender, args) => propertiesChanged.Add(args.PropertyName);
+            NotifiesIsChangedWhenChildChanges(Activator.CreateInstance<T>(), propertyName);
+        }
 
-            List<bool> stateChange = new List<bool>();
-            objectToTest.OnChanged += (sender, changed) => stateChange.Add(changed);
+        /// <summary>
+        /// Tests that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="property">Property to test.</param>
+        public static void NotifiesIsChangedWhenChildChanges<T>(PropertyInfo property) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenChildChanges(Activator.CreateInstance<T>(), property);
+        }
+
+        /// <summary>
+        /// Tests that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with child to test.</param>
+        /// <param name="propertyName">Name of property to test.</param>
+        public static void NotifiesIsChangedWhenChildChanges<T>(T obj, string propertyName) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenChildChanges(obj, obj.GetType().GetProperty(propertyName));
+        }
+
+        /// <summary>
+        /// Tests that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with child to test.</param>
+        /// <param name="property">Property to test.</param>
+        public static void NotifiesIsChangedWhenChildChanges<T>(T obj, PropertyInfo property) where T : IChangableObject
+        {
+            Assert.IsTrue(typeof(IChangableObject).IsAssignableFrom(property.PropertyType));
+
+            NotifiesIsChangedWhenChildChanges(obj, (IChangableObject)property.GetValue(obj));
+        }
+
+        /// <summary>
+        /// Tests that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="TParent">Type that implements <see cref="IChangableObject"/> and contains the TChild type.</typeparam>
+        /// <typeparam name="TChild">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="parentObj">Object with child to test.</param>
+        /// <param name="childObj">Child object to change.</param>
+        public static void NotifiesIsChangedWhenChildChanges<TParent, TChild>(TParent parentObj, TChild childObj) where TParent : IChangableObject where TChild : IChangableObject
+        {
+            ChangableObjectAssertTracker<TParent> tracker = new ChangableObjectAssertTracker<TParent>(parentObj);
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
-                objectToTest.AcceptChanges();
-                propertiesChanged.Clear();
-                stateChange.Clear();
-
-                ObjectUtilities.PopulateObjectWithRandomValues(childToChange);
-
-                Assert.IsTrue(childToChange.IsChanged);
-                Assert.IsTrue(objectToTest.IsChanged);
-
-                Assert.AreEqual(1, propertiesChanged.Count(propertyName => propertyName == nameof(IChangableObject.IsChanged)));
-                Assert.AreEqual(1, stateChange.Count(wasChanged => wasChanged == true));
+                ObjectUtilities.PopulateObjectWithRandomValues(childObj);
             }
 
-            objectToTest.AcceptChanges();
-            propertiesChanged.Clear();
-            stateChange.Clear();
+            tracker.AssertWasChanged();
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
-                ObjectUtilities.PopulateObjectWithRandomValues(childToChange);
+                tracker.Reset();
+
+                ObjectUtilities.PopulateObjectWithRandomValues(childObj);
+
+                tracker.AssertWasChanged();
             }
-
-            Assert.IsTrue(childToChange.IsChanged);
-            Assert.IsTrue(objectToTest.IsChanged);
-
-            Assert.AreEqual(1, propertiesChanged.Count(propertyName => propertyName == nameof(IChangableObject.IsChanged)));
-            Assert.AreEqual(1, stateChange.Count(wasChanged => wasChanged == true));
         }
 
         #endregion
 
         #region NotifiesIsChangedWhenListsChange
 
-        public static void NotifiesIsChangedWhenListsChange<T>() where T : ChangableObject
+        /// <summary>
+        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        /// <param name="addItems">Test adding items to list.</param>
+        /// <param name="removeItems">Test removing items from list.</param>
+        /// <param name="changeItems">Test changing items in list.</param>
+        public static void NotifiesIsChangedWhenListsChange(Type type, bool addItems, bool removeItems, bool changeItems)
         {
-
+            NotifiesIsChangedWhenListsChange(CreateIChangableObjectInstance(type), addItems, removeItems, changeItems);
         }
 
-        public static void NotifiesIsChangedWhenListsChange<T>(T objectToTest) where T : ChangableObject
+        /// <summary>
+        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        /// <param name="propertyNames">List of property names to test.</param>
+        /// <param name="addItems">Test adding items to list.</param>
+        /// <param name="removeItems">Test removing items from list.</param>
+        /// <param name="changeItems">Test changing items in list.</param>
+        public static void NotifiesIsChangedWhenListsChange(Type type, List<string> propertyNames, bool addItems, bool removeItems, bool changeItems)
         {
+            NotifiesIsChangedWhenListsChange(CreateIChangableObjectInstance(type), propertyNames, addItems, removeItems, changeItems);
+        }
 
+        /// <summary>
+        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        /// <param name="properties">List of properties to test.</param>
+        /// <param name="addItems">Test adding items to list.</param>
+        /// <param name="removeItems">Test removing items from list.</param>
+        /// <param name="changeItems">Test changing items in list.</param>
+        public static void NotifiesIsChangedWhenListsChange(Type type, List<PropertyInfo> properties, bool addItems, bool removeItems, bool changeItems)
+        {
+            NotifiesIsChangedWhenListsChange(CreateIChangableObjectInstance(type), properties, addItems, removeItems, changeItems);
+        }
+
+        /// <summary>
+        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="addItems">Test adding items to list.</param>
+        /// <param name="removeItems">Test removing items from list.</param>
+        /// <param name="changeItems">Test changing items in list.</param>
+        public static void NotifiesIsChangedWhenListsChange<T>(bool addItems, bool removeItems, bool changeItems) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenListsChange(Activator.CreateInstance<T>(), addItems, removeItems, changeItems);
+        }
+
+        /// <summary>
+        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="propertyNames">List of property names to test.</param>
+        /// <param name="addItems">Test adding items to list.</param>
+        /// <param name="removeItems">Test removing items from list.</param>
+        /// <param name="changeItems">Test changing items in list.</param>
+        public static void NotifiesIsChangedWhenListsChange<T>(List<string> propertyNames, bool addItems, bool removeItems, bool changeItems) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenListsChange(Activator.CreateInstance<T>(), propertyNames, addItems, removeItems, changeItems);
+        }
+
+        /// <summary>
+        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="properties">List of properties to test.</param>
+        /// <param name="addItems">Test adding items to list.</param>
+        /// <param name="removeItems">Test removing items from list.</param>
+        /// <param name="changeItems">Test changing items in list.</param>
+        public static void NotifiesIsChangedWhenListsChange<T>(List<PropertyInfo> properties, bool addItems, bool removeItems, bool changeItems) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenListsChange(Activator.CreateInstance<T>(), properties, addItems, removeItems, changeItems);
+        }
+
+        /// <summary>
+        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with lists to test.</param>
+        /// <param name="addItems">Test adding items to list.</param>
+        /// <param name="removeItems">Test removing items from list.</param>
+        /// <param name="changeItems">Test changing items in list.</param>
+        public static void NotifiesIsChangedWhenListsChange<T>(T obj, bool addItems, bool removeItems, bool changeItems) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenListsChange(obj, PropertyUtilities.GetListOfPropertiesWithListTypes(obj, true, true, true), addItems, removeItems, changeItems);
+        }
+
+        /// <summary>
+        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with lists to test.</param>
+        /// <param name="propertyNames">List of property names to test.</param>
+        /// <param name="addItems">Test adding items to list.</param>
+        /// <param name="removeItems">Test removing items from list.</param>
+        /// <param name="changeItems">Test changing items in list.</param>
+        public static void NotifiesIsChangedWhenListsChange<T>(T obj, List<string> propertyNames, bool addItems, bool removeItems, bool changeItems) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenListsChange(obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName))), addItems, removeItems, changeItems);
+        }
+
+        /// <summary>
+        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with lists to test.</param>
+        /// <param name="properties">List of properties to test.</param>
+        /// <param name="addItems">Test adding items to list.</param>
+        /// <param name="removeItems">Test removing items from list.</param>
+        /// <param name="changeItems">Test changing items in list.</param>
+        public static void NotifiesIsChangedWhenListsChange<T>(T obj, List<PropertyInfo> properties, bool addItems, bool removeItems, bool changeItems) where T : IChangableObject
+        {
+            foreach (PropertyInfo property in properties)
+            {
+                NotifiesIsChangedWhenListChanges(obj, property, addItems, removeItems, changeItems);
+            }
+
+            ChangableObjectAssertTracker<T> tracker = new ChangableObjectAssertTracker<T>(obj);
+
+            for (int i = 0; i < new Random().Next(5, 20); i++)
+            {
+                tracker.Reset();
+
+                foreach (PropertyInfo property in properties.Where(property => PropertyUtilities.CheckIfPropertyIsList(property)))
+                {
+                    ObjectUtilities.PopulateListWithRandomValues((IList)property.GetValue(obj), obj.GetType());
+                }
+
+                tracker.AssertWasChanged();
+            }
+
+            tracker.Reset();
+
+            for (int i = 0; i < new Random().Next(5, 20); i++)
+            {
+                foreach (PropertyInfo property in properties.Where(property => PropertyUtilities.CheckIfPropertyIsList(property)))
+                {
+                    ObjectUtilities.PopulateListWithRandomValues((IList)property.GetValue(obj), obj.GetType());
+                }
+            }
+
+            tracker.AssertWasChanged();
+        }
+
+        /// <summary>
+        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with lists to test.</param>
+        /// <param name="lists">List of lists to test.</param>
+        /// <param name="addItems">Test adding items to list.</param>
+        /// <param name="removeItems">Test removing items from list.</param>
+        /// <param name="changeItems">Test changing items in list.</param>
+        public static void NotifiesIsChangedWhenListsChange<T>(T obj, List<IList> lists, bool addItems, bool removeItems, bool changeItems) where T : IChangableObject
+        {
+            foreach (IList list in lists)
+            {
+                NotifiesIsChangedWhenListChanges(obj, list, addItems, removeItems, changeItems);
+            }
+
+            ChangableObjectAssertTracker<T> tracker = new ChangableObjectAssertTracker<T>(obj);
+
+            for (int i = 0; i < new Random().Next(5, 20); i++)
+            {
+                tracker.Reset();
+
+                foreach (IList list in lists)
+                {
+                    ObjectUtilities.PopulateListWithRandomValues(list);
+                }
+
+                tracker.AssertWasChanged();
+            }
+
+            tracker.Reset();
+
+            for (int i = 0; i < new Random().Next(5, 20); i++)
+            {
+                foreach (IList list in lists)
+                {
+                    ObjectUtilities.PopulateListWithRandomValues(list);
+                }
+            }
+
+            tracker.AssertWasChanged();
         }
 
         #endregion
 
         #region NotifiesIsChangedWhenListChanges
 
-        public static void NotifiesIsChangedWhenListChanges<T>(T objectToTest, string listPropertyName) where T : ChangableObject
+        /// <summary>
+        /// Tests that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        /// <param name="propertyName">Name of property to test.</param>
+        /// <param name="addItems">Test adding items to list.</param>
+        /// <param name="removeItems">Test removing items from list.</param>
+        /// <param name="changeItems">Test changing items in list.</param>
+        public static void NotifiesIsChangedWhenListChanges(Type type, string propertyName, bool addItems, bool removeItems, bool changeItems)
         {
+            NotifiesIsChangedWhenListChanges(CreateIChangableObjectInstance(type), propertyName, addItems, removeItems, changeItems);
+        }
 
+        /// <summary>
+        /// Tests that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <param name="type">Type that implements <see cref="IChangableObject"/>.</param>
+        /// <param name="property">Property to test.</param>
+        /// <param name="addItems">Test adding items to list.</param>
+        /// <param name="removeItems">Test removing items from list.</param>
+        /// <param name="changeItems">Test changing items in list.</param>
+        public static void NotifiesIsChangedWhenListChanges(Type type, PropertyInfo property, bool addItems, bool removeItems, bool changeItems)
+        {
+            NotifiesIsChangedWhenListChanges(CreateIChangableObjectInstance(type), property, addItems, removeItems, changeItems);
+        }
+
+        /// <summary>
+        /// Tests that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="propertyName">Name of property to test.</param>
+        /// <param name="addItems">Test adding items to list.</param>
+        /// <param name="removeItems">Test removing items from list.</param>
+        /// <param name="changeItems">Test changing items in list.</param>
+        public static void NotifiesIsChangedWhenListChanges<T>(string propertyName, bool addItems, bool removeItems, bool changeItems) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenListChanges<T>(typeof(T).GetProperty(propertyName), addItems, removeItems, changeItems);
+        }
+
+        /// <summary>
+        /// Tests that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="property">Property to test.</param>
+        /// <param name="addItems">Test adding items to list.</param>
+        /// <param name="removeItems">Test removing items from list.</param>
+        /// <param name="changeItems">Test changing items in list.</param>
+        public static void NotifiesIsChangedWhenListChanges<T>(PropertyInfo property, bool addItems, bool removeItems, bool changeItems) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenListChanges(Activator.CreateInstance<T>(), property, addItems, removeItems, changeItems);
+        }
+
+        /// <summary>
+        /// Tests that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with list to test.</param>
+        /// <param name="propertyName">Name of property to test.</param>
+        /// <param name="addItems">Test adding items to list.</param>
+        /// <param name="removeItems">Test removing items from list.</param>
+        /// <param name="changeItems">Test changing items in list.</param>
+        public static void NotifiesIsChangedWhenListChanges<T>(T obj, string propertyName, bool addItems, bool removeItems, bool changeItems) where T : IChangableObject
+        {
+            NotifiesIsChangedWhenListChanges(obj, obj.GetType().GetProperty(propertyName), addItems, removeItems, changeItems);
+        }
+
+        /// <summary>
+        /// Tests that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with list to test.</param>
+        /// <param name="property">Property to test.</param>
+        /// <param name="addItems">Test adding items to list.</param>
+        /// <param name="removeItems">Test removing items from list.</param>
+        /// <param name="changeItems">Test changing items in list.</param>
+        public static void NotifiesIsChangedWhenListChanges<T>(T obj, PropertyInfo property, bool addItems, bool removeItems, bool changeItems) where T : IChangableObject
+        {
+            Assert.IsTrue(typeof(IList).IsAssignableFrom(property.PropertyType));
+
+            NotifiesIsChangedWhenListChanges(obj, (IList)property.GetValue(obj), addItems, removeItems, changeItems);
+        }
+
+        /// <summary>
+        /// Tests that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object with list to test.</param>
+        /// <param name="list">List to change.</param>
+        /// <param name="addItems">Test adding items to list.</param>
+        /// <param name="removeItems">Test removing items from list.</param>
+        /// <param name="changeItems">Test changing items in list.</param>
+        public static void NotifiesIsChangedWhenListChanges<T>(T obj, IList list, bool addItems, bool removeItems, bool changeItems) where T : IChangableObject
+        {
+            if (addItems)
+            {
+                NotifiesIsChangedWhenListItemsAdded(obj, list);
+            }
+
+            if (removeItems)
+            {
+                NotifiesIsChangedWhenListItemsRemoved(obj, list);
+            }
+
+            if (changeItems)
+            {
+                NotifiesIsChangedWhenListItemsChange(obj, list);
+            }
         }
 
         #endregion
 
         /// <summary>
-        /// Tests that when items are added to a list property on a Type, the IsChanged property is set to true once and raises the OnChanged event once.
+        /// Tests that as items are added to a list, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T"><see cref="Type"/> that implements <see cref="IChangableObject"/> to test.</typeparam>
-        /// <param name="listPropertyName">Property name of the list to add items to.</param>
-        public static void NotifiesIsChangedWhenListItemsAdded<T>(string listPropertyName) where T : IChangableObject
-        {
-            NotifiesIsChangedWhenListItemsAdded(listPropertyName, Activator.CreateInstance<T>());
-        }
-
-        /// <summary>
-        /// Tests that when items are added to a list property on an object, the IsChanged property is set to true once and raises the OnChanged event once.
-        /// </summary>
-        /// <typeparam name="T"><see cref="Type"/> that implements <see cref="IChangableObject"/> to test.</typeparam>
-        /// <param name="listPropertyName">Property name of the list to add items to.</param>
-        /// <param name="testObj"><see cref="object"/> that implements <see cref="IChangableObject"/> to test.</param>
-        public static void NotifiesIsChangedWhenListItemsAdded<T>(string listPropertyName, T testObj) where T : IChangableObject
-        {
-            NotifiesIsChangedWhenListItemsAdded(ObjectUtilities.GetObjectListByPropertyName(testObj, listPropertyName), testObj);
-        }
-
-        /// <summary>
-        /// Tests that when items are added to a list property on an object, the IsChanged property is set to true once and raises the OnChanged event once.
-        /// </summary>
-        /// <typeparam name="T"><see cref="Type"/> that implements <see cref="IChangableObject"/> to test.</typeparam>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object to test.</param>
         /// <param name="list">List to add items to.</param>
-        /// <param name="testObj"><see cref="object"/> that implements <see cref="IChangableObject"/> to test.</param>
-        public static void NotifiesIsChangedWhenListItemsAdded<T>(IList list, T testObj) where T : IChangableObject
+        public static void NotifiesIsChangedWhenListItemsAdded<T>(T obj, IList list) where T : IChangableObject
         {
-            testObj.AcceptChanges();
-
-            List<string> propertiesChanged = new List<string>();
-            testObj.PropertyChanged += (o, eventArgs) => propertiesChanged.Add(eventArgs.PropertyName);
-
-            List<bool> wasChanged = new List<bool>();
-            testObj.OnChanged += (o, changeState) => wasChanged.Add(changeState);
-
-            ObjectUtilities.PopulateListWithRandomValues(list, testObj.GetType());
+            ChangableObjectAssertTracker<T> tracker = new ChangableObjectAssertTracker<T>(obj);
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
-                ObjectUtilities.PopulateListWithRandomValue(list, testObj.GetType());
+                var item = ObjectUtilities.CreateInstanceWithRandomValues(list.GetType().GenericTypeArguments[0]);
 
-                Assert.AreEqual(1, propertiesChanged.FindAll(x => x == nameof(IChangableObject.IsChanged)));
-                Assert.AreEqual(1, wasChanged.Count);
-                Assert.IsTrue(wasChanged[0]);
+                Assert.IsTrue(item is IChangableObject);
+                ((IChangableObject)item).AcceptChanges();
+
+                list.Add(item);
+            }
+
+            tracker.AssertWasChanged();
+
+            for (int i = 0; i < new Random().Next(5, 20); i++)
+            {
+                tracker.Reset();
+
+                var item = ObjectUtilities.CreateInstanceWithRandomValues(list.GetType().GenericTypeArguments[0]);
+
+                Assert.IsTrue(item is IChangableObject);
+                ((IChangableObject)item).AcceptChanges();
+
+                list.Add(item);
+
+                tracker.AssertWasChanged();
             }
         }
 
         /// <summary>
-        /// Tests that when items are removed from a list property on a Type, the IsChanged property is set to true once and raises the OnChanged event once.
+        /// Tests that as items are removed from a list, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T"><see cref="Type"/> that implements <see cref="IChangableObject"/> to test.</typeparam>
-        /// <param name="propertyNameOfList">Property name of the list to remove items from.</param>
-        public static void NotifiesIsChangedWhenListItemsRemoved<T>(string propertyNameOfList) where T : IChangableObject
-        {
-            NotifiesIsChangedWhenListItemsRemoved(propertyNameOfList, Activator.CreateInstance<T>());
-        }
-
-        /// <summary>
-        /// Tests that when items are removed from a list property on an object, the IsChanged property is set to true once and raises the OnChanged event once.
-        /// </summary>
-        /// <typeparam name="T"><see cref="Type"/> that implements <see cref="IChangableObject"/> to test.</typeparam>
-        /// <param name="listPropertyName">Property name of the list to remove items from.</param>
-        /// <param name="testObj"><see cref="object"/> that implements <see cref="IChangableObject"/> to test.</param>
-        public static void NotifiesIsChangedWhenListItemsRemoved<T>(string listPropertyName, T testObj) where T : IChangableObject
-        {
-            NotifiesIsChangedWhenListItemsRemoved(ObjectUtilities.GetObjectListByPropertyName(testObj, listPropertyName), testObj);
-        }
-
-        /// <summary>
-        /// Tests that when items are removed from a list property on an object, the IsChanged property is set to true once and raises the OnChanged event once.
-        /// </summary>
-        /// <typeparam name="T"><see cref="Type"/> that implements <see cref="IChangableObject"/> to test.</typeparam>
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object to test.</param>
         /// <param name="list">List to remove items from.</param>
-        /// <param name="testObj"><see cref="object"/> that implements <see cref="IChangableObject"/> to test.</param>
-        public static void NotifiesIsChangedWhenListItemsRemoved<T>(IList list, T testObj) where T : IChangableObject
+        public static void NotifiesIsChangedWhenListItemsRemoved<T>(T obj, IList list) where T : IChangableObject
         {
             if (list.Count == 0)
             {
-                ObjectUtilities.PopulateListWithRandomValues(list, testObj.GetType());
+                ObjectUtilities.PopulateListWithRandomValues(list);
             }
 
-            testObj.AcceptChanges();
-
-            List<string> propertiesChanged = new List<string>();
-            testObj.PropertyChanged += (o, eventArgs) => propertiesChanged.Add(eventArgs.PropertyName);
-
-            List<bool> wasChanged = new List<bool>();
-            testObj.OnChanged += (o, changeState) => wasChanged.Add(changeState);
+            ChangableObjectAssertTracker<T> tracker = new ChangableObjectAssertTracker<T>(obj);
 
             while (list.Count > 0)
             {
                 list.RemoveAt(list.Count - 1);
-
-                Assert.AreEqual(1, propertiesChanged.FindAll(x => x == nameof(IChangableObject.IsChanged)));
-                Assert.AreEqual(1, wasChanged.Count);
-                Assert.IsTrue(wasChanged[0]);
             }
+
+            tracker.AssertWasChanged();
+
+            ObjectUtilities.PopulateListWithRandomValues(list);
+
+            while (list.Count > 0)
+            {
+                tracker.Reset();
+
+                list.RemoveAt(list.Count - 1);
+
+                tracker.AssertWasChanged();
+            }
+
+            ObjectUtilities.PopulateListWithRandomValues(list);
+
+            tracker.Reset();
+
+            list.Clear();
+
+            tracker.AssertWasChanged();
         }
 
         /// <summary>
-        /// Tests that when items are changed within a list on a Type, the IsChanged property is set to true once and raises the OnChanged event once.
+        /// Tests that as items in a list change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T"><see cref="Type"/> that implements <see cref="IChangableObject"/> to test.</typeparam>
-        /// <param name="listPropertyName">Property name of the list to change items from.</param>
-        public static void NotifiesIsChangedWhenListItemsChange<T>(string listPropertyName) where T : IChangableObject
-        {
-            NotifiesIsChangedWhenListItemsChange(listPropertyName, Activator.CreateInstance<T>());
-        }
-
-        /// <summary>
-        /// Tests that when items are changed within a list on an object, the IsChanged property is set to true once and raises the OnChanged event once.
-        /// </summary>
-        /// <typeparam name="T"><see cref="Type"/> that implements <see cref="IChangableObject"/> to test.</typeparam>
-        /// <param name="listPropertyName">Property name of the list to change items from.</param>
-        /// <param name="testObj"><see cref="object"/> that implements <see cref="IChangableObject"/> to test.</param>
-        public static void NotifiesIsChangedWhenListItemsChange<T>(string listPropertyName, T testObj) where T : IChangableObject
-        {
-            NotifiesIsChangedWhenListItemsChange(ObjectUtilities.GetObjectListByPropertyName(testObj, listPropertyName), testObj);
-        }
-
-        /// <summary>
-        /// Tests that when items are changed within a list on an object, the IsChanged property is set to true once and raises the OnChanged event once.
-        /// </summary>
-        /// <typeparam name="T"><see cref="Type"/> that implements <see cref="IChangableObject"/> to test.</typeparam>
-        /// <param name="list">List to change items from.</param>
-        /// <param name="testObj"><see cref="object"/> that implements <see cref="IChangableObject"/> to test.</param>
-        public static void NotifiesIsChangedWhenListItemsChange<T>(IList list, T testObj) where T : IChangableObject
+        /// <typeparam name="T">Type that implements <see cref="IChangableObject"/>.</typeparam>
+        /// <param name="obj">Object to test.</param>
+        /// <param name="list">List with items to change.</param>
+        public static void NotifiesIsChangedWhenListItemsChange<T>(T obj, IList list) where T : IChangableObject
         {
             if (list.Count == 0)
             {
-                ObjectUtilities.PopulateListWithRandomValues(list, testObj.GetType());
+                ObjectUtilities.PopulateListWithRandomValues(list);
             }
 
-            testObj.AcceptChanges();
+            ChangableObjectAssertTracker<T> tracker = new ChangableObjectAssertTracker<T>(obj);
 
-            List<string> propertiesChanged = new List<string>();
-            testObj.PropertyChanged += (o, eventArgs) => propertiesChanged.Add(eventArgs.PropertyName);
-
-            List<bool> wasChanged = new List<bool>();
-            testObj.OnChanged += (o, changeState) => wasChanged.Add(changeState);
-
-            foreach (dynamic item in list)
+            foreach (IChangableObject item in list)
             {
                 ObjectUtilities.PopulateObjectWithRandomValues(item);
-
-                Assert.AreEqual(1, propertiesChanged.FindAll(x => x == nameof(IChangableObject.IsChanged)));
-                Assert.AreEqual(1, wasChanged.Count);
-                Assert.IsTrue(wasChanged[0]);
             }
+
+            tracker.AssertWasChanged();
+
+            foreach (IChangableObject item in list)
+            {
+                tracker.Reset();
+
+                ObjectUtilities.PopulateObjectWithRandomValues(item);
+
+                tracker.AssertWasChanged();
+            }
+        }
+
+        /// <summary>
+        /// Checks that the type implements <see cref="IChangableObject"/> and creates a new instance of that type.
+        /// </summary>
+        /// <param name="type">Type to test and create.</param>
+        /// <returns>A new instance of the type specified that implements <see cref="IChangeTracking"/>.</returns>
+        private static IChangableObject CreateIChangableObjectInstance(Type type)
+        {
+            Assert.IsTrue(typeof(IChangableObject).IsAssignableFrom(type));
+
+            return (IChangableObject)Activator.CreateInstance(type);
         }
     }
 }

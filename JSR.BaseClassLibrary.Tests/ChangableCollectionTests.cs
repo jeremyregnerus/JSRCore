@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -19,6 +20,15 @@ namespace JSR.BaseClassLibrary.Tests
     public class ChangableCollectionTests
     {
         [TestMethod]
+        public void CanBePopulated()
+        {
+            ChangableCollection<MockChangableObject> listOne = ObjectUtilities.CreateInstanceWithRandomValues<ChangableCollection<MockChangableObject>>();
+            ObjectUtilities.PopulateListWithRandomValues(listOne);
+
+            Assert.IsTrue(listOne.Count > 0);
+        }
+
+        [TestMethod]
         public void Initializes()
         {
             ChangableCollection<MockChangableObject> list = new ChangableCollection<MockChangableObject>();
@@ -30,8 +40,7 @@ namespace JSR.BaseClassLibrary.Tests
         [TestMethod]
         public void SerializesAndDeserializes()
         {
-            SerializationAssert.SerializesAndDeserializes<ChangableCollection<MockChangableObject>>();
-            SerializationAssert.IsNotChangedAfterDeserialized<ChangableCollection<MockChangableObject>>();
+            SerializationAssert.IChangeTrackingSerializationTests<ChangableCollection<MockChangableObject>>();
         }
 
         [TestMethod]

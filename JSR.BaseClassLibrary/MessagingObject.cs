@@ -50,18 +50,37 @@ namespace JSR.BaseClassLibrary
 
             if (retVal && typeof(IMessenger).IsAssignableFrom(typeof(T)))
             {
-                if (oldVal != null)
-                {
-                    ((IMessenger)oldVal).OnMessage -= ChildRaisedMessage;
-                }
-
-                if (backingField != null)
-                {
-                    ((IMessenger)backingField).OnMessage += ChildRaisedMessage;
-                }
+                RemoveMessaging((IMessenger)oldVal);
+                AddMessaging((IMessenger)backingField);
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Adds the <see cref="OnMessageEventHandler"/> to this object's messaging.
+        /// </summary>
+        /// <typeparam name="T">Type that implements the <see cref="IMessenger"/> interface.</typeparam>
+        /// <param name="obj">Object to raise message notifications.</param>
+        protected void AddMessaging<T>(T obj) where T : IMessenger
+        {
+            if (obj != null)
+            {
+                obj.OnMessage += ChildRaisedMessage;
+            }
+        }
+
+        /// <summary>
+        /// Removes the <see cref="OnMessage"/> event from this object's messaging.
+        /// </summary>
+        /// <typeparam name="T">Type that implements the <see cref="IMessenger"/> interface.</typeparam>
+        /// <param name="obj">Object to remove message notifications.</param>
+        protected void RemoveMessaging<T>(T obj) where T : IMessenger
+        {
+            if (obj != null)
+            {
+                obj.OnMessage -= ChildRaisedMessage;
+            }
         }
 
         /// <summary>

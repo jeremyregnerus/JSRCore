@@ -14,16 +14,6 @@
             Tests the ChangesValues by type method.
             </summary>
         </member>
-        <member name="T:JSR.Utilities.Tests.PropertyUtilitiesTests">
-            <summary>
-            Tests for the PropertyUtilities Class.
-            </summary>
-        </member>
-        <member name="M:JSR.Utilities.Tests.PropertyUtilitiesTests.ChecksPropertyAccessability">
-            <summary>
-            Tests if the utility validates a property has public get and set methods.
-            </summary>
-        </member>
         <member name="T:JSR.Utilities.Tests.TestEnum">
             <summary>
             Enum for testing.
