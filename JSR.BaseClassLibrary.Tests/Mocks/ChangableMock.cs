@@ -1,4 +1,4 @@
-﻿// <copyright file="MockChangableObject.cs" company="Jeremy Regnerus">
+﻿// <copyright file="ChangableMock.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
@@ -10,7 +10,7 @@ namespace JSR.BaseClassLibrary.Tests.Mocks
 {
     [DataContract]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Mock Object.")]
-    public class MockChangableObject : ChangableObject
+    public class ChangableMock : ChangableBaseClass
     {
         [DataMember]
         private string stringProperty;

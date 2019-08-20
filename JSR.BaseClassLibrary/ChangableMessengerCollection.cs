@@ -1,49 +1,46 @@
-﻿// <copyright file="ChangableMessagingCollection.cs" company="Jeremy Regnerus">
+﻿// <copyright file="ChangableMessengerCollection.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace JSR.BaseClassLibrary
 {
     /// <summary>
-    /// Provides an <see cref="ObservableCollection{T}"/> that also implements <see cref="IChangableObject"/> and <see cref="IMessenger"/>.
+    /// Provides an <see cref="ObservableCollection{T}"/> that also implements<see cref="IChangableMessengerCollection{T}"/>.
     /// </summary>
-    /// <typeparam name="T">Type of List objects that implement <see cref="IChangableObject"/> and <see cref="IMessenger"/>.</typeparam>
-    public class ChangableMessagingCollection<T> : ObservableCollection<T>, IChangableObject, IMessenger where T : IChangableObject, IMessenger
+    /// <typeparam name="T">Type of List objects that implement <see cref="IChangable"/> and <see cref="IMessenger"/>.</typeparam>
+    public class ChangableMessengerCollection<T> : ObservableCollection<T>, IChangableMessengerCollection<T> where T : IChangableMessenger
     {
         private string message;
 
         private bool isChanged;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ChangableMessagingCollection{T}"/> class.
+        /// Initializes a new instance of the <see cref="ChangableMessengerCollection{T}"/> class.
         /// </summary>
-        public ChangableMessagingCollection() : base()
+        public ChangableMessengerCollection() : base()
         {
             OnCreated();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ChangableMessagingCollection{T}"/> class.
+        /// Initializes a new instance of the <see cref="ChangableMessengerCollection{T}"/> class.
         /// </summary>
-        /// <param name="collection">An IEnumberable of the Collection Type implementing both <see cref="IChangableObject"/> and <see cref="IMessenger"/>.</param>
-        public ChangableMessagingCollection(IEnumerable<T> collection) : base(collection)
+        /// <param name="collection">An IEnumberable of the Collection Type implementing both <see cref="IChangable"/> and <see cref="IMessenger"/>.</param>
+        public ChangableMessengerCollection(IEnumerable<T> collection) : base(collection)
         {
             OnCreated();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ChangableMessagingCollection{T}"/> class.
+        /// Initializes a new instance of the <see cref="ChangableMessengerCollection{T}"/> class.
         /// </summary>
-        /// <param name="list">A List of the Collection Type implementing both <see cref="IChangableObject"/> and <see cref="IMessenger"/>.</param>
-        public ChangableMessagingCollection(List<T> list) : base(list)
+        /// <param name="list">A List of the Collection Type implementing both <see cref="IChangable"/> and <see cref="IMessenger"/>.</param>
+        public ChangableMessengerCollection(List<T> list) : base(list)
         {
             OnCreated();
         }
@@ -89,7 +86,7 @@ namespace JSR.BaseClassLibrary
         /// <inheritdoc/>
         public void AcceptChanges()
         {
-            foreach (IChangableObject item in Items)
+            foreach (IChangable item in Items)
             {
                 item.AcceptChanges();
             }

@@ -1,11 +1,8 @@
-﻿// <copyright file="IChangableObject.cs" company="Jeremy Regnerus">
+﻿// <copyright file="IChangable.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 
 namespace JSR.BaseClassLibrary
 {
@@ -19,7 +16,7 @@ namespace JSR.BaseClassLibrary
     /// <summary>
     /// IChangableObject implements INotifyPropertyChanged and IChangeTracking together.
     /// </summary>
-    public interface IChangableObject : INotifyPropertyChanged, IChangeTracking
+    public interface IChangable : INotifyPropertyChanged, IChangeTracking
     {
         /// <summary>
         /// This event is raised when the object's IsChanged value changes.

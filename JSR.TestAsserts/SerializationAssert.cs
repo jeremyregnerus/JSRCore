@@ -15,35 +15,6 @@ namespace JSR.TestAsserts
     public static class SerializationAssert
     {
         /// <summary>
-        /// Tests both Serialization and Change Tracking.
-        /// </summary>
-        /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
-        public static void IChangeTrackingSerializationTests(Type type)
-        {
-            IChangeTrackingSerializationTests(CreateIChangeTrackingInstance(type));
-        }
-
-        /// <summary>
-        /// Tests both Serialization and Change Tracking.
-        /// </summary>
-        /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
-        public static void IChangeTrackingSerializationTests<T>() where T : IChangeTracking
-        {
-            IChangeTrackingSerializationTests(ObjectUtilities.CreateInstanceWithRandomValues<T>());
-        }
-
-        /// <summary>
-        /// Tests both Serialization and Change Tracking.
-        /// </summary>
-        /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
-        /// <param name="obj">Object that implements <see cref="IChangeTracking"/>.</param>
-        public static void IChangeTrackingSerializationTests<T>(T obj) where T : IChangeTracking
-        {
-            SerializesAndDeserializes(obj);
-            IsNotChangedAfterDeserialized(obj);
-        }
-
-        /// <summary>
         /// Tests that an object serializes and retains its values when it is deserialized.
         /// </summary>
         /// <param name="type">Type of object to test deserialization.</param>

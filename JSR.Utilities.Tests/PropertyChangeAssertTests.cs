@@ -24,7 +24,7 @@ namespace JSR.Utilities.Tests
         [TestMethod]
         public void ChangesValuesByType()
         {
-            PropertyChangeAssert.ChangesValues(typeof(UtilityMock));
+            PropertyValueChangeAssert.ChangesValues(typeof(UtilityMock));
 
             List<string> stringAsClass = typeof(UtilityMock).GetProperties().Where(x => x.PropertyType.IsClass).Select(x => x.Name).ToList();
 

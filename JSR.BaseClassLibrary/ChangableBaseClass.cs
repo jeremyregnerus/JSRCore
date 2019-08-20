@@ -1,4 +1,4 @@
-﻿// <copyright file="ChangableObject.cs" company="Jeremy Regnerus">
+﻿// <copyright file="ChangableBaseClass.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
@@ -9,10 +9,10 @@ using System.Runtime.Serialization;
 namespace JSR.BaseClassLibrary
 {
     /// <summary>
-    /// Provides the default implementation of <see cref="IChangableObject"/> interface layered on top of the <see cref="NotifyableObject"/> base class.
+    /// Provides the default implementation of <see cref="IChangable"/> interface layered on top of the <see cref="NotifyPropertyChangeBaseClass"/> base class.
     /// </summary>
     [DataContract]
-    public abstract class ChangableObject : NotifyableObject, IChangableObject
+    public abstract class ChangableBaseClass : NotifyPropertyChangeBaseClass, IChangable
     {
         private bool isChanged;
 
@@ -64,17 +64,11 @@ namespace JSR.BaseClassLibrary
 
             if (retVal)
             {
-                if (typeof(IChangableObject).IsAssignableFrom(typeof(T)))
+                if (typeof(IChangable).IsAssignableFrom(typeof(T)))
                 {
-                    if (oldValue != null)
-                    {
-                        ((IChangableObject)oldValue).OnChanged -= ChildChanged;
-                    }
+                    RemoveChangeTracking((IChangable)oldValue);
 
-                    if (backingField != null)
-                    {
-                        ((IChangableObject)backingField).OnChanged += ChildChanged;
-                    }
+                    AddChangeTracking((IChangable)backingField);
                 }
 
                 IsChanged = true;
@@ -84,9 +78,35 @@ namespace JSR.BaseClassLibrary
         }
 
         /// <summary>
+        /// Adds change tracking from an object.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangable"/>.</typeparam>
+        /// <param name="obj">Object to track changes.</param>
+        protected void AddChangeTracking<T>(T obj) where T : IChangable
+        {
+            if (obj != null)
+            {
+                obj.OnChanged += ChildChanged;
+            }
+        }
+
+        /// <summary>
+        /// Removes change tracking from an object.
+        /// </summary>
+        /// <typeparam name="T">Type that implements <see cref="IChangable"/>.</typeparam>
+        /// <param name="obj">Object to remove change tracking.</param>
+        protected void RemoveChangeTracking<T>(T obj) where T : IChangable
+        {
+            if (obj != null)
+            {
+                obj.OnChanged -= ChildChanged;
+            }
+        }
+
+        /// <summary>
         /// Changes the IsChanged property of this object when a child object is changed.
         /// </summary>
-        /// <param name="sender"><see cref="IChangableObject"/> to track changes.</param>
+        /// <param name="sender"><see cref="IChangable"/> to track changes.</param>
         /// <param name="isChanged">A value stating if the child has changed.</param>
         protected void ChildChanged(object sender, bool isChanged)
         {

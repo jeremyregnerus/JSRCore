@@ -300,7 +300,7 @@ namespace JSR.Utilities
         /// <returns>True if the property is a value type.</returns>
         public static bool CheckIfPropertyIsValue(PropertyInfo property)
         {
-            return !typeof(IList).IsAssignableFrom(property.PropertyType) || property.PropertyType.IsClass;
+            return !(typeof(IList).IsAssignableFrom(property.PropertyType) || property.PropertyType.IsClass);
         }
 
         #endregion

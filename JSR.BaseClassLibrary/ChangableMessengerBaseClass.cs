@@ -1,4 +1,4 @@
-﻿// <copyright file="ChangableMessagingObject.cs" company="Jeremy Regnerus">
+﻿// <copyright file="ChangableMessengerBaseClass.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
@@ -11,10 +11,10 @@ using System.Text;
 namespace JSR.BaseClassLibrary
 {
     /// <summary>
-    /// Provides an implementation of the <see cref="IMessenger"/> interface layered on the <see cref="ChangableObject"/> base class.
+    /// Provides an implementation of the <see cref="IMessenger"/> interface layered on the <see cref="ChangableBaseClass"/> base class.
     /// </summary>
     [DataContract]
-    public abstract class ChangableMessagingObject : ChangableObject, IMessenger
+    public abstract class ChangableMessengerBaseClass : ChangableBaseClass, IChangableMessenger
     {
         private string message;
 

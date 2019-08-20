@@ -1,4 +1,4 @@
-﻿// <copyright file="MessagingObject.cs" company="Jeremy Regnerus">
+﻿// <copyright file="MessengerBaseClass.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
@@ -8,10 +8,10 @@ using System.Runtime.Serialization;
 namespace JSR.BaseClassLibrary
 {
     /// <summary>
-    /// Provides a default implementation of the <see cref="IMessenger"/> interface layered on the <see cref="NotifyableObject"/> base class.
+    /// Provides a default implementation of the <see cref="IMessenger"/> interface layered on the <see cref="NotifyPropertyChangeBaseClass"/> base class.
     /// </summary>
     [DataContract]
-    public abstract class MessagingObject : NotifyableObject, IMessenger
+    public abstract class MessengerBaseClass : NotifyPropertyChangeBaseClass, IMessenger
     {
         private string message;
 

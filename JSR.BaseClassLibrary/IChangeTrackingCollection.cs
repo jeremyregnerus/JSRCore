@@ -8,10 +8,10 @@ using System.ComponentModel;
 namespace JSR.BaseClassLibrary
 {
     /// <summary>
-    /// <see cref="IChangeTrackingCollection{T}"/> implements <see cref="IChangeTracking"/> within an <see cref="IList"/>.
+    /// <see cref="IChangeTrackingCollection{T}"/> implements <see cref="IList"/> and <see cref="IChangeTracking"/>.
     /// </summary>
     /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
-    public interface IChangeTrackingCollection<T> : IChangeTracking, IList where T : IChangeTracking
+    public interface IChangeTrackingCollection<T> : IList, IChangeTracking where T : IChangeTracking
     {
     }
 }

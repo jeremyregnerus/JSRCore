@@ -1,4 +1,4 @@
-﻿// <copyright file="PropertyChangeAssert.cs" company="Jeremy Regnerus">
+﻿// <copyright file="PropertyValueChangeAssert.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
@@ -15,7 +15,7 @@ namespace JSR.TestAsserts
     /// Tests property changes within objects.
     /// </summary>
     [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1124:DoNotUseRegions", Justification = "Regions used for signatures.")]
-    public static class PropertyChangeAssert
+    public static class PropertyValueChangeAssert
     {
         #region ChangesValues
 
@@ -178,6 +178,8 @@ namespace JSR.TestAsserts
         /// <param name="property">Property to test.</param>
         public static void ChangesValue<T>(T obj, PropertyInfo property)
         {
+            int count = new Random().Next(5, 20);
+
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
                 var randomObject = ObjectUtilities.CreateInstanceWithRandomValues(obj.GetType());

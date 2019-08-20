@@ -1,4 +1,4 @@
-﻿// <copyright file="NotifyableObject.cs" company="Jeremy Regnerus">
+﻿// <copyright file="NotifyPropertyChangeBaseClass.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
@@ -13,7 +13,7 @@ namespace JSR.BaseClassLibrary
     /// Provides a default implementation of the <see cref="INotifyPropertyChanged"/> interface.
     /// </summary>
     [DataContract]
-    public abstract class NotifyableObject : INotifyPropertyChanged
+    public abstract class NotifyPropertyChangeBaseClass : INotifyPropertyChanged
     {
         /// <summary>
         /// Event Handler referenced when property values are changed
