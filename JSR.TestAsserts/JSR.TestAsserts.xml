@@ -581,6 +581,13 @@
             <param name="type">Type to test and create.</param>
             <returns>A new instance of the type specified that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</returns>
         </member>
+        <member name="M:JSR.TestAsserts.ChangableAssert.IsIChangableCollection(System.Type)">
+            <summary>
+            Checks if the type implements IChangableCollection.
+            </summary>
+            <param name="type">Type to evaluate.</param>
+            <returns>True of the type implements IChangableCollection.</returns>
+        </member>
         <member name="T:JSR.TestAsserts.ChangableMonitor`1">
             <summary>
             Monitors the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/> and <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> on an <see cref="T:JSR.BaseClassLibrary.IChangable"/> object.
@@ -920,7 +927,7 @@
             <param name="obj">Object with properties to test.</param>
             <param name="properties">List of class properties to test. Each class should implement <see cref="T:System.ComponentModel.IChangeTracking"/>.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChildClassesChange``2(``0,System.Collections.Generic.List{``1})">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChildClassesChange``2(``0,System.Collections.Generic.List{System.ValueTuple{``1,System.String}})">
             <summary>
             Tests that when the child classes change, it changes the parent's IsChanged property to true.
             </summary>
@@ -973,7 +980,7 @@
             <param name="obj">Object with property to test.</param>
             <param name="property">Property that implements <see cref="T:System.ComponentModel.IChangeTracking"/> to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChildClassChanges``2(``0,``1)">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChildClassChanges``2(``0,``1,System.String)">
             <summary>
             Tests that when a child class changes, it changes the parent's IsChanged property to true.
             </summary>
@@ -981,6 +988,7 @@
             <typeparam name="TChild">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
             <param name="parentObj">Parent object to test.</param>
             <param name="childObj">Child object to change.</param>
+            <param name="childPropertyName">Name of the property that contains the child.</param>
         </member>
         <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenListPropertiesChange(System.Type,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
@@ -1072,15 +1080,14 @@
             <param name="removeItems">Test removing items from lists.</param>
             <param name="changeItems">Test changing items in lists.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenListsChange``3(``0,System.Collections.Generic.List{``1},System.Boolean,System.Boolean,System.Boolean)">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenListsChange``2(``0,System.Collections.Generic.List{System.ValueTuple{System.Collections.IList,System.String}},System.Boolean,System.Boolean,System.Boolean)">
             <summary>
             Tests that when lists change, the parent's IsChanged property is set to true.
             </summary>
-            <typeparam name="TParent">Type for the parent object that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
-            <typeparam name="TList">Type for list that implements <see cref="T:JSR.BaseClassLibrary.IChangeTrackingCollection`1"/>.</typeparam>
-            <typeparam name="TListItems">Type for list items that implement <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
+            <typeparam name="TParent">Type implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
+            <typeparam name="TList">Type that implements <see cref="T:JSR.BaseClassLibrary.IChangeTrackingCollection`1"/>.</typeparam>
             <param name="obj">Object with lists to test.</param>
-            <param name="lists">List of lists that implement <see cref="T:System.ComponentModel.IChangeTracking"/> to test.</param>
+            <param name="listPropertyNames">List of <see cref="T:System.Collections.IList"/> and property names.</param>
             <param name="addItems">Test adding items to lists.</param>
             <param name="removeItems">Test removing items from lists.</param>
             <param name="changeItems">Test changing items in lists.</param>
@@ -1147,48 +1154,48 @@
             <param name="removeItems">Test removing items from list.</param>
             <param name="changeItems">Test changing items in list.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenListChanges``3(``0,``1,System.Boolean,System.Boolean,System.Boolean)">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenListChanges``2(``0,``1,System.String,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
             Tests that when a list changes, the parent's IsChanged property is set to true.
             </summary>
-            <typeparam name="TParent">Type for the parent object that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
-            <typeparam name="TList">Type for list that implements <see cref="T:JSR.BaseClassLibrary.IChangeTrackingCollection`1"/>.</typeparam>
-            <typeparam name="TListItems">Type for list items that implement <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
+            <typeparam name="TParent">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
+            <typeparam name="TList">Type that implements <see cref="T:System.Collections.IList"/>.</typeparam>
             <param name="obj">Object with list to test.</param>
             <param name="list">List to test.</param>
+            <param name="listPropertyName">Name of property that contains the list.</param>
             <param name="addItems">Test adding items to list.</param>
             <param name="removeItems">Test removing items from list.</param>
             <param name="changeItems">Test changing items in list.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenListItemsAdded``3(``0,``1)">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenListItemsAdded``2(``0,``1,System.String)">
             <summary>
             Tests that when items are added to a list, the parent's IsChanged property is set to true.
             </summary>
-            <typeparam name="TParent">Type for the parent object that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
-            <typeparam name="TList">Type for list that implements <see cref="T:JSR.BaseClassLibrary.IChangeTrackingCollection`1"/>.</typeparam>
-            <typeparam name="TListItems">Type for list items that implement <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
-            <param name="obj">Object with list.</param>
+            <typeparam name="TParent">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
+            <typeparam name="TList">Type that implements <see cref="T:System.Collections.IList"/>.</typeparam>
+            <param name="obj">Object with list to add items to.</param>
             <param name="list">List to add items to.</param>
+            <param name="listPropertyName">Name of property that contains the list.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenListItemsRemoved``3(``0,``1)">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenListItemsRemoved``2(``0,``1,System.String)">
             <summary>
             Tests that when items are removed from a list, the parent's IsChanged property is set to true.
             </summary>
-            <typeparam name="TParent">Type for the parent object that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
-            <typeparam name="TList">Type for list that implements <see cref="T:JSR.BaseClassLibrary.IChangeTrackingCollection`1"/>.</typeparam>
-            <typeparam name="TListItems">Type for list items that implement <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
-            <param name="obj">Object with list to test.</param>
+            <typeparam name="TParent">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
+            <typeparam name="TList">Type that implements <see cref="T:System.Collections.IList"/>.</typeparam>
+            <param name="obj">Object with list to remove items from.</param>
             <param name="list">List to remove items from.</param>
+            <param name="listPropertyName">Name of property that contains the list.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenListItemsChange``3(``0,``1)">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenListItemsChange``2(``0,``1,System.String)">
             <summary>
             Test that when items in a list change, the parent's IsChanged property is set to true.
             </summary>
-            <typeparam name="TParent">Type for the parent object that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
-            <typeparam name="TList">Type for list that implements <see cref="T:JSR.BaseClassLibrary.IChangeTrackingCollection`1"/>.</typeparam>
-            <typeparam name="TListItems">Type for list items that implement <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
-            <param name="obj">Object with list to test.</param>
+            <typeparam name="TParent">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
+            <typeparam name="TList">Type that implements <see cref="T:System.Collections.IList"/>.</typeparam>
+            <param name="obj">Object with list of items to change.</param>
             <param name="list">List with items to change.</param>
+            <param name="listPropertyName">Name of property that contains the list.</param>
         </member>
         <member name="M:JSR.TestAsserts.ChangeTrackingAssert.CreateIChangeTrackingInstance(System.Type)">
             <summary>
