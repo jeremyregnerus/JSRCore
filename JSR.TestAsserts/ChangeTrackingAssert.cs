@@ -56,12 +56,7 @@ namespace JSR.TestAsserts
                 obj.AcceptChanges();
                 Assert.IsFalse(obj.IsChanged);
 
-                foreach (PropertyInfo property in PropertyUtilities.GetListOfPropertiesWithClassTypes(obj, true, true, false).Where(property => typeof(IChangeTracking).IsAssignableFrom(property.PropertyType)))
-                {
-                    Assert.IsFalse(((IChangeTracking)property.GetValue(obj)).IsChanged);
-                }
-
-                foreach (PropertyInfo property in PropertyUtilities.GetListOfPropertiesWithListTypes(obj, true, true, false).Where(property => typeof(IChangeTracking).IsAssignableFrom(property.PropertyType)))
+                foreach (PropertyInfo property in obj.GetType().GetProperties().Where(property => !PropertyUtilities.CheckIfPropertyIsWriteOnly(property) && typeof(IChangeTracking).IsAssignableFrom(property.PropertyType)))
                 {
                     Assert.IsFalse(((IChangeTracking)property.GetValue(obj)).IsChanged);
                 }
@@ -177,7 +172,7 @@ namespace JSR.TestAsserts
         /// <param name="obj">Object with properties to test.</param>
         public static void IsChangedWhenChanged<T>(T obj) where T : IChangeTracking
         {
-            IsChangedWhenChanged(obj, new List<PropertyInfo>(obj.GetType().GetProperties()));
+            IsChangedWhenChanged(obj, PropertyUtilities.GetListOfProperties(obj, true, true, false, true, true, true));
         }
 
         /// <summary>
@@ -338,15 +333,6 @@ namespace JSR.TestAsserts
             {
                 IsChangedWhenPropertyChanges(obj, property);
             }
-
-            obj.AcceptChanges();
-
-            foreach (PropertyInfo property in properties.Where(property => PropertyUtilities.CheckIfPropertyIsReadWrite(property)))
-            {
-                ObjectUtilities.PopulatePropertyWithRandomValue(obj, property);
-            }
-
-            Assert.IsTrue(obj.IsChanged);
         }
 
         #endregion
@@ -412,28 +398,17 @@ namespace JSR.TestAsserts
         /// <param name="property">Property to change.</param>
         public static void IsChangedWhenPropertyChanges<T>(T obj, PropertyInfo property) where T : IChangeTracking
         {
-            if (!OutputUtilities.EvaluateIsReadWriteProperty(property))
+            if (PropertyUtilities.CheckIfPropertyIsReadWrite(property))
             {
-                return;
+                for (int i = 0; i < new Random().Next(5, 20); i++)
+                {
+                    obj.AcceptChanges();
+
+                    ObjectUtilities.PopulatePropertyWithRandomValue(obj, property);
+
+                    Assert.IsTrue(obj.IsChanged);
+                }
             }
-
-            for (int i = 0; i < new Random().Next(5, 20); i++)
-            {
-                obj.AcceptChanges();
-
-                ObjectUtilities.PopulatePropertyWithRandomValue(obj, property);
-
-                Assert.IsTrue(obj.IsChanged);
-            }
-
-            obj.AcceptChanges();
-
-            for (int i = 0; i < new Random().Next(5, 20); i++)
-            {
-                ObjectUtilities.PopulatePropertyWithRandomValue(obj, property);
-            }
-
-            Assert.IsTrue(obj.IsChanged);
         }
 
         #endregion
@@ -531,20 +506,6 @@ namespace JSR.TestAsserts
             {
                 IsChangedWhenClassPropertyChanges(obj, property);
             }
-
-            obj.AcceptChanges();
-
-            foreach (PropertyInfo property in properties)
-            {
-                ObjectUtilities.PopulatePropertyWithRandomValue(obj, property);
-
-                if (typeof(IChangeTracking).IsAssignableFrom(property.PropertyType))
-                {
-                    Assert.IsTrue(((IChangeTracking)property.GetValue(obj)).IsChanged);
-                }
-            }
-
-            Assert.IsTrue(obj.IsChanged);
         }
 
         #endregion
@@ -556,26 +517,12 @@ namespace JSR.TestAsserts
         /// <typeparam name="TChild">Type that implements <see cref="IChangeTracking"/> as a child class of the parent.</typeparam>
         /// <param name="parent">Parent object that contains child classes contained within the list.</param>
         /// <param name="children">Class objects contained within the properties of the object being tested.</param>
-        public static void IsChangedWhenChildClassesChange<TParent, TChild>(TParent parent, List<(TChild child, string propertyName)> children) where TParent : IChangeTracking
+        public static void IsChangedWhenChildClassesChange<TParent, TChild>(TParent parent, List<TChild> children) where TParent : IChangeTracking
         {
-            foreach ((TChild child, string propertyName) in children)
+            foreach (TChild child in children)
             {
-                IsChangedWhenChildClassChanges(parent, child, propertyName);
+                IsChangedWhenChildClassChanges(parent, child);
             }
-
-            parent.AcceptChanges();
-
-            foreach ((TChild child, string propertyName) in children)
-            {
-                ObjectUtilities.PopulateObjectWithRandomValues(child);
-
-                if (typeof(IChangeTracking).IsAssignableFrom(child.GetType()))
-                {
-                    Assert.IsTrue(((IChangeTracking)child).IsChanged);
-                }
-            }
-
-            Assert.IsTrue(parent.IsChanged);
         }
 
         #region IsChangedWhenChildClassChanges
@@ -639,7 +586,7 @@ namespace JSR.TestAsserts
         /// <param name="property">Property that implements <see cref="IChangeTracking"/> to test.</param>
         public static void IsChangedWhenClassPropertyChanges<T>(T obj, PropertyInfo property) where T : IChangeTracking
         {
-            IsChangedWhenChildClassChanges(obj, property.GetValue(obj), property.Name);
+            IsChangedWhenChildClassChanges(obj, property.GetValue(obj));
         }
 
         #endregion
@@ -651,10 +598,9 @@ namespace JSR.TestAsserts
         /// <typeparam name="TChild">Type that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <param name="parentObj">Parent object to test.</param>
         /// <param name="childObj">Child object to change.</param>
-        /// <param name="childPropertyName">Name of the property that contains the child.</param>
-        public static void IsChangedWhenChildClassChanges<TParent, TChild>(TParent parentObj, TChild childObj, string childPropertyName) where TParent : IChangeTracking
+        public static void IsChangedWhenChildClassChanges<TParent, TChild>(TParent parentObj, TChild childObj) where TParent : IChangeTracking
         {
-            bool childIsIChangeTracking = OutputUtilities.ExpectedImplementation(ImplementationTypeEnum.ClassValue, childPropertyName, childObj.GetType(), typeof(IChangeTracking));
+            bool childIsIChangeTracking = typeof(IChangeTracking).IsAssignableFrom(childObj.GetType());
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
@@ -668,20 +614,6 @@ namespace JSR.TestAsserts
                 {
                     Assert.IsTrue(((IChangeTracking)childObj).IsChanged);
                 }
-            }
-
-            parentObj.AcceptChanges();
-
-            for (int i = 0; i < new Random().Next(5, 20); i++)
-            {
-                ObjectUtilities.PopulateObjectWithRandomValues(childObj);
-            }
-
-            Assert.IsTrue(parentObj.IsChanged);
-
-            if (childIsIChangeTracking)
-            {
-                Assert.IsTrue(((IChangeTracking)childObj).IsChanged);
             }
         }
 
@@ -805,21 +737,6 @@ namespace JSR.TestAsserts
             {
                 IsChangedWhenListPropertyChanges(obj, property, addItems, removeItems, changeItems);
             }
-
-            obj.AcceptChanges();
-
-            foreach (PropertyInfo property in properties)
-            {
-                if (typeof(IList).IsAssignableFrom(property.PropertyType))
-                {
-                    ObjectUtilities.PopulateListWithRandomValues((IList)property.GetValue(obj));
-
-                    if (typeof(IChangeTracking).IsAssignableFrom(property.PropertyType))
-                    {
-                        Assert.IsTrue(((IChangeTracking)property.GetValue(obj)).IsChanged);
-                    }
-                }
-            }
         }
 
         #endregion
@@ -830,30 +747,16 @@ namespace JSR.TestAsserts
         /// <typeparam name="TParent">Type implements <see cref="IChangeTracking"/>.</typeparam>
         /// <typeparam name="TList">Type that implements <see cref="IChangeTrackingCollection{T}"/>.</typeparam>
         /// <param name="obj">Object with lists to test.</param>
-        /// <param name="listPropertyNames">List of <see cref="IList"/> and property names.</param>
+        /// <param name="lists">List of <see cref="IList"/>.</param>
         /// <param name="addItems">Test adding items to lists.</param>
         /// <param name="removeItems">Test removing items from lists.</param>
         /// <param name="changeItems">Test changing items in lists.</param>
-        public static void IsChangedWhenListsChange<TParent, TList>(TParent obj, List<(IList list, string listPropertyName)> listPropertyNames, bool addItems, bool removeItems, bool changeItems) where TParent : IChangeTracking where TList : IList
+        public static void IsChangedWhenListsChange<TParent, TList>(TParent obj, List<IList> lists, bool addItems, bool removeItems, bool changeItems) where TParent : IChangeTracking where TList : IList
         {
-            foreach ((IList list, string propertyName) in listPropertyNames)
+            foreach (IList list in lists)
             {
-                IsChangedWhenListChanges(obj, list, propertyName, addItems, removeItems, changeItems);
+                IsChangedWhenListChanges(obj, list, addItems, removeItems, changeItems);
             }
-
-            obj.AcceptChanges();
-
-            foreach ((IList list, string propertyName) in listPropertyNames)
-            {
-                ObjectUtilities.PopulateListWithRandomValues(list);
-
-                if (typeof(IChangeTracking).IsAssignableFrom(list.GetType()))
-                {
-                    Assert.IsTrue(((IChangeTracking)list).IsChanged);
-                }
-            }
-
-            Assert.IsTrue(obj.IsChanged);
         }
 
         #region IsChangedWhenListChanges
@@ -935,9 +838,9 @@ namespace JSR.TestAsserts
         /// <param name="changeItems">Test changing items in list.</param>
         public static void IsChangedWhenListPropertyChanges<TParent>(TParent obj, PropertyInfo property, bool addItems, bool removeItems, bool changeItems) where TParent : IChangeTracking
         {
-            if (OutputUtilities.ExpectedImplementation(ImplementationTypeEnum.PropertyValue, property.Name, property.PropertyType, typeof(IList)))
+            if (typeof(IList).IsAssignableFrom(property.PropertyType))
             {
-                IsChangedWhenListChanges(obj, (IList)property.GetValue(obj), property.Name, addItems, removeItems, changeItems);
+                IsChangedWhenListChanges(obj, (IList)property.GetValue(obj), addItems, removeItems, changeItems);
             }
         }
 
@@ -950,25 +853,24 @@ namespace JSR.TestAsserts
         /// <typeparam name="TList">Type that implements <see cref="IList"/>.</typeparam>
         /// <param name="obj">Object with list to test.</param>
         /// <param name="list">List to test.</param>
-        /// <param name="listPropertyName">Name of property that contains the list.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void IsChangedWhenListChanges<TParent, TList>(TParent obj, TList list, string listPropertyName, bool addItems, bool removeItems, bool changeItems) where TParent : IChangeTracking where TList : IList
+        public static void IsChangedWhenListChanges<TParent, TList>(TParent obj, TList list, bool addItems, bool removeItems, bool changeItems) where TParent : IChangeTracking where TList : IList
         {
             if (addItems)
             {
-                IsChangedWhenListItemsAdded(obj, list, listPropertyName);
+                IsChangedWhenListItemsAdded(obj, list);
             }
 
             if (removeItems)
             {
-                IsChangedWhenListItemsRemoved(obj, list, listPropertyName);
+                IsChangedWhenListItemsRemoved(obj, list);
             }
 
             if (changeItems)
             {
-                IsChangedWhenListItemsChange(obj, list, listPropertyName);
+                IsChangedWhenListItemsChange(obj, list);
             }
         }
 
@@ -979,10 +881,9 @@ namespace JSR.TestAsserts
         /// <typeparam name="TList">Type that implements <see cref="IList"/>.</typeparam>
         /// <param name="obj">Object with list to add items to.</param>
         /// <param name="list">List to add items to.</param>
-        /// <param name="listPropertyName">Name of property that contains the list.</param>
-        public static void IsChangedWhenListItemsAdded<TParent, TList>(TParent obj, TList list, string listPropertyName) where TParent : IChangeTracking where TList : IList
+        public static void IsChangedWhenListItemsAdded<TParent, TList>(TParent obj, TList list) where TParent : IChangeTracking where TList : IList
         {
-            bool listIsIChangeTracking = OutputUtilities.ExpectedImplementation(ImplementationTypeEnum.PropertyValue, listPropertyName, list.GetType(), typeof(IChangeTracking));
+            bool listIsIChangeTracking = typeof(IChangeTracking).IsAssignableFrom(list.GetType());
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
@@ -996,20 +897,6 @@ namespace JSR.TestAsserts
                 {
                     Assert.IsTrue(((IChangeTracking)list).IsChanged);
                 }
-            }
-
-            obj.AcceptChanges();
-
-            for (int i = 0; i < new Random().Next(5, 20); i++)
-            {
-                ObjectUtilities.AddRandomItemsToList(list);
-            }
-
-            Assert.IsTrue(obj.IsChanged);
-
-            if (listIsIChangeTracking)
-            {
-                Assert.IsTrue(((IChangeTracking)list).IsChanged);
             }
         }
 
@@ -1020,10 +907,9 @@ namespace JSR.TestAsserts
         /// <typeparam name="TList">Type that implements <see cref="IList"/>.</typeparam>
         /// <param name="obj">Object with list to remove items from.</param>
         /// <param name="list">List to remove items from.</param>
-        /// <param name="listPropertyName">Name of property that contains the list.</param>
-        public static void IsChangedWhenListItemsRemoved<TParent, TList>(TParent obj, TList list, string listPropertyName) where TParent : IChangeTracking where TList : IList
+        public static void IsChangedWhenListItemsRemoved<TParent, TList>(TParent obj, TList list) where TParent : IChangeTracking where TList : IList
         {
-            bool listIsIChangeTracking = OutputUtilities.ExpectedImplementation(ImplementationTypeEnum.PropertyValue, listPropertyName, list.GetType(), typeof(IChangeTracking));
+            bool listIsIChangeTracking = typeof(IChangeTracking).IsAssignableFrom(list.GetType());
 
             if (list.Count == 0)
             {
@@ -1042,33 +928,6 @@ namespace JSR.TestAsserts
                 {
                     Assert.IsTrue(((IChangeTracking)list).IsChanged);
                 }
-            }
-
-            ObjectUtilities.PopulateListWithRandomValues(list);
-            obj.AcceptChanges();
-
-            while (list.Count > 0)
-            {
-                list.RemoveAt(list.Count - 1);
-            }
-
-            Assert.IsTrue(obj.IsChanged);
-
-            if (listIsIChangeTracking)
-            {
-                Assert.IsTrue(((IChangeTracking)list).IsChanged);
-            }
-
-            ObjectUtilities.PopulateListWithRandomValues(list);
-            obj.AcceptChanges();
-
-            list.Clear();
-
-            Assert.IsTrue(obj.IsChanged);
-
-            if (listIsIChangeTracking)
-            {
-                Assert.IsTrue(((IChangeTracking)list).IsChanged);
             }
         }
 
@@ -1079,21 +938,19 @@ namespace JSR.TestAsserts
         /// <typeparam name="TList">Type that implements <see cref="IList"/>.</typeparam>
         /// <param name="obj">Object with list of items to change.</param>
         /// <param name="list">List with items to change.</param>
-        /// <param name="listPropertyName">Name of property that contains the list.</param>
-        public static void IsChangedWhenListItemsChange<TParent, TList>(TParent obj, TList list, string listPropertyName) where TParent : IChangeTracking where TList : IList
+        public static void IsChangedWhenListItemsChange<TParent, TList>(TParent obj, TList list) where TParent : IChangeTracking where TList : IList
         {
-            bool listIsIChangeTracking = OutputUtilities.ExpectedImplementation(ImplementationTypeEnum.PropertyValue, listPropertyName, list.GetType(), typeof(IChangeTracking));
-            bool listItemsAreIsChangeTracking = OutputUtilities.ExpectedImplementation(ImplementationTypeEnum.ListItemValue, listPropertyName, list.GetType().GenericTypeArguments[0], typeof(IChangeTracking));
+            bool listIsIChangeTracking = typeof(IChangeTracking).IsAssignableFrom(list.GetType());
 
             if (list.Count == 0)
             {
                 ObjectUtilities.PopulateListWithRandomValues(list);
             }
 
-            obj.AcceptChanges();
-
             foreach (var item in list)
             {
+                obj.AcceptChanges();
+
                 ObjectUtilities.PopulateObjectWithRandomValues(item);
 
                 Assert.IsTrue(obj.IsChanged);
@@ -1103,29 +960,10 @@ namespace JSR.TestAsserts
                     Assert.IsTrue(((IChangeTracking)list).IsChanged);
                 }
 
-                if (listItemsAreIsChangeTracking)
+                if (typeof(IChangeTracking).IsAssignableFrom(item.GetType()))
                 {
                     Assert.IsTrue(((IChangeTracking)item).IsChanged);
                 }
-
-                obj.AcceptChanges();
-            }
-
-            foreach (var item in list)
-            {
-                ObjectUtilities.PopulateObjectWithRandomValues(item);
-            }
-
-            Assert.IsTrue(obj.IsChanged);
-
-            if (listIsIChangeTracking)
-            {
-                Assert.IsTrue(((IChangeTracking)list).IsChanged);
-            }
-
-            foreach (IChangeTracking item in list)
-            {
-                Assert.IsTrue(item.IsChanged);
             }
         }
 

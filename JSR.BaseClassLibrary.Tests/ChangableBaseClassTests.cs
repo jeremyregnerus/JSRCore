@@ -22,7 +22,7 @@ namespace JSR.BaseClassLibrary.Tests
     public class ChangableBaseClassTests
     {
         /// <summary>
-        /// Tests that <see cref="IChangable"/> initializes without setting is changed.
+        /// Tests that <see cref="ChangableBaseClass"/> initializes without setting <see cref="ChangableBaseClass.IsChanged"/> to true.
         /// </summary>
         [TestMethod]
         public void Initializes()
@@ -31,7 +31,7 @@ namespace JSR.BaseClassLibrary.Tests
         }
 
         /// <summary>
-        /// Tests that an implementation of <see cref="IChangable"/> can serialize and deserialize.
+        /// Tests that an implementation of <see cref="ChangableBaseClass"/> serializes and deserializes properly.
         /// </summary>
         [TestMethod]
         public void SerializesAndDeserializes()
@@ -40,7 +40,7 @@ namespace JSR.BaseClassLibrary.Tests
         }
 
         /// <summary>
-        /// Tests that an implementation of <see cref="IChangable"/> is not changed after deserialized.
+        /// Tests that an implementation of <see cref="ChangableBaseClass"/> does not set <see cref="ChangableBaseClass.IsChanged"/> to true after being deserialized.
         /// </summary>
         [TestMethod]
         public void IsNotChangedAfterDeserialization()
@@ -49,7 +49,7 @@ namespace JSR.BaseClassLibrary.Tests
         }
 
         /// <summary>
-        /// Tests that an implementation of <see cref="IChangable"/> can change values.
+        /// Tests that an implementation of <see cref="ChangableBaseClass"/> can change property values.
         /// </summary>
         [TestMethod]
         public void ChangesValues()
@@ -58,7 +58,7 @@ namespace JSR.BaseClassLibrary.Tests
         }
 
         /// <summary>
-        /// Tests that an implementation of <see cref="IChangable"/> notifies properties changed.
+        /// Tests that an implementation of <see cref="ChangableBaseClass"/> raises <see cref="PropertyChangedEventHandler"/> when property values change.
         /// </summary>
         [TestMethod]
         public void NotifiesPropertiesChanged()
@@ -67,7 +67,7 @@ namespace JSR.BaseClassLibrary.Tests
         }
 
         /// <summary>
-        /// Tests that an implementation of <see cref="IChangable"/> is changed when the properties, classes and lists within it are changed.
+        /// Tests that an implementation of <see cref="ChangableBaseClass"/> changes <see cref="ChangableBaseClass.IsChanged"/> to true when properties are changed.
         /// </summary>
         [TestMethod]
         public void ChangesOnPropertiesChanged()
@@ -76,16 +76,16 @@ namespace JSR.BaseClassLibrary.Tests
         }
 
         /// <summary>
-        /// Tests that an implementation of <see cref="IChangable"/> notifies when changes occur to properties, classes and lists within the object change.
+        /// Tests that an implementation of <see cref="ChangableBaseClass"/> raises <see cref="OnChangedEventHandler"/> correctly when properties are changed.
         /// </summary>
         [TestMethod]
-        public void NotifiesIsChanged()
+        public void NotifiesIsChangedWhenChanged()
         {
             ChangableAssert.NotifiesIsChangedWhenChanged<ChangableWithChildrenMock>();
         }
 
         /// <summary>
-        /// Tests that an implementation of <see cref="IChangable"/> properly implements AcceptChanges.
+        /// Tests that an implementation of <see cref="ChangableBaseClass"/> sets <see cref="ChangableBaseClass.IsChanged"/> to false when executing <see cref="ChangableBaseClass.AcceptChanges"/>.
         /// </summary>
         [TestMethod]
         public void AcceptsChanges()
@@ -94,7 +94,7 @@ namespace JSR.BaseClassLibrary.Tests
         }
 
         /// <summary>
-        /// Tests that an implementation of <see cref="IChangable"/> notifies IsChanged once when accepting changes.
+        /// Tests that an implementation of <see cref="ChangableBaseClass"/> raises <see cref="OnChangedEventHandler"/> once when executing <see cref="ChangableBaseClass.AcceptChanges"/>.
         /// </summary>
         [TestMethod]
         public void NotifiesIsChangedOnAcceptChanges()

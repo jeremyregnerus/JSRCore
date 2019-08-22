@@ -184,7 +184,7 @@ namespace JSR.TestAsserts
         /// <param name="obj">Object with properties to test.</param>
         public static void NotifiesIsChangedWhenChanged<T>(T obj) where T : IChangable
         {
-            NotifiesIsChangedWhenChanged(obj, new List<PropertyInfo>(obj.GetType().GetProperties()));
+            NotifiesIsChangedWhenChanged(obj, PropertyUtilities.GetListOfProperties(obj, true, true, false, true, true, true));
         }
 
         /// <summary>
@@ -367,7 +367,7 @@ namespace JSR.TestAsserts
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
-                foreach (PropertyInfo property in properties)
+                foreach (PropertyInfo property in properties.Where(property => PropertyUtilities.CheckIfPropertyIsReadWrite(property)))
                 {
                     ObjectUtilities.PopulatePropertyWithRandomValue(obj, property);
                 }
@@ -377,7 +377,7 @@ namespace JSR.TestAsserts
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
-                foreach (PropertyInfo property in properties)
+                foreach (PropertyInfo property in properties.Where(property => PropertyUtilities.CheckIfPropertyIsReadWrite(property)))
                 {
                     ObjectUtilities.PopulatePropertyWithRandomValue(obj, property);
                 }
@@ -469,10 +469,6 @@ namespace JSR.TestAsserts
 
                 monitor.AssertNotifications(false);
             }
-            else
-            {
-                Console.WriteLine($"The property {property.Name} is not Read-Write.");
-            }
         }
 
         #endregion
@@ -544,7 +540,7 @@ namespace JSR.TestAsserts
         /// <param name="obj">Object with child objects to test.</param>
         public static void NotifiesIsChangedWhenClassPropertiesChange<T>(T obj) where T : IChangable
         {
-            NotifiesIsChangedWhenClassPropertiesChange(obj, PropertyUtilities.GetListOfPropertiesWithClassTypes(obj, true, true, true));
+            NotifiesIsChangedWhenClassPropertiesChange(obj, PropertyUtilities.GetListOfPropertiesWithClassTypes(obj, true, true, false));
         }
 
         /// <summary>
@@ -601,10 +597,11 @@ namespace JSR.TestAsserts
         /// <summary>
         /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="T">Type that implements <see cref="IChangable"/>.</typeparam>
+        /// <typeparam name="TParent">Type that implements <see cref="IChangable"/>.</typeparam>
+        /// <typeparam name="TList">Type that implements <see cref="IList"/>.</typeparam>
         /// <param name="obj">Object with child objects to test.</param>
         /// <param name="children">Child objects to change.</param>
-        public static void NotifiesIsChangedWhenChildClassesChange<T>(T obj, List<IChangable> children) where T : IChangable
+        public static void NotifiesIsChangedWhenChildClassesChange<TParent, TList>(TParent obj, TList children) where TParent : IChangable where TList : IList
         {
             foreach (IChangable child in children)
             {
@@ -613,7 +610,7 @@ namespace JSR.TestAsserts
 
             obj.AcceptChanges();
 
-            ChangableMonitor<T> monitor = new ChangableMonitor<T>(obj);
+            ChangableMonitor<TParent> monitor = new ChangableMonitor<TParent>(obj);
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
@@ -697,17 +694,7 @@ namespace JSR.TestAsserts
         /// <param name="property">Property to test.</param>
         public static void NotifiesIsChangedWhenClassPropertyChanges<T>(T obj, PropertyInfo property) where T : IChangable
         {
-            if (typeof(IChangable).IsAssignableFrom(property.PropertyType))
-            {
-                MethodInfo method = typeof(ChangableAssert).GetMethod(nameof(NotifiesIsChangedWhenChildClassChanges));
-                MethodInfo generic = method.MakeGenericMethod(new Type[] { obj.GetType(), property.PropertyType });
-
-                generic.Invoke(null, new object[] { obj, property.GetValue(obj) });
-            }
-            else
-            {
-                Console.Write($"The property {property.Name} does not implement the interface {nameof(IChangable)}.");
-            }
+            NotifiesIsChangedWhenChildClassChanges(obj, property.GetValue(obj));
         }
 
         #endregion
@@ -715,11 +702,11 @@ namespace JSR.TestAsserts
         /// <summary>
         /// Tests that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
-        /// <typeparam name="TParent">Type that implements <see cref="IChangable"/> and contains the TChild type.</typeparam>
-        /// <typeparam name="TChild">Type that implements <see cref="IChangable"/>.</typeparam>
+        /// <typeparam name="TParent">Type of the parent object that implements <see cref="IChangable"/>.</typeparam>
+        /// <typeparam name="TChild">Type of the child object.</typeparam>
         /// <param name="parentObj">Object with child to test.</param>
         /// <param name="childObj">Child object to change.</param>
-        public static void NotifiesIsChangedWhenChildClassChanges<TParent, TChild>(TParent parentObj, TChild childObj) where TParent : IChangable where TChild : IChangable
+        public static void NotifiesIsChangedWhenChildClassChanges<TParent, TChild>(TParent parentObj, TChild childObj) where TParent : IChangable
         {
             ChangableMonitor<TParent> monitor = new ChangableMonitor<TParent>(parentObj);
 
@@ -830,7 +817,7 @@ namespace JSR.TestAsserts
         /// <param name="changeItems">Test changing items in list.</param>
         public static void NotifiesIsChangedWhenListPropertiesChange<T>(T obj, bool addItems, bool removeItems, bool changeItems) where T : IChangable
         {
-            NotifiesIsChangedWhenListPropertiesChange(obj, PropertyUtilities.GetListOfPropertiesWithListTypes(obj, true, true, true), addItems, removeItems, changeItems);
+            NotifiesIsChangedWhenListPropertiesChange(obj, PropertyUtilities.GetListOfPropertiesWithListTypes(obj, true, true, false), addItems, removeItems, changeItems);
         }
 
         /// <summary>
@@ -869,7 +856,7 @@ namespace JSR.TestAsserts
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
-                foreach (PropertyInfo property in properties.Where(property => IsIChangableCollection(property.PropertyType)))
+                foreach (PropertyInfo property in properties.Where(property => typeof(IList).IsAssignableFrom(property.PropertyType)))
                 {
                     ObjectUtilities.PopulateListWithRandomValues((IList)property.GetValue(obj), obj.GetType());
                 }
@@ -879,7 +866,7 @@ namespace JSR.TestAsserts
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
-                foreach (PropertyInfo property in properties.Where(property => IsIChangableCollection(property.PropertyType)))
+                foreach (PropertyInfo property in properties.Where(property => typeof(IList).IsAssignableFrom(property.PropertyType)))
                 {
                     ObjectUtilities.PopulateListWithRandomValues((IList)property.GetValue(obj), obj.GetType());
                 }
@@ -895,17 +882,16 @@ namespace JSR.TestAsserts
         /// </summary>
         /// <typeparam name="TParent">Parent type that implements <see cref="IChangable"/>.</typeparam>
         /// <typeparam name="TList">List type that implements <see cref="IChangableCollection{T}"/>.</typeparam>
-        /// <typeparam name="TListItems">List item type that implements <see cref="IChangable"/>.</typeparam>
         /// <param name="obj">Object with lists to test.</param>
         /// <param name="lists">List of lists to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListsChange<TParent, TList, TListItems>(TParent obj, List<TList> lists, bool addItems, bool removeItems, bool changeItems) where TParent : IChangable where TList : IChangableCollection<TListItems> where TListItems : IChangable
+        public static void NotifiesIsChangedWhenListsChange<TParent, TList>(TParent obj, List<TList> lists, bool addItems, bool removeItems, bool changeItems) where TParent : IChangable where TList : IList
         {
             foreach (TList list in lists)
             {
-                NotifiesIsChangedWhenListChanges<TParent, TList, TListItems>(obj, list, addItems, removeItems, changeItems);
+                NotifiesIsChangedWhenListChanges(obj, list, addItems, removeItems, changeItems);
             }
 
             obj.AcceptChanges();
@@ -1012,23 +998,9 @@ namespace JSR.TestAsserts
         /// <param name="changeItems">Test changing items in list.</param>
         public static void NotifiesIsChangedWhenListPropertyChanges<T>(T obj, PropertyInfo property, bool addItems, bool removeItems, bool changeItems) where T : IChangable
         {
-            Type propertyType = property.PropertyType;
-
-            if (IsIChangableCollection(propertyType))
+            if (typeof(IList).IsAssignableFrom(property.PropertyType))
             {
-                Type childType = propertyType.GenericTypeArguments[0];
-
-                if (typeof(IChangable).IsAssignableFrom(childType))
-                {
-                    MethodInfo method = typeof(ChangableAssert).GetMethod(nameof(NotifiesIsChangedWhenListChanges));
-                    MethodInfo generic = method.MakeGenericMethod(new Type[] { obj.GetType(), propertyType, childType });
-
-                    generic.Invoke(null, new object[] { obj, property.GetValue(obj), addItems, removeItems, changeItems });
-                }
-            }
-            else
-            {
-                Console.WriteLine($"The property {property.Name} does not implement the interface {nameof(IChangableCollection<IChangable>)}.");
+                NotifiesIsChangedWhenListChanges(obj, (IList)property.GetValue(obj), addItems, removeItems, changeItems);
             }
         }
 
@@ -1039,27 +1011,26 @@ namespace JSR.TestAsserts
         /// </summary>
         /// <typeparam name="TParent">Parent type that implements <see cref="IChangable"/>.</typeparam>
         /// <typeparam name="TList">List type that implements <see cref="IChangableCollection{T}"/>.</typeparam>
-        /// <typeparam name="TListItems">List item type that implements <see cref="IChangable"/>.</typeparam>
         /// <param name="obj">Object with list to test.</param>
         /// <param name="list">List to change.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListChanges<TParent, TList, TListItems>(TParent obj, TList list, bool addItems, bool removeItems, bool changeItems) where TParent : IChangable where TList : IChangableCollection<TListItems> where TListItems : IChangable
+        public static void NotifiesIsChangedWhenListChanges<TParent, TList>(TParent obj, TList list, bool addItems, bool removeItems, bool changeItems) where TParent : IChangable where TList : IList
         {
             if (addItems)
             {
-                NotifiesIsChangedWhenListItemsAdded<TParent, TList, TListItems>(obj, list);
+                NotifiesIsChangedWhenListItemsAdded(obj, list);
             }
 
             if (removeItems)
             {
-                NotifiesIsChangedWhenListItemsRemoved<TParent, TList, TListItems>(obj, list);
+                NotifiesIsChangedWhenListItemsRemoved(obj, list);
             }
 
             if (changeItems)
             {
-                NotifiesIsChangedWhenListItemsChange<TParent, TList, TListItems>(obj, list);
+                NotifiesIsChangedWhenListItemsChange(obj, list);
             }
         }
 
@@ -1068,21 +1039,25 @@ namespace JSR.TestAsserts
         /// </summary>
         /// <typeparam name="TParent">Parent type that implements <see cref="IChangable"/>.</typeparam>
         /// <typeparam name="TList">List type that implements <see cref="IChangableCollection{T}"/>.</typeparam>
-        /// <typeparam name="TListItems">List item type that implements <see cref="IChangable"/>.</typeparam>
         /// <param name="obj">Object to test.</param>
         /// <param name="list">List to add items to.</param>
-        public static void NotifiesIsChangedWhenListItemsAdded<TParent, TList, TListItems>(TParent obj, TList list) where TParent : IChangable where TList : IChangableCollection<TListItems> where TListItems : IChangable
+        public static void NotifiesIsChangedWhenListItemsAdded<TParent, TList>(TParent obj, TList list) where TParent : IChangable where TList : IList
         {
             obj.AcceptChanges();
 
             ChangableMonitor<TParent> monitor = new ChangableMonitor<TParent>(obj);
 
+            Type listItemType = list.GetType().GenericTypeArguments[0];
+            bool listItemsAreIChangeTracking = typeof(IChangeTracking).IsAssignableFrom(listItemType);
+
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
-                var item = ObjectUtilities.CreateInstanceWithRandomValues(list.GetType().GenericTypeArguments[0]);
+                var item = ObjectUtilities.CreateInstanceWithRandomValues(listItemType);
 
-                Assert.IsTrue(item is IChangable);
-                ((IChangable)item).AcceptChanges();
+                if (listItemsAreIChangeTracking)
+                {
+                    ((IChangeTracking)item).AcceptChanges();
+                }
 
                 list.Add(item);
 
@@ -1091,10 +1066,12 @@ namespace JSR.TestAsserts
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
-                var item = ObjectUtilities.CreateInstanceWithRandomValues(list.GetType().GenericTypeArguments[0]);
+                var item = ObjectUtilities.CreateInstanceWithRandomValues(listItemType);
 
-                Assert.IsTrue(item is IChangable);
-                ((IChangable)item).AcceptChanges();
+                if (listItemsAreIChangeTracking)
+                {
+                    ((IChangeTracking)item).AcceptChanges();
+                }
 
                 list.Add(item);
             }
@@ -1107,10 +1084,9 @@ namespace JSR.TestAsserts
         /// </summary>
         /// <typeparam name="TParent">Parent type that implements <see cref="IChangable"/>.</typeparam>
         /// <typeparam name="TList">List type that implements <see cref="IChangableCollection{T}"/>.</typeparam>
-        /// <typeparam name="TListItems">List item type that implements <see cref="IChangable"/>.</typeparam>
         /// <param name="obj">Object to test.</param>
         /// <param name="list">List to remove items from.</param>
-        public static void NotifiesIsChangedWhenListItemsRemoved<TParent, TList, TListItems>(TParent obj, TList list) where TParent : IChangable where TList : IChangableCollection<TListItems> where TListItems : IChangable
+        public static void NotifiesIsChangedWhenListItemsRemoved<TParent, TList>(TParent obj, TList list) where TParent : IChangable where TList : IList
         {
             if (list.Count == 0)
             {
@@ -1152,10 +1128,9 @@ namespace JSR.TestAsserts
         /// </summary>
         /// <typeparam name="TParent">Parent type that implements <see cref="IChangable"/>.</typeparam>
         /// <typeparam name="TList">List type that implements <see cref="IChangableCollection{T}"/>.</typeparam>
-        /// <typeparam name="TListItems">List item type that implements <see cref="IChangable"/>.</typeparam>
         /// <param name="obj">Object to test.</param>
         /// <param name="list">List with items to change.</param>
-        public static void NotifiesIsChangedWhenListItemsChange<TParent, TList, TListItems>(TParent obj, TList list) where TParent : IChangable where TList : IChangableCollection<TListItems> where TListItems : IChangable
+        public static void NotifiesIsChangedWhenListItemsChange<TParent, TList>(TParent obj, TList list) where TParent : IChangable where TList : IList
         {
             if (list.Count == 0)
             {
@@ -1166,14 +1141,14 @@ namespace JSR.TestAsserts
 
             ChangableMonitor<TParent> monitor = new ChangableMonitor<TParent>(obj);
 
-            foreach (IChangable item in list)
+            foreach (var item in list)
             {
                 ObjectUtilities.PopulateObjectWithRandomValues(item);
 
                 monitor.AssertNotifications(true);
             }
 
-            foreach (IChangable item in list)
+            foreach (var item in list)
             {
                 ObjectUtilities.PopulateObjectWithRandomValues(item);
             }
@@ -1191,16 +1166,6 @@ namespace JSR.TestAsserts
             Assert.IsTrue(typeof(IChangable).IsAssignableFrom(type));
 
             return (IChangable)Activator.CreateInstance(type);
-        }
-
-        /// <summary>
-        /// Checks if the type implements IChangableCollection.
-        /// </summary>
-        /// <param name="type">Type to evaluate.</param>
-        /// <returns>True of the type implements IChangableCollection.</returns>
-        private static bool IsIChangableCollection(Type type)
-        {
-            return type.GetInterfaces().Where(iface => iface.IsGenericType).Select(iface => iface.GetGenericTypeDefinition()).Contains(typeof(IChangableCollection<>));
         }
     }
 }

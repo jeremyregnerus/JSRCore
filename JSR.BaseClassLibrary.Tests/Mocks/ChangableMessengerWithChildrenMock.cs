@@ -55,12 +55,17 @@ namespace JSR.BaseClassLibrary.Tests.Mocks
             base.AcceptChanges();
         }
 
+        public void RaiseMessage(string message)
+        {
+            Message = message;
+        }
+
         private void OnCreated()
         {
-            AddChangeTracking(child);
-            AddChangeTracking(childReadOnly);
-            AddChangeTracking(childCollection);
-            AddChangeTracking(childCollectionReadOnly);
+            AddChangableMessenger(child);
+            AddChangableMessenger(childReadOnly);
+            AddChangableMessenger(childCollection);
+            AddChangableMessenger(childCollectionReadOnly);
         }
     }
 }

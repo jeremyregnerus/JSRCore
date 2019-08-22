@@ -19,18 +19,17 @@ namespace JSR.BaseClassLibrary.Tests
     public class MessengerBaseClassTests
     {
         /// <summary>
-        /// Tests that the messaging object initializes without a message value.
+        /// Tests that an implementation of <see cref="MessengerBaseClass"/> initializes withouth a <see cref="MessengerBaseClass.Message"/> value.
         /// </summary>
         [TestMethod]
         public void InitializesWithoutMessage()
         {
             MessengerWithChildrenMock obj = new MessengerWithChildrenMock();
-
             Assert.IsTrue(string.IsNullOrEmpty(obj.Message));
         }
 
         /// <summary>
-        /// Tests that messaging objects can serialize and deserialize.
+        /// Tests that an implementation of <see cref="MessengerBaseClass"/> properly serializes and deserializes.
         /// </summary>
         [TestMethod]
         public void SerializesAndDeserializes()
@@ -39,7 +38,7 @@ namespace JSR.BaseClassLibrary.Tests
         }
 
         /// <summary>
-        /// Tests that the message value is not preserved when the object is deserialized.
+        /// Tests that an implementation of <see cref="MessengerBaseClass"/> deserializes without a <see cref="MessengerBaseClass.Message"/> value.
         /// </summary>
         [TestMethod]
         public void SerializesWithoutMessage()
@@ -54,7 +53,7 @@ namespace JSR.BaseClassLibrary.Tests
         }
 
         /// <summary>
-        /// Tests that a <see cref="MessengerBaseClass"/> object raises a message.
+        /// Tests that an implementation of <see cref="MessengerBaseClass"/> raises <see cref="OnMessageEventHandler"/>.
         /// </summary>
         [TestMethod]
         public void RaisesMessages()
@@ -88,7 +87,7 @@ namespace JSR.BaseClassLibrary.Tests
         }
 
         /// <summary>
-        /// Tests that the same message does not raise the <see cref="OnMessageEventHandler"/>.
+        /// Tests that and implementation of <see cref="MessengerBaseClass"/> does not raise <see cref="OnMessageEventHandler"/> for the same <see cref="MessengerBaseClass.Message"/> value.
         /// </summary>
         [TestMethod]
         public void DoesNotRaiseNotificationOnSameMessage()
@@ -109,7 +108,7 @@ namespace JSR.BaseClassLibrary.Tests
         }
 
         /// <summary>
-        /// Tests that an <see cref="MessengerBaseClass"/> object raises its child messeging object's messages.
+        /// Tests that an implementation of <see cref="MessengerBaseClass"/> object raises <see cref="OnMessageEventHandler"/> when child object messages are raised.
         /// </summary>
         [TestMethod]
         public void RaisesChildMessages()
@@ -144,7 +143,7 @@ namespace JSR.BaseClassLibrary.Tests
         }
 
         /// <summary>
-        /// Tests that when a child is removed from an <see cref="MessengerBaseClass"/>, the object no longer raises message notification.
+        /// Tests that when a child is removed from an implementation of <see cref="MessengerBaseClass"/>, the parent no longer raises<see cref="OnMessageEventHandler"/> when the child raises a message.
         /// </summary>
         [TestMethod]
         public void RemovesChildNotifications()
@@ -181,7 +180,7 @@ namespace JSR.BaseClassLibrary.Tests
         }
 
         /// <summary>
-        /// Tests that children of a messaging list raise a message to the top of the collection.
+        /// Tests that an implementation of <see cref="MessengerBaseClass"/> raises <see cref="OnMessageEventHandler"/> when list items raise messages.
         /// </summary>
         [TestMethod]
         public void RaisesMessagesOfListItems()

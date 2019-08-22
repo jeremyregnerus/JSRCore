@@ -26,7 +26,7 @@ namespace JSR.BaseClassLibrary
         {
             get => message;
 
-            private set
+            protected set
             {
                 if (value != message)
                 {
@@ -45,18 +45,57 @@ namespace JSR.BaseClassLibrary
 
             if (retVal && typeof(IMessenger).IsAssignableFrom(typeof(T)))
             {
-                if (oldValue != null)
-                {
-                    ((IMessenger)oldValue).OnMessage -= ChildRaisedMessage;
-                }
-
-                if (backingField != null)
-                {
-                    ((IMessenger)backingField).OnMessage += ChildRaisedMessage;
-                }
+                RemoveMessenger((IMessenger)oldValue);
+                AddMessenger((IMessenger)backingField);
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Monitors the <see cref="OnMessage"/> event to a child object.
+        /// </summary>
+        /// <param name="messenger">Child object to add.</param>
+        protected void AddMessenger(IMessenger messenger)
+        {
+            if (messenger != null)
+            {
+                messenger.OnMessage += ChildRaisedMessage;
+            }
+        }
+
+        /// <summary>
+        /// Removes the <see cref="OnMessage"/> event from a child object.
+        /// </summary>
+        /// <param name="messenger">Child object to remove.</param>
+        protected void RemoveMessenger(IMessenger messenger)
+        {
+            if (messenger != null)
+            {
+                messenger.OnMessage -= ChildRaisedMessage;
+            }
+        }
+
+        /// <summary>
+        /// Adds notification tracking to an <see cref="IChangableMessenger"/> object.
+        /// </summary>
+        /// <param name="changableMessenger">Object to track notification.</param>
+        /// <typeparam name="T">Type that implements <see cref="IMessenger"/> and <see cref="IChangable"/>.</typeparam>
+        protected void AddChangableMessenger<T>(T changableMessenger) where T : IMessenger, IChangable
+        {
+            AddChangeTracking(changableMessenger);
+            AddMessenger(changableMessenger);
+        }
+
+        /// <summary>
+        /// Removes notification tracking from an <see cref="IChangableMessenger"/> object.
+        /// </summary>
+        /// <param name="changableMessenger">Object to remove notification tracking from.</param>
+        /// <typeparam name="T">Type that implements <see cref="IMessenger"/> and <see cref="IChangable"/>.</typeparam>
+        protected void RemoveChangableMessenger<T>(T changableMessenger) where T : IMessenger, IChangable
+        {
+            RemoveChangeTracking(changableMessenger);
+            RemoveMessenger(changableMessenger);
         }
 
         private void ChildRaisedMessage(object sender, string message)
