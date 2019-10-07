@@ -1,4 +1,4 @@
-﻿// <copyright file="ChangableMonitor.cs" company="Jeremy Regnerus">
+﻿// <copyright file="NotifyChangeMonitor.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
@@ -13,18 +13,18 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JSR.TestAsserts
 {
     /// <summary>
-    /// Monitors the <see cref="PropertyChangedEventHandler"/> and <see cref="OnChangedEventHandler"/> on an <see cref="INotifyOnChanged"/> object.
+    /// Monitors the <see cref="PropertyChangedEventHandler"/> and <see cref="OnChangedEventHandler"/> on an <see cref="INotifyChanged"/> object.
     /// </summary>
-    /// <typeparam name="T">Type that implements <see cref="INotifyOnChanged"/>.</typeparam>
-    public class ChangableMonitor<T> where T : INotifyOnChanged
+    /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+    public class NotifyChangeMonitor<T> where T : INotifyChanged, IChangeTracking, INotifyPropertyChanged
     {
         private readonly T obj;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ChangableMonitor{T}"/> class.
+        /// Initializes a new instance of the <see cref="NotifyChangeMonitor{T}"/> class.
         /// </summary>
         /// <param name="obj">Object to monitor.</param>
-        public ChangableMonitor(T obj)
+        public NotifyChangeMonitor(T obj)
         {
             this.obj = obj;
 

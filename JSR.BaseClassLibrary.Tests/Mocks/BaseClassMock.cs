@@ -1,18 +1,19 @@
-﻿// <copyright file="NotifyPropertyChangeMock.cs" company="Jeremy Regnerus">
+﻿// <copyright file="BaseClassMock.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
+using System.Text;
 using JSR.Utilities;
 
 namespace JSR.BaseClassLibrary.Tests.Mocks
 {
     [DataContract]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Mock Object.")]
-    public class NotifyPropertyChangeMock : NotifyPropertyChangeBaseClass
+    public class BaseClassMock : BaseClass
     {
         [DataMember]
         private string stringProperty;
@@ -41,5 +42,15 @@ namespace JSR.BaseClassLibrary.Tests.Mocks
         public double DoubleProperty { get => doubleProperty; set => SetValue(value, ref doubleProperty); }
 
         public double DoubleReadOnlyProperty { get; } = RandomUtilities.GetRandomDouble();
+
+        public void RaiseMessage()
+        {
+            RaiseMessage(RandomUtilities.GetRandomString(Message));
+        }
+
+        public void RaiseMessage(string message)
+        {
+            Message = message;
+        }
     }
 }

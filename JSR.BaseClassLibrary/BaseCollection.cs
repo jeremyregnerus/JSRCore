@@ -17,7 +17,7 @@ namespace JSR.BaseClassLibrary
     /// Collection of objects that can track <see cref="OnChanged"/> and <see cref="OnMessage"/>.
     /// </summary>
     /// <typeparam name="T">Type of object within the Collection.</typeparam>
-    public class BaseCollection<T> : ObservableCollection<T>, IList<T>, IList, INotifyPropertyChanged, IChangeTracking, IMessenger, INotifyOnChanged
+    public class BaseCollection<T> : ObservableCollection<T>, IList<T>, IList, INotifyChanged, INotifyPropertyChanged, IChangeTracking, IMessenger
     {
         private bool isChanged;
         private string message;
@@ -105,7 +105,7 @@ namespace JSR.BaseClassLibrary
         {
             CollectionChanged += CollectionListChanged;
 
-            foreach (INotifyOnChanged item in Items)
+            foreach (INotifyChanged item in Items)
             {
                 AddChangable(item);
             }
@@ -120,7 +120,7 @@ namespace JSR.BaseClassLibrary
         {
             if (args.OldItems != null)
             {
-                foreach (INotifyOnChanged item in args.OldItems)
+                foreach (INotifyChanged item in args.OldItems)
                 {
                     RemoveChangable(item);
                 }
@@ -133,7 +133,7 @@ namespace JSR.BaseClassLibrary
 
             if (args.NewItems != null)
             {
-                foreach (INotifyOnChanged item in args.NewItems)
+                foreach (INotifyChanged item in args.NewItems)
                 {
                     AddChangable(item);
                 }
@@ -152,7 +152,7 @@ namespace JSR.BaseClassLibrary
             IsChanged = true;
         }
 
-        private void AddChangable(INotifyOnChanged changable)
+        private void AddChangable(INotifyChanged changable)
         {
             if (changable != null)
             {
@@ -160,7 +160,7 @@ namespace JSR.BaseClassLibrary
             }
         }
 
-        private void RemoveChangable(INotifyOnChanged changable)
+        private void RemoveChangable(INotifyChanged changable)
         {
             if (changable != null)
             {

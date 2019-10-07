@@ -1,4 +1,4 @@
-﻿// <copyright file="INotifyOnChanged.cs" company="Jeremy Regnerus">
+﻿// <copyright file="INotifyChanged.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
@@ -14,9 +14,9 @@ namespace JSR.BaseClassLibrary
     public delegate void OnChangedEventHandler(object sender, bool isChanged);
 
     /// <summary>
-    /// IChangableObject implements INotifyPropertyChanged and IChangeTracking together.
+    /// IChangableObject implements <see cref="INotifyPropertyChanged"/> and <see cref="IChangeTracking"/>. Also provides an event that raises when the object is changed.
     /// </summary>
-    public interface INotifyOnChanged : INotifyPropertyChanged, IChangeTracking
+    public interface INotifyChanged : IChangeTracking, INotifyPropertyChanged
     {
         /// <summary>
         /// This event is raised when the object's IsChanged value changes.

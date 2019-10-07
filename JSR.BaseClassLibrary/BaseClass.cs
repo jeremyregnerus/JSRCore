@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace JSR.BaseClassLibrary
@@ -13,7 +14,8 @@ namespace JSR.BaseClassLibrary
     /// <summary>
     /// Core base object includes, <see cref="INotifyPropertyChanged"/>, <see cref="IChangeTracking"/> and <see cref="IMessenger"/>.
     /// </summary>
-    public abstract class BaseClass : INotifyPropertyChanged, IChangeTracking, IMessenger, INotifyOnChanged
+    [DataContract]
+    public abstract class BaseClass : INotifyChanged, INotifyPropertyChanged, IChangeTracking, IMessenger
     {
         private bool isChanged;
         private string message;
@@ -60,7 +62,7 @@ namespace JSR.BaseClassLibrary
         /// <inheritdoc/>
         public virtual void AcceptChanges()
         {
-            IsChanged = true;
+            IsChanged = false;
         }
 
         /// <summary>
@@ -75,22 +77,14 @@ namespace JSR.BaseClassLibrary
         {
             if ((value != null && !value.Equals(backingField)) || (backingField != null && !backingField.Equals(value)))
             {
-                if (typeof(T) is INotifyOnChanged)
-                {
-                    RemoveNotifyOnChanged((INotifyOnChanged)backingField);
-                    AddNotifyOnChanged((INotifyOnChanged)value);
-                }
-
-                if (typeof(T) is IMessenger)
-                {
-                    RemoveMessenger((IMessenger)backingField);
-                    AddMessenger((IMessenger)value);
-                }
+                RemoveChildNotifications(backingField);
+                AddChildNotifications(value);
 
                 backingField = value;
 
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
+                IsChanged = true;
                 return true;
             }
 
@@ -98,50 +92,48 @@ namespace JSR.BaseClassLibrary
         }
 
         /// <summary>
-        /// Adds tracking for <see cref="OnChanged"/>.
+        /// Adds notification tracking for <see cref="INotifyChanged"/> and <see cref="IMessenger"/> child object.
         /// </summary>
-        /// <param name="changable">An object that implements <see cref="INotifyOnChanged"/>.</param>
-        protected void AddNotifyOnChanged(INotifyOnChanged changable)
+        /// <typeparam name="T">Type of object to watch for notifications.</typeparam>
+        /// <param name="child">Child object to watch for notifications.</param>
+        protected void AddChildNotifications<T>(T child)
         {
-            if (changable != null)
+            if (child == null)
             {
-                changable.OnChanged += OnChildChanged;
+                return;
+            }
+
+            if (child is INotifyChanged)
+            {
+                ((INotifyChanged)child).OnChanged += OnChildChanged;
+            }
+
+            if (child is IMessenger)
+            {
+                ((IMessenger)child).OnMessage += OnChildMessage;
             }
         }
 
         /// <summary>
-        /// Removes tracking for <see cref="OnChanged"/>.
+        /// Removes notification tracking for <see cref="INotifyChanged"/> and <see cref="IMessenger"/> child objects.
         /// </summary>
-        /// <param name="changable">An object that implements <see cref="INotifyOnChanged"/>.</param>
-        protected void RemoveNotifyOnChanged(INotifyOnChanged changable)
+        /// <typeparam name="T">Type of object to no longer watch for notifications.</typeparam>
+        /// <param name="child">Child object to no longer watch for notifications.</param>
+        protected void RemoveChildNotifications<T>(T child)
         {
-            if (changable != null)
+            if (child == null)
             {
-                changable.OnChanged -= OnChildChanged;
+                return;
             }
-        }
 
-        /// <summary>
-        /// Adds tracking for <see cref="OnMessage"/>.
-        /// </summary>
-        /// <param name="messenger">An object that implements <see cref="IMessenger"/>.</param>
-        protected void AddMessenger(IMessenger messenger)
-        {
-            if (messenger != null)
+            if (child is INotifyChanged)
             {
-                messenger.OnMessage += OnChildMessage;
+                ((INotifyChanged)child).OnChanged -= OnChildChanged;
             }
-        }
 
-        /// <summary>
-        /// Removes tracking for <see cref="OnMessage"/>.
-        /// </summary>
-        /// <param name="messenger">An object that implements <see cref="IMessenger"/>.</param>
-        protected void RemoveMessenger(IMessenger messenger)
-        {
-            if (messenger != null)
+            if (child is IMessenger)
             {
-                messenger.OnMessage -= OnChildMessage;
+                ((IMessenger)child).OnMessage -= OnChildMessage;
             }
         }
 

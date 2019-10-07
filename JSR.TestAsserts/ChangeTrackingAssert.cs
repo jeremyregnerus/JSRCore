@@ -745,7 +745,7 @@ namespace JSR.TestAsserts
         /// Tests that when lists change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="TParent">Type implements <see cref="IChangeTracking"/>.</typeparam>
-        /// <typeparam name="TList">Type that implements <see cref="IChangeTrackingCollection{T}"/>.</typeparam>
+        /// <typeparam name="TList">Type that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <param name="obj">Object with lists to test.</param>
         /// <param name="lists">List of <see cref="IList"/>.</param>
         /// <param name="addItems">Test adding items to lists.</param>
