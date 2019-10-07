@@ -13,10 +13,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JSR.TestAsserts
 {
     /// <summary>
-    /// Monitors the <see cref="PropertyChangedEventHandler"/> and <see cref="OnChangedEventHandler"/> on an <see cref="IChangable"/> object.
+    /// Monitors the <see cref="PropertyChangedEventHandler"/> and <see cref="OnChangedEventHandler"/> on an <see cref="INotifyOnChanged"/> object.
     /// </summary>
-    /// <typeparam name="T">Type that implements <see cref="IChangable"/>.</typeparam>
-    public class ChangableMonitor<T> where T : IChangable
+    /// <typeparam name="T">Type that implements <see cref="INotifyOnChanged"/>.</typeparam>
+    public class ChangableMonitor<T> where T : INotifyOnChanged
     {
         private readonly T obj;
 
@@ -28,22 +28,19 @@ namespace JSR.TestAsserts
         {
             this.obj = obj;
 
-            PropertiesChanged = new List<string>();
             this.obj.PropertyChanged += (sender, args) => PropertiesChanged.Add(args.PropertyName);
-
-            StateChanges = new List<bool>();
             this.obj.OnChanged += (sender, wasChanged) => StateChanges.Add(wasChanged);
         }
 
         /// <summary>
-        /// Gets a list of properties change notifications since the last ClearNotifications.
+        /// Gets a list of properties change notifications since the last <see cref="ClearNotifications"/>.
         /// </summary>
-        public List<string> PropertiesChanged { get; }
+        public List<string> PropertiesChanged { get; } = new List<string>();
 
         /// <summary>
-        /// Gets a list of all of the state change notifications since the last ClearNotifications.
+        /// Gets a list of all of the state change notifications since the last <see cref="ClearNotifications"/>.
         /// </summary>
-        public List<bool> StateChanges { get; }
+        public List<bool> StateChanges { get; } = new List<bool>();
 
         /// <summary>
         /// Asserts that the <see cref="PropertyChangedEventHandler"/> and <see cref="OnChangedEventHandler"/> have only raised once since their last reset.

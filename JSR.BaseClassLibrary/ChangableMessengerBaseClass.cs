@@ -80,8 +80,8 @@ namespace JSR.BaseClassLibrary
         /// Adds notification tracking to an <see cref="IChangableMessenger"/> object.
         /// </summary>
         /// <param name="changableMessenger">Object to track notification.</param>
-        /// <typeparam name="T">Type that implements <see cref="IMessenger"/> and <see cref="IChangable"/>.</typeparam>
-        protected void AddChangableMessenger<T>(T changableMessenger) where T : IMessenger, IChangable
+        /// <typeparam name="T">Type that implements <see cref="IMessenger"/> and <see cref="INotifyOnChanged"/>.</typeparam>
+        protected void AddChangableMessenger<T>(T changableMessenger) where T : IMessenger, INotifyOnChanged
         {
             AddChangeTracking(changableMessenger);
             AddMessenger(changableMessenger);
@@ -91,8 +91,8 @@ namespace JSR.BaseClassLibrary
         /// Removes notification tracking from an <see cref="IChangableMessenger"/> object.
         /// </summary>
         /// <param name="changableMessenger">Object to remove notification tracking from.</param>
-        /// <typeparam name="T">Type that implements <see cref="IMessenger"/> and <see cref="IChangable"/>.</typeparam>
-        protected void RemoveChangableMessenger<T>(T changableMessenger) where T : IMessenger, IChangable
+        /// <typeparam name="T">Type that implements <see cref="IMessenger"/> and <see cref="INotifyOnChanged"/>.</typeparam>
+        protected void RemoveChangableMessenger<T>(T changableMessenger) where T : IMessenger, INotifyOnChanged
         {
             RemoveChangeTracking(changableMessenger);
             RemoveMessenger(changableMessenger);

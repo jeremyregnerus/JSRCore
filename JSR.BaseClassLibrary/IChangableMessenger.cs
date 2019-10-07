@@ -5,9 +5,9 @@
 namespace JSR.BaseClassLibrary
 {
     /// <summary>
-    /// <see cref="IChangableMessenger"/> implements <see cref="IChangable"/> and <see cref="IMessenger"/>.
+    /// <see cref="IChangableMessenger"/> implements <see cref="INotifyOnChanged"/> and <see cref="IMessenger"/>.
     /// </summary>
-    public interface IChangableMessenger : IChangable, IMessenger
+    public interface IChangableMessenger : INotifyOnChanged, IMessenger
     {
     }
 }

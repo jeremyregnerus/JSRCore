@@ -28,82 +28,82 @@
             <typeparam name="T">Type that implements <see cref="T:JSR.BaseClassLibrary.IChangable"/>.</typeparam>
             <param name="obj">Object to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangableAssert.NotifiesIsChangedWhenChanged(System.Type)">
+        <member name="M:JSR.TestAsserts.ChangableAssert.IsChangedWhenHierarchyChanges(System.Type)">
             <summary>
             Tests that when properties, classes and lists change, the parent raises the <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> once.
             </summary>
             <param name="type">Type that implements <see cref="T:JSR.BaseClassLibrary.IChangable"/>.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangableAssert.NotifiesIsChangedWhenChanged(System.Type,System.Collections.Generic.List{System.String})">
+        <member name="M:JSR.TestAsserts.ChangableAssert.IsChangedWhenHierarchyChanges(System.Type,System.Collections.Generic.List{System.String})">
             <summary>
             Tests that when properties, classes and lists change, the parent raises the <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> once.
             </summary>
             <param name="type">Type that implements <see cref="T:JSR.BaseClassLibrary.IChangable"/>.</param>
             <param name="propertyNames">List of property names to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangableAssert.NotifiesIsChangedWhenChanged(System.Type,System.Collections.Generic.List{System.Reflection.PropertyInfo})">
+        <member name="M:JSR.TestAsserts.ChangableAssert.IsChangedWhenHierarchyChanges(System.Type,System.Collections.Generic.List{System.Reflection.PropertyInfo})">
             <summary>
             Tests that when properties, classes and lists change, the parent raises the <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> once.
             </summary>
             <param name="type">Type that implements <see cref="T:JSR.BaseClassLibrary.IChangable"/>.</param>
             <param name="properties">List of properties to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangableAssert.NotifiesIsChangedWhenChanged(System.Type,System.String)">
+        <member name="M:JSR.TestAsserts.ChangableAssert.IsChangedWhenHierarchyChanges(System.Type,System.String)">
             <summary>
             Tests that when properties, classes and lists change, the parent raises the <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> once.
             </summary>
             <param name="type">Type that implements <see cref="T:JSR.BaseClassLibrary.IChangable"/>.</param>
             <param name="propertyName">Name of property to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangableAssert.NotifiesIsChangedWhenChanged(System.Type,System.Reflection.PropertyInfo)">
+        <member name="M:JSR.TestAsserts.ChangableAssert.IsChangedWhenHierarchyChanges(System.Type,System.Reflection.PropertyInfo)">
             <summary>
             Tests that when properties, classes and lists change, the parent raises the <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> once.
             </summary>
             <param name="type">Type that implements <see cref="T:JSR.BaseClassLibrary.IChangable"/>.</param>
             <param name="property">Property to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangableAssert.NotifiesIsChangedWhenChanged``1">
+        <member name="M:JSR.TestAsserts.ChangableAssert.IsChangedWhenHierarchyChanges``1">
             <summary>
             Tests that when properties, classes and lists change, the parent raises the <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> once.
             </summary>
             <typeparam name="T">Type that implements <see cref="T:JSR.BaseClassLibrary.IChangable"/>.</typeparam>
         </member>
-        <member name="M:JSR.TestAsserts.ChangableAssert.NotifiesIsChangedWhenChanged``1(System.Collections.Generic.List{System.String})">
+        <member name="M:JSR.TestAsserts.ChangableAssert.IsChangedWhenHierarchyChanges``1(System.Collections.Generic.List{System.String})">
             <summary>
             Tests that when properties, classes and lists change, the parent raises the <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> once.
             </summary>
             <typeparam name="T">Type that implements <see cref="T:JSR.BaseClassLibrary.IChangable"/>.</typeparam>
             <param name="propertyNames">List of property names to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangableAssert.NotifiesIsChangedWhenChanged``1(System.Collections.Generic.List{System.Reflection.PropertyInfo})">
+        <member name="M:JSR.TestAsserts.ChangableAssert.IsChangedWhenHierarchyChanges``1(System.Collections.Generic.List{System.Reflection.PropertyInfo})">
             <summary>
             Tests that when properties, classes and lists change, the parent raises the <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> once.
             </summary>
             <typeparam name="T">Type that implements <see cref="T:JSR.BaseClassLibrary.IChangable"/>.</typeparam>
             <param name="properties">List of properties to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangableAssert.NotifiesIsChangedWhenChanged``1(System.String)">
+        <member name="M:JSR.TestAsserts.ChangableAssert.IsChangedWhenHierarchyChanges``1(System.String)">
             <summary>
             Tests that when properties, classes and lists change, the parent raises the <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> once.
             </summary>
             <typeparam name="T">Type that implements <see cref="T:JSR.BaseClassLibrary.IChangable"/>.</typeparam>
             <param name="propertyName">Name of property to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangableAssert.NotifiesIsChangedWhenChanged``1(System.Reflection.PropertyInfo)">
+        <member name="M:JSR.TestAsserts.ChangableAssert.IsChangedWhenHierarchyChanges``1(System.Reflection.PropertyInfo)">
             <summary>
             Tests that when properties, classes and lists change, the parent raises the <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> once.
             </summary>
             <typeparam name="T">Type that implements <see cref="T:JSR.BaseClassLibrary.IChangable"/>.</typeparam>
             <param name="property">Property to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangableAssert.NotifiesIsChangedWhenChanged``1(``0)">
+        <member name="M:JSR.TestAsserts.ChangableAssert.IsChangedWhenHierarchyChanges``1(``0)">
             <summary>
             Tests that when properties, classes and lists change, the parent raises the <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> once.
             </summary>
             <typeparam name="T">Type that implements <see cref="T:JSR.BaseClassLibrary.IChangable"/>.</typeparam>
             <param name="obj">Object with properties to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangableAssert.NotifiesIsChangedWhenChanged``1(``0,System.Collections.Generic.List{System.String})">
+        <member name="M:JSR.TestAsserts.ChangableAssert.IsChangedWhenHierarchyChanges``1(``0,System.Collections.Generic.List{System.String})">
             <summary>
             Tests that when properties, classes and lists change, the parent raises the <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> once.
             </summary>
@@ -111,7 +111,7 @@
             <param name="obj">Object with properties to test.</param>
             <param name="propertyNames">List of property names to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangableAssert.NotifiesIsChangedWhenChanged``1(``0,System.Collections.Generic.List{System.Reflection.PropertyInfo})">
+        <member name="M:JSR.TestAsserts.ChangableAssert.IsChangedWhenHierarchyChanges``1(``0,System.Collections.Generic.List{System.Reflection.PropertyInfo})">
             <summary>
             Tests that when properties, classes and lists change, the parent raises the <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> once.
             </summary>
@@ -119,7 +119,7 @@
             <param name="obj">Object with properties to test.</param>
             <param name="properties">List of properties to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangableAssert.NotifiesIsChangedWhenChanged``1(``0,System.String)">
+        <member name="M:JSR.TestAsserts.ChangableAssert.IsChangedWhenHierarchyChanges``1(``0,System.String)">
             <summary>
             Tests that when properties, classes and lists change, the parent raises the <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> once.
             </summary>
@@ -127,7 +127,7 @@
             <param name="obj">Object with properties to test.</param>
             <param name="propertyName">Name of property to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangableAssert.NotifiesIsChangedWhenChanged``1(``0,System.Reflection.PropertyInfo)">
+        <member name="M:JSR.TestAsserts.ChangableAssert.IsChangedWhenHierarchyChanges``1(``0,System.Reflection.PropertyInfo)">
             <summary>
             Tests that when properties, classes and lists change, the parent raises the <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> once.
             </summary>
@@ -591,12 +591,12 @@
         </member>
         <member name="P:JSR.TestAsserts.ChangableMonitor`1.PropertiesChanged">
             <summary>
-            Gets a list of properties change notifications since the last ClearNotifications.
+            Gets a list of properties change notifications since the last <see cref="M:JSR.TestAsserts.ChangableMonitor`1.ClearNotifications"/>.
             </summary>
         </member>
         <member name="P:JSR.TestAsserts.ChangableMonitor`1.StateChanges">
             <summary>
-            Gets a list of all of the state change notifications since the last ClearNotifications.
+            Gets a list of all of the state change notifications since the last <see cref="M:JSR.TestAsserts.ChangableMonitor`1.ClearNotifications"/>.
             </summary>
         </member>
         <member name="M:JSR.TestAsserts.ChangableMonitor`1.AssertNotifications(System.Boolean)">
@@ -639,82 +639,82 @@
             <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
             <param name="obj">Object to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChanged(System.Type)">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenHierarchyChanges(System.Type)">
             <summary>
             /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
             </summary>
             <param name="type">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChanged(System.Type,System.Collections.Generic.List{System.String})">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenHierarchyChanges(System.Type,System.Collections.Generic.List{System.String})">
             <summary>
             /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
             </summary>
             <param name="type">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</param>
             <param name="propertyNames">List of property names to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChanged(System.Type,System.Collections.Generic.List{System.Reflection.PropertyInfo})">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenHierarchyChanges(System.Type,System.Collections.Generic.List{System.Reflection.PropertyInfo})">
             <summary>
             /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
             </summary>
             <param name="type">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</param>
             <param name="properties">List of properties to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChanged(System.Type,System.String)">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenHierarchyChanges(System.Type,System.String)">
             <summary>
             /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
             </summary>
             <param name="type">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</param>
             <param name="propertyName">Name of property to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChanged(System.Type,System.Reflection.PropertyInfo)">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenHierarchyChanges(System.Type,System.Reflection.PropertyInfo)">
             <summary>
             /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
             </summary>
             <param name="type">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</param>
             <param name="property">Property to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChanged``1">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenHierarchyChanges``1">
             <summary>
             /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
             </summary>
             <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChanged``1(System.Collections.Generic.List{System.String})">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenHierarchyChanges``1(System.Collections.Generic.List{System.String})">
             <summary>
             /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
             </summary>
             <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
             <param name="propertyNames">List of property names to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChanged``1(System.Collections.Generic.List{System.Reflection.PropertyInfo})">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenHierarchyChanges``1(System.Collections.Generic.List{System.Reflection.PropertyInfo})">
             <summary>
             /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
             </summary>
             <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
             <param name="properties">List of properties to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChanged``1(System.String)">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenHierarchyChanges``1(System.String)">
             <summary>
             /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
             </summary>
             <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
             <param name="propertyName">Property name to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChanged``1(System.Reflection.PropertyInfo)">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenHierarchyChanges``1(System.Reflection.PropertyInfo)">
             <summary>
             /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
             </summary>
             <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
             <param name="property">Property to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChanged``1(``0)">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenHierarchyChanges``1(``0)">
             <summary>
             /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
             </summary>
             <typeparam name="T">Type that implements <see cref="T:System.ComponentModel.IChangeTracking"/>.</typeparam>
             <param name="obj">Object with properties to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChanged``1(``0,System.Collections.Generic.List{System.String})">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenHierarchyChanges``1(``0,System.Collections.Generic.List{System.String})">
             <summary>
             /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
             </summary>
@@ -722,7 +722,7 @@
             <param name="obj">Object with properties to test.</param>
             <param name="propertyNames">List of property names to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChanged``1(``0,System.Collections.Generic.List{System.Reflection.PropertyInfo})">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenHierarchyChanges``1(``0,System.Collections.Generic.List{System.Reflection.PropertyInfo})">
             <summary>
             /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
             </summary>
@@ -730,7 +730,7 @@
             <param name="obj">Object with properties to test.</param>
             <param name="properties">List of properties to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChanged``1(``0,System.String)">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenHierarchyChanges``1(``0,System.String)">
             <summary>
             /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
             </summary>
@@ -738,7 +738,7 @@
             <param name="obj">Object with properties to test.</param>
             <param name="propertyName">Name of property to test.</param>
         </member>
-        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenChanged``1(``0,System.Reflection.PropertyInfo)">
+        <member name="M:JSR.TestAsserts.ChangeTrackingAssert.IsChangedWhenHierarchyChanges``1(``0,System.Reflection.PropertyInfo)">
             <summary>
             Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
             </summary>
@@ -1242,6 +1242,47 @@
             <param name="expected"><see cref="T:System.Collections.IList"/> containing expected values to compare to.</param>
             <param name="actual"><see cref="T:System.Collections.IList"/> to compare to.</param>
             <returns>True if the lists contain the same values; otherwise false.</returns>
+        </member>
+        <member name="T:JSR.TestAsserts.MessengerMonitor`1">
+            <summary>
+            Monitors the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/> and <see cref="T:JSR.BaseClassLibrary.OnMessageEventHandler"/> on an <see cref="T:JSR.BaseClassLibrary.IMessenger"/> object.
+            </summary>
+            <typeparam name="T">Type that implements <see cref="T:JSR.BaseClassLibrary.IMessenger"/>.</typeparam>
+        </member>
+        <member name="M:JSR.TestAsserts.MessengerMonitor`1.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.TestAsserts.MessengerMonitor`1"/> class.
+            </summary>
+            <param name="obj">Object to monitor.</param>
+        </member>
+        <member name="P:JSR.TestAsserts.MessengerMonitor`1.PropertiesChanged">
+            <summary>
+            Gets a list of all the property change notifications since the last <see cref="M:JSR.TestAsserts.MessengerMonitor`1.ClearNotifications"/>.
+            </summary>
+        </member>
+        <member name="P:JSR.TestAsserts.MessengerMonitor`1.Messages">
+            <summary>
+            Gets a list of all the messages raised since the last <see cref="M:JSR.TestAsserts.MessengerMonitor`1.ClearNotifications"/>.
+            </summary>
+        </member>
+        <member name="M:JSR.TestAsserts.MessengerMonitor`1.AssertMessageNotification(System.String,System.Boolean)">
+            <summary>
+            Asserts that the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/> and <see cref="T:JSR.BaseClassLibrary.OnMessageEventHandler"/> have only raised a message once since the last <see cref="M:JSR.TestAsserts.MessengerMonitor`1.ClearNotifications"/>.
+            </summary>
+            <param name="message">Message to test.</param>
+            <param name="clearNotifications">True to clear existing notification, false otherwise.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.MessengerMonitor`1.AssertMessageCount(System.Int32,System.Boolean)">
+            <summary>
+            Asserts that the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/> and <see cref="T:JSR.BaseClassLibrary.OnMessageEventHandler"/> were raised a specific number of times since the <see cref="M:JSR.TestAsserts.MessengerMonitor`1.ClearNotifications"/>.
+            </summary>
+            <param name="count">Number of expected messages raised.</param>
+            <param name="clearNotifications">True to clear existing notifications, false otherwise.</param>
+        </member>
+        <member name="M:JSR.TestAsserts.MessengerMonitor`1.ClearNotifications">
+            <summary>
+            Clears the current list of changed properties and messages.
+            </summary>
         </member>
         <member name="T:JSR.TestAsserts.NotifyPropertyChangedAssert">
             <summary>

@@ -22,7 +22,7 @@ namespace JSR.BaseClassLibrary.Tests
         /// Tests that an implementation of <see cref="MessengerBaseClass"/> initializes withouth a <see cref="MessengerBaseClass.Message"/> value.
         /// </summary>
         [TestMethod]
-        public void InitializesWithoutMessage()
+        public void Initializes()
         {
             MessengerWithChildrenMock obj = new MessengerWithChildrenMock();
             Assert.IsTrue(string.IsNullOrEmpty(obj.Message));
@@ -58,32 +58,17 @@ namespace JSR.BaseClassLibrary.Tests
         [TestMethod]
         public void RaisesMessages()
         {
-            MessengerMock obj = new MessengerMock();
+            MessengerWithChildrenMock obj = new MessengerWithChildrenMock();
+            MessengerMonitor<MessengerWithChildrenMock> monitor = new MessengerMonitor<MessengerWithChildrenMock>(obj);
 
-            List<string> propertyChanges = new List<string>();
-            obj.PropertyChanged += (sender, args) => propertyChanges.Add(args.PropertyName);
-
-            List<string> messagesRaised = new List<string>();
-            obj.OnMessage += (sender, message) => messagesRaised.Add(message);
-
-            int count = new Random().Next(5, 20);
-            string messageToSend = RandomUtilities.GetRandomString(20);
-
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < new Random().Next(5, 20); i++)
             {
-                while (messageToSend == obj.Message)
-                {
-                    messageToSend = RandomUtilities.GetRandomString(20);
-                }
+                string newMessage = RandomUtilities.GetRandomString(obj.Message);
+                obj.RaiseMessage(newMessage);
 
-                obj.RaiseMessage(messageToSend);
-
-                CollectionAssert.Contains(messagesRaised, messageToSend);
-                Assert.AreEqual(messageToSend, obj.Message);
+                monitor.AssertMessageCount(i - 1, false);
+                monitor.AssertMessageNotification(newMessage, false);
             }
-
-            Assert.AreEqual(count, messagesRaised.Count);
-            Assert.AreEqual(count, propertyChanges.Count(propertyName => propertyName == nameof(IMessenger.Message)));
         }
 
         /// <summary>
@@ -232,6 +217,11 @@ namespace JSR.BaseClassLibrary.Tests
                 Assert.AreEqual(0, listMessages.Count);
                 Assert.AreEqual(0, parentMessages.Count);
             }
+        }
+
+        private MessengerWithChildrenMock GetSerializedMessengerWithChildrenMock()
+        {
+            return ObjectUtilities.GetSerializedCopyOfObject(ObjectUtilities.CreateInstanceWithRandomValues<MessengerWithChildrenMock>());
         }
     }
 }

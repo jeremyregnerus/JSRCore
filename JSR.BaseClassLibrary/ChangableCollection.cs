@@ -11,10 +11,10 @@ using System.Runtime.Serialization;
 namespace JSR.BaseClassLibrary
 {
     /// <summary>
-    /// Provides an <see cref="ObservableCollection{T}"/> that also implements <see cref="IChangable"/>.
+    /// Provides an <see cref="ObservableCollection{T}"/> that also implements <see cref="INotifyOnChanged"/>.
     /// </summary>
-    /// <typeparam name="T">Type of List objects that implement <see cref="IChangable"/>.</typeparam>
-    public class ChangableCollection<T> : ObservableCollection<T>, IChangableCollection<T> where T : IChangable
+    /// <typeparam name="T">Type of List objects that implement <see cref="INotifyOnChanged"/>.</typeparam>
+    public class ChangableCollection<T> : ObservableCollection<T>, IChangableCollection<T> where T : INotifyOnChanged
     {
         private bool isChanged;
 
@@ -29,7 +29,7 @@ namespace JSR.BaseClassLibrary
         /// <summary>
         /// Initializes a new instance of the <see cref="ChangableCollection{T}"/> class.
         /// </summary>
-        /// <param name="collection">An IEnumberable of the Collection Type implementing <see cref="IChangable"/>.</param>
+        /// <param name="collection">An IEnumberable of the Collection Type implementing <see cref="INotifyOnChanged"/>.</param>
         public ChangableCollection(IEnumerable<T> collection) : base(collection)
         {
             OnCreated();
@@ -38,7 +38,7 @@ namespace JSR.BaseClassLibrary
         /// <summary>
         /// Initializes a new instance of the <see cref="ChangableCollection{T}"/> class.
         /// </summary>
-        /// <param name="list">A List of the Collection Type implementing <see cref="IChangable"/>.</param>
+        /// <param name="list">A List of the Collection Type implementing <see cref="INotifyOnChanged"/>.</param>
         public ChangableCollection(List<T> list) : base(list)
         {
             OnCreated();
@@ -113,7 +113,7 @@ namespace JSR.BaseClassLibrary
         {
             if (args.OldItems != null)
             {
-                foreach (IChangable item in args.OldItems)
+                foreach (INotifyOnChanged item in args.OldItems)
                 {
                     item.OnChanged -= CollectionItemChanged;
                 }
@@ -121,7 +121,7 @@ namespace JSR.BaseClassLibrary
 
             if (args.NewItems != null)
             {
-                foreach (IChangable item in args.NewItems)
+                foreach (INotifyOnChanged item in args.NewItems)
                 {
                     item.OnChanged += CollectionItemChanged;
                 }

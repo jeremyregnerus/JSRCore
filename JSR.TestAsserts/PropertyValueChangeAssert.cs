@@ -178,8 +178,6 @@ namespace JSR.TestAsserts
         /// <param name="property">Property to test.</param>
         public static void ChangesValue<T>(T obj, PropertyInfo property)
         {
-            int count = new Random().Next(5, 20);
-
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
                 var randomObject = ObjectUtilities.CreateInstanceWithRandomValues(obj.GetType());

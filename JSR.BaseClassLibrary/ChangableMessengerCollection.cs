@@ -12,7 +12,7 @@ namespace JSR.BaseClassLibrary
     /// <summary>
     /// Provides an <see cref="ObservableCollection{T}"/> that also implements<see cref="IChangableMessengerCollection{T}"/>.
     /// </summary>
-    /// <typeparam name="T">Type of List objects that implement <see cref="IChangable"/> and <see cref="IMessenger"/>.</typeparam>
+    /// <typeparam name="T">Type of List objects that implement <see cref="INotifyOnChanged"/> and <see cref="IMessenger"/>.</typeparam>
     public class ChangableMessengerCollection<T> : ObservableCollection<T>, IChangableMessengerCollection<T> where T : IChangableMessenger
     {
         private string message;
@@ -30,7 +30,7 @@ namespace JSR.BaseClassLibrary
         /// <summary>
         /// Initializes a new instance of the <see cref="ChangableMessengerCollection{T}"/> class.
         /// </summary>
-        /// <param name="collection">An IEnumberable of the Collection Type implementing both <see cref="IChangable"/> and <see cref="IMessenger"/>.</param>
+        /// <param name="collection">An IEnumberable of the Collection Type implementing both <see cref="INotifyOnChanged"/> and <see cref="IMessenger"/>.</param>
         public ChangableMessengerCollection(IEnumerable<T> collection) : base(collection)
         {
             OnCreated();
@@ -39,7 +39,7 @@ namespace JSR.BaseClassLibrary
         /// <summary>
         /// Initializes a new instance of the <see cref="ChangableMessengerCollection{T}"/> class.
         /// </summary>
-        /// <param name="list">A List of the Collection Type implementing both <see cref="IChangable"/> and <see cref="IMessenger"/>.</param>
+        /// <param name="list">A List of the Collection Type implementing both <see cref="INotifyOnChanged"/> and <see cref="IMessenger"/>.</param>
         public ChangableMessengerCollection(List<T> list) : base(list)
         {
             OnCreated();
@@ -86,7 +86,7 @@ namespace JSR.BaseClassLibrary
         /// <inheritdoc/>
         public void AcceptChanges()
         {
-            foreach (IChangable item in Items)
+            foreach (INotifyOnChanged item in Items)
             {
                 item.AcceptChanges();
             }

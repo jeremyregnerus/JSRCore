@@ -65,15 +65,15 @@ namespace JSR.TestAsserts
 
         #endregion
 
-        #region IsChangedWhenChanged
+        #region IsChangedWhenHierarchyChanges
 
         /// <summary>
         /// /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
-        public static void IsChangedWhenChanged(Type type)
+        public static void IsChangedWhenHierarchyChanges(Type type)
         {
-            IsChangedWhenChanged(CreateIChangeTrackingInstance(type));
+            IsChangedWhenHierarchyChanges(CreateIChangeTrackingInstance(type));
         }
 
         /// <summary>
@@ -81,9 +81,9 @@ namespace JSR.TestAsserts
         /// </summary>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
         /// <param name="propertyNames">List of property names to test.</param>
-        public static void IsChangedWhenChanged(Type type, List<string> propertyNames)
+        public static void IsChangedWhenHierarchyChanges(Type type, List<string> propertyNames)
         {
-            IsChangedWhenChanged(CreateIChangeTrackingInstance(type), propertyNames);
+            IsChangedWhenHierarchyChanges(CreateIChangeTrackingInstance(type), propertyNames);
         }
 
         /// <summary>
@@ -91,9 +91,9 @@ namespace JSR.TestAsserts
         /// </summary>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void IsChangedWhenChanged(Type type, List<PropertyInfo> properties)
+        public static void IsChangedWhenHierarchyChanges(Type type, List<PropertyInfo> properties)
         {
-            IsChangedWhenChanged(CreateIChangeTrackingInstance(type), properties);
+            IsChangedWhenHierarchyChanges(CreateIChangeTrackingInstance(type), properties);
         }
 
         /// <summary>
@@ -101,9 +101,9 @@ namespace JSR.TestAsserts
         /// </summary>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
         /// <param name="propertyName">Name of property to test.</param>
-        public static void IsChangedWhenChanged(Type type, string propertyName)
+        public static void IsChangedWhenHierarchyChanges(Type type, string propertyName)
         {
-            IsChangedWhenChanged(CreateIChangeTrackingInstance(type), propertyName);
+            IsChangedWhenHierarchyChanges(CreateIChangeTrackingInstance(type), propertyName);
         }
 
         /// <summary>
@@ -111,18 +111,18 @@ namespace JSR.TestAsserts
         /// </summary>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
         /// <param name="property">Property to test.</param>
-        public static void IsChangedWhenChanged(Type type, PropertyInfo property)
+        public static void IsChangedWhenHierarchyChanges(Type type, PropertyInfo property)
         {
-            IsChangedWhenChanged(CreateIChangeTrackingInstance(type), property);
+            IsChangedWhenHierarchyChanges(CreateIChangeTrackingInstance(type), property);
         }
 
         /// <summary>
         /// /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
-        public static void IsChangedWhenChanged<T>() where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>() where T : IChangeTracking
         {
-            IsChangedWhenChanged(Activator.CreateInstance<T>());
+            IsChangedWhenHierarchyChanges(Activator.CreateInstance<T>());
         }
 
         /// <summary>
@@ -130,9 +130,9 @@ namespace JSR.TestAsserts
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <param name="propertyNames">List of property names to test.</param>
-        public static void IsChangedWhenChanged<T>(List<string> propertyNames) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(List<string> propertyNames) where T : IChangeTracking
         {
-            IsChangedWhenChanged(Activator.CreateInstance<T>(), propertyNames);
+            IsChangedWhenHierarchyChanges(Activator.CreateInstance<T>(), propertyNames);
         }
 
         /// <summary>
@@ -140,9 +140,9 @@ namespace JSR.TestAsserts
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <param name="properties">List of properties to test.</param>
-        public static void IsChangedWhenChanged<T>(List<PropertyInfo> properties) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(List<PropertyInfo> properties) where T : IChangeTracking
         {
-            IsChangedWhenChanged(Activator.CreateInstance<T>(), properties);
+            IsChangedWhenHierarchyChanges(Activator.CreateInstance<T>(), properties);
         }
 
         /// <summary>
@@ -150,9 +150,9 @@ namespace JSR.TestAsserts
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <param name="propertyName">Property name to test.</param>
-        public static void IsChangedWhenChanged<T>(string propertyName) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(string propertyName) where T : IChangeTracking
         {
-            IsChangedWhenChanged(Activator.CreateInstance<T>(), propertyName);
+            IsChangedWhenHierarchyChanges(Activator.CreateInstance<T>(), propertyName);
         }
 
         /// <summary>
@@ -160,9 +160,9 @@ namespace JSR.TestAsserts
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <param name="property">Property to test.</param>
-        public static void IsChangedWhenChanged<T>(PropertyInfo property) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(PropertyInfo property) where T : IChangeTracking
         {
-            IsChangedWhenChanged(Activator.CreateInstance<T>(), property);
+            IsChangedWhenHierarchyChanges(Activator.CreateInstance<T>(), property);
         }
 
         /// <summary>
@@ -170,9 +170,9 @@ namespace JSR.TestAsserts
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <param name="obj">Object with properties to test.</param>
-        public static void IsChangedWhenChanged<T>(T obj) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(T obj) where T : IChangeTracking
         {
-            IsChangedWhenChanged(obj, PropertyUtilities.GetListOfProperties(obj, true, true, false, true, true, true));
+            IsChangedWhenHierarchyChanges(obj, PropertyUtilities.GetListOfProperties(obj, true, true, false, true, true, true));
         }
 
         /// <summary>
@@ -181,11 +181,11 @@ namespace JSR.TestAsserts
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <param name="obj">Object with properties to test.</param>
         /// <param name="propertyNames">List of property names to test.</param>
-        public static void IsChangedWhenChanged<T>(T obj, List<string> propertyNames) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(T obj, List<string> propertyNames) where T : IChangeTracking
         {
             foreach (string propertyName in propertyNames)
             {
-                IsChangedWhenChanged(obj, propertyName);
+                IsChangedWhenHierarchyChanges(obj, propertyName);
             }
         }
 
@@ -195,11 +195,11 @@ namespace JSR.TestAsserts
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <param name="obj">Object with properties to test.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void IsChangedWhenChanged<T>(T obj, List<PropertyInfo> properties) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(T obj, List<PropertyInfo> properties) where T : IChangeTracking
         {
             foreach (PropertyInfo property in properties)
             {
-                IsChangedWhenChanged(obj, property);
+                IsChangedWhenHierarchyChanges(obj, property);
             }
         }
 
@@ -209,9 +209,9 @@ namespace JSR.TestAsserts
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <param name="obj">Object with properties to test.</param>
         /// <param name="propertyName">Name of property to test.</param>
-        public static void IsChangedWhenChanged<T>(T obj, string propertyName) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(T obj, string propertyName) where T : IChangeTracking
         {
-            IsChangedWhenChanged(obj, obj.GetType().GetProperty(propertyName));
+            IsChangedWhenHierarchyChanges(obj, obj.GetType().GetProperty(propertyName));
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace JSR.TestAsserts
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <param name="obj">Object with properties to test.</param>
         /// <param name="property">Property to test.</param>
-        public static void IsChangedWhenChanged<T>(T obj, PropertyInfo property) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(T obj, PropertyInfo property) where T : IChangeTracking
         {
             if (PropertyUtilities.CheckIfPropertyIsReadWrite(property))
             {

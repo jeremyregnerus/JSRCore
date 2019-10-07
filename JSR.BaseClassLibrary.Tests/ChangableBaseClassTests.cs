@@ -16,7 +16,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JSR.BaseClassLibrary.Tests
 {
     /// <summary>
-    /// Tests the <see cref="IChangable"/> and <see cref="IChangableCollection{T}"/> interface implementations.
+    /// Tests the <see cref="INotifyOnChanged"/> and <see cref="IChangableCollection{T}"/> interface implementations.
     /// </summary>
     [TestClass]
     public class ChangableBaseClassTests
@@ -55,6 +55,7 @@ namespace JSR.BaseClassLibrary.Tests
         public void ChangesValues()
         {
             PropertyValueChangeAssert.ChangesValues<ChangableWithChildrenMock>();
+            PropertyValueChangeAssert.ChangesValues(GetSerializedChangableWithChildrenMock());
         }
 
         /// <summary>
@@ -64,24 +65,27 @@ namespace JSR.BaseClassLibrary.Tests
         public void NotifiesPropertiesChanged()
         {
             NotifyPropertyChangedAssert.NotifiesPropertiesChanged<ChangableWithChildrenMock>();
+            NotifyPropertyChangedAssert.NotifiesPropertiesChanged(GetSerializedChangableWithChildrenMock());
         }
 
         /// <summary>
         /// Tests that an implementation of <see cref="ChangableBaseClass"/> changes <see cref="ChangableBaseClass.IsChanged"/> to true when properties are changed.
         /// </summary>
         [TestMethod]
-        public void ChangesOnPropertiesChanged()
+        public void IsChangedWhenHierarchyChanges()
         {
-            ChangeTrackingAssert.IsChangedWhenChanged<ChangableWithChildrenMock>();
+            ChangeTrackingAssert.IsChangedWhenHierarchyChanges<ChangableWithChildrenMock>();
+            ChangeTrackingAssert.IsChangedWhenHierarchyChanges(GetSerializedChangableWithChildrenMock());
         }
 
         /// <summary>
         /// Tests that an implementation of <see cref="ChangableBaseClass"/> raises <see cref="OnChangedEventHandler"/> correctly when properties are changed.
         /// </summary>
         [TestMethod]
-        public void NotifiesIsChangedWhenChanged()
+        public void NotifiesIsChangedWhenHierarchyChanges()
         {
-            ChangableAssert.NotifiesIsChangedWhenChanged<ChangableWithChildrenMock>();
+            ChangableAssert.NotifiesIsChangedWhenHierarchyChanges<ChangableWithChildrenMock>();
+            ChangableAssert.NotifiesIsChangedWhenHierarchyChanges(GetSerializedChangableWithChildrenMock());
         }
 
         /// <summary>
@@ -91,6 +95,7 @@ namespace JSR.BaseClassLibrary.Tests
         public void AcceptsChanges()
         {
             ChangeTrackingAssert.AcceptsChanges<ChangableWithChildrenMock>();
+            ChangeTrackingAssert.AcceptsChanges(GetSerializedChangableWithChildrenMock());
         }
 
         /// <summary>
@@ -100,6 +105,12 @@ namespace JSR.BaseClassLibrary.Tests
         public void NotifiesIsChangedOnAcceptChanges()
         {
             ChangableAssert.NotifiesIsChangedOnAcceptChanges<ChangableWithChildrenMock>();
+            ChangableAssert.NotifiesIsChangedOnAcceptChanges(GetSerializedChangableWithChildrenMock());
+        }
+
+        private ChangableWithChildrenMock GetSerializedChangableWithChildrenMock()
+        {
+            return ObjectUtilities.GetSerializedCopyOfObject(ObjectUtilities.CreateInstanceWithRandomValues<ChangableWithChildrenMock>());
         }
     }
 }

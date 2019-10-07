@@ -34,12 +34,12 @@
             Tests that an implementation of <see cref="T:JSR.BaseClassLibrary.ChangableBaseClass"/> raises <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/> when property values change.
             </summary>
         </member>
-        <member name="M:JSR.BaseClassLibrary.Tests.ChangableBaseClassTests.ChangesOnPropertiesChanged">
+        <member name="M:JSR.BaseClassLibrary.Tests.ChangableBaseClassTests.IsChangedWhenHierarchyChanges">
             <summary>
             Tests that an implementation of <see cref="T:JSR.BaseClassLibrary.ChangableBaseClass"/> changes <see cref="P:JSR.BaseClassLibrary.ChangableBaseClass.IsChanged"/> to true when properties are changed.
             </summary>
         </member>
-        <member name="M:JSR.BaseClassLibrary.Tests.ChangableBaseClassTests.NotifiesIsChangedWhenChanged">
+        <member name="M:JSR.BaseClassLibrary.Tests.ChangableBaseClassTests.IsChangedWhenHierarchyChanges">
             <summary>
             Tests that an implementation of <see cref="T:JSR.BaseClassLibrary.ChangableBaseClass"/> raises <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> correctly when properties are changed.
             </summary>
@@ -79,6 +79,11 @@
             Tests that an implementation of <see cref="T:JSR.BaseClassLibrary.ChangableMessengerBaseClass"/> does not set <see cref="P:System.ComponentModel.IChangeTracking.IsChanged"/> to true after being deserialized.
             </summary>
         </member>
+        <member name="M:JSR.BaseClassLibrary.Tests.ChangableMessengerBaseClassTests.SerializesWithoutMessage">
+            <summary>
+            Tests that an implementation of <see cref="T:JSR.BaseClassLibrary.Tests.ChangableMessengerBaseClassTests"/> deserializes without a <see cref="P:JSR.BaseClassLibrary.ChangableMessengerBaseClass.Message"/> value.
+            </summary>
+        </member>
         <member name="M:JSR.BaseClassLibrary.Tests.ChangableMessengerBaseClassTests.ChangesValues">
             <summary>
             Tests that an implementation of <see cref="T:JSR.BaseClassLibrary.ChangableMessengerBaseClass"/> can change property values.
@@ -94,7 +99,7 @@
             Tests that an implementation of <see cref="T:JSR.BaseClassLibrary.ChangableMessengerBaseClass"/> changes <see cref="P:System.ComponentModel.IChangeTracking.IsChanged"/> to true when properties are changed.
             </summary>
         </member>
-        <member name="M:JSR.BaseClassLibrary.Tests.ChangableMessengerBaseClassTests.NotifiesIsChangedWhenChanged">
+        <member name="M:JSR.BaseClassLibrary.Tests.ChangableMessengerBaseClassTests.IsChangedWhenHierarchyChanges">
             <summary>
             Tests that an implementation of <see cref="T:JSR.BaseClassLibrary.ChangableMessengerBaseClass"/> raises <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/> correctly when properties are changed.
             </summary>
@@ -114,7 +119,7 @@
             Tests the <see cref="T:JSR.BaseClassLibrary.MessengerBaseClass"/> and the <see cref="T:JSR.BaseClassLibrary.MessengerCollection`1"/> classes.
             </summary>
         </member>
-        <member name="M:JSR.BaseClassLibrary.Tests.MessengerBaseClassTests.InitializesWithoutMessage">
+        <member name="M:JSR.BaseClassLibrary.Tests.MessengerBaseClassTests.Initializes">
             <summary>
             Tests that an implementation of <see cref="T:JSR.BaseClassLibrary.MessengerBaseClass"/> initializes withouth a <see cref="P:JSR.BaseClassLibrary.MessengerBaseClass.Message"/> value.
             </summary>
@@ -129,7 +134,7 @@
             Tests that an implementation of <see cref="T:JSR.BaseClassLibrary.MessengerBaseClass"/> deserializes without a <see cref="P:JSR.BaseClassLibrary.MessengerBaseClass.Message"/> value.
             </summary>
         </member>
-        <member name="M:JSR.BaseClassLibrary.Tests.MessengerBaseClassTests.RaisesMessages">
+        <member name="M:JSR.BaseClassLibrary.Tests.MessengerBaseClassTests.RaisesHierarchyMessages">
             <summary>
             Tests that an implementation of <see cref="T:JSR.BaseClassLibrary.MessengerBaseClass"/> raises <see cref="T:JSR.BaseClassLibrary.OnMessageEventHandler"/>.
             </summary>
@@ -149,7 +154,7 @@
             Tests that when a child is removed from an implementation of <see cref="T:JSR.BaseClassLibrary.MessengerBaseClass"/>, the parent no longer raises<see cref="T:JSR.BaseClassLibrary.OnMessageEventHandler"/> when the child raises a message.
             </summary>
         </member>
-        <member name="M:JSR.BaseClassLibrary.Tests.MessengerBaseClassTests.RaisesMessagesOfListItems">
+        <member name="M:JSR.BaseClassLibrary.Tests.MessengerBaseClassTests.RaisesHierarchyMessagesOfListItems">
             <summary>
             Tests that an implementation of <see cref="T:JSR.BaseClassLibrary.MessengerBaseClass"/> raises <see cref="T:JSR.BaseClassLibrary.OnMessageEventHandler"/> when list items raise messages.
             </summary>

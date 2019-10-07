@@ -2,10 +2,7 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using JSR.BaseClassLibrary.Tests.Mocks;
 using JSR.TestAsserts;
 using JSR.Utilities;
@@ -26,6 +23,7 @@ namespace JSR.BaseClassLibrary.Tests
         public void SerializesAndDeserializes()
         {
             SerializationAssert.SerializesAndDeserializes<NotifyPropertyChangeMock>();
+            SerializationAssert.SerializesAndDeserializes(GetSerializedNotifyPropertyChangeMock());
         }
 
         /// <summary>
@@ -34,7 +32,8 @@ namespace JSR.BaseClassLibrary.Tests
         [TestMethod]
         public void ChangesValues()
         {
-            PropertyValueChangeAssert.ChangesValues(ObjectUtilities.GetSerializedCopyOfObject(ObjectUtilities.CreateInstanceWithRandomValues<NotifyPropertyChangeMock>()));
+            PropertyValueChangeAssert.ChangesValues<NotifyPropertyChangeMock>();
+            PropertyValueChangeAssert.ChangesValues(GetSerializedNotifyPropertyChangeMock());
         }
 
         /// <summary>
@@ -43,7 +42,13 @@ namespace JSR.BaseClassLibrary.Tests
         [TestMethod]
         public void NotifiesPropertiesChange()
         {
-            NotifyPropertyChangedAssert.NotifiesPropertiesChanged(ObjectUtilities.GetSerializedCopyOfObject(ObjectUtilities.CreateInstanceWithRandomValues<NotifyPropertyChangeMock>()));
+            NotifyPropertyChangedAssert.NotifiesPropertiesChanged<NotifyPropertyChangeMock>();
+            NotifyPropertyChangedAssert.NotifiesPropertiesChanged(GetSerializedNotifyPropertyChangeMock());
+        }
+
+        private NotifyPropertyChangeMock GetSerializedNotifyPropertyChangeMock()
+        {
+            return ObjectUtilities.GetSerializedCopyOfObject(ObjectUtilities.CreateInstanceWithRandomValues<NotifyPropertyChangeMock>());
         }
     }
 }

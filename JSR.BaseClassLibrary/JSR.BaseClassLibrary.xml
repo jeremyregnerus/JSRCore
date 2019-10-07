@@ -4,6 +4,115 @@
         <name>JSR.BaseClassLibrary</name>
     </assembly>
     <members>
+        <member name="T:JSR.BaseClassLibrary.BaseClass">
+            <summary>
+            Core base object includes, <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>, <see cref="T:System.ComponentModel.IChangeTracking"/> and <see cref="T:JSR.BaseClassLibrary.IMessenger"/>.
+            </summary>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.BaseClass.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.BaseClass.OnMessage">
+            <inheritdoc/>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.BaseClass.OnChanged">
+            <inheritdoc/>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.BaseClass.IsChanged">
+            <inheritdoc/>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.BaseClass.Message">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseClass.AcceptChanges">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseClass.SetValue``1(``0,``0@,System.String)">
+            <summary>
+            Sets the value for a property.
+            </summary>
+            <typeparam name="T">Type of value to set.</typeparam>
+            <param name="value">Value to assign to the property.</param>
+            <param name="backingField">Backingfield that stores the property's value.</param>
+            <param name="propertyName">Name of the property.</param>
+            <returns>True if the value was changed. This will return false if the values are the same.</returns>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseClass.AddChangable(JSR.BaseClassLibrary.IChangable)">
+            <summary>
+            Adds tracking for <see cref="E:JSR.BaseClassLibrary.BaseClass.OnChanged"/>.
+            </summary>
+            <param name="changable">An object that implements <see cref="T:JSR.BaseClassLibrary.IChangable"/>.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseClass.RemoveChangable(JSR.BaseClassLibrary.IChangable)">
+            <summary>
+            Removes tracking for <see cref="E:JSR.BaseClassLibrary.BaseClass.OnChanged"/>.
+            </summary>
+            <param name="changable">An object that implements <see cref="T:JSR.BaseClassLibrary.IChangable"/>.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseClass.AddMessenger(JSR.BaseClassLibrary.IMessenger)">
+            <summary>
+            Adds tracking for <see cref="E:JSR.BaseClassLibrary.BaseClass.OnMessage"/>.
+            </summary>
+            <param name="messenger">An object that implements <see cref="T:JSR.BaseClassLibrary.IMessenger"/>.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseClass.RemoveMessenger(JSR.BaseClassLibrary.IMessenger)">
+            <summary>
+            Removes tracking for <see cref="E:JSR.BaseClassLibrary.BaseClass.OnMessage"/>.
+            </summary>
+            <param name="messenger">An object that implements <see cref="T:JSR.BaseClassLibrary.IMessenger"/>.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseClass.OnChildChanged(System.Object,System.Boolean)">
+            <summary>
+            Changes the <see cref="P:JSR.BaseClassLibrary.BaseClass.IsChanged"/> state of this object when a child raises <see cref="E:JSR.BaseClassLibrary.BaseClass.OnChanged"/>.
+            </summary>
+            <param name="sender">Object raising <see cref="T:JSR.BaseClassLibrary.OnChangedEventHandler"/>.</param>
+            <param name="wasChanged">True if the object was changed, false otherwise.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseClass.OnChildMessage(System.Object,System.String)">
+            <summary>
+            Changes the Message of this object when a child raises <see cref="E:JSR.BaseClassLibrary.BaseClass.OnMessage"/>.
+            </summary>
+            <param name="sender">Object raising <see cref="T:JSR.BaseClassLibrary.OnMessageEventHandler"/>.</param>
+            <param name="message">Message the child raised.</param>
+        </member>
+        <member name="T:JSR.BaseClassLibrary.BaseClassCollection`1">
+            <summary>
+            Collection of objects that can track <see cref="E:JSR.BaseClassLibrary.BaseClassCollection`1.OnChanged"/> and <see cref="E:JSR.BaseClassLibrary.BaseClassCollection`1.OnMessage"/>.
+            </summary>
+            <typeparam name="T">Type of object within the Collection.</typeparam>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseClassCollection`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.BaseClassCollection`1"/> class.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseClassCollection`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.BaseClassCollection`1"/> class.
+            </summary>
+            <param name="collection"><see cref="T:System.Collections.IEnumerable"/> of the list type.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseClassCollection`1.#ctor(System.Collections.Generic.List{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.BaseClassCollection`1"/> class.
+            </summary>
+            <param name="list"><see cref="T:System.Collections.IList"/> of the list type.</param>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.BaseClassCollection`1.OnMessage">
+            <inheritdoc/>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.BaseClassCollection`1.OnChanged">
+            <inheritdoc/>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.BaseClassCollection`1.IsChanged">
+            <inheritdoc/>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.BaseClassCollection`1.Message">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseClassCollection`1.AcceptChanges">
+            <inheritdoc/>
+        </member>
         <member name="T:JSR.BaseClassLibrary.ChangableBaseClass">
             <summary>
             Provides the default implementation of <see cref="T:JSR.BaseClassLibrary.IChangable"/> interface layered on top of the <see cref="T:JSR.BaseClassLibrary.NotifyPropertyChangeBaseClass"/> base class.
@@ -125,6 +234,32 @@
         </member>
         <member name="M:JSR.BaseClassLibrary.ChangableMessengerBaseClass.SetValue``1(``0,``0@,System.String)">
             <inheritdoc/>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableMessengerBaseClass.AddMessenger(JSR.BaseClassLibrary.IMessenger)">
+            <summary>
+            Monitors the <see cref="E:JSR.BaseClassLibrary.ChangableMessengerBaseClass.OnMessage"/> event to a child object.
+            </summary>
+            <param name="messenger">Child object to add.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableMessengerBaseClass.RemoveMessenger(JSR.BaseClassLibrary.IMessenger)">
+            <summary>
+            Removes the <see cref="E:JSR.BaseClassLibrary.ChangableMessengerBaseClass.OnMessage"/> event from a child object.
+            </summary>
+            <param name="messenger">Child object to remove.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableMessengerBaseClass.AddChangableMessenger``1(``0)">
+            <summary>
+            Adds notification tracking to an <see cref="T:JSR.BaseClassLibrary.IChangableMessenger"/> object.
+            </summary>
+            <param name="changableMessenger">Object to track notification.</param>
+            <typeparam name="T">Type that implements <see cref="T:JSR.BaseClassLibrary.IMessenger"/> and <see cref="T:JSR.BaseClassLibrary.IChangable"/>.</typeparam>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ChangableMessengerBaseClass.RemoveChangableMessenger``1(``0)">
+            <summary>
+            Removes notification tracking from an <see cref="T:JSR.BaseClassLibrary.IChangableMessenger"/> object.
+            </summary>
+            <param name="changableMessenger">Object to remove notification tracking from.</param>
+            <typeparam name="T">Type that implements <see cref="T:JSR.BaseClassLibrary.IMessenger"/> and <see cref="T:JSR.BaseClassLibrary.IChangable"/>.</typeparam>
         </member>
         <member name="T:JSR.BaseClassLibrary.ChangableMessengerCollection`1">
             <summary>

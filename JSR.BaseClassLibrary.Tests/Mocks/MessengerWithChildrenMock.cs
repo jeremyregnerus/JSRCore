@@ -4,6 +4,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
+using JSR.TestAsserts;
 
 namespace JSR.BaseClassLibrary.Tests.Mocks
 {
@@ -12,10 +13,10 @@ namespace JSR.BaseClassLibrary.Tests.Mocks
     public class MessengerWithChildrenMock : MessengerMock
     {
         [DataMember]
-        private MessengerMock childMessenger1;
+        private MessengerMock childMessenger1 = new MessengerMock();
 
         [DataMember]
-        private MessengerMock childMessenger2;
+        private MessengerMock childMessenger2 = new MessengerMock();
 
         public MessengerWithChildrenMock()
         {

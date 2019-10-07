@@ -4,6 +4,8 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
+using JSR.TestAsserts;
+using JSR.Utilities;
 
 namespace JSR.BaseClassLibrary.Tests.Mocks
 {
@@ -11,6 +13,11 @@ namespace JSR.BaseClassLibrary.Tests.Mocks
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Mock Object.")]
     public class MessengerMock : MessengerBaseClass
     {
+        public void RaiseMessage()
+        {
+            RaiseMessage(RandomUtilities.GetRandomString(Message));
+        }
+
         public void RaiseMessage(string message)
         {
             Message = message;

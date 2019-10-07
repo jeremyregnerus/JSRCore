@@ -11,10 +11,10 @@ using System.Text;
 namespace JSR.BaseClassLibrary
 {
     /// <summary>
-    /// <see cref="IChangableCollection{T}"/> implements <see cref="IChangeTrackingCollection{T}"/>, and <see cref="IChangable"/>.
+    /// <see cref="IChangableCollection{T}"/> implements <see cref="IChangeTrackingCollection{T}"/>, and <see cref="INotifyOnChanged"/>.
     /// </summary>
-    /// <typeparam name="T">Type of list items that implement <see cref="IChangable"/>.</typeparam>
-    public interface IChangableCollection<T> : IChangeTrackingCollection<T>, IChangable where T : IChangable
+    /// <typeparam name="T">Type of list items that implement <see cref="INotifyOnChanged"/>.</typeparam>
+    public interface IChangableCollection<T> : IChangeTrackingCollection<T>, INotifyOnChanged where T : INotifyOnChanged
     {
     }
 }

@@ -93,16 +93,16 @@ namespace JSR.BaseClassLibrary.Tests
         [TestMethod]
         public void ChangesOnPropertiesChanged()
         {
-            ChangeTrackingAssert.IsChangedWhenChanged<ChangableMessengerWithChildrenMock>();
+            ChangeTrackingAssert.IsChangedWhenHierarchyChanges<ChangableMessengerWithChildrenMock>();
         }
 
         /// <summary>
         /// Tests that an implementation of <see cref="ChangableMessengerBaseClass"/> raises <see cref="OnChangedEventHandler"/> correctly when properties are changed.
         /// </summary>
         [TestMethod]
-        public void NotifiesIsChangedWhenChanged()
+        public void IsChangedWhenHierarchyChanges()
         {
-            ChangableAssert.NotifiesIsChangedWhenChanged<ChangableMessengerWithChildrenMock>();
+            ChangableAssert.IsChangedWhenHierarchyChanges<ChangableMessengerWithChildrenMock>();
         }
 
         /// <summary>
