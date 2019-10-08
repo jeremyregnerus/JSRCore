@@ -82,7 +82,7 @@ namespace JSR.BaseClassLibrary
 
                 backingField = value;
 
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                NotifyPropertyChanged(propertyName);
 
                 IsChanged = true;
                 return true;
@@ -135,6 +135,27 @@ namespace JSR.BaseClassLibrary
             {
                 ((IMessenger)child).OnMessage -= OnChildMessage;
             }
+        }
+
+        /// <summary>
+        /// Raise the <see cref="PropertyChangedEventHandler"/>.
+        /// </summary>
+        /// <param name="propertyNames">Name of the property to raise the event for.</param>
+        protected void NotifyPropertiesChanged(List<string> propertyNames)
+        {
+            foreach (string propertyName in propertyNames)
+            {
+                NotifyPropertyChanged(propertyName);
+            }
+        }
+
+        /// <summary>
+        /// Raise the <see cref="PropertyChangedEventHandler"/> for multiple properties.
+        /// </summary>
+        /// <param name="propertyName">List of property names to raise the event handler for.</param>
+        protected void NotifyPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
