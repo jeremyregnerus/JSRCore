@@ -1,4 +1,4 @@
-﻿// <copyright file="DelegateCommand.cs" company="Jeremy Regnerus">
+﻿// <copyright file="DelegateCommandParam.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
@@ -8,27 +8,27 @@ using System.Windows.Input;
 namespace JSR.BaseClassLibrary
 {
     /// <summary>
-    /// Provides a default implementation of the <see cref="ICommand"/> interface for use within MVVM and WPF.
+    /// Provides a default implementation of the <see cref="ICommand"/> interface for use within MVVM and WPF that utilizes a parameter.
     /// </summary>
-    public class DelegateCommand : ICommand
+    public class DelegateCommandParam : ICommand
     {
-        private readonly Action execute;
-        private readonly Func<bool> canExecute;
+        private readonly Action<object> execute;
+        private readonly Func<object, bool> canExecute;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DelegateCommand"/> class.
+        /// Initializes a new instance of the <see cref="DelegateCommandParam"/> class.
         /// </summary>
-        /// <param name="exectute">Action to execute.</param>
-        public DelegateCommand(Action exectute) : this(exectute, null)
+        /// <param name="execute">Action to execute.</param>
+        public DelegateCommandParam(Action<object> execute) : this(execute, null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DelegateCommand"/> class.
+        /// Initializes a new instance of the <see cref="DelegateCommandParam"/> class.
         /// </summary>
         /// <param name="execute">Action to execute.</param>
         /// <param name="canExecute">Function specifying if this action can execute when called.</param>
-        public DelegateCommand(Action execute, Func<bool> canExecute)
+        public DelegateCommandParam(Action<object> execute, Func<object, bool> canExecute)
         {
             this.execute = execute;
             this.canExecute = canExecute;
@@ -51,14 +51,14 @@ namespace JSR.BaseClassLibrary
             }
             else
             {
-                return canExecute();
+                return canExecute(parameter);
             }
         }
 
         /// <inheritdoc/>
         public void Execute(object parameter)
         {
-            execute();
+            execute(parameter);
         }
     }
 }
