@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E2F3468-95A1-4475-A386-6654AB90FB1E}"
 	ProjectSection(SolutionItems) = preProject
-		JSRCore.ruleset = JSRCore.ruleset
+		JSRRules.ruleset = JSRRules.ruleset
 		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.BaseClassLibrary.Tests"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{8507F921-099D-409C-A698-5A979941D606}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSR.Utilities.Tests", "JSR.Utilities.Tests\JSR.Utilities.Tests.csproj", "{1D9BCEDA-4FDC-44ED-8C69-BB823AAB1D6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Utilities.Tests", "JSR.Utilities.Tests\JSR.Utilities.Tests.csproj", "{1D9BCEDA-4FDC-44ED-8C69-BB823AAB1D6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

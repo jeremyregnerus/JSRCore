@@ -51,6 +51,24 @@
             <typeparam name="T">Type of object to no longer watch for notifications.</typeparam>
             <param name="child">Child object to no longer watch for notifications.</param>
         </member>
+        <member name="M:JSR.BaseClassLibrary.BaseClass.NotifyPropertiesChanged(System.String[])">
+            <summary>
+            Raise the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/> for multiple properties.
+            </summary>
+            <param name="propertyNames">Array of property names to raise the event handler.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseClass.NotifyPropertiesChanged(System.Collections.Generic.List{System.String})">
+            <summary>
+            Raise the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/> for multiple properties.
+            </summary>
+            <param name="propertyNames">List of property names to raise the event handlder.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseClass.NotifyPropertyChanged(System.String)">
+            <summary>
+            Raise the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/>.
+            </summary>
+            <param name="propertyName">Property name to raise the event handler.</param>
+        </member>
         <member name="M:JSR.BaseClassLibrary.BaseClass.OnChildChanged(System.Object,System.Boolean)">
             <summary>
             Changes the <see cref="P:JSR.BaseClassLibrary.BaseClass.IsChanged"/> state of this object when a child raises <see cref="E:JSR.BaseClassLibrary.BaseClass.OnChanged"/>.
@@ -122,22 +140,40 @@
             <param name="canExecute">Function specifying if this action can execute when called.</param>
         </member>
         <member name="E:JSR.BaseClassLibrary.DelegateCommand.CanExecuteChanged">
-            <summary>
-            Raised when the ability for the Action to execute changes.
-            </summary>
+            <inheritdoc/>
         </member>
         <member name="M:JSR.BaseClassLibrary.DelegateCommand.CanExecute(System.Object)">
-            <summary>
-            Checks in the Action can execute.
-            </summary>
-            <param name="parameter">Unused in this object, required by the Interface.</param>
-            <returns>Returns true if the Action can execute.</returns>
+            <inheritdoc/>
         </member>
         <member name="M:JSR.BaseClassLibrary.DelegateCommand.Execute(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="T:JSR.BaseClassLibrary.DelegateCommandParam">
             <summary>
-            Executes the Action of this object.
+            Provides a default implementation of the <see cref="T:System.Windows.Input.ICommand"/> interface for use within MVVM and WPF that utilizes a parameter.
             </summary>
-            <param name="parameter">Unused in this object, required by the Interface.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.DelegateCommandParam.#ctor(System.Action{System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.DelegateCommandParam"/> class.
+            </summary>
+            <param name="execute">Action to execute.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.DelegateCommandParam.#ctor(System.Action{System.Object},System.Func{System.Object,System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.DelegateCommandParam"/> class.
+            </summary>
+            <param name="execute">Action to execute.</param>
+            <param name="canExecute">Function specifying if this action can execute when called.</param>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.DelegateCommandParam.CanExecuteChanged">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.DelegateCommandParam.CanExecute(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.DelegateCommandParam.Execute(System.Object)">
+            <inheritdoc/>
         </member>
         <member name="T:JSR.BaseClassLibrary.OnMessageEventHandler">
             <summary>
