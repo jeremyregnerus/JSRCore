@@ -138,10 +138,10 @@ namespace JSR.BaseClassLibrary
         }
 
         /// <summary>
-        /// Raise the <see cref="PropertyChangedEventHandler"/>.
+        /// Raise the <see cref="PropertyChangedEventHandler"/> for multiple properties.
         /// </summary>
-        /// <param name="propertyNames">Name of the property to raise the event for.</param>
-        protected void NotifyPropertiesChanged(List<string> propertyNames)
+        /// <param name="propertyNames">Array of property names to raise the event handler.</param>
+        protected void NotifyPropertiesChanged(string[] propertyNames)
         {
             foreach (string propertyName in propertyNames)
             {
@@ -152,7 +152,19 @@ namespace JSR.BaseClassLibrary
         /// <summary>
         /// Raise the <see cref="PropertyChangedEventHandler"/> for multiple properties.
         /// </summary>
-        /// <param name="propertyName">List of property names to raise the event handler for.</param>
+        /// <param name="propertyNames">List of property names to raise the event handlder.</param>
+        protected void NotifyPropertiesChanged(List<string> propertyNames)
+        {
+            foreach (string propertyName in propertyNames)
+            {
+                NotifyPropertyChanged(propertyName);
+            }
+        }
+
+        /// <summary>
+        /// Raise the <see cref="PropertyChangedEventHandler"/>.
+        /// </summary>
+        /// <param name="propertyName">Property name to raise the event handler.</param>
         protected void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
