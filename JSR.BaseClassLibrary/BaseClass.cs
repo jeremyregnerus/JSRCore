@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text;
@@ -138,14 +139,28 @@ namespace JSR.BaseClassLibrary
         }
 
         /// <summary>
+        /// Raises the <see cref="PropertyChangedEventHandler"/> for ever property within the object.
+        /// </summary>
+        protected void NotifyAllPropertiesChanged()
+        {
+            foreach (PropertyInfo property in GetType().GetProperties())
+            {
+                NotifyPropertyChanged(property.Name);
+            }
+        }
+
+        /// <summary>
         /// Raise the <see cref="PropertyChangedEventHandler"/> for multiple properties.
         /// </summary>
         /// <param name="propertyNames">Array of property names to raise the event handler.</param>
         protected void NotifyPropertiesChanged(string[] propertyNames)
         {
-            foreach (string propertyName in propertyNames)
+            if (propertyNames != null)
             {
-                NotifyPropertyChanged(propertyName);
+                foreach (string propertyName in propertyNames)
+                {
+                    NotifyPropertyChanged(propertyName);
+                }
             }
         }
 
@@ -155,9 +170,12 @@ namespace JSR.BaseClassLibrary
         /// <param name="propertyNames">List of property names to raise the event handlder.</param>
         protected void NotifyPropertiesChanged(List<string> propertyNames)
         {
-            foreach (string propertyName in propertyNames)
+            if (propertyNames != null)
             {
-                NotifyPropertyChanged(propertyName);
+                foreach (string propertyName in propertyNames)
+                {
+                    NotifyPropertyChanged(propertyName);
+                }
             }
         }
 
