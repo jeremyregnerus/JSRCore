@@ -2,15 +2,12 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace JSR.Utilities.Tests
 {
     /// <summary>
     /// Class to test Utility Features.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1044:Properties should not be write only", Justification = "Used for testing purposes.")]
     public class UtilityMock
     {
         private string writeOnlyStringProperty;
@@ -45,5 +42,14 @@ namespace JSR.Utilities.Tests
         /// Gets or sets a value indicating whether the bool property is true or false.
         /// </summary>
         public bool PublicBoolProperty { get; set; }
+
+        /// <summary>
+        /// Gets the value set to the write only property <see cref="WriteOnlyStringProperty"/>.
+        /// </summary>
+        /// <returns>A string value.</returns>
+        public string GetWriteOnlyStringValue()
+        {
+            return writeOnlyStringProperty;
+        }
     }
 }

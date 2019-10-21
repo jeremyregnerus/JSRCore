@@ -72,7 +72,7 @@ namespace JSR.Utilities
         {
             if (currentValue != null && type != currentValue.GetType())
             {
-                throw new ArgumentOutOfRangeException($"The type {type} does not match the type {currentValue.GetType()} of {nameof(currentValue)}.", nameof(currentValue));
+                throw new ArgumentOutOfRangeException(nameof(currentValue), $"The type {type} does not match the type {currentValue.GetType()} of {nameof(currentValue)}.");
             }
 
             switch (type)
@@ -278,6 +278,11 @@ namespace JSR.Utilities
         /// <returns>A random enum.</returns>
         public static dynamic GetRandomEnum(Type enumType)
         {
+            if (enumType == null)
+            {
+                throw new ArgumentNullException(nameof(enumType));
+            }
+
             if (!enumType.IsEnum)
             {
                 throw new ArgumentException($"{nameof(enumType)} is not an enum.", nameof(enumType));

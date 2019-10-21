@@ -114,5 +114,11 @@
             Gets or sets a value indicating whether the bool property is true or false.
             </summary>
         </member>
+        <member name="M:JSR.Utilities.Tests.UtilityMock.GetWriteOnlyStringValue">
+            <summary>
+            Gets the value set to the write only property <see cref="P:JSR.Utilities.Tests.UtilityMock.WriteOnlyStringProperty"/>.
+            </summary>
+            <returns>A string value.</returns>
+        </member>
     </members>
 </doc>

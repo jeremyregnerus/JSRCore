@@ -1,0 +1,242 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JSR.FileManagement</name>
+    </assembly>
+    <members>
+        <member name="T:JSR.FileManagement.BinaryFileManager`1">
+            <summary>
+            Manages IO aspects of a file using Binary serialization.
+            </summary>
+            <typeparam name="T">Type of object the file contains.</typeparam>
+        </member>
+        <member name="M:JSR.FileManagement.BinaryFileManager`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.FileManagement.BinaryFileManager`1"/> class.
+            </summary>
+        </member>
+        <member name="T:JSR.FileManagement.BinaryFilePathSerializer`1">
+            <summary>
+            Loads and saves objects using binary serialization.
+            </summary>
+            <typeparam name="T">Type of object to serialize and deserialize.</typeparam>
+        </member>
+        <member name="M:JSR.FileManagement.BinaryFilePathSerializer`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.FileManagement.BinaryFilePathSerializer`1"/> class.
+            </summary>
+        </member>
+        <member name="T:JSR.FileManagement.BinaryFileStreamSerlializer`1">
+            <summary>
+            Deserializes and Deserializes objects using the <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter"/>.
+            </summary>
+            <typeparam name="T">Type of object to serialize and deserialize.</typeparam>
+        </member>
+        <member name="M:JSR.FileManagement.BinaryFileStreamSerlializer`1.DeserializeFile(System.IO.FileStream)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.FileManagement.BinaryFileStreamSerlializer`1.SerializeFile(`0,System.IO.FileStream)">
+            <inheritdoc/>
+        </member>
+        <member name="T:JSR.FileManagement.DataContractFileManager`1">
+            <summary>
+            Manages IO aspects of a file using DataContract serialization.
+            </summary>
+            <typeparam name="T">Type of object the file contains.</typeparam>
+        </member>
+        <member name="M:JSR.FileManagement.DataContractFileManager`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.FileManagement.DataContractFileManager`1"/> class.
+            </summary>
+        </member>
+        <member name="T:JSR.FileManagement.DataContractFilePathSerializer`1">
+            <summary>
+            Loads and saves objects using a DataContractSerializer.
+            </summary>
+            <typeparam name="T">Type of object to serialize.</typeparam>
+        </member>
+        <member name="M:JSR.FileManagement.DataContractFilePathSerializer`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.FileManagement.DataContractFilePathSerializer`1"/> class.
+            </summary>
+        </member>
+        <member name="T:JSR.FileManagement.DataContractFileStreamSerializer`1">
+            <summary>
+            Deserializes and Deserializes objects using the <see cref="T:System.Runtime.Serialization.DataContractSerializer"/>.
+            </summary>
+            <typeparam name="T">Type of object to serialize and deserialize.</typeparam>
+        </member>
+        <member name="M:JSR.FileManagement.DataContractFileStreamSerializer`1.DeserializeFile(System.IO.FileStream)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.FileManagement.DataContractFileStreamSerializer`1.SerializeFile(`0,System.IO.FileStream)">
+            <inheritdoc/>
+        </member>
+        <member name="T:JSR.FileManagement.FileManager`1">
+            <summary>
+            Manages basic saving and loading of files persistently.
+            </summary>
+            <typeparam name="T">Type of object the file contains.</typeparam>
+        </member>
+        <member name="M:JSR.FileManagement.FileManager`1.#ctor(JSR.FileManagement.IFileStreamSerializer{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.FileManagement.FileManager`1"/> class.
+            </summary>
+            <param name="fileStreamSerializer"><see cref="T:JSR.FileManagement.IFileStreamSerializer`1"/> to use for serialization and deserialization.</param>
+        </member>
+        <member name="P:JSR.FileManagement.FileManager`1.FilePath">
+            <inheritdoc/>
+        </member>
+        <member name="P:JSR.FileManagement.FileManager`1.FileLoaded">
+            <inheritdoc/>
+        </member>
+        <member name="P:JSR.FileManagement.FileManager`1.IsReadOnly">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.FileManagement.FileManager`1.LoadFile(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.FileManagement.FileManager`1.SaveFile(`0)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.FileManagement.FileManager`1.SaveFile(`0,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.FileManagement.FileManager`1.CloseFile">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.FileManagement.FileManager`1.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.FileManagement.FileManager`1.Dispose(System.Boolean)">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+            <param name="disposing">True if the object is already disposing.</param>
+        </member>
+        <member name="T:JSR.FileManagement.FileSerializer`1">
+            <summary>
+            Provides basic serialization and deserialization of files.
+            </summary>
+            <typeparam name="T">Type of object to serialize and deserialize.</typeparam>
+        </member>
+        <member name="M:JSR.FileManagement.FileSerializer`1.#ctor(JSR.FileManagement.IFileStreamSerializer{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.FileManagement.FileSerializer`1"/> class.
+            </summary>
+            <param name="fileStreamSerializer">FileStreamSerializer to use for serialization and deserialization.</param>
+        </member>
+        <member name="M:JSR.FileManagement.FileSerializer`1.LoadFile(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.FileManagement.FileSerializer`1.SaveFile(`0,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="T:JSR.FileManagement.IFileManager`1">
+            <summary>
+            Interface for serializers used for mainting control over files.
+            </summary>
+            <typeparam name="T">Type of object the file contains.</typeparam>
+        </member>
+        <member name="P:JSR.FileManagement.IFileManager`1.FilePath">
+            <summary>
+            Gets the filepath of the managed file / object.
+            </summary>
+        </member>
+        <member name="P:JSR.FileManagement.IFileManager`1.FileLoaded">
+            <summary>
+            Gets a value indicating whether their is a file associated with the object.
+            </summary>
+        </member>
+        <member name="P:JSR.FileManagement.IFileManager`1.IsReadOnly">
+            <summary>
+            Gets a value indicating whether the file is loaded ReadOnly.
+            </summary>
+        </member>
+        <member name="M:JSR.FileManagement.IFileManager`1.SaveFile(`0)">
+            <summary>
+            Saves an object to the current filestream.
+            </summary>
+            <param name="objectToSave">Object to save.</param>
+        </member>
+        <member name="M:JSR.FileManagement.IFileManager`1.CloseFile">
+            <summary>
+            Closes the current file.
+            </summary>
+        </member>
+        <member name="T:JSR.FileManagement.IFilePathSerializer`1">
+            <summary>
+            Interface for serializers used for simple loading and saving of files.
+            </summary>
+            <typeparam name="T">Type of object to manage.</typeparam>
+        </member>
+        <member name="M:JSR.FileManagement.IFilePathSerializer`1.LoadFile(System.String)">
+            <summary>
+            Loads a file using serialization.
+            </summary>
+            <param name="filePath">Filepath of the file to load.</param>
+            <returns>An objdect of type T.</returns>
+        </member>
+        <member name="M:JSR.FileManagement.IFilePathSerializer`1.SaveFile(`0,System.String)">
+            <summary>
+            Saves a file using serialization.
+            </summary>
+            <param name="objectToSave">Object to save using serialization.</param>
+            <param name="filePath">Filepath of where to save the object.</param>
+        </member>
+        <member name="T:JSR.FileManagement.IFileStreamSerializer`1">
+            <summary>
+            Interface for serializing and deserializing objects from a <see cref="T:System.IO.FileStream"/>.
+            </summary>
+            <typeparam name="T">Type of object to serialize and deserialize.</typeparam>
+        </member>
+        <member name="M:JSR.FileManagement.IFileStreamSerializer`1.DeserializeFile(System.IO.FileStream)">
+            <summary>
+            Deserializes an object from a FileStream and returns the object.
+            </summary>
+            <param name="fileStream">FileStream to deserialize the object from.</param>
+            <returns>The object contained within the FileStream.</returns>
+        </member>
+        <member name="M:JSR.FileManagement.IFileStreamSerializer`1.SerializeFile(`0,System.IO.FileStream)">
+            <summary>
+            Serializes an object to a FileStream.
+            </summary>
+            <param name="objectToSave">Object to serialize.</param>
+            <param name="fileStream">FileStream to save the object to.</param>
+        </member>
+        <member name="T:JSR.FileManagement.XMLFileManager`1">
+            <summary>
+            Manages IO aspects of a file using Xml Serialization.
+            </summary>
+            <typeparam name="T">Type of object the file contains.</typeparam>
+        </member>
+        <member name="M:JSR.FileManagement.XMLFileManager`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.FileManagement.XMLFileManager`1"/> class.
+            </summary>
+        </member>
+        <member name="T:JSR.FileManagement.XMLFilePathSerializer`1">
+            <summary>
+            Loads and saves objects using XML serialization.
+            </summary>
+            <typeparam name="T">Type of object to serialize and deserialize.</typeparam>
+        </member>
+        <member name="M:JSR.FileManagement.XMLFilePathSerializer`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.FileManagement.XMLFilePathSerializer`1"/> class.
+            </summary>
+        </member>
+        <member name="T:JSR.FileManagement.XMLFileStreamSerializer`1">
+            <summary>
+            Deserializes and Deserializes objects using the <see cref="T:System.Xml.Serialization.XmlSerializer"/>.
+            </summary>
+            <typeparam name="T">Type of object to serialize and deserialize.</typeparam>
+        </member>
+        <member name="M:JSR.FileManagement.XMLFileStreamSerializer`1.DeserializeFile(System.IO.FileStream)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JSR.FileManagement.XMLFileStreamSerializer`1.SerializeFile(`0,System.IO.FileStream)">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

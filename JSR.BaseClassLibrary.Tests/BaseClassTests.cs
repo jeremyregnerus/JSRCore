@@ -46,7 +46,7 @@ namespace JSR.BaseClassLibrary.Tests
         {
             BaseClassMockWithChildren obj = ObjectUtilities.CreateInstanceWithRandomValues<BaseClassMockWithChildren>();
 
-            obj.RaiseMessage(RandomUtilities.GetRandomString());
+            obj.ChangeMessage(RandomUtilities.GetRandomString());
 
             Assert.IsTrue(string.IsNullOrEmpty(ObjectUtilities.GetSerializedCopyOfObject(obj).Message));
         }
@@ -141,7 +141,7 @@ namespace JSR.BaseClassLibrary.Tests
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
                 string message = RandomUtilities.GetRandomString(obj.Message);
-                obj.RaiseMessage(message);
+                obj.ChangeMessage(message);
 
                 monitor.AssertMessageNotification(message, false);
                 monitor.AssertMessageCount(i + 1, false);
@@ -161,7 +161,7 @@ namespace JSR.BaseClassLibrary.Tests
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
-                obj.RaiseMessage(message);
+                obj.ChangeMessage(message);
             }
 
             monitor.AssertMessageNotification(message, false);
@@ -180,7 +180,7 @@ namespace JSR.BaseClassLibrary.Tests
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
                 string message = RandomUtilities.GetRandomString(obj.Child.Message);
-                obj.Child.RaiseMessage(message);
+                obj.Child.ChangeMessage(message);
 
                 monitor.AssertMessageNotification(message, false);
                 monitor.AssertMessageCount(i + 1, false);
@@ -191,7 +191,7 @@ namespace JSR.BaseClassLibrary.Tests
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
                 string message = RandomUtilities.GetRandomString(obj.ChildReadOnly.Message);
-                obj.ChildReadOnly.RaiseMessage(message);
+                obj.ChildReadOnly.ChangeMessage(message);
 
                 monitor.AssertMessageNotification(message, false);
                 monitor.AssertMessageCount(i + 1, false);
@@ -203,8 +203,8 @@ namespace JSR.BaseClassLibrary.Tests
             {
                 string message = RandomUtilities.GetRandomString(obj.Message);
 
-                obj.Child.RaiseMessage(message);
-                obj.ChildReadOnly.RaiseMessage(message);
+                obj.Child.ChangeMessage(message);
+                obj.ChildReadOnly.ChangeMessage(message);
 
                 monitor.AssertMessageNotification(message, false);
                 monitor.AssertMessageCount(i + 1, false);
@@ -225,7 +225,7 @@ namespace JSR.BaseClassLibrary.Tests
             foreach (BaseClassMock item in obj.ChildCollection)
             {
                 string message = RandomUtilities.GetRandomString(item.Message);
-                item.RaiseMessage(message);
+                item.ChangeMessage(message);
 
                 count++;
 
@@ -239,7 +239,7 @@ namespace JSR.BaseClassLibrary.Tests
             foreach (BaseClassMock item in obj.ChildCollectionReadOnly)
             {
                 string message = RandomUtilities.GetRandomString(item.Message);
-                item.RaiseMessage(message);
+                item.ChangeMessage(message);
 
                 count++;
 
@@ -255,7 +255,7 @@ namespace JSR.BaseClassLibrary.Tests
         public void RemovesChildMessageNotification()
         {
             BaseClassMockWithChildren obj = ObjectUtilities.CreateInstanceWithRandomValues<BaseClassMockWithChildren>();
-            obj.RaiseMessage();
+            obj.ChangeMessage();
 
             MessengerMonitor<BaseClassMockWithChildren> monitor = new MessengerMonitor<BaseClassMockWithChildren>(obj);
 
@@ -265,7 +265,7 @@ namespace JSR.BaseClassLibrary.Tests
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
                 string message = RandomUtilities.GetRandomString(obj.Message);
-                child.RaiseMessage(message);
+                child.ChangeMessage(message);
 
                 Assert.AreNotEqual(message, obj.Message);
             }
@@ -280,7 +280,7 @@ namespace JSR.BaseClassLibrary.Tests
         public void RemovesListItemMessageNotification()
         {
             BaseClassMockWithChildren obj = ObjectUtilities.CreateInstanceWithRandomValues<BaseClassMockWithChildren>();
-            obj.RaiseMessage();
+            obj.ChangeMessage();
 
             MessengerMonitor<BaseClassMockWithChildren> monitor = new MessengerMonitor<BaseClassMockWithChildren>(obj);
 
@@ -289,7 +289,7 @@ namespace JSR.BaseClassLibrary.Tests
                 BaseClassMock child = obj.ChildCollection.Last();
                 obj.ChildCollection.Remove(child);
 
-                child.RaiseMessage(RandomUtilities.GetRandomString(obj.Message));
+                child.ChangeMessage(RandomUtilities.GetRandomString(obj.Message));
 
                 Assert.AreNotEqual(child.Message, obj.Message);
                 monitor.AssertMessageCount(0, false);
@@ -300,7 +300,7 @@ namespace JSR.BaseClassLibrary.Tests
                 BaseClassMock child = obj.ChildCollectionReadOnly.Last();
                 obj.ChildCollectionReadOnly.Remove(child);
 
-                child.RaiseMessage(RandomUtilities.GetRandomString(obj.Message));
+                child.ChangeMessage(RandomUtilities.GetRandomString(obj.Message));
 
                 Assert.AreNotEqual(child.Message, obj.Message);
                 monitor.AssertMessageCount(0, false);

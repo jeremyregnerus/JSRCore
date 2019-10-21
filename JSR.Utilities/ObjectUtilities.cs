@@ -183,9 +183,12 @@ namespace JSR.Utilities
         /// <param name="propertyNames">List of Property Names specifying which properties to populate values.</param>
         public static void PopulatePropertiesWithRandomValues<T>(T obj, List<string> propertyNames)
         {
-            foreach (string propertyName in propertyNames)
+            if (propertyNames != null)
             {
-                PopulatePropertyWithRandomValue(obj, propertyName);
+                foreach (string propertyName in propertyNames)
+                {
+                    PopulatePropertyWithRandomValue(obj, propertyName);
+                }
             }
         }
 
@@ -197,9 +200,12 @@ namespace JSR.Utilities
         /// <param name="properties">List of <see cref="PropertyInfo"/> specifying which properties to populate values.</param>
         public static void PopulatePropertiesWithRandomValues<T>(T obj, List<PropertyInfo> properties)
         {
-            foreach (PropertyInfo property in properties)
+            if (properties != null)
             {
-                PopulatePropertyWithRandomValue(obj, property);
+                foreach (PropertyInfo property in properties)
+                {
+                    PopulatePropertyWithRandomValue(obj, property);
+                }
             }
         }
 
@@ -222,6 +228,15 @@ namespace JSR.Utilities
         /// <param name="property">Property to add the value to.</param>
         public static void PopulatePropertyWithRandomValue<T>(T obj, PropertyInfo property)
         {
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+            else if (property == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+
             if (PropertyUtilities.CheckIfPropertyIsList(property) || PropertyUtilities.CheckIfPropertyIsClass(property))
             {
                 if (obj.GetType() == property.PropertyType)

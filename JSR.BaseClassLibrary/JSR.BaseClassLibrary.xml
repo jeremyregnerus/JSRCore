@@ -51,6 +51,11 @@
             <typeparam name="T">Type of object to no longer watch for notifications.</typeparam>
             <param name="child">Child object to no longer watch for notifications.</param>
         </member>
+        <member name="M:JSR.BaseClassLibrary.BaseClass.NotifyAllPropertiesChanged">
+            <summary>
+            Raises the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/> for ever property within the object.
+            </summary>
+        </member>
         <member name="M:JSR.BaseClassLibrary.BaseClass.NotifyPropertiesChanged(System.String[])">
             <summary>
             Raise the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/> for multiple properties.

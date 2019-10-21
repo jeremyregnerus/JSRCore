@@ -43,12 +43,12 @@ namespace JSR.BaseClassLibrary.Tests.Mocks
 
         public double DoubleReadOnlyProperty { get; } = RandomUtilities.GetRandomDouble();
 
-        public void RaiseMessage()
+        public void ChangeMessage()
         {
-            RaiseMessage(RandomUtilities.GetRandomString(Message));
+            ChangeMessage(RandomUtilities.GetRandomString(Message));
         }
 
-        public void RaiseMessage(string message)
+        public void ChangeMessage(string message)
         {
             Message = message;
         }

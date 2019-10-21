@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{8507F921-0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Utilities.Tests", "JSR.Utilities.Tests\JSR.Utilities.Tests.csproj", "{1D9BCEDA-4FDC-44ED-8C69-BB823AAB1D6D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.FileManagement", "JSR.FileManager\JSR.FileManagement.csproj", "{98EBE635-6423-4EC2-904A-20C3FAEDCEE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{1D9BCEDA-4FDC-44ED-8C69-BB823AAB1D6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D9BCEDA-4FDC-44ED-8C69-BB823AAB1D6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D9BCEDA-4FDC-44ED-8C69-BB823AAB1D6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98EBE635-6423-4EC2-904A-20C3FAEDCEE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98EBE635-6423-4EC2-904A-20C3FAEDCEE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98EBE635-6423-4EC2-904A-20C3FAEDCEE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98EBE635-6423-4EC2-904A-20C3FAEDCEE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
