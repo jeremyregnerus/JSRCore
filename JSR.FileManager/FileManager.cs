@@ -14,129 +14,95 @@ namespace JSR.FileManagement
     /// Manages basic saving and loading of files persistently.
     /// </summary>
     /// <typeparam name="T">Type of object the file contains.</typeparam>
-    public class FileManager<T> : BaseClass, IFileManager<T>, IDisposable
+    public class FileManager<T> : BaseClass, IDisposable
     {
         private readonly IFileStreamSerializer<T> serializer;
 
         private FileStream fileStream;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FileManager{T}"/> class.
-        /// </summary>
-        /// <param name="fileStreamSerializer"><see cref="IFileStreamSerializer{T}"/> to use for serialization and deserialization.</param>
-        public FileManager(IFileStreamSerializer<T> fileStreamSerializer)
+        private T managedObject;
+
+        public void NewFile()
         {
-            serializer = fileStreamSerializer;
-        }
-
-        /// <inheritdoc/>
-        public string FilePath { get => FileLoaded ? fileStream?.Name : string.Empty; }
-
-        /// <inheritdoc/>
-        public bool FileLoaded { get => fileStream != null; }
-
-        /// <inheritdoc/>
-        public bool IsReadOnly { get => FileLoaded ? !fileStream.CanWrite : true; }
-
-        private FileStream FileStream
-        {
-            set
+            if (IsLoaded)
             {
-                fileStream = value;
-
-                NotifyPropertiesChanged(new string[] { nameof(FilePath), nameof(FileLoaded), nameof(IsReadOnly) });
-            }
-        }
-
-        /// <inheritdoc/>
-        public T LoadFile(string filePath)
-        {
-            CloseFile();
-
-            FileInfo fileInfo = new FileInfo(filePath);
-
-            if (fileInfo.IsReadOnly)
-            {
-                FileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                switch (ui.ReturnValue)
+                {
+                    case YesNoCancel.Yes:
+                        NewFile(true);
+                        break;
+                    case YesNoCancel.No:
+                        NewFile(false);
+                        break;
+                    case YesNoCancel.Cancel:
+                        return;
+                }
             }
             else
             {
-                FileStream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
+                NewFile(false);
             }
-
-            return serializer.DeserializeFile(fileStream);
-        }
-
-        /// <inheritdoc/>
-        public void SaveFile(T objectToSave)
-        {
-            if (IsReadOnly)
-            {
-                throw new InvalidOperationException($"The file {FilePath} is ReadOnly.");
-            }
-
-            serializer.SerializeFile(objectToSave, fileStream);
-        }
-
-        /// <inheritdoc/>
-        public void SaveFile(T objectToSave, string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                if (filePath == FilePath)
-                {
-                    SaveFile(objectToSave);
-                }
-                else
-                {
-                    FileInfo fileInfo = new FileInfo(filePath);
-
-                    if (fileInfo.IsReadOnly)
-                    {
-                        throw new InvalidOperationException($"The file {FilePath} is ReadOnly");
-                    }
-                }
-            }
-
-            CloseFile();
-
-            FileStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
-
-            SaveFile(objectToSave);
-        }
-
-        /// <inheritdoc/>
-        public void CloseFile()
-        {
-            if (fileStream != null)
-            {
-                using (fileStream)
-                {
-                    fileStream.Close();
-                    fileStream.Dispose();
-                }
-
-                FileStream = null;
-            }
-        }
-
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// Creates a new <see cref="ManagedObject"/> without a <see cref="FileStream"/>.
         /// </summary>
-        /// <param name="disposing">True if the object is already disposing.</param>
-        protected virtual void Dispose(bool disposing)
+        /// <param name="save">Specify if a currently opened object should be saved.</param>
+        public void NewFile(bool save)
         {
-            if (disposing)
-            {
-                CloseFile();
-            }
+            CloseFile(save);
+            ManagedObject = Activator.CreateInstance<T>();
         }
+
+        /// <summary>
+        /// Loads the <see cref="ManagedObject"/> from a filepath.
+        /// </summary>
+        /// <param name="filePath">Filepath to load the object from.</param>
+        public void LoadFile(string filePath)
+        {
+            CloseFile();
+
+
+        }
+
+        /// <summary>
+        /// Closes the current file at <see cref="FilePath"/> and sets the <see cref="ManagedObject"/> to its default state.
+        /// </summary>
+        /// <param name="save">Specify if the current file should be saved.</param>
+        public void CloseFile(bool save)
+        {
+            if (save)
+            {
+                SaveFile();
+            }
+
+            CloseFileStream();
+            ManagedObject = default;
+        }
+
+        /// <summary>
+        /// Saves the current <see cref="ManagedObject"/> to the <see cref="FilePath"/>.
+        /// </summary>
+        public void SaveFile()
+        {
+            if (ManagedObject == null)
+            {
+                return;
+            }
+
+            if (!IsLoaded)
+            {
+                throw new IOException($"There is no file to save to.");
+            }
+
+            if (!IsReadWrite)
+            {
+                throw new IOException($"The current file is ReadOnly");
+            }
+
+            serializer.SerializeFile(ManagedObject, FileStream);
+        }
+
+
     }
 }

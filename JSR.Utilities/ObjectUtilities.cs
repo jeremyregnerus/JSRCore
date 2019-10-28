@@ -69,10 +69,10 @@ namespace JSR.Utilities
                 stream.Position = 0;
                 T retVal = (T)s.ReadObject(stream);
 
-                if (retVal is IChangeTracking)
-                {
-                    ((IChangeTracking)retVal).AcceptChanges();
-                }
+                ////if (retVal is IChangeTracking)
+                ////{
+                ////    ((IChangeTracking)retVal).AcceptChanges();
+                ////}
 
                 return retVal;
             }

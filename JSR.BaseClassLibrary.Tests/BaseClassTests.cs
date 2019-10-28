@@ -33,7 +33,7 @@ namespace JSR.BaseClassLibrary.Tests
         /// Tests that <see cref="BaseClass.IsChanged"/> is false when deserialized.
         /// </summary>
         [TestMethod]
-        public void IsNotChangedAdterDeserialization()
+        public void IsNotChangedAfterDeserialization()
         {
             SerializationAssert.IsNotChangedAfterDeserialized<BaseClassMockWithChildren>();
         }
@@ -55,9 +55,9 @@ namespace JSR.BaseClassLibrary.Tests
         /// Tests that <see cref="BaseClass"/> initializes without setting <see cref="BaseClass.IsChanged"/> to true.
         /// </summary>
         [TestMethod]
-        public void IsNotChangedWhenInitialized()
+        public void IsChangedWhenCreated()
         {
-            Assert.IsFalse(new BaseClassMockWithChildren().IsChanged);
+            Assert.IsTrue(new BaseClassMockWithChildren().IsChanged);
         }
 
         /// <summary>

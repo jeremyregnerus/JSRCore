@@ -1,4 +1,4 @@
-﻿// <copyright file="FileSerializer.cs" company="Jeremy Regnerus">
+﻿// <copyright file="BasicFileSerializer.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
@@ -10,15 +10,15 @@ namespace JSR.FileManagement
     /// Provides basic serialization and deserialization of files.
     /// </summary>
     /// <typeparam name="T">Type of object to serialize and deserialize.</typeparam>
-    public class FileSerializer<T> : IFilePathSerializer<T>
+    public class BasicFileSerializer<T> : IFileSerializer<T>
     {
         private readonly IFileStreamSerializer<T> serializer;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileSerializer{T}"/> class.
+        /// Initializes a new instance of the <see cref="BasicFileSerializer{T}"/> class.
         /// </summary>
         /// <param name="fileStreamSerializer">FileStreamSerializer to use for serialization and deserialization.</param>
-        public FileSerializer(IFileStreamSerializer<T> fileStreamSerializer)
+        public BasicFileSerializer(IFileStreamSerializer<T> fileStreamSerializer)
         {
             serializer = fileStreamSerializer;
         }

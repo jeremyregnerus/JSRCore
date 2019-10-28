@@ -1,4 +1,4 @@
-﻿// <copyright file="IFilePathSerializer.cs" company="Jeremy Regnerus">
+﻿// <copyright file="IFileSerializer.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
@@ -8,7 +8,7 @@ namespace JSR.FileManagement
     /// Interface for serializers used for simple loading and saving of files.
     /// </summary>
     /// <typeparam name="T">Type of object to manage.</typeparam>
-    public interface IFilePathSerializer<T>
+    public interface IFileSerializer<T>
     {
         /// <summary>
         /// Loads a file using serialization.

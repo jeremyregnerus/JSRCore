@@ -18,7 +18,7 @@ namespace JSR.BaseClassLibrary
     [DataContract]
     public abstract class BaseClass : INotifyChanged, INotifyPropertyChanged, IChangeTracking, IMessenger
     {
-        private bool isChanged;
+        private bool isChanged = true;
         private string message;
 
         /// <inheritdoc/>
@@ -31,7 +31,7 @@ namespace JSR.BaseClassLibrary
         public event OnChangedEventHandler OnChanged;
 
         /// <inheritdoc/>
-        public bool IsChanged
+        public virtual bool IsChanged
         {
             get => isChanged;
             protected set

@@ -2,11 +2,8 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace JSR.BaseClassLibrary.Tests.Mocks
 {
@@ -37,6 +34,7 @@ namespace JSR.BaseClassLibrary.Tests.Mocks
 
         public BaseClassMock Child { get => child; set => SetValue(value, ref child); }
 
+        [SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "Used for testing purposes.")]
         public BaseCollection<BaseClassMock> ChildCollection { get => childCollection; set => SetValue(value, ref childCollection); }
 
         [OnDeserialized]

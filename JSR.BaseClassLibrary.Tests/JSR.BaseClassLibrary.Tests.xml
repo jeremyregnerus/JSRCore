@@ -14,7 +14,7 @@
             Tests that <see cref="T:JSR.BaseClassLibrary.BaseClass"/> serializes and deserializes.
             </summary>
         </member>
-        <member name="M:JSR.BaseClassLibrary.Tests.BaseClassTests.IsNotChangedAdterDeserialization">
+        <member name="M:JSR.BaseClassLibrary.Tests.BaseClassTests.IsNotChangedAfterDeserialization">
             <summary>
             Tests that <see cref="P:JSR.BaseClassLibrary.BaseClass.IsChanged"/> is false when deserialized.
             </summary>
@@ -24,7 +24,7 @@
             Tests that <see cref="T:JSR.BaseClassLibrary.BaseClass"/> does not set the <see cref="P:JSR.BaseClassLibrary.BaseClass.Message"/> value when deserializing.
             </summary>
         </member>
-        <member name="M:JSR.BaseClassLibrary.Tests.BaseClassTests.IsNotChangedWhenInitialized">
+        <member name="M:JSR.BaseClassLibrary.Tests.BaseClassTests.IsChangedWhenCreated">
             <summary>
             Tests that <see cref="T:JSR.BaseClassLibrary.BaseClass"/> initializes without setting <see cref="P:JSR.BaseClassLibrary.BaseClass.IsChanged"/> to true.
             </summary>
