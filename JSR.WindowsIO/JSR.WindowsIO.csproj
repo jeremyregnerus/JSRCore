@@ -77,10 +77,6 @@
       <Project>{08725F8B-D41B-4558-94D0-BECF5FFC2728}</Project>
       <Name>JSR.BaseClassLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\JSR.FileManager\JSR.FileManagement.csproj">
-      <Project>{98EBE635-6423-4EC2-904A-20C3FAEDCEE8}</Project>
-      <Name>JSR.FileManagement</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
