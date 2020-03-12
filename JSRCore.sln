@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.FileManagement", "JSR.F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSR.WindowsIO", "JSR.WindowsIO\JSR.WindowsIO.csproj", "{CC5E2C42-4E09-4ED9-83CA-E57EE9C1827E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSR.Serialization", "JSR.Serialization\JSR.Serialization.csproj", "{5E3C498D-4231-41D5-B447-E776A1DE559E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{CC5E2C42-4E09-4ED9-83CA-E57EE9C1827E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC5E2C42-4E09-4ED9-83CA-E57EE9C1827E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC5E2C42-4E09-4ED9-83CA-E57EE9C1827E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E3C498D-4231-41D5-B447-E776A1DE559E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E3C498D-4231-41D5-B447-E776A1DE559E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E3C498D-4231-41D5-B447-E776A1DE559E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E3C498D-4231-41D5-B447-E776A1DE559E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

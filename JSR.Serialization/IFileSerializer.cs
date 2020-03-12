@@ -2,7 +2,7 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-namespace JSR.FileManagement
+namespace JSR.Serialization
 {
     /// <summary>
     /// Interface for serializers used for simple loading and saving of files.

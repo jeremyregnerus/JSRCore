@@ -5,7 +5,7 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace JSR.FileManagement
+namespace JSR.Serialization
 {
     /// <summary>
     /// Deserializes and Deserializes objects using the <see cref="BinaryFormatter"/>.

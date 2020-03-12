@@ -4,7 +4,7 @@
 
 using System.IO;
 
-namespace JSR.FileManagement
+namespace JSR.Serialization
 {
     /// <summary>
     /// Interface for serializing and deserializing objects from a <see cref="FileStream"/>.

@@ -6,7 +6,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace JSR.FileManagement
+namespace JSR.Serialization
 {
     /// <summary>
     /// Deserializes and Deserializes objects using the <see cref="XmlSerializer"/>.
