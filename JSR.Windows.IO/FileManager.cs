@@ -1,25 +1,22 @@
-﻿// <copyright file="PersistentFileManager.cs" company="Jeremy Regnerus">
+﻿// <copyright file="FileManager.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using JSR.BaseClassLibrary;
-using JSR.FileManagement;
+using JSR.Serialization;
+using System.Windows;
+using Microsoft.Win32;
 
-namespace JSR.WindowsIO
+namespace JSR.Windows.IO
 {
     /// <summary>
     /// Maintains control over file resource through opening, saving and closing.
     /// </summary>
     /// <typeparam name="T">Type of file object to manage.</typeparam>
-    public class PersistentFileManager<T> : BaseClass, IDisposable where T : IChangeTracking
+    public class FileManager<T> : BaseClass, IDisposable where T : IChangeTracking
     {
         private readonly string fileType;
         private readonly string extension;
@@ -30,12 +27,12 @@ namespace JSR.WindowsIO
         private FileStream fileStream;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PersistentFileManager{T}"/> class.
+        /// Initializes a new instance of the <see cref="FileManager{T}"/> class.
         /// </summary>
         /// <param name="serializer">Serializer to serialize and deserialize the file.</param>
         /// <param name="fileType">Type of file being managed.</param>
         /// <param name="extension">The file extension of the file being managed.</param>
-        public PersistentFileManager(IFileStreamSerializer<T> serializer, string fileType, string extension)
+        public FileManager(IFileStreamSerializer<T> serializer, string fileType, string extension)
         {
             this.serializer = serializer;
             this.fileType = fileType;
@@ -87,13 +84,13 @@ namespace JSR.WindowsIO
         {
             if (IsChanged)
             {
-                DialogResult result = MessageBox.Show($"Save the currently open file?\n{Path.GetFileName(FilePath)}", "Save Open File", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                MessageBoxResult result = MessageBox.Show($"Save the currently open file?\n{Path.GetFileName(FilePath)}", "Save File", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 
-                if (result == DialogResult.Cancel)
+                if (result == MessageBoxResult.Cancel)
                 {
                     return;
                 }
-                else if (result == DialogResult.Yes)
+                else if (result == MessageBoxResult.Yes)
                 {
                     Save();
                 }
@@ -102,7 +99,12 @@ namespace JSR.WindowsIO
 
         public void Open()
         {
+            OpenFileDialog dialog = new OpenFileDialog() { Filter = Filter, Title = $"Open {fileType} File", DefaultExt = extension, RestoreDirectory = true };
 
+            if (dialog.ShowDialog() == true)
+            {
+
+            }
         }
 
         /// <summary>
@@ -120,7 +122,7 @@ namespace JSR.WindowsIO
 
                 if (!CanWrite)
                 {
-                    if (MessageBox.Show($"{FilePath} is ReadOnly. Would you like to save the file in a new location?", $"File is Read Only", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    if (MessageBox.Show($"{FilePath} is ReadOnly. Would you like to save the file in a new location?", $"File is Read Only", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                     {
                         return SaveAs();
                     }
@@ -146,16 +148,15 @@ namespace JSR.WindowsIO
         /// <returns>True if the file was saved; false otherwise.</returns>
         public bool SaveAs()
         {
-            using (SaveFileDialog dialog = new SaveFileDialog() { Filter = Filter, Title = $"Save {fileType} File", DefaultExt = extension, RestoreDirectory = true })
-            {
-                if (dialog.ShowDialog() == DialogResult.OK && CheckIfFileIsWritable(dialog.FileName))
-                {
-                    fileStream = File.Create(dialog.FileName);
-                    return Save();
-                }
+            SaveFileDialog dialog = new SaveFileDialog() { Filter = Filter, Title = $"Save {fileType} File", DefaultExt = extension, RestoreDirectory = true };
 
-                return false;
+            if (dialog.ShowDialog() == true && CheckIfFileIsWritable(dialog.FileName))
+            {
+                fileStream = File.Create(dialog.FileName);
+                return Save();
             }
+
+            return false;
         }
 
         /// <summary>
