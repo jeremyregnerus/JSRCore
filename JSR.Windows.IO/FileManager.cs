@@ -5,9 +5,9 @@
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Windows;
 using JSR.BaseClassLibrary;
 using JSR.Serialization;
-using System.Windows;
 using Microsoft.Win32;
 
 namespace JSR.Windows.IO
@@ -29,7 +29,7 @@ namespace JSR.Windows.IO
         /// <summary>
         /// Initializes a new instance of the <see cref="FileManager{T}"/> class.
         /// </summary>
-        /// <param name="serializer">Serializer to serialize and deserialize the file.</param>
+        /// <param name="serializer"><see cref="IFileStreamSerializer{T}"/> to serialize and deserialize the file.</param>
         /// <param name="fileType">Type of file being managed.</param>
         /// <param name="extension">The file extension of the file being managed.</param>
         public FileManager(IFileStreamSerializer<T> serializer, string fileType, string extension)
@@ -37,6 +37,18 @@ namespace JSR.Windows.IO
             this.serializer = serializer;
             this.fileType = fileType;
             this.extension = extension;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileManager{T}"/> class.
+        /// </summary>
+        /// <param name="serializer"><see cref="IFileStreamSerializer{T}"/> to serialize and deserialize the file.</param>
+        /// <param name="fileType">Type of file being managed.</param>
+        /// <param name="extension">The file extension of the file being managed.</param>
+        /// <param name="managedObject">Initial object to be managed.</param>
+        public FileManager(IFileStreamSerializer<T> serializer, string fileType, string extension, T managedObject) : this(serializer, fileType, extension)
+        {
+            ManagedObject = managedObject;
         }
 
         /// <summary>
@@ -97,6 +109,9 @@ namespace JSR.Windows.IO
             }
         }
 
+        /// <summary>
+        /// Prompts the user to open a file.
+        /// </summary>
         public void Open()
         {
             OpenFileDialog dialog = new OpenFileDialog() { Filter = Filter, Title = $"Open {fileType} File", DefaultExt = extension, RestoreDirectory = true };
@@ -104,6 +119,19 @@ namespace JSR.Windows.IO
             if (dialog.ShowDialog() == true)
             {
 
+            }
+        }
+
+        /// <summary>
+        /// Loads an existing file.
+        /// </summary>
+        /// <param name="filePath">Filepath to load.</param>
+        public void Load(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                MessageBox.Show($"The file {filePath} does not exist.", "Missing File", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
         }
 
