@@ -99,19 +99,14 @@ namespace JSR.BaseClassLibrary
         /// <param name="child">Child object to watch for notifications.</param>
         protected void AddChildNotifications<T>(T child)
         {
-            if (child == null)
+            if (child is INotifyChanged notifyChanged)
             {
-                return;
+                notifyChanged.OnChanged += OnChildChanged;
             }
 
-            if (child is INotifyChanged)
+            if (child is IMessenger messenger)
             {
-                ((INotifyChanged)child).OnChanged += OnChildChanged;
-            }
-
-            if (child is IMessenger)
-            {
-                ((IMessenger)child).OnMessage += OnChildMessage;
+                messenger.OnMessage += OnChildMessage;
             }
         }
 
@@ -122,19 +117,14 @@ namespace JSR.BaseClassLibrary
         /// <param name="child">Child object to no longer watch for notifications.</param>
         protected void RemoveChildNotifications<T>(T child)
         {
-            if (child == null)
+            if (child is INotifyChanged notifyChanged)
             {
-                return;
+                notifyChanged.OnChanged -= OnChildChanged;
             }
 
-            if (child is INotifyChanged)
+            if (child is IMessenger messenger)
             {
-                ((INotifyChanged)child).OnChanged -= OnChildChanged;
-            }
-
-            if (child is IMessenger)
-            {
-                ((IMessenger)child).OnMessage -= OnChildMessage;
+                messenger.OnMessage -= OnChildMessage;
             }
         }
 
