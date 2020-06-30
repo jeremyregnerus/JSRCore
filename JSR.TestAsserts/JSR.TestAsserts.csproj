@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Jeremy Regnerus</Authors>
+    <PackageProjectUrl>https://github.com/jeremyregnerus/JSRCore</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jeremyregnerus/JSRCore</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
