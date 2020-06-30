@@ -1,16 +1,20 @@
-﻿using System.Reflection;
+﻿// <copyright file="AssemblyInfo.cs" company="Jeremy Regnerus">
+// Copyright (c) Jeremy Regnerus. All rights reserved.
+// </copyright>
+
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Converters")]
+[assembly: AssemblyTitle("JSR.Converters")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Jeremy Regnerus")]
-[assembly: AssemblyProduct("Converters")]
-[assembly: AssemblyCopyright("Copyright © Jeremy Regnerus 2020")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("JSR.Converters")]
+[assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +24,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f50d0616-d135-4bda-9988-d9fc245115b7")]
+[assembly: Guid("4bf85391-ad12-4a96-a234-94235cc8ed04")]
 
 // Version information for an assembly consists of the following four values:
 //

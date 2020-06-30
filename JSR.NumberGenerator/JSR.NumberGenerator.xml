@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JSR.NumberGenerator</name>
+    </assembly>
+    <members>
+        <member name="T:JSR.NumberGenerator.SerialNumber">
+            <summary>
+            This class generates serial numbers based on <see cref="T:System.DateTime"/>.
+            </summary>
+        </member>
+        <member name="F:JSR.NumberGenerator.SerialNumber.SecondsInAMinute">
+            <summary>
+            Number of seconds in a minute.
+            </summary>
+        </member>
+        <member name="F:JSR.NumberGenerator.SerialNumber.MinutesInAnHour">
+            <summary>
+            Number of minutes in an hour.
+            </summary>
+        </member>
+        <member name="F:JSR.NumberGenerator.SerialNumber.SecondsInAnHour">
+            <summary>
+            Number of seconds in an hour.
+            </summary>
+        </member>
+        <member name="F:JSR.NumberGenerator.SerialNumber.HoursInADay">
+            <summary>
+            Number of hours in a day.
+            </summary>
+        </member>
+        <member name="F:JSR.NumberGenerator.SerialNumber.SecondsInADay">
+            <summary>
+            Number of seconds in a day.
+            </summary>
+        </member>
+        <member name="M:JSR.NumberGenerator.SerialNumber.GetSerialNumber">
+            <summary>
+            Generate a serial number for the current <see cref="T:System.DateTime"/>.
+            </summary>
+            <returns>A 12 digit serial number seperated by a hyphen (XXXXXX-XXXXXX).</returns>
+        </member>
+        <member name="M:JSR.NumberGenerator.SerialNumber.GetSerialNumber(System.DateTime)">
+            <summary>
+            Generate a serial number for the provided <see cref="T:System.DateTime"/>.
+            </summary>
+            <param name="date"><see cref="T:System.DateTime"/> to generate a serial number from.</param>
+            <returns>A 12 digit serial number, separated by a hyphen (XXXXXX-XXXXXX).</returns>
+        </member>
+    </members>
+</doc>

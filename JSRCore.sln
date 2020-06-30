@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Utilities.Tests", "JSR.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Serialization", "JSR.Serialization\JSR.Serialization.csproj", "{5E3C498D-4231-41D5-B447-E776A1DE559E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSR.Converters", "JSR.Converters\JSR.Converters.csproj", "{F50D0616-D135-4BDA-9988-D9FC245115B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSR.NumberGenerator", "JSR.NumberGenerator\JSR.NumberGenerator.csproj", "{C28D534B-9F7A-4DBA-A2B6-C1E1EF4EF404}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSR.Converters", "JSR.Converters\JSR.Converters.csproj", "{4BF85391-AD12-4A96-A234-94235CC8ED04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,10 +57,14 @@ Global
 		{5E3C498D-4231-41D5-B447-E776A1DE559E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E3C498D-4231-41D5-B447-E776A1DE559E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E3C498D-4231-41D5-B447-E776A1DE559E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F50D0616-D135-4BDA-9988-D9FC245115B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F50D0616-D135-4BDA-9988-D9FC245115B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F50D0616-D135-4BDA-9988-D9FC245115B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F50D0616-D135-4BDA-9988-D9FC245115B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C28D534B-9F7A-4DBA-A2B6-C1E1EF4EF404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C28D534B-9F7A-4DBA-A2B6-C1E1EF4EF404}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C28D534B-9F7A-4DBA-A2B6-C1E1EF4EF404}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C28D534B-9F7A-4DBA-A2B6-C1E1EF4EF404}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BF85391-AD12-4A96-A234-94235CC8ED04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BF85391-AD12-4A96-A234-94235CC8ED04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BF85391-AD12-4A96-A234-94235CC8ED04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BF85391-AD12-4A96-A234-94235CC8ED04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

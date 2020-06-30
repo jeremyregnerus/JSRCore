@@ -219,6 +219,16 @@
             This event is raised when the object's IsChanged value changes.
             </summary>
         </member>
+        <member name="T:JSR.BaseClassLibrary.IRequestViewClose">
+            <summary>
+            Interface for requesting closing a viewmodel.
+            </summary>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.IRequestViewClose.RequestViewCloseEvent">
+            <summary>
+            Event to request closing a ViewModel within an interface.
+            </summary>
+        </member>
         <member name="T:JSR.BaseClassLibrary.UI.YesNoCancelEnum">
             <summary>
             Message returns for IYesNoCancelMessage.
@@ -250,6 +260,24 @@
             </summary>
             <param name="message">Message to ask the user.</param>
             <returns>Answer to the question.</returns>
+        </member>
+        <member name="T:JSR.BaseClassLibrary.ViewModelBase">
+            <summary>
+            Base ViewModel object for MVVM environments.
+            </summary>
+        </member>
+        <member name="E:JSR.BaseClassLibrary.ViewModelBase.RequestViewCloseEvent">
+            <inheritdoc/>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.ViewModelBase.RequestCloseCommand">
+            <summary>
+            Gets a command to request the view to close.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.ViewModelBase.RequestViewClose">
+            <summary>
+            Request closing this object's ViewModel.
+            </summary>
         </member>
     </members>
 </doc>
