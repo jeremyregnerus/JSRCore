@@ -307,7 +307,7 @@ namespace JSR.BaseClassLibrary.Tests
             }
         }
 
-        private BaseClassMockWithChildren GetSerializedBaseClassMockWithChildren()
+        private static BaseClassMockWithChildren GetSerializedBaseClassMockWithChildren()
         {
             return ObjectUtilities.GetSerializedCopyOfObject(ObjectUtilities.CreateInstanceWithRandomValues<BaseClassMockWithChildren>());
         }

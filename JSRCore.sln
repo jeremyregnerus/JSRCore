@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Serialization", "JSR.Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSR.Windows.IO", "JSR.Windows.IO\JSR.Windows.IO.csproj", "{6DED7D1F-D905-4E2B-8144-C0AF11CBF8C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSR.Converters", "JSR.Converters\JSR.Converters.csproj", "{F50D0616-D135-4BDA-9988-D9FC245115B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{6DED7D1F-D905-4E2B-8144-C0AF11CBF8C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DED7D1F-D905-4E2B-8144-C0AF11CBF8C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DED7D1F-D905-4E2B-8144-C0AF11CBF8C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F50D0616-D135-4BDA-9988-D9FC245115B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F50D0616-D135-4BDA-9988-D9FC245115B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F50D0616-D135-4BDA-9988-D9FC245115B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F50D0616-D135-4BDA-9988-D9FC245115B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
