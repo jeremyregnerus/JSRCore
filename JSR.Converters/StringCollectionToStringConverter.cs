@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Data;
 
 namespace JSR.Converters
@@ -18,29 +19,30 @@ namespace JSR.Converters
         /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            StringCollection stringCollection = new StringCollection();
+            List<string> sortableList = new List<string>();
+
+            if (value is IEnumerable<string> list)
+            {
+                sortableList.AddRange(list);
+            }
 
             if (value is StringCollection sc)
             {
-                stringCollection = sc;
+                foreach (string s in sc)
+                {
+                    sortableList.Add(s);
+                }
             }
 
-            List<string> list = new List<string>();
-
-            foreach (string item in stringCollection)
-            {
-                list.Add(item);
-            }
-
-            list.Sort();
+            sortableList.Sort();
 
             string output = string.Empty;
 
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < sortableList.Count; i++)
             {
-                output += list[i];
+                output += sortableList[i];
 
-                if (i < list.Count - 1)
+                if (i < sortableList.Count - 1)
                 {
                     output += Environment.NewLine;
                 }
