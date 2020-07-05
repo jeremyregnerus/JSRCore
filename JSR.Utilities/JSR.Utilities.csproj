@@ -15,6 +15,11 @@
     <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Utilities\JSR.Utilities.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>$(SolutionDir)JSRRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Utilities\JSR.Utilities.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>

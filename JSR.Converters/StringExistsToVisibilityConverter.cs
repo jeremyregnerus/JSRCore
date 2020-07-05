@@ -33,7 +33,7 @@ namespace JSR.Converters
         {
             bool stringExists = !string.IsNullOrEmpty((string)value);
 
-            if (parameter is bool invert && invert)
+            if ((parameter is bool b && b) || (parameter is int i && i > 0) || (parameter is string s && s.Equals("true", StringComparison.CurrentCultureIgnoreCase)))
             {
                 stringExists = !stringExists;
             }

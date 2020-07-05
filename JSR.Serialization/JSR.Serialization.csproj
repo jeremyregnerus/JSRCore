@@ -15,6 +15,11 @@
     <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Serialization\JSR.Serialization.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>$(SolutionDir)JSRRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Serialization\JSR.Serialization.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>

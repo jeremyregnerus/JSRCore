@@ -5,6 +5,7 @@ VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E2F3468-95A1-4475-A386-6654AB90FB1E}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		JSRRules.ruleset = JSRRules.ruleset
 		stylecop.json = stylecop.json
 	EndProjectSection
@@ -23,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Utilities.Tests", "JSR.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Serialization", "JSR.Serialization\JSR.Serialization.csproj", "{5E3C498D-4231-41D5-B447-E776A1DE559E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSR.NumberGenerator", "JSR.NumberGenerator\JSR.NumberGenerator.csproj", "{C28D534B-9F7A-4DBA-A2B6-C1E1EF4EF404}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.NumberGenerator", "JSR.NumberGenerator\JSR.NumberGenerator.csproj", "{C28D534B-9F7A-4DBA-A2B6-C1E1EF4EF404}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSR.Converters", "JSR.Converters\JSR.Converters.csproj", "{4BF85391-AD12-4A96-A234-94235CC8ED04}"
 EndProject

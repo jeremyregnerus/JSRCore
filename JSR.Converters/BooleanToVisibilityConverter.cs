@@ -26,7 +26,7 @@ namespace JSR.Converters
         {
             bool isVisible = (bool)value;
 
-            if (parameter is bool invert && invert)
+            if ((parameter is bool b && b) || (parameter is int i && i > 0) || (parameter is string s && s.Equals("true", StringComparison.CurrentCultureIgnoreCase)))
             {
                 isVisible = !isVisible;
             }
