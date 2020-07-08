@@ -35,7 +35,7 @@ namespace JSR.Serialization
         /// <inheritdoc/>
         public void SaveFile(T objectToSave, string filePath)
         {
-            using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
             {
                 serializer.SerializeFile(objectToSave, fileStream);
             }

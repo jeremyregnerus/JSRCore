@@ -74,7 +74,7 @@ namespace JSR.BaseClassLibrary
         /// <param name="backingField">Backingfield that stores the property's value.</param>
         /// <param name="propertyName">Name of the property.</param>
         /// <returns>True if the value was changed. This will return false if the values are the same.</returns>
-        protected bool SetValue<T>(T value, ref T backingField, [CallerMemberName] string propertyName = null)
+        protected virtual bool SetValue<T>(T value, ref T backingField, [CallerMemberName] string propertyName = null)
         {
             if ((value != null && !value.Equals(backingField)) || (backingField != null && !backingField.Equals(value)))
             {
