@@ -34,18 +34,59 @@
             Number of seconds in a day.
             </summary>
         </member>
-        <member name="M:JSR.NumberGenerator.SerialNumber.GetSerialNumber">
+        <member name="M:JSR.NumberGenerator.SerialNumber.GetFormattedSerialNumber">
             <summary>
-            Generate a serial number for the current <see cref="T:System.DateTime"/>.
+            Generate a formatted serial number for the current <see cref="T:System.DateTime"/>.
             </summary>
             <returns>A 12 digit serial number seperated by a hyphen (XXXXXX-XXXXXX).</returns>
         </member>
+        <member name="M:JSR.NumberGenerator.SerialNumber.GetFormattedSerialNumber(System.DateTime)">
+            <summary>
+            Generate a formatted serial number.
+            </summary>
+            <param name="date"><see cref="T:System.DateTime"/> to generate the serial number from.</param>
+            <returns>A 12 digit serial number, separated by a hyphen (XXXXXX-XXXXXX).</returns>
+        </member>
+        <member name="M:JSR.NumberGenerator.SerialNumber.GetFormattedSerialNumber(System.Int64)">
+            <summary>
+            Generate a formatted serial number.
+            </summary>
+            <param name="serialNumber">A 12 digit <see cref="T:System.Int64"/> value serial number to format.</param>
+            <returns>A 12 digit serial number, separated by a hyphen (XXXXXX-XXXXXX).</returns>
+        </member>
+        <member name="M:JSR.NumberGenerator.SerialNumber.IncrementFormattedSerialNumber(System.String)">
+            <summary>
+            Increments a serial number.
+            </summary>
+            <param name="serialNumber">A formatted (XXXXXX-XXXXXX) <see cref="T:System.String"/> as a serial number to increment.</param>
+            <returns>A 12 digit serial number, separated by a hyphen (XXXXXX-XXXXXX) incremented a value of 1 from the provided value.</returns>
+        </member>
+        <member name="M:JSR.NumberGenerator.SerialNumber.GetSerialNumber">
+            <summary>
+            Generate a serial number as a long value for the current DateTime.
+            </summary>
+            <returns>A 12 digit long value serial number.</returns>
+        </member>
         <member name="M:JSR.NumberGenerator.SerialNumber.GetSerialNumber(System.DateTime)">
             <summary>
-            Generate a serial number for the provided <see cref="T:System.DateTime"/>.
+            Generate a serial number as a long value.
             </summary>
-            <param name="date"><see cref="T:System.DateTime"/> to generate a serial number from.</param>
-            <returns>A 12 digit serial number, separated by a hyphen (XXXXXX-XXXXXX).</returns>
+            <param name="date"><see cref="T:System.DateTime"/> to gernate the serial number from.</param>
+            <returns>12 digit long value serial number.</returns>
+        </member>
+        <member name="M:JSR.NumberGenerator.SerialNumber.GetSerialNumber(System.String)">
+            <summary>
+            Gets a serial number long value from a formatted string.
+            </summary>
+            <param name="serialNumber">A formatted ("XXXXXX-XXXXXX") <see cref="T:System.String"/> value representing a serial number.</param>
+            <returns>12 digit long value serial number.</returns>
+        </member>
+        <member name="M:JSR.NumberGenerator.SerialNumber.IncrementSerialNumber(System.Int64)">
+            <summary>
+            Increments a serial number by 1.
+            </summary>
+            <param name="serialNumber">A 12 digit serial number.</param>
+            <returns>A 12 digit serial number incremented by 1.</returns>
         </member>
     </members>
 </doc>
