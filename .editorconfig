@@ -2,3 +2,8 @@
 
 # CS1591: Missing XML comment for publicly visible type or member
 dotnet_diagnostic.CS1591.severity = none
+csharp_using_directive_placement=outside_namespace:suggestion
+dotnet_diagnostic.SA1500.severity=silent
+
+# Default severity for all analyzer diagnostics
+dotnet_analyzer_diagnostic.severity = none

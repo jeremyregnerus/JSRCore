@@ -3,13 +3,7 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
@@ -18,7 +12,6 @@ namespace JSR.Converters
     /// <summary>
     /// <see cref="IValueConverter"/> that provides a <see cref="Visibility"/> value based on the existence of a <see cref="string"/> value.
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed.")]
     public class StringExistsToVisibilityConverter : IValueConverter
     {
         /// <summary>

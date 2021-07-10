@@ -14,7 +14,6 @@ namespace JSR.Utilities
     /// <summary>
     /// Provides Utilties for Class <see cref="PropertyInfo"/> properties.
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1124:DoNotUseRegions", Justification = "Regions used for signatures.")]
     public static class PropertyUtilities
     {
         #region CheckIfPropertyIsReadWrite
