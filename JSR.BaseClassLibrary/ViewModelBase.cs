@@ -19,7 +19,7 @@ namespace JSR.BaseClassLibrary
         /// <summary>
         /// Gets a command to request the view to close.
         /// </summary>
-        public DelegateCommand RequestCloseCommand => requestViewCloseCommand ?? (requestViewCloseCommand = new DelegateCommand(RequestViewClose));
+        public DelegateCommand RequestCloseCommand { get => requestViewCloseCommand ?? (requestViewCloseCommand = new DelegateCommand(RequestViewClose)); }
 
         /// <summary>
         /// Request closing this object's ViewModel.

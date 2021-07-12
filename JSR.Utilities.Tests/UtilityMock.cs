@@ -7,7 +7,6 @@ namespace JSR.Utilities.Tests
     /// <summary>
     /// Class to test Utility Features.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1044:Properties should not be write only", Justification = "Used for testing purposes.")]
     public class UtilityMock
     {
         private string writeOnlyStringProperty;
@@ -22,10 +21,7 @@ namespace JSR.Utilities.Tests
         /// </summary>
         public string WriteOnlyStringProperty
         {
-            set
-            {
-                writeOnlyStringProperty = value;
-            }
+            set => writeOnlyStringProperty = value;
         }
 
         /// <summary>

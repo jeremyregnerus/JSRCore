@@ -13,6 +13,7 @@ namespace JSR.Converters
     /// <summary>
     /// <see cref="IValueConverter"/> that returns a <see cref="Visibility"/> state if the parameter matches the value.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:Element documentation should not be copied and pasted", Justification = "Inherited documentation.")]
     public class IntegerToVisibilityConverter : IValueConverter
     {
         /// <summary>

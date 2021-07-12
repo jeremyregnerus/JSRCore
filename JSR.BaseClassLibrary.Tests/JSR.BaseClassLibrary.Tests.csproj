@@ -20,15 +20,15 @@
     <FileVersion>1.1.1.0</FileVersion>
 
     <Copyright>Copyright © Jeremy Regnerus 2021</Copyright>
+
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <CodeAnalysisRuleSet>$(SolutionDir)JSRRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.BaseClassLibrary.Tests\JSR.BaseClassLibrary.Tests.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <CodeAnalysisRuleSet>$(SolutionDir)JSRRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.BaseClassLibrary.Tests\JSR.BaseClassLibrary.Tests.xml</DocumentationFile>
   </PropertyGroup>
 

@@ -12,6 +12,7 @@ namespace JSR.Converters
     /// <summary>
     /// <see cref="IValueConverter"/> that provides a <see cref="Visibility"/> value based on the existence of a <see cref="string"/> value.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:Element documentation should not be copied and pasted", Justification = "Inherited documentation.")]
     public class StringExistsToVisibilityConverter : IValueConverter
     {
         /// <summary>
@@ -26,7 +27,7 @@ namespace JSR.Converters
         {
             bool stringExists = !string.IsNullOrEmpty((string)value);
 
-            if ((parameter is bool b && b) || (parameter is int i && i > 0) || (parameter is string s && s.Equals("true", StringComparison.CurrentCultureIgnoreCase)))
+            if ((parameter is bool b && b) || (parameter is int i && i > 0) || (parameter is string s && s.Equals("true", StringComparison.OrdinalIgnoreCase)))
             {
                 stringExists = !stringExists;
             }

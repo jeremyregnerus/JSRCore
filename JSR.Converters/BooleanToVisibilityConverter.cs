@@ -12,6 +12,7 @@ namespace JSR.Converters
     /// <summary>
     /// <see cref="IValueConverter"/> for converting a <see cref="bool"/> to a <see cref="Visibility"/> value.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:Element documentation should not be copied and pasted", Justification = "Inherited documentation.")]
     public class BooleanToVisibilityConverter : IValueConverter
     {
         /// <summary>
@@ -26,7 +27,7 @@ namespace JSR.Converters
         {
             bool isVisible = (bool)value;
 
-            if ((parameter is bool b && b) || (parameter is int i && i > 0) || (parameter is string s && s.Equals("true", StringComparison.CurrentCultureIgnoreCase)))
+            if ((parameter is bool b && b) || (parameter is int i && i > 0) || (parameter is string s && s.Equals("true", StringComparison.OrdinalIgnoreCase)))
             {
                 isVisible = !isVisible;
             }

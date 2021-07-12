@@ -4,7 +4,6 @@
 
 using System;
 using System.Linq;
-using System.Reflection;
 
 namespace JSR.Utilities
 {
@@ -78,75 +77,19 @@ namespace JSR.Utilities
             switch (type)
             {
                 case Type t when t == typeof(string):
-                    if (currentValue == null)
-                    {
-                        return GetRandomString();
-                    }
-                    else
-                    {
-                        return GetRandomString(currentValue);
-                    }
-
+                    return currentValue == null ? (dynamic)GetRandomString() : GetRandomString(currentValue);
                 case Type t when t.IsEnum:
-                    if (currentValue == null)
-                    {
-                        return GetRandomEnum(type);
-                    }
-                    else
-                    {
-                        return GetRandomEnum(currentValue);
-                    }
-
+                    return currentValue == null ? GetRandomEnum(type) : GetRandomEnum(currentValue);
                 case Type t when t == typeof(bool):
-                    if (currentValue == null)
-                    {
-                        return GetRandomBoolean();
-                    }
-                    else
-                    {
-                        return GetRandomBoolean(currentValue);
-                    }
-
+                    return currentValue == null ? (dynamic)GetRandomBoolean() : GetRandomBoolean(currentValue);
                 case Type t when t == typeof(int):
-                    if (currentValue == null)
-                    {
-                        return GetRandomInteger();
-                    }
-                    else
-                    {
-                        return GetRandomInteger(currentValue);
-                    }
-
+                    return currentValue == null ? (dynamic)GetRandomInteger() : GetRandomInteger(currentValue);
                 case Type t when t == typeof(DateTime):
-                    if (currentValue == null)
-                    {
-                        return GetRandomDateTime();
-                    }
-                    else
-                    {
-                        return GetRandomDateTime(currentValue);
-                    }
-
+                    return currentValue == null ? (dynamic)GetRandomDateTime() : GetRandomDateTime(currentValue);
                 case Type t when t == typeof(double):
-                    if (currentValue == null)
-                    {
-                        return GetRandomDouble();
-                    }
-                    else
-                    {
-                        return GetRandomDouble(currentValue);
-                    }
-
+                    return currentValue == null ? (dynamic)GetRandomDouble() : GetRandomDouble(currentValue);
                 case Type t when t == typeof(decimal):
-                    if (currentValue == null)
-                    {
-                        return GetRandomDecimal();
-                    }
-                    else
-                    {
-                        return GetRandomDecimal(currentValue);
-                    }
-
+                    return currentValue == null ? (dynamic)GetRandomDecimal() : GetRandomDecimal(currentValue);
                 default:
                     throw new ArgumentException($"The type {type} is an unsupported value type for the {nameof(GetRandom)} method.", nameof(type));
             }
@@ -302,7 +245,7 @@ namespace JSR.Utilities
         {
             if (typeof(T) != currentValue.GetType())
             {
-                throw new Exception($"The generic type {typeof(T)} does not match the object {nameof(currentValue)} type of {currentValue.GetType()}.");
+                throw new ArgumentException($"The generic type {typeof(T)} does not match the object {nameof(currentValue)} type of {currentValue.GetType()}.");
             }
 
             do

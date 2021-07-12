@@ -2,13 +2,12 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
 namespace JSR.BaseClassLibrary.Tests.Mocks
 {
     [DataContract]
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Mock Object.")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Mock Class.")]
     public class BaseClassMockWithChildren : BaseClassMock
     {
         [DataMember]
@@ -34,7 +33,6 @@ namespace JSR.BaseClassLibrary.Tests.Mocks
 
         public BaseClassMock Child { get => child; set => SetValue(value, ref child); }
 
-        [SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "Used for testing purposes.")]
         public BaseCollection<BaseClassMock> ChildCollection { get => childCollection; set => SetValue(value, ref childCollection); }
 
         [OnDeserialized]

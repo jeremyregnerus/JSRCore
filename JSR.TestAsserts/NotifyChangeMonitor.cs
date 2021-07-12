@@ -2,11 +2,9 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using JSR.BaseClassLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
