@@ -12,6 +12,7 @@
     <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -19,8 +20,18 @@
     <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Utilities\JSR.Utilities.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <CodeAnalysisRuleSet />
+    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Utilities\JSR.Utilities.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <CodeAnalysisRuleSet></CodeAnalysisRuleSet>
+    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Utilities\JSR.Utilities.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <CodeAnalysisRuleSet />
     <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Utilities\JSR.Utilities.xml</DocumentationFile>
   </PropertyGroup>
 

@@ -9,13 +9,22 @@
     <Version>1.1.0</Version>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <Copyright>Copyright © Jeremy Regnerus 2021</Copyright>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.TestAsserts\JSR.TestAsserts.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.TestAsserts\JSR.TestAsserts.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.TestAsserts\JSR.TestAsserts.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.TestAsserts\JSR.TestAsserts.xml</DocumentationFile>
   </PropertyGroup>
 

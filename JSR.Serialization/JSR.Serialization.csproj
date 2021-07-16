@@ -10,6 +10,7 @@
     <RepositoryType>GitHub</RepositoryType>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,8 +18,18 @@
     <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Serialization\JSR.Serialization.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <CodeAnalysisRuleSet />
+    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Serialization\JSR.Serialization.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <CodeAnalysisRuleSet></CodeAnalysisRuleSet>
+    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Serialization\JSR.Serialization.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <CodeAnalysisRuleSet />
     <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Serialization\JSR.Serialization.xml</DocumentationFile>
   </PropertyGroup>
 

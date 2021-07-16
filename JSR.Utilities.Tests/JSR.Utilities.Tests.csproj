@@ -9,13 +9,22 @@
     <RepositoryType>GitHub</RepositoryType>
     <Version>1.1.0</Version>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Utilities.Tests\JSR.Utilities.Tests.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Utilities.Tests\JSR.Utilities.Tests.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Utilities.Tests\JSR.Utilities.Tests.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Utilities.Tests\JSR.Utilities.Tests.xml</DocumentationFile>
   </PropertyGroup>
 
