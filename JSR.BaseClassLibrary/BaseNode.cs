@@ -84,18 +84,7 @@ namespace JSR.BaseClassLibrary
         /// <summary>
         /// Gets the Root node for the tree that this Node is contained within.
         /// </summary>
-        public BaseNode<T> Root
-        {
-            get
-            {
-                if (parent == null)
-                {
-                    return this;
-                }
-
-                return parent.Root;
-            }
-        }
+        public BaseNode<T> Root { get => Parent is null ? this : Parent.Root; }
 
         /// <summary>
         /// Adds a new child Node with an Item to the Children collection.
