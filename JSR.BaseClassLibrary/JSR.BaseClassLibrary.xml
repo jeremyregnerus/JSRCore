@@ -126,6 +126,133 @@
         <member name="M:JSR.BaseClassLibrary.BaseCollection`1.AcceptChanges">
             <inheritdoc/>
         </member>
+        <member name="T:JSR.BaseClassLibrary.BaseNode`1">
+            <summary>
+            Node / Tree structure for managing objects.
+            </summary>
+            <typeparam name="T">Type of object contained in this Node within the Item property.</typeparam>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseNode`1.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.BaseNode`1"/> class.
+            </summary>
+            <param name="item">Item contained within this node.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseNode`1.#ctor(`0,JSR.BaseClassLibrary.BaseNode{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.BaseNode`1"/> class.
+            </summary>
+            <param name="item">Item contained within this node.</param>
+            <param name="parent">Parent Node of this Node.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseNode`1.#ctor(`0,System.Collections.Generic.IEnumerable{JSR.BaseClassLibrary.BaseNode{`0}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.BaseNode`1"/> class.
+            </summary>
+            <param name="item">Item contained within this node.</param>
+            <param name="children">Children Nodes of this Node.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseNode`1.#ctor(`0,JSR.BaseClassLibrary.BaseNode{`0},System.Collections.Generic.IEnumerable{JSR.BaseClassLibrary.BaseNode{`0}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.BaseNode`1"/> class.
+            </summary>
+            <param name="item">Item contained within this node.</param>
+            <param name="parent">Parent Node of this Node.</param>
+            <param name="children">Children Nodes of this Node.</param>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.BaseNode`1.IsRoot">
+            <summary>
+            Gets a value indicating whether this is a root Node.
+            </summary>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.BaseNode`1.Item">
+            <summary>
+            Gets or sets the Item managed by this Node.
+            </summary>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.BaseNode`1.Children">
+            <summary>
+            Gets a list of child Nodes within this Node.
+            </summary>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.BaseNode`1.Parent">
+            <summary>
+            Gets or sets the Parent to this Node.
+            </summary>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.BaseNode`1.HasChildren">
+            <summary>
+            Gets a value indicating whether this Node has Child components.
+            </summary>
+        </member>
+        <member name="P:JSR.BaseClassLibrary.BaseNode`1.Root">
+            <summary>
+            Gets the Root node for the tree that this Node is contained within.
+            </summary>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseNode`1.AddChild(`0,System.Boolean)">
+            <summary>
+            Adds a new child Node with an Item to the Children collection.
+            </summary>
+            <param name="item">The Item object within the new Child Node.</param>
+            <param name="unique">Only add items if they do not exist in the list already.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseNode`1.AddChild(JSR.BaseClassLibrary.BaseNode{`0},System.Boolean)">
+            <summary>
+            Add a Child Node to the Children collection.
+            </summary>
+            <param name="node">Child Node to add to the Children collection.</param>
+            <param name="unique">Only add if the item does not exist in the list already.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseNode`1.AddRange(System.Collections.Generic.IEnumerable{`0},System.Boolean)">
+            <summary>
+            Add multiple items to the Children collection.
+            </summary>
+            <param name="items">Items to add.</param>
+            <param name="unique">Only add items if they do not exist in the list already.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseNode`1.AddRange(System.Collections.Generic.IEnumerable{JSR.BaseClassLibrary.BaseNode{`0}},System.Boolean)">
+            <summary>
+            Add multiple nodes to the Children collection.
+            </summary>
+            <param name="nodes">Nodes to add.</param>
+            <param name="unique">Only add items if they do not exist in the list already.</param>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseNode`1.GetCount(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get the number of children.
+            </summary>
+            <param name="recursive">Include all ancestors.</param>
+            <param name="unique">Only get the number of unique Items.</param>
+            <param name="fromRoot">Get the value from the Root Node.</param>
+            <returns>Number of children.</returns>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseNode`1.GetCopy(JSR.BaseClassLibrary.BaseNode{`0},System.Boolean)">
+            <summary>
+            Gets a new copy of this node.
+            </summary>
+            <param name="parent">The new parent to assign to the copy.</param>
+            <param name="withChildren">Whether the node should come with copies of its children.</param>
+            <returns>A copy of this node.</returns>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseNode`1.GetItems(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get a list of the Items in this Node.
+            </summary>
+            <param name="recursive">Get all ancestor items.</param>
+            <param name="unique">Only get one instance of each item.</param>
+            <param name="fromRoot">Get items from the Root of this Node's tree.</param>
+            <returns>A list of Items in the Node.</returns>
+        </member>
+        <member name="M:JSR.BaseClassLibrary.BaseNode`1.ItemExists(`0,System.Boolean,System.Boolean)">
+            <summary>
+            Checks if the items already exists within the tree.
+            </summary>
+            <param name="item">Item to evaluate.</param>
+            <param name="recursive">Check all ancestors.</param>
+            <param name="fromRoot">Start from the Root Node.</param>
+            <returns>True if the item exists.</returns>
+        </member>
         <member name="T:JSR.BaseClassLibrary.DelegateCommand">
             <summary>
             Provides a default implementation of the <see cref="T:System.Windows.Input.ICommand"/> interface for use within MVVM and WPF.
@@ -228,90 +355,6 @@
             <summary>
             Event to request closing a ViewModel within an interface.
             </summary>
-        </member>
-        <member name="T:JSR.BaseClassLibrary.Node`1">
-            <summary>
-            Node / Tree structure for managing objects.
-            </summary>
-            <typeparam name="T">Type of object contained in this Node within the Item property.</typeparam>
-        </member>
-        <member name="M:JSR.BaseClassLibrary.Node`1.#ctor(`0)">
-            <summary>
-            Initializes a new instance of the <see cref="T:JSR.BaseClassLibrary.Node`1"/> class.
-            </summary>
-            <param name="item">Item contained within this node.</param>
-        </member>
-        <member name="P:JSR.BaseClassLibrary.Node`1.IsRoot">
-            <summary>
-            Gets a value indicating whether this is a root Node.
-            </summary>
-        </member>
-        <member name="P:JSR.BaseClassLibrary.Node`1.Item">
-            <summary>
-            Gets or sets the Item managed by this Node.
-            </summary>
-        </member>
-        <member name="P:JSR.BaseClassLibrary.Node`1.Children">
-            <summary>
-            Gets a list of child Nodes within this Node.
-            </summary>
-        </member>
-        <member name="P:JSR.BaseClassLibrary.Node`1.Parent">
-            <summary>
-            Gets or sets the Parent to this Node.
-            </summary>
-        </member>
-        <member name="P:JSR.BaseClassLibrary.Node`1.HasChildren">
-            <summary>
-            Gets a value indicating whether this Node has Child components.
-            </summary>
-        </member>
-        <member name="P:JSR.BaseClassLibrary.Node`1.Root">
-            <summary>
-            Gets the Root node for the tree that this Node is contained within.
-            </summary>
-        </member>
-        <member name="M:JSR.BaseClassLibrary.Node`1.AddChild(`0)">
-            <summary>
-            Adds a new child Node with an Item to the Children collection.
-            </summary>
-            <param name="item">The Item object within the new Child Node.</param>
-        </member>
-        <member name="M:JSR.BaseClassLibrary.Node`1.AddChild(JSR.BaseClassLibrary.Node{`0})">
-            <summary>
-            Add a Child Node to the Children collection.
-            </summary>
-            <param name="node">Child Node to add to the Children collection.</param>
-        </member>
-        <member name="M:JSR.BaseClassLibrary.Node`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
-            <summary>
-            Add multiple items to the Children collection.
-            </summary>
-            <param name="items">Items to add.</param>
-        </member>
-        <member name="M:JSR.BaseClassLibrary.Node`1.AddRance(System.Collections.Generic.IEnumerable{JSR.BaseClassLibrary.Node{`0}})">
-            <summary>
-            Add multiple nodes to the Children collection.
-            </summary>
-            <param name="nodes">Nodes to add.</param>
-        </member>
-        <member name="M:JSR.BaseClassLibrary.Node`1.GetCount(System.Boolean,System.Boolean,System.Boolean)">
-            <summary>
-            Get the number of children.
-            </summary>
-            <param name="recursive">Include all ancestors.</param>
-            <param name="unique">Only get the number of unique Items.</param>
-            <param name="fromRoot">Get the value from the Root Node.</param>
-            <returns>Number of children.</returns>
-        </member>
-        <member name="M:JSR.BaseClassLibrary.Node`1.GetChildItems(System.Boolean,System.Boolean,System.Boolean)">
-            <summary>
-            Get a list of the Items in this Node.
-            </summary>
-            <param name="recursive">Get all ancestor items.</param>
-            <param name="unique">Only get one instance of each item.</param>
-            <param name="fromRoot">Get items from the Root of this Node's tree.</param>
-            <returns>A list of Items in the Node.</returns>
         </member>
         <member name="T:JSR.BaseClassLibrary.UI.YesNoCancelEnum">
             <summary>
