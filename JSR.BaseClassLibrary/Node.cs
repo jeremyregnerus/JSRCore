@@ -1,60 +1,59 @@
-﻿// <copyright file="BaseNode.cs" company="Jeremy Regnerus">
+﻿// <copyright file="Node.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace JSR.BaseClassLibrary
 {
     /// <summary>
-    /// Node / Tree structure for managing objects.
+    /// Node / Tree structure for hosting and managing objects.
     /// </summary>
-    /// <typeparam name="T">Type of object contained in this Node within the Item property.</typeparam>
-    public class BaseNode<T> : BaseClass, INode<T> where T : BaseClass
+    /// <typeparam name="T">Type of item managed by the node.</typeparam>
+    public class Node<T> : BaseClass where T : BaseClass
     {
         private T item;
-        private INode<T> parent;
+        private Node<T> parent;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseNode{T}"/> class.
+        /// Initializes a new instance of the <see cref="Node{T}"/> class.
         /// </summary>
         /// <param name="item">Item contained within this node.</param>
-        public BaseNode(T item)
+        public Node(T item)
         {
             Item = item;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseNode{T}"/> class.
+        /// Initializes a new instance of the <see cref="Node{T}"/> class.
         /// </summary>
         /// <param name="item">Item contained within this node.</param>
         /// <param name="parent">Parent Node of this Node.</param>
-        public BaseNode(T item, INode<T> parent) : this(item)
+        public Node(T item, Node<T> parent) : this(item)
         {
             Parent = parent;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseNode{T}"/> class.
+        /// Initializes a new instance of the <see cref="Node{T}"/> class.
         /// </summary>
         /// <param name="item">Item contained within this node.</param>
         /// <param name="children">Children Nodes of this Node.</param>
-        public BaseNode(T item, IEnumerable<INode<T>> children) : this(item)
+        public Node(T item, IEnumerable<Node<T>> children) : this(item)
         {
-            Children = new BaseCollection<INode<T>>(children);
+            Children = new BaseCollection<Node<T>>(children);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseNode{T}"/> class.
+        /// Initializes a new instance of the <see cref="Node{T}"/> class.
         /// </summary>
         /// <param name="item">Item contained within this node.</param>
         /// <param name="parent">Parent Node of this Node.</param>
         /// <param name="children">Children Nodes of this Node.</param>
-        public BaseNode(T item, INode<T> parent, IEnumerable<INode<T>> children) : this(item, parent)
+        public Node(T item, Node<T> parent, IEnumerable<Node<T>> children) : this(item, parent)
         {
-            Children = new BaseCollection<INode<T>>(children);
+            Children = new BaseCollection<Node<T>>(children);
         }
 
         /// <summary>
@@ -70,12 +69,12 @@ namespace JSR.BaseClassLibrary
         /// <summary>
         /// Gets a list of child Nodes within this Node.
         /// </summary>
-        public BaseCollection<INode<T>> Children { get; } = new BaseCollection<INode<T>>();
+        public BaseCollection<Node<T>> Children { get; } = new BaseCollection<Node<T>>();
 
         /// <summary>
         /// Gets or sets the Parent to this Node.
         /// </summary>
-        public INode<T> Parent { get => parent; set => SetValue(value, ref parent); }
+        public Node<T> Parent { get => parent; set => SetValue(value, ref parent); }
 
         /// <summary>
         /// Gets a value indicating whether this Node has Child components.
@@ -85,7 +84,7 @@ namespace JSR.BaseClassLibrary
         /// <summary>
         /// Gets the Root node for the tree that this Node is contained within.
         /// </summary>
-        public INode<T> Root { get => Parent is null ? this : Parent.Root; }
+        public Node<T> Root { get => Parent is null ? this : Parent.Root; }
 
         /// <summary>
         /// Adds a new child Node with an Item to the Children collection.
@@ -99,7 +98,7 @@ namespace JSR.BaseClassLibrary
                 return;
             }
 
-            AddChild((INode<T>)Activator.CreateInstance(typeof(INode<T>), new object[] { item }), unique);
+            AddChild(new Node<T>(item), unique);
         }
 
         /// <summary>
@@ -107,7 +106,7 @@ namespace JSR.BaseClassLibrary
         /// </summary>
         /// <param name="node">Child Node to add to the Children collection.</param>
         /// <param name="unique">Only add if the item does not exist in the list already.</param>
-        public void AddChild(INode<T> node, bool unique)
+        public void AddChild(Node<T> node, bool unique)
         {
             if (node.Parent == this)
             {
@@ -144,9 +143,9 @@ namespace JSR.BaseClassLibrary
         /// </summary>
         /// <param name="nodes">Nodes to add.</param>
         /// <param name="unique">Only add items if they do not exist in the list already.</param>
-        public void AddRange(IEnumerable<INode<T>> nodes, bool unique)
+        public void AddRange(IEnumerable<Node<T>> nodes, bool unique)
         {
-            foreach (INode<T> node in nodes)
+            foreach (Node<T> node in nodes)
             {
                 AddChild(node, unique);
             }
@@ -172,7 +171,7 @@ namespace JSR.BaseClassLibrary
 
                 if (recursive)
                 {
-                    foreach (INode<T> child in Children)
+                    foreach (Node<T> child in Children)
                     {
                         i += child.GetCount(recursive, unique);
                     }
@@ -190,13 +189,13 @@ namespace JSR.BaseClassLibrary
         /// <param name="parent">The new parent to assign to the copy.</param>
         /// <param name="withChildren">Whether the node should come with copies of its children.</param>
         /// <returns>A copy of this node.</returns>
-        public INode<T> GetCopy(INode<T> parent, bool withChildren = true)
+        public Node<T> GetCopy(Node<T> parent, bool withChildren = true)
         {
-            INode<T> copy = (INode<T>)Activator.CreateInstance(typeof(INode<T>), new object[] { Item, parent });
+            Node<T> copy = new Node<T>(Item, parent);
 
             if (withChildren)
             {
-                foreach (INode<T> child in Children)
+                foreach (Node<T> child in Children)
                 {
                     copy.AddChild(child.GetCopy(copy, withChildren), false);
                 }
@@ -221,7 +220,7 @@ namespace JSR.BaseClassLibrary
 
             List<T> items = new List<T>();
 
-            foreach (INode<T> child in Children)
+            foreach (Node<T> child in Children)
             {
                 if (!unique)
                 {
