@@ -69,12 +69,12 @@ namespace JSR.BaseClassLibrary
         /// <summary>
         /// Gets a list of child Nodes within this Node.
         /// </summary>
-        public BaseCollection<INode<T>> Children { get; } = new BaseCollection<INode<T>>();
+        public virtual BaseCollection<INode<T>> Children { get; } = new BaseCollection<INode<T>>();
 
         /// <summary>
         /// Gets or sets the Parent to this Node.
         /// </summary>
-        public INode<T> Parent { get => parent; set => SetValue(value, ref parent); }
+        public virtual INode<T> Parent { get => parent; set => SetValue(value, ref parent); }
 
         /// <summary>
         /// Gets a value indicating whether this Node has Child components.
@@ -84,7 +84,7 @@ namespace JSR.BaseClassLibrary
         /// <summary>
         /// Gets the Root node for the tree that this Node is contained within.
         /// </summary>
-        public INode<T> Root { get => Parent is null ? this : Parent.Root; }
+        public virtual INode<T> Root { get => Parent is null ? this : Parent.Root; }
 
         /// <summary>
         /// Adds a new child Node with an Item to the Children collection.
@@ -101,7 +101,7 @@ namespace JSR.BaseClassLibrary
         /// </summary>
         /// <param name="node">Child Node to add to the Children collection.</param>
         /// <param name="unique">Only add if the item does not exist in the list already.</param>
-        public void AddChild(INode<T> node, bool unique)
+        public virtual void AddChild(INode<T> node, bool unique)
         {
             if (node.Parent == this)
             {
@@ -138,7 +138,7 @@ namespace JSR.BaseClassLibrary
         /// </summary>
         /// <param name="nodes">Nodes to add.</param>
         /// <param name="unique">Only add items if they do not exist in the list already.</param>
-        public void AddRange(IEnumerable<INode<T>> nodes, bool unique)
+        public virtual void AddRange(IEnumerable<INode<T>> nodes, bool unique)
         {
             foreach (INode<T> node in nodes)
             {

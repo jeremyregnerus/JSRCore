@@ -2,15 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.6.3</Version>
+    <Version>1.6.4</Version>
     <Authors>Jeremy Regnerus</Authors>
     <RepositoryUrl>https://github.com/jeremyregnerus/JSRCore</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageProjectUrl>https://github.com/jeremyregnerus/JSRCore</PackageProjectUrl>
     <Copyright>Copyright © Jeremy Regnerus 2021</Copyright>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <AssemblyVersion>1.6.3.0</AssemblyVersion>
-    <FileVersion>1.6.3.0</FileVersion>
+    <AssemblyVersion>1.6.4.0</AssemblyVersion>
+    <FileVersion>1.6.4.0</FileVersion>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
