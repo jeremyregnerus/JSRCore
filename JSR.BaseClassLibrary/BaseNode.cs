@@ -2,7 +2,6 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -92,14 +91,9 @@ namespace JSR.BaseClassLibrary
         /// </summary>
         /// <param name="item">The Item object within the new Child Node.</param>
         /// <param name="unique">Only add items if they do not exist in the list already.</param>
-        public void AddChild(T item, bool unique)
+        public virtual void AddChild(T item, bool unique)
         {
-            if (unique && Children.Any(child => child.Item.Equals(item)))
-            {
-                return;
-            }
-
-            AddChild((INode<T>)Activator.CreateInstance(typeof(INode<T>), new object[] { item }), unique);
+            AddChild(new BaseNode<T>(item), unique);
         }
 
         /// <summary>
@@ -114,7 +108,7 @@ namespace JSR.BaseClassLibrary
                 return;
             }
 
-            if (unique && Children.Any(child => child.Item.Equals(node.Item)))
+            if (ItemExists(node.Item, false))
             {
                 return;
             }
@@ -190,9 +184,9 @@ namespace JSR.BaseClassLibrary
         /// <param name="parent">The new parent to assign to the copy.</param>
         /// <param name="withChildren">Whether the node should come with copies of its children.</param>
         /// <returns>A copy of this node.</returns>
-        public INode<T> GetCopy(INode<T> parent, bool withChildren = true)
+        public virtual INode<T> GetCopy(INode<T> parent, bool withChildren = true)
         {
-            INode<T> copy = (INode<T>)Activator.CreateInstance(typeof(INode<T>), new object[] { Item, parent });
+            BaseNode<T> copy = new BaseNode<T>(Item, parent);
 
             if (withChildren)
             {
