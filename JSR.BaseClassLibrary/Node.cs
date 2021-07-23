@@ -91,9 +91,10 @@ namespace JSR.BaseClassLibrary
         /// </summary>
         /// <param name="item">The Item object within the new Child Node.</param>
         /// <param name="unique">Only add items if they do not exist in the list already.</param>
-        public void AddChild(T item, bool unique)
+        /// <returns>True if the child was added to the Children collection, false otherwise.</returns>
+        public bool AddChild(T item, bool unique)
         {
-            AddChild(new Node<T>(item), unique);
+            return AddChild(new Node<T>(item), unique);
         }
 
         /// <summary>
@@ -101,15 +102,17 @@ namespace JSR.BaseClassLibrary
         /// </summary>
         /// <param name="node">Child Node to add to the Children collection.</param>
         /// <param name="unique">Only add if the item does not exist in the list already.</param>
-        public void AddChild(Node<T> node, bool unique)
+        /// <returns>True if the child was added to the Children collection, false otherwise.</returns>
+        public bool AddChild(Node<T> node, bool unique)
         {
             if (unique && ItemExists(node.Item, false, false))
             {
-                return;
+                return false;
             }
 
             node.Parent = this;
             Children.Add(node);
+            return true;
         }
 
         /// <summary>
@@ -117,12 +120,17 @@ namespace JSR.BaseClassLibrary
         /// </summary>
         /// <param name="items">Items to add.</param>
         /// <param name="unique">Only add items if they do not exist in the list already.</param>
-        public void AddChildren(IEnumerable<T> items, bool unique)
+        /// <returns>A list of booleans for each node added specifying if it was added to the collection or not.</returns>
+        public List<bool> AddChildren(IEnumerable<T> items, bool unique)
         {
+            List<bool> itemsAdded = new List<bool>();
+
             foreach (T item in items)
             {
-                AddChild(item, unique);
+                itemsAdded.Add(AddChild(item, unique));
             }
+
+            return itemsAdded;
         }
 
         /// <summary>
@@ -130,12 +138,17 @@ namespace JSR.BaseClassLibrary
         /// </summary>
         /// <param name="nodes">Nodes to add.</param>
         /// <param name="unique">Only add items if they do not exist in the list already.</param>
-        public void AddChildren(IEnumerable<Node<T>> nodes, bool unique)
+        /// <returns>A list of booleans for each node added specifying if it was added to the collection or not.</returns>
+        public List<bool> AddChildren(IEnumerable<Node<T>> nodes, bool unique)
         {
+            List<bool> nodesAdded = new List<bool>();
+
             foreach (Node<T> node in nodes)
             {
-                AddChild(node, unique);
+                nodesAdded.Add(AddChild(node, unique));
             }
+
+            return nodesAdded;
         }
 
         /// <summary>
