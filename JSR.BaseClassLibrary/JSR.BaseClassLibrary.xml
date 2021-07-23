@@ -321,12 +321,11 @@
             <param name="nodes">Nodes to add.</param>
             <param name="unique">Only add items if they do not exist in the list already.</param>
         </member>
-        <member name="M:JSR.BaseClassLibrary.Node`1.GetCopy(JSR.BaseClassLibrary.Node{`0},System.Boolean)">
+        <member name="M:JSR.BaseClassLibrary.Node`1.GetCopy(System.Boolean)">
             <summary>
             Gets a new copy of this node.
             </summary>
-            <param name="parent">The new parent to assign to the copy.</param>
-            <param name="withChildren">Whether the node should come with copies of its children.</param>
+            <param name="copyChildren">Whether the node should come with copies of its children.</param>
             <returns>A copy of this node.</returns>
         </member>
         <member name="M:JSR.BaseClassLibrary.Node`1.GetCount(System.Boolean,System.Boolean,System.Boolean)">

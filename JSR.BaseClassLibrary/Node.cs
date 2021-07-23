@@ -141,18 +141,18 @@ namespace JSR.BaseClassLibrary
         /// <summary>
         /// Gets a new copy of this node.
         /// </summary>
-        /// <param name="parent">The new parent to assign to the copy.</param>
-        /// <param name="withChildren">Whether the node should come with copies of its children.</param>
+        /// <param name="copyChildren">Whether the node should come with copies of its children.</param>
         /// <returns>A copy of this node.</returns>
-        public Node<T> GetCopy(Node<T> parent, bool withChildren)
+        public Node<T> GetCopy(bool copyChildren)
         {
-            Node<T> copy = new Node<T>(Item, parent);
+            Node<T> copy = new Node<T>(Item);
 
-            if (withChildren)
+            if (copyChildren)
             {
                 foreach (Node<T> child in Children)
                 {
-                    copy.AddChild(child.GetCopy(copy, withChildren), false);
+                    Node<T> copyChild = child.GetCopy(copyChildren);
+                    copy.AddChild(copyChild, false);
                 }
             }
 
