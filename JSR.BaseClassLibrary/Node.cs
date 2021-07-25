@@ -62,6 +62,11 @@ namespace JSR.BaseClassLibrary
         public BaseCollection<Node<T>> Children { get; } = new BaseCollection<Node<T>>();
 
         /// <summary>
+        /// Gets or sets a value indicating whether this Node is a copy of another.
+        /// </summary>
+        public bool IsCopy { get; set; }
+
+        /// <summary>
         /// Gets a value indicating whether this is a root Node.
         /// </summary>
         public bool IsRoot { get => Parent == null; }
@@ -158,7 +163,7 @@ namespace JSR.BaseClassLibrary
         /// <returns>A copy of this node.</returns>
         public Node<T> GetCopy(bool copyChildren)
         {
-            Node<T> copy = new Node<T>(Item);
+            Node<T> copy = new Node<T>(Item) { IsCopy = true };
 
             if (copyChildren)
             {
