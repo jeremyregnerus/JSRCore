@@ -20,7 +20,8 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <CodeAnalysisRuleSet />
-    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Serialization\JSR.Serialization.xml</DocumentationFile>
+    <DocumentationFile>bin\x64\Debug\JSR.Serialization.xml</DocumentationFile>
+    <OutputPath>bin\x64\Debug\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -30,7 +31,8 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <CodeAnalysisRuleSet />
-    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Serialization\JSR.Serialization.xml</DocumentationFile>
+    <DocumentationFile>bin\x64\Release\JSR.Serialization.xml</DocumentationFile>
+    <OutputPath>bin\x64\Release\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

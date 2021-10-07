@@ -31,7 +31,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.BaseClassLibrary.Tests\JSR.BaseClassLibrary.Tests.xml</DocumentationFile>
+    <DocumentationFile>bin\x64\Debug\JSR.BaseClassLibrary.Tests.xml</DocumentationFile>
+    <OutputPath>bin\x64\Debug\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -39,7 +40,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.BaseClassLibrary.Tests\JSR.BaseClassLibrary.Tests.xml</DocumentationFile>
+    <DocumentationFile>bin\x64\Release\JSR.BaseClassLibrary.Tests.xml</DocumentationFile>
+    <OutputPath>bin\x64\Release\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

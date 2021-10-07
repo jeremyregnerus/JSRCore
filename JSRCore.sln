@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.NumberGenerator", "JSR.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSR.Converters", "JSR.Converters\JSR.Converters.csproj", "{4BF85391-AD12-4A96-A234-94235CC8ED04}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Windows.IO", "JSR.Windows.IO\JSR.Windows.IO.csproj", "{6E6F254F-53A4-47AD-BA3B-5443CC03285D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,14 @@ Global
 		{4BF85391-AD12-4A96-A234-94235CC8ED04}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4BF85391-AD12-4A96-A234-94235CC8ED04}.Release|x64.ActiveCfg = Release|x64
 		{4BF85391-AD12-4A96-A234-94235CC8ED04}.Release|x64.Build.0 = Release|x64
+		{6E6F254F-53A4-47AD-BA3B-5443CC03285D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E6F254F-53A4-47AD-BA3B-5443CC03285D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E6F254F-53A4-47AD-BA3B-5443CC03285D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6E6F254F-53A4-47AD-BA3B-5443CC03285D}.Debug|x64.Build.0 = Debug|Any CPU
+		{6E6F254F-53A4-47AD-BA3B-5443CC03285D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E6F254F-53A4-47AD-BA3B-5443CC03285D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E6F254F-53A4-47AD-BA3B-5443CC03285D}.Release|x64.ActiveCfg = Release|x64
+		{6E6F254F-53A4-47AD-BA3B-5443CC03285D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

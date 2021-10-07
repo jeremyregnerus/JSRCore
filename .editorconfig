@@ -134,11 +134,11 @@ dotnet_diagnostic.SA1128.severity=none
 ###############################
 
 # Default severity for all analyzer diagnostics
-dotnet_analyzer_diagnostic.severity = warning
+dotnet_analyzer_diagnostic.severity = none
 csharp_style_unused_value_assignment_preference=discard_variable:silent
 
 # Default severity for analyzer diagnostics with category 'Style'
-dotnet_analyzer_diagnostic.category-Style.severity = warning
+dotnet_analyzer_diagnostic.category-Style.severity = none
 
 # IDE0058: Expression value is never used
 dotnet_diagnostic.IDE0058.severity = silent
