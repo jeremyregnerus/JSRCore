@@ -12,29 +12,19 @@
     <AssemblyVersion>1.7.3.0</AssemblyVersion>
     <FileVersion>1.7.3.0</FileVersion>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-    <Platforms>AnyCPU;x64</Platforms>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <CodeAnalysisRuleSet></CodeAnalysisRuleSet>
-    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.BaseClassLibrary\JSR.BaseClassLibrary.xml</DocumentationFile>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <CodeAnalysisRuleSet />
-    <DocumentationFile>bin\x64\Debug\JSR.BaseClassLibrary.xml</DocumentationFile>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <CodeAnalysisRuleSet></CodeAnalysisRuleSet>
-    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.BaseClassLibrary\JSR.BaseClassLibrary.xml</DocumentationFile>
+    <DocumentationFile>bin\JSR.BaseClassLibrary.xml</DocumentationFile>
+    <OutputPath>bin\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <CodeAnalysisRuleSet />
-    <DocumentationFile>bin\x64\Release\JSR.BaseClassLibrary.xml</DocumentationFile>
-    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>bin\JSR.BaseClassLibrary.xml</DocumentationFile>
+    <OutputPath>bin\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

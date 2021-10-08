@@ -4,23 +4,22 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWPF>true</UseWPF>
-    <Platforms>AnyCPU;x64</Platforms>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <CodeAnalysisRuleSet>$(SolutionDir)JSRRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Windows.IO\JSR.Windows.IO.xml</DocumentationFile>
+    <Platforms>x64</Platforms>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <PackageProjectUrl>https://github.com/jeremyregnerus/JSRCore</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jeremyregnerus/JSRCore</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <Authors>Jeremy Regnerus</Authors>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <CodeAnalysisRuleSet>$(SolutionDir)JSRRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\x64\Debug\JSR.Windows.IO.xml</DocumentationFile>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>bin\JSR.Windows.IO.xml</DocumentationFile>
+    <OutputPath>bin\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>bin\x64\Release\JSR.Windows.IO.xml</DocumentationFile>
-    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>bin\JSR.Windows.IO.xml</DocumentationFile>
+    <OutputPath>bin\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

@@ -17,8 +17,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DocumentationFile>bin\x64\Debug\JSR.Utilities.Tests.xml</DocumentationFile>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>bin\JSR.Utilities.Tests.xml</DocumentationFile>
+    <OutputPath>bin\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -26,8 +26,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>bin\x64\Release\JSR.Utilities.Tests.xml</DocumentationFile>
-    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>bin\JSR.Utilities.Tests.xml</DocumentationFile>
+    <OutputPath>bin\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
