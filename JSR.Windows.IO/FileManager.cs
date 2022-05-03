@@ -58,7 +58,7 @@ namespace JSR.Windows.IO
         {
             get => managedObject;
 
-            private set => SetValue(value, ref managedObject);
+            private set => SetValue(ref managedObject, value);
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace JSR.Windows.IO
                 return false;
             }
 
-            if (ManagedObject != default)
+            if (!Equals(ManagedObject, default))
             {
                 ManagedObject = default;
             }
@@ -209,6 +209,11 @@ namespace JSR.Windows.IO
             }
 
             return true;
+        }
+
+        public bool CheckToSaveAndContinue()
+        {
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc/>

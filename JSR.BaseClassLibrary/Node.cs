@@ -79,12 +79,12 @@ namespace JSR.BaseClassLibrary
         /// <summary>
         /// Gets or sets the Item managed by this Node.
         /// </summary>
-        public T Item { get => item; set => SetValue(value, ref item); }
+        public T Item { get => item; set => SetValue(ref item, value); }
 
         /// <summary>
         /// Gets or sets the Parent to this Node.
         /// </summary>
-        public Node<T> Parent { get => parent; set => SetValue(value, ref parent); }
+        public Node<T> Parent { get => parent; set => SetValue(ref parent, value); }
 
         /// <summary>
         /// Gets the Root node for the tree that this Node is contained within.

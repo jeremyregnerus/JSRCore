@@ -31,9 +31,9 @@ namespace JSR.BaseClassLibrary.Tests.Mocks
 
         public BaseCollection<BaseClassMock> ChildCollectionReadOnly { get => childCollectionReadOnly; }
 
-        public BaseClassMock Child { get => child; set => SetValue(value, ref child); }
+        public BaseClassMock Child { get => child; set => SetValue(ref child, value); }
 
-        public BaseCollection<BaseClassMock> ChildCollection { get => childCollection; set => SetValue(value, ref childCollection); }
+        public BaseCollection<BaseClassMock> ChildCollection { get => childCollection; set => SetValue(ref childCollection, value); }
 
         [OnDeserialized]
         public void OnDeserialized(StreamingContext streamingContext)

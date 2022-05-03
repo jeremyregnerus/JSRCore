@@ -25,19 +25,19 @@ namespace JSR.BaseClassLibrary.Tests.Mocks
         [DataMember]
         private double doubleProperty;
 
-        public string StringProperty { get => stringProperty; set => SetValue(value, ref stringProperty); }
+        public string StringProperty { get => stringProperty; set => SetValue(ref stringProperty, value); }
 
         public string StringReadOnlyProperty { get; } = RandomUtilities.GetRandomString();
 
-        public int IntegerProperty { get => integerProperty; set => SetValue(value, ref integerProperty); }
+        public int IntegerProperty { get => integerProperty; set => SetValue(ref integerProperty, value); }
 
         public int IntegerReadOnlyProperty { get; } = RandomUtilities.GetRandomInteger();
 
-        public DateTime DateTimeProperty { get => dateTimeProperty; set => SetValue(value, ref dateTimeProperty); }
+        public DateTime DateTimeProperty { get => dateTimeProperty; set => SetValue(ref dateTimeProperty, value); }
 
         public DateTime DateTimeReadOnlyProperty { get; } = RandomUtilities.GetRandomDateTime();
 
-        public double DoubleProperty { get => doubleProperty; set => SetValue(value, ref doubleProperty); }
+        public double DoubleProperty { get => doubleProperty; set => SetValue(ref doubleProperty, value); }
 
         public double DoubleReadOnlyProperty { get; } = RandomUtilities.GetRandomDouble();
 
