@@ -68,26 +68,26 @@ namespace JSR.BaseClassLibrary
         /// Sets the value for a property.
         /// </summary>
         /// <typeparam name="T">Type of value to set.</typeparam>
+        /// <param name="field">Field storing the value for the property.</param>
         /// <param name="value">Value to assign to the property.</param>
-        /// <param name="backingField">Backingfield that stores the property's value.</param>
         /// <param name="propertyName">Name of the property.</param>
         /// <returns>True if the value was changed. This will return false if the values are the same.</returns>
-        protected virtual bool SetValue<T>(T value, ref T backingField, [CallerMemberName] string propertyName = null)
+        protected virtual bool SetValue<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
         {
-            if ((value != null && !value.Equals(backingField)) || (backingField != null && !backingField.Equals(value)))
+            if (EqualityComparer<T>.Default.Equals(value, field))
             {
-                RemoveChildNotifications(backingField);
-                AddChildNotifications(value);
-
-                backingField = value;
-
-                NotifyPropertyChanged(propertyName);
-
-                IsChanged = true;
-                return true;
+                return false;
             }
 
-            return false;
+            RemoveChildNotifications(field);
+            AddChildNotifications(value);
+
+            field = value;
+
+            NotifyPropertyChanged(propertyName);
+
+            IsChanged = true;
+            return true;
         }
 
         /// <summary>
