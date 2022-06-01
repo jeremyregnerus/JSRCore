@@ -18,7 +18,6 @@ namespace JSR.TestAsserts
     /// <summary>
     /// Tests the implementation of IChangableObject. Primarily focused on raising change events.
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1124:DoNotUseRegions", Justification = "Regions used for signatures.")]
     public static class NotifyChangeAssert
     {
         #region NotifiesIsChangedOnAcceptChanges

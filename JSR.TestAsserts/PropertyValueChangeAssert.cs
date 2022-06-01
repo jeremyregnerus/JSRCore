@@ -14,7 +14,6 @@ namespace JSR.TestAsserts
     /// <summary>
     /// Tests property changes within objects.
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1124:DoNotUseRegions", Justification = "Regions used for signatures.")]
     public static class PropertyValueChangeAssert
     {
         #region ChangesValues

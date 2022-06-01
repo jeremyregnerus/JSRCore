@@ -16,7 +16,6 @@ namespace JSR.TestAsserts
     /// <summary>
     /// Tests objects that object that implement <see cref="INotifyPropertyChanged"/> raise property change notifications.
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1124:DoNotUseRegions", Justification = "Regions used for signatures.")]
     public static class NotifyPropertyChangedAssert
     {
         #region NotifiesPropertiesChanges

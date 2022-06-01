@@ -17,7 +17,6 @@ namespace JSR.TestAsserts
     /// <summary>
     /// Tests and checks objects that implement IChangeTracking.
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1124:DoNotUseRegions", Justification = "Regions used for signatures.")]
     public static class ChangeTrackingAssert
     {
         #region AcceptsChanges
