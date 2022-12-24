@@ -5,7 +5,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
@@ -16,310 +15,359 @@ namespace JSR.Utilities
     /// </summary>
     public static class PropertyUtilities
     {
-        #region CheckIfPropertyIsReadWrite
+        #region IS
+
+        #region IsReadWriteProperty
 
         /// <summary>
-        /// Checks if a property is readwrite.
+        /// Evaluates if a property is readwrite.
         /// </summary>
-        /// <typeparam name="T">Type with property to check.</typeparam>
-        /// <param name="propertyName">Name of property to check.</param>
+        /// <typeparam name="T">Type with property to evaluate.</typeparam>
+        /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is readwrite.</returns>
-        public static bool CheckIfPropertyIsReadWrite<T>(string propertyName)
+        public static bool IsReadWriteProperty<T>(string propertyName)
         {
-            return CheckIfPropertyIsReadWrite(typeof(T).GetProperty(propertyName));
+            return IsReadWriteProperty(typeof(T).GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Check if a property is readwrite.
+        /// evaluate if a property is readwrite.
         /// </summary>
-        /// <typeparam name="T">Type with property to check.</typeparam>
-        /// <param name="obj">Object with property to check.</param>
-        /// <param name="propertyName">Name of property to check.</param>
+        /// <typeparam name="T">Type with property to evaluate.</typeparam>
+        /// <param name="obj">Object with property to evaluate.</param>
+        /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is readwrite.</returns>
-        public static bool CheckIfPropertyIsReadWrite<T>(T obj, string propertyName)
+        public static bool IsReadWriteProperty<T>(T obj, string propertyName)
         {
-            return CheckIfPropertyIsReadWrite(obj.GetType().GetProperty(propertyName));
+            return IsReadWriteProperty(obj.GetType().GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if a property is readwrite.
+        /// Evaluates if a property is readwrite.
         /// </summary>
-        /// <param name="type">Type with property to check.</param>
-        /// <param name="propertyName">Name of property to check.</param>
+        /// <param name="type">Type with property to evaluate.</param>
+        /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is readwrite.</returns>
-        public static bool CheckIfPropertyIsReadWrite(Type type, string propertyName)
+        public static bool IsReadWriteProperty(Type type, string propertyName)
         {
-            return CheckIfPropertyIsReadWrite(type.GetProperty(propertyName));
+            return IsReadWriteProperty(type.GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if a property is readwrite.
+        /// Evaluates if a property is readwrite.
         /// </summary>
-        /// <param name="property">Property to check.</param>
+        /// <param name="property">Property to evaluate.</param>
         /// <returns>True if the property is readwrite.</returns>
-        public static bool CheckIfPropertyIsReadWrite(PropertyInfo property)
+        public static bool IsReadWriteProperty(PropertyInfo property)
         {
             return property.GetMethod != null && property.GetMethod.IsPublic && property.SetMethod != null && property.SetMethod.IsPublic;
         }
 
         #endregion
 
-        #region CheckIfPropertyIsReadOnly
+        #region IsReadOnlyProperty
 
         /// <summary>
-        /// Checks if a property is readonly.
+        /// Evaluates if a property is readonly.
         /// </summary>
-        /// <typeparam name="T">Type with property to check.</typeparam>
-        /// <param name="propertyName">Name of property to check.</param>
+        /// <typeparam name="T">Type with property to evaluate.</typeparam>
+        /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is readonly.</returns>
-        public static bool CheckIfPropertyIsReadOnly<T>(string propertyName)
+        public static bool IsReadOnlyProperty<T>(string propertyName)
         {
-            return CheckIfPropertyIsReadOnly(typeof(T).GetProperty(propertyName));
+            return IsReadOnlyProperty(typeof(T).GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if a property is readonly.
+        /// Evaluates if a property is readonly.
         /// </summary>
-        /// <typeparam name="T">Type with property to check.</typeparam>
-        /// <param name="obj">Object with property to check.</param>
-        /// <param name="propertyName">Name of property to check.</param>
+        /// <typeparam name="T">Type with property to evaluate.</typeparam>
+        /// <param name="obj">Object with property to evaluate.</param>
+        /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is readonly.</returns>
-        public static bool CheckIfPropertyIsReadOnly<T>(T obj, string propertyName)
+        public static bool IsReadOnlyProperty<T>(T obj, string propertyName)
         {
-            return CheckIfPropertyIsReadOnly(obj.GetType().GetProperty(propertyName));
+            return IsReadOnlyProperty(obj.GetType().GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if a property is readonly.
+        /// Evaluates if a property is readonly.
         /// </summary>
-        /// <param name="type">Type with property to check.</param>
-        /// <param name="propertyName">Name of property to check.</param>
+        /// <param name="type">Type with property to evaluate.</param>
+        /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is readonly.</returns>
-        public static bool CheckIfPropertyIsReadOnly(Type type, string propertyName)
+        public static bool IsReadOnlyProperty(Type type, string propertyName)
         {
-            return CheckIfPropertyIsReadOnly(type.GetProperty(propertyName));
+            return IsReadOnlyProperty(type.GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if a property is readonly.
+        /// Evaluates if a property is readonly.
         /// </summary>
-        /// <param name="property">Property to check.</param>
+        /// <param name="property">Property to evaluate.</param>
         /// <returns>True if the property is readonly.</returns>
-        public static bool CheckIfPropertyIsReadOnly(PropertyInfo property)
+        public static bool IsReadOnlyProperty(PropertyInfo property)
         {
             return property.GetMethod != null && property.GetMethod.IsPublic && (property.SetMethod == null || !property.SetMethod.IsPublic);
         }
 
         #endregion
 
-        #region CheckIfPropertyIsWriteOnly
+        #region IsWriteOnlyProperty
 
         /// <summary>
-        /// Checks if a property is writeonly.
+        /// Evaluates if a property is writeonly.
         /// </summary>
-        /// <typeparam name="T">Type with property to check.</typeparam>
-        /// <param name="propertyName">Name of property to check.</param>
+        /// <typeparam name="T">Type with property to evaluate.</typeparam>
+        /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is writeonly.</returns>
-        public static bool CheckIfPropertyIsWriteOnly<T>(string propertyName)
+        public static bool IsWriteOnlyProperty<T>(string propertyName)
         {
-            return CheckIfPropertyIsWriteOnly(typeof(T).GetProperty(propertyName));
+            return IsWriteOnlyProperty(typeof(T).GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if a property is writeonly.
+        /// Evaluates if a property is writeonly.
         /// </summary>
-        /// <typeparam name="T">Type with property to check.</typeparam>
-        /// <param name="obj">Object with property to check.</param>
-        /// <param name="propertyName">Name of property to check.</param>
+        /// <typeparam name="T">Type with property to evaluate.</typeparam>
+        /// <param name="obj">Object with property to evaluate.</param>
+        /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is writeonly.</returns>
-        public static bool CheckIfPropertyIsWriteOnly<T>(T obj, string propertyName)
+        public static bool IsWriteOnlyProperty<T>(T obj, string propertyName)
         {
-            return CheckIfPropertyIsWriteOnly(obj.GetType().GetProperty(propertyName));
+            return IsWriteOnlyProperty(obj.GetType().GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if a property is writeonly.
+        /// Evaluates if a property is writeonly.
         /// </summary>
-        /// <param name="type">Type with property to check.</param>
-        /// <param name="propertyName">Name of property to check.</param>
+        /// <param name="type">Type with property to evaluate.</param>
+        /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is writeonly.</returns>
-        public static bool CheckIfPropertyIsWriteOnly(Type type, string propertyName)
+        public static bool IsWriteOnlyProperty(Type type, string propertyName)
         {
-            return CheckIfPropertyIsWriteOnly(type.GetProperty(propertyName));
+            return IsWriteOnlyProperty(type.GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if a property is writeonly.
+        /// Evaluates if a property is writeonly.
         /// </summary>
-        /// <param name="property">Property to check.</param>
+        /// <param name="property">Property to evaluate.</param>
         /// <returns>True if the property is writeonly.</returns>
-        public static bool CheckIfPropertyIsWriteOnly(PropertyInfo property)
+        public static bool IsWriteOnlyProperty(PropertyInfo property)
         {
             return property.SetMethod != null && property.SetMethod.IsPublic && (property.GetMethod == null || !property.GetMethod.IsPublic);
         }
 
         #endregion
 
-        #region CheckIfPropertyIsClass
+        #region IsClassProperty
 
         /// <summary>
-        /// Checks if a property contains a class type.
+        /// Evaluates if a property contains a class type.
         /// </summary>
-        /// <typeparam name="T">Type with property to check.</typeparam>
-        /// <param name="propertyName">Property name to check.</param>
+        /// <typeparam name="T">Type with property to evaluate.</typeparam>
+        /// <param name="propertyName">Property name to evaluate.</param>
         /// <returns>True if the property is a class.</returns>
-        public static bool CheckIfPropertyIsClass<T>(string propertyName)
+        public static bool IsClassProperty<T>(string propertyName)
         {
-            return CheckIfPropertyIsClass(typeof(T).GetProperty(propertyName));
+            return IsClassProperty(typeof(T).GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if a property contains a class type.
+        /// Evaluates if a property contains a class type.
         /// </summary>
-        /// <typeparam name="T">Type with property to check.</typeparam>
-        /// <param name="obj">Object with property to check.</param>
-        /// <param name="propertyName">Property name to check.</param>
+        /// <typeparam name="T">Type with property to evaluate.</typeparam>
+        /// <param name="obj">Object with property to evaluate.</param>
+        /// <param name="propertyName">Property name to evaluate.</param>
         /// <returns>True if the property is a class.</returns>
-        public static bool CheckIfPropertyIsClass<T>(T obj, string propertyName)
+        public static bool IsClassProperty<T>(T obj, string propertyName)
         {
-            return CheckIfPropertyIsClass(obj.GetType().GetProperty(propertyName));
+            return IsClassProperty(obj.GetType().GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if a property contains a class type.
+        /// Evaluates if a property contains a class type.
         /// </summary>
-        /// <param name="type">Type with property to check.</param>
-        /// <param name="propertyName">Property name to check.</param>
+        /// <param name="type">Type with property to evaluate.</param>
+        /// <param name="propertyName">Property name to evaluate.</param>
         /// <returns>True if the property is a class.</returns>
-        public static bool CheckIfPropertyIsClass(Type type, string propertyName)
+        public static bool IsClassProperty(Type type, string propertyName)
         {
-            return CheckIfPropertyIsClass(type.GetProperty(propertyName));
+            return IsClassProperty(type.GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if a property contains class type.
+        /// Evaluates if a property contains class type.
         /// </summary>
-        /// <param name="property">Property to check.</param>
+        /// <param name="property">Property to evaluate.</param>
         /// <returns>True if the property is a class.</returns>
-        public static bool CheckIfPropertyIsClass(PropertyInfo property)
+        public static bool IsClassProperty(PropertyInfo property)
         {
             return property.PropertyType.IsClass && !typeof(IList).IsAssignableFrom(property.PropertyType) && property.PropertyType != typeof(string);
         }
 
         #endregion
 
-        #region CheckIfPropertyIsList
+        #region IsInterfaceProperty
 
         /// <summary>
-        /// Checks if the property is a list.
+        /// Evaluates if a property contains an interface type.
         /// </summary>
-        /// <typeparam name="T">Type with property to check.</typeparam>
-        /// <param name="propertyName">Name of property to check.</param>
-        /// <returns>True if the property is a list.</returns>
-        public static bool CheckIfPropertyIsList<T>(string propertyName)
+        /// <typeparam name="T">Type with property to evaluate.</typeparam>
+        /// <param name="propertyName">Property name to evaluate.</param>
+        /// <returns>True if the property is an interface.</returns>
+        public static bool IsInterfaceProperty<T>(string propertyName)
         {
-            return CheckIfPropertyIsList(typeof(T).GetProperty(propertyName));
+            return IsInterfaceProperty(typeof(T).GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if the property is a list.
+        /// Evaluates if a property contains an interface type.
         /// </summary>
-        /// <typeparam name="T">Type with property to check.</typeparam>
-        /// <param name="obj">Object with property to check.</param>
-        /// <param name="propertyName">Name of property to check.</param>
-        /// <returns>True if the property is a list.</returns>
-        public static bool CheckIfPropertyIsList<T>(T obj, string propertyName)
+        /// <typeparam name="T">Type with property to evaluate.</typeparam>
+        /// <param name="obj">Object with property to evaluate.</param>
+        /// <param name="propertyName">Property name to evaluate.</param>
+        /// <returns>True if the property is an interface.</returns>
+        public static bool IsInterfaceProperty<T>(T obj, string propertyName)
         {
-            return CheckIfPropertyIsList(obj.GetType().GetProperty(propertyName));
+            return IsInterfaceProperty(obj.GetType().GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if a property contains a list type.
+        /// Evaluates if a property contains an interface type.
         /// </summary>
-        /// <param name="type">Type with property to check.</param>
-        /// <param name="propertyName">Property Name to check.</param>
-        /// <returns>True if the property is a list.</returns>
-        public static bool CheckIfPropertyIsList(Type type, string propertyName)
+        /// <param name="type">Type with property to evaluate.</param>
+        /// <param name="propertyName">Name of property to evaluate.</param>
+        /// <returns>True if the property is an interface type.</returns>
+        public static bool IsInterfaceProperty(Type type, string propertyName)
         {
-            return CheckIfPropertyIsList(type.GetProperty(propertyName));
+            return IsInterfaceProperty(type.GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if a property contains a list type.
+        /// Evaluates if a property contains an interface type.
         /// </summary>
-        /// <param name="property">Property to check.</param>
+        /// <param name="property">Property to evaluate.</param>
+        /// <returns>True if the property is an interface type.</returns>
+        public static bool IsInterfaceProperty(PropertyInfo property)
+        {
+            return property.PropertyType.IsInterface;
+        }
+
+        #endregion
+
+        #region IsListProperty
+
+        /// <summary>
+        /// Evaluates if the property is a list.
+        /// </summary>
+        /// <typeparam name="T">Type with property to evaluate.</typeparam>
+        /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is a list.</returns>
-        public static bool CheckIfPropertyIsList(PropertyInfo property)
+        public static bool IsListProperty<T>(string propertyName)
+        {
+            return IsListProperty(typeof(T).GetProperty(propertyName));
+        }
+
+        /// <summary>
+        /// Evaluates if the property is a list.
+        /// </summary>
+        /// <typeparam name="T">Type with property to evaluate.</typeparam>
+        /// <param name="obj">Object with property to evaluate.</param>
+        /// <param name="propertyName">Name of property to evaluate.</param>
+        /// <returns>True if the property is a list.</returns>
+        public static bool IsListProperty<T>(T obj, string propertyName)
+        {
+            return IsListProperty(obj.GetType().GetProperty(propertyName));
+        }
+
+        /// <summary>
+        /// Evaluates if a property contains a list type.
+        /// </summary>
+        /// <param name="type">Type with property to evaluate.</param>
+        /// <param name="propertyName">Property Name to evaluate.</param>
+        /// <returns>True if the property is a list.</returns>
+        public static bool IsListProperty(Type type, string propertyName)
+        {
+            return IsListProperty(type.GetProperty(propertyName));
+        }
+
+        /// <summary>
+        /// Evaluates if a property contains a list type.
+        /// </summary>
+        /// <param name="property">Property to evaluate.</param>
+        /// <returns>True if the property is a list.</returns>
+        public static bool IsListProperty(PropertyInfo property)
         {
             return typeof(IList).IsAssignableFrom(property.PropertyType) && property.PropertyType != typeof(string);
         }
 
         #endregion
 
-        #region CheckIfPropertyIsValue
+        #region IsValueProperty
 
         /// <summary>
-        /// Checks if a property contains a value type.
+        /// Evaluates if a property contains a value type.
         /// </summary>
-        /// <typeparam name="T">Type with property to check.</typeparam>
-        /// <param name="propertyName">Name of property to check.</param>
+        /// <typeparam name="T">Type with property to evaluate.</typeparam>
+        /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is a value type.</returns>
-        public static bool CheckIfPropertyIsValue<T>(string propertyName)
+        public static bool IsValueProperty<T>(string propertyName)
         {
-            return CheckIfPropertyIsValue(typeof(T), propertyName);
+            return IsValueProperty(typeof(T), propertyName);
         }
 
         /// <summary>
-        /// Checks if a property contains a value type.
+        /// Evaluates if a property contains a value type.
         /// </summary>
-        /// <typeparam name="T">Type with property to check.</typeparam>
-        /// <param name="obj">Object with property to check.</param>
-        /// <param name="propertyName">Name of property to check.</param>
+        /// <typeparam name="T">Type with property to evaluate.</typeparam>
+        /// <param name="obj">Object with property to evaluate.</param>
+        /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is a value type.</returns>
-        public static bool CheckIfPropertyIsValue<T>(T obj, string propertyName)
+        public static bool IsValueProperty<T>(T obj, string propertyName)
         {
-            return CheckIfPropertyIsValue(obj.GetType(), propertyName);
+            return IsValueProperty(obj.GetType(), propertyName);
         }
 
         /// <summary>
-        /// Checks if a property contains a value type.
+        /// Evaluates if a property contains a value type.
         /// </summary>
-        /// <param name="type">Type with property to check.</param>
-        /// <param name="propertyName">Name of property to check.</param>
+        /// <param name="type">Type with property to evaluate.</param>
+        /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is a value type.</returns>
-        public static bool CheckIfPropertyIsValue(Type type, string propertyName)
+        public static bool IsValueProperty(Type type, string propertyName)
         {
-            return CheckIfPropertyIsValue(type.GetProperty(propertyName));
+            return IsValueProperty(type.GetProperty(propertyName));
         }
 
         /// <summary>
-        /// Checks if a property contains a value type.
+        /// Evaluates if a property contains a value type.
         /// </summary>
-        /// <param name="property">Property to check.</param>
+        /// <param name="property">Property to evaluate.</param>
         /// <returns>True if the property is a value type.</returns>
-        public static bool CheckIfPropertyIsValue(PropertyInfo property)
+        public static bool IsValueProperty(PropertyInfo property)
         {
-            return !(typeof(IList).IsAssignableFrom(property.PropertyType) || property.PropertyType.IsClass);
+            return (property.PropertyType.IsValueType || property.PropertyType == typeof(string)) && !property.PropertyType.IsInterface;
         }
 
         #endregion
 
-        #region GetListOfProperties
+        #endregion
+
+        #region GET
+
+        #region GetProperties
 
         /// <summary>
         /// Returns a list of properties that meet the argument criteria.
         /// </summary>
         /// <typeparam name="T">Type to get the properties from.</typeparam>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
+        /// <param name="options">Options specifying which properties to get.</param>
         /// <returns>A list of <see cref="PropertyInfo"/>.</returns>
-        public static List<PropertyInfo> GetListOfProperties<T>(bool readWrite, bool readOnly, bool writeOnly, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<PropertyInfo> GetProperties<T>(GetPropertiesOptions options)
         {
-            return GetListOfProperties(typeof(T), readWrite, readOnly, writeOnly, valueTypes, classTypes, listTypes);
+            return GetProperties(typeof(T), options);
         }
 
         /// <summary>
@@ -327,69 +375,84 @@ namespace JSR.Utilities
         /// </summary>
         /// <typeparam name="T">Type to get the properties from.</typeparam>
         /// <param name="obj">Object to get properties from.</param>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
+        /// <param name="options">Options specifying which properties to get.</param>
         /// <returns>A list of <see cref="PropertyInfo"/>.</returns>
-        public static List<PropertyInfo> GetListOfProperties<T>(T obj, bool readWrite, bool readOnly, bool writeOnly, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<PropertyInfo> GetProperties<T>(T obj, GetPropertiesOptions options)
         {
-            return GetListOfProperties(obj.GetType(), readWrite, readOnly, writeOnly, valueTypes, classTypes, listTypes);
+            return GetProperties(obj.GetType(), options);
         }
 
         /// <summary>
         /// Returns a list of properties that meet the argument criteria.
         /// </summary>
         /// <param name="type">Type to get the properties from.</param>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
+        /// <param name="options">Options specifying which properties to get.</param>
         /// <returns>A list of <see cref="PropertyInfo"/>.</returns>
-        public static List<PropertyInfo> GetListOfProperties(Type type, bool readWrite, bool readOnly, bool writeOnly, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<PropertyInfo> GetProperties(Type type, GetPropertiesOptions options)
         {
-            List<PropertyInfo> returnProperties = new List<PropertyInfo>();
+            List<PropertyInfo> properties = new();
 
-            if (valueTypes)
+            foreach (PropertyInfo property in type.GetProperties())
             {
-                returnProperties.AddRange(GetListOfPropertiesWithValueTypes(type, readWrite, readOnly, writeOnly));
+                bool access = false;
+
+                if (options.ReadWriteProperties && IsReadWriteProperty(property))
+                {
+                    access = true;
+                }
+                else if (options.ReadOnlyProperties && IsReadOnlyProperty(property))
+                {
+                    access = true;
+                }
+                else if (options.WriteOnlyProperties && IsWriteOnlyProperty(property))
+                {
+                    access = true;
+                }
+
+                if (access)
+                {
+                    if (options.ValueProperties && IsValueProperty(property))
+                    {
+                        properties.Add(property);
+                        continue;
+                    }
+
+                    if (options.ClassProperties && IsClassProperty(property))
+                    {
+                        properties.Add(property);
+                        continue;
+                    }
+
+                    if (options.ListProperties && IsListProperty(property))
+                    {
+                        properties.Add(property);
+                        continue;
+                    }
+
+                    if (options.InterfaceProperties && IsInterfaceProperty(property))
+                    {
+                        properties.Add(property);
+                        continue;
+                    }
+                }
             }
 
-            if (classTypes)
-            {
-                returnProperties.AddRange(GetListOfPropertiesWithClassTypes(type, readWrite, readOnly, writeOnly));
-            }
-
-            if (listTypes)
-            {
-                returnProperties.AddRange(GetListOfPropertiesWithListTypes(type, readWrite, readOnly, writeOnly));
-            }
-
-            return returnProperties;
+            return properties;
         }
 
         #endregion
 
-        #region GetListOfPropertyNames
+        #region GetPropertyNames
 
         /// <summary>
         /// Returns a list of properties names that meet the argument criteria.
         /// </summary>
         /// <typeparam name="T">Type to get property names from.</typeparam>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
+        /// <param name="options">Options specifying which properties to get.</param>
         /// <returns>A list of property names.</returns>
-        public static List<string> GetListOfPropertyNames<T>(bool readWrite, bool readOnly, bool writeOnly, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<string> GetPropertyNames<T>(GetPropertiesOptions options)
         {
-            return GetListOfPropertyNames(typeof(T), readWrite, readOnly, writeOnly, valueTypes, classTypes, listTypes);
+            return GetPropertyNames(typeof(T), options);
         }
 
         /// <summary>
@@ -397,553 +460,36 @@ namespace JSR.Utilities
         /// </summary>
         /// <typeparam name="T">Type to get property names from.</typeparam>
         /// <param name="obj">Object to get property names from.</param>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
+        /// <param name="options">Options specifying which properties to get.</param>
         /// <returns>A list of property names.</returns>
-        public static List<string> GetListOfPropertyNames<T>(T obj, bool readWrite, bool readOnly, bool writeOnly, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<string> GetPropertyNames<T>(T obj, GetPropertiesOptions options)
         {
-            return GetListOfPropertyNames(obj.GetType(), readWrite, readOnly, writeOnly, valueTypes, classTypes, listTypes);
+            return GetPropertyNames(obj.GetType(), options);
         }
 
         /// <summary>
         /// Returns a list of property names that meet the argument criteria.
         /// </summary>
         /// <param name="type">Type to get property names from.</param>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
+        /// <param name="options">Options specifying which properties to get.</param>
         /// <returns>A list of property names.</returns>
-        public static List<string> GetListOfPropertyNames(Type type, bool readWrite, bool readOnly, bool writeOnly, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<string> GetPropertyNames(Type type, GetPropertiesOptions options)
         {
-            return new List<string>(GetListOfProperties(type, readWrite, readOnly, writeOnly, valueTypes, classTypes, listTypes).Select(property => property.Name));
+            return new List<string>(GetProperties(type, options).Select(property => property.Name));
         }
 
         #endregion
 
-        #region GetListOfPropertiesWithClassTypes
-
-        /// <summary>
-        /// Gets a list of Properties with class values.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <returns>A list of properties with class values.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithClassTypes<T>()
-        {
-            return GetListOfPropertiesWithClassTypes(typeof(T));
-        }
-
-        /// <summary>
-        /// Gets a list of Properties with class values.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <param name="obj">Object with properties to evaluate.</param>
-        /// <returns>A list of properties with class values.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithClassTypes<T>(T obj)
-        {
-            return GetListOfPropertiesWithClassTypes(obj.GetType());
-        }
-
-        /// <summary>
-        /// Gets a list of Properties with class values.
-        /// </summary>
-        /// <param name="type">Type of object with properties to evaluate.</param>
-        /// <returns>A list of properties with class values.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithClassTypes(Type type)
-        {
-            return new List<PropertyInfo>(type.GetProperties().Where(property => property.PropertyType.IsClass && !typeof(IList).IsAssignableFrom(property.PropertyType) && property.PropertyType != typeof(string)));
-        }
-
-        /// <summary>
-        /// Gets a list of Properties with class values.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <returns>A list of properties with class values.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithClassTypes<T>(bool readWrite, bool readOnly, bool writeOnly)
-        {
-            return GetListOfPropertiesWithClassTypes(typeof(T), readWrite, readOnly, writeOnly);
-        }
-
-        /// <summary>
-        /// Gets a list of Properties with class values.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <param name="obj">Object with properties to evaluate.</param>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <returns>A list of properties with class values.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithClassTypes<T>(T obj, bool readWrite, bool readOnly, bool writeOnly)
-        {
-            return GetListOfPropertiesWithClassTypes(obj.GetType(), readWrite, readOnly, writeOnly);
-        }
-
-        /// <summary>
-        /// Gets a list of Properties with class values.
-        /// </summary>
-        /// <param name="type">Type of object with properties to evaluate.</param>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <returns>A list of properties with class values.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithClassTypes(Type type, bool readWrite, bool readOnly, bool writeOnly)
-        {
-            List<PropertyInfo> allClassProperties = GetListOfPropertiesWithClassTypes(type);
-
-            List<PropertyInfo> properties = new List<PropertyInfo>();
-
-            if (readWrite)
-            {
-                properties.AddRange(allClassProperties.Where(property => CheckIfPropertyIsReadWrite(property)));
-            }
-
-            if (readOnly)
-            {
-                properties.AddRange(allClassProperties.Where(property => CheckIfPropertyIsReadOnly(property)));
-            }
-
-            if (writeOnly)
-            {
-                properties.AddRange(allClassProperties.Where(property => CheckIfPropertyIsWriteOnly(property)));
-            }
-
-            return properties;
-        }
-
-        #endregion
-
-        #region GetListOfPropertyNamesWithClassTypes
-
-        /// <summary>
-        /// Gets a list of property names with class values.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <returns>A list of property names with class values.</returns>
-        public static List<string> GetListOfPropertyNamesWithClassTypes<T>()
-        {
-            return GetListOfPropertyNamesWithClassTypes(typeof(T));
-        }
-
-        /// <summary>
-        /// Gets a list of property names with class values.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <param name="obj">Object with properties to evaluate.</param>
-        /// <returns>A list of property names with class values.</returns>
-        public static List<string> GetListOfPropertyNamesWithClassTypes<T>(T obj)
-        {
-            return GetListOfPropertyNamesWithClassTypes(obj.GetType());
-        }
-
-        /// <summary>
-        /// Gets a list of property names with class values.
-        /// </summary>
-        /// <param name="type">Type of object with properties to evaluate.</param>
-        /// <returns>A list of property names with class values.</returns>
-        public static List<string> GetListOfPropertyNamesWithClassTypes(Type type)
-        {
-            return new List<string>(GetListOfPropertiesWithClassTypes(type).Select(property => property.Name));
-        }
-
-        /// <summary>
-        /// Gets a list of property names with class values.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <returns>A list of property names with class values.</returns>
-        public static List<string> GetListOfPropertyNamesWithClassTypes<T>(bool readWrite, bool readOnly, bool writeOnly)
-        {
-            return GetListOfPropertyNamesWithClassTypes(typeof(T), readWrite, readOnly, writeOnly);
-        }
-
-        /// <summary>
-        /// Gets a list of property names with class values.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <param name="obj">Object with properties to evaluate.</param>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <returns>A list of property names with class values.</returns>
-        public static List<string> GetListOfPropertyNamesWithClassTypes<T>(T obj, bool readWrite, bool readOnly, bool writeOnly)
-        {
-            return GetListOfPropertyNamesWithClassTypes(obj.GetType(), readWrite, readOnly, writeOnly);
-        }
-
-        /// <summary>
-        /// Gets a list of property names with class values.
-        /// </summary>
-        /// <param name="type">Type of object with properties to evaluate.</param>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <returns>A list of property names with class values.</returns>
-        public static List<string> GetListOfPropertyNamesWithClassTypes(Type type, bool readWrite, bool readOnly, bool writeOnly)
-        {
-            return new List<string>(GetListOfPropertiesWithClassTypes(type, readWrite, readOnly, writeOnly).Select(p => p.Name));
-        }
-
-        #endregion
-
-        #region GetListOfPropertiesWithListTypes
-
-        /// <summary>
-        /// Gets a list of properties with list values.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <returns>A list of properties with list values.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithListTypes<T>()
-        {
-            return GetListOfPropertiesWithListTypes(typeof(T));
-        }
-
-        /// <summary>
-        /// Gets a list of properties with list values.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <param name="obj">Object with properties to evaluate.</param>
-        /// <returns>A list of properties with lists values.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithListTypes<T>(T obj)
-        {
-            return GetListOfPropertiesWithListTypes(obj.GetType());
-        }
-
-        /// <summary>
-        /// Gets a list of properties with list values.
-        /// </summary>
-        /// <param name="type">Type with properties to evaluate.</param>
-        /// <returns>A list of properties with lists values.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithListTypes(Type type)
-        {
-            return new List<PropertyInfo>(type.GetProperties().Where(property => typeof(IList).IsAssignableFrom(property.PropertyType) && property.PropertyType != typeof(string)));
-        }
-
-        /// <summary>
-        /// Gets a list of properties with list values.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <returns>A list of properties with list values.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithListTypes<T>(bool readWrite, bool readOnly, bool writeOnly)
-        {
-            return GetListOfPropertiesWithListTypes(typeof(T), readWrite, readOnly, writeOnly);
-        }
-
-        /// <summary>
-        /// Gets a list of properties with list values.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <param name="obj">Object with properties to evaluate.</param>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <returns>A list of properties with lists values.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithListTypes<T>(T obj, bool readWrite, bool readOnly, bool writeOnly)
-        {
-            return GetListOfPropertiesWithListTypes(obj.GetType(), readWrite, readOnly, writeOnly);
-        }
-
-        /// <summary>
-        /// Gets a list of properties with list values.
-        /// </summary>
-        /// <param name="type">Type with properties to evaluate.</param>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <returns>A list of properties with lists values.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithListTypes(Type type, bool readWrite, bool readOnly, bool writeOnly)
-        {
-            List<PropertyInfo> allListProperties = GetListOfPropertiesWithListTypes(type);
-
-            List<PropertyInfo> properties = new List<PropertyInfo>();
-
-            if (readWrite)
-            {
-                properties.AddRange(allListProperties.Where(property => CheckIfPropertyIsReadWrite(property)));
-            }
-
-            if (readOnly)
-            {
-                properties.AddRange(allListProperties.Where(property => CheckIfPropertyIsReadOnly(property)));
-            }
-
-            if (writeOnly)
-            {
-                properties.AddRange(allListProperties.Where(property => CheckIfPropertyIsWriteOnly(property)));
-            }
-
-            return properties;
-        }
-
-        #endregion
-
-        #region GetListOfPropertyNamesWithListTypes
-
-        /// <summary>
-        /// Gets a list of property names with list values.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <returns>A list of property names with list values.</returns>
-        public static List<string> GetListOfPropertyNamesWithListTypes<T>()
-        {
-            return GetListOfPropertyNamesWithListTypes(typeof(T));
-        }
-
-        /// <summary>
-        /// Gets a list of property names with list values.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <param name="obj">An object with properties to evaluate.</param>
-        /// <returns>A list of property names with list values.</returns>
-        public static List<string> GetListOfPropertyNamesWithListTypes<T>(T obj)
-        {
-            return GetListOfPropertyNamesWithListTypes(obj.GetType());
-        }
-
-        /// <summary>
-        /// Gets a list of property names with list values.
-        /// </summary>
-        /// <param name="type">Type of object with properties to evaluate.</param>
-        /// <returns>A list of property names with list values.</returns>
-        public static List<string> GetListOfPropertyNamesWithListTypes(Type type)
-        {
-            return new List<string>(GetListOfPropertiesWithListTypes(type).Select(p => p.Name));
-        }
-
-        /// <summary>
-        /// Gets a list of property names with list values.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <returns>A list of property names with list values.</returns>
-        public static List<string> GetListOfPropertyNamesWithListTypes<T>(bool readWrite, bool readOnly, bool writeOnly)
-        {
-            return GetListOfPropertyNamesWithListTypes(typeof(T), readWrite, readOnly, writeOnly);
-        }
-
-        /// <summary>
-        /// Gets a list of property names with list values.
-        /// </summary>
-        /// <typeparam name="T">Type of object with properties to evaluate.</typeparam>
-        /// <param name="obj">An object with properties to evaluate.</param>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <returns>A list of property names with list values.</returns>
-        public static List<string> GetListOfPropertyNamesWithListTypes<T>(T obj, bool readWrite, bool readOnly, bool writeOnly)
-        {
-            return GetListOfPropertyNamesWithListTypes(obj.GetType(), readWrite, readOnly, writeOnly);
-        }
-
-        /// <summary>
-        /// Gets a list of property names with list values.
-        /// </summary>
-        /// <param name="type">Type of object with properties to evaluate.</param>
-        /// <param name="readWrite">Include ReadWrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <returns>A list of property names with list values.</returns>
-        public static List<string> GetListOfPropertyNamesWithListTypes(Type type, bool readWrite, bool readOnly, bool writeOnly)
-        {
-            return new List<string>(GetListOfPropertiesWithListTypes(type, readWrite, readOnly, writeOnly).Select(p => p.Name));
-        }
-
-        #endregion
-
-        #region GetListOfPropertiesWithValueTypes
-
-        /// <summary>
-        /// Get a list of properties with value types.
-        /// </summary>
-        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
-        /// <returns>A list of properties with value types.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithValueTypes<T>()
-        {
-            return GetListOfPropertiesWithValueTypes(typeof(T));
-        }
-
-        /// <summary>
-        /// Get a list of properties with value types.
-        /// </summary>
-        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
-        /// <param name="obj">Object with properties to evaluate.</param>
-        /// <returns>A list of properties with value types.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithValueTypes<T>(T obj)
-        {
-            return GetListOfPropertiesWithValueTypes(obj.GetType());
-        }
-
-        /// <summary>
-        /// Get a list of properties with value types.
-        /// </summary>
-        /// <param name="type">Type with properties to evaluate.</param>
-        /// <returns>A list of properties with value types.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithValueTypes(Type type)
-        {
-            return new List<PropertyInfo>(type.GetProperties().Where(property => !CheckIfPropertyIsClass(property) && !CheckIfPropertyIsList(property)));
-        }
-
-        /// <summary>
-        /// Get a list of properties with value types.
-        /// </summary>
-        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <returns>A list of properties with value types.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithValueTypes<T>(bool readWrite, bool readOnly, bool writeOnly)
-        {
-            return GetListOfPropertiesWithValueTypes(typeof(T), readWrite, readOnly, writeOnly);
-        }
-
-        /// <summary>
-        /// Get a list of properties with value types.
-        /// </summary>
-        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
-        /// <param name="obj">Object with properties to evaluate.</param>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <returns>A list of properties with value types.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithValueTypes<T>(T obj, bool readWrite, bool readOnly, bool writeOnly)
-        {
-            return GetListOfPropertiesWithValueTypes(obj.GetType(), readWrite, readOnly, writeOnly);
-        }
-
-        /// <summary>
-        /// Get a list of properties with value types.
-        /// </summary>
-        /// <param name="type">Type with properties to evaluate.</param>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">include writeonly properties.</param>
-        /// <returns>A list of properties with value types.</returns>
-        public static List<PropertyInfo> GetListOfPropertiesWithValueTypes(Type type, bool readWrite, bool readOnly, bool writeOnly)
-        {
-            List<PropertyInfo> allValueProperties = GetListOfPropertiesWithValueTypes(type);
-
-            List<PropertyInfo> properties = new List<PropertyInfo>();
-
-            if (readWrite)
-            {
-                properties.AddRange(allValueProperties.Where(property => CheckIfPropertyIsReadWrite(property)));
-            }
-
-            if (readOnly)
-            {
-                properties.AddRange(allValueProperties.Where(property => CheckIfPropertyIsReadOnly(property)));
-            }
-
-            if (writeOnly)
-            {
-                properties.AddRange(allValueProperties.Where(property => CheckIfPropertyIsWriteOnly(property)));
-            }
-
-            return properties;
-        }
-
-        #endregion
-
-        #region GetListOfPropertyNamesWithValueTypes
-
-        /// <summary>
-        /// Get a list of property names with value types.
-        /// </summary>
-        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
-        /// <returns>A list of property names with value types.</returns>
-        public static List<string> GetListOfPropertyNamesWithValueTypes<T>()
-        {
-            return GetListOfPropertyNamesWithValueTypes(typeof(T));
-        }
-
-        /// <summary>
-        /// Get a list of property names with value types.
-        /// </summary>
-        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
-        /// <param name="obj">Object with properties to evaluate.</param>
-        /// <returns>A list of property names with value types.</returns>
-        public static List<string> GetListOfPropertyNamesWithValueTypes<T>(T obj)
-        {
-            return GetListOfPropertyNamesWithValueTypes(obj.GetType());
-        }
-
-        /// <summary>
-        /// Get a list of property names with value types.
-        /// </summary>
-        /// <param name="type">Type with properties to evaluate.</param>
-        /// <returns>A list of property names with value types.</returns>
-        public static List<string> GetListOfPropertyNamesWithValueTypes(Type type)
-        {
-            return new List<string>(GetListOfPropertiesWithValueTypes(type).Select(property => property.Name));
-        }
-
-        /// <summary>
-        /// Get a list of property names with value types.
-        /// </summary>
-        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <returns>A list of property names with value types.</returns>
-        public static List<string> GetListOfPropertyNamesWithValueTypes<T>(bool readWrite, bool readOnly, bool writeOnly)
-        {
-            return GetListOfPropertyNamesWithValueTypes(typeof(T), readWrite, readOnly, writeOnly);
-        }
-
-        /// <summary>
-        /// Get a list of property names with value types.
-        /// </summary>
-        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
-        /// <param name="obj">Object with properties to evaluate.</param>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <returns>A list of property names with value types.</returns>
-        public static List<string> GetListOfPropertyNamesWithValueTypes<T>(T obj, bool readWrite, bool readOnly, bool writeOnly)
-        {
-            return GetListOfPropertyNamesWithValueTypes(obj.GetType(), readWrite, readOnly, writeOnly);
-        }
-
-        /// <summary>
-        /// Get a list of property names with value types.
-        /// </summary>
-        /// <param name="type">Type with properties to evaluate.</param>
-        /// <param name="readWrite">Include readwrite properties.</param>
-        /// <param name="readOnly">Include readonly properties.</param>
-        /// <param name="writeOnly">Include writeonly properties.</param>
-        /// <returns>A list of property names with value types.</returns>
-        public static List<string> GetListOfPropertyNamesWithValueTypes(Type type, bool readWrite, bool readOnly, bool writeOnly)
-        {
-            return new List<string>(GetListOfPropertiesWithValueTypes(type, readWrite, readOnly, writeOnly).Select(property => property.Name));
-        }
-
-        #endregion
-
-        #region GetListOfReadWriteProperties
+        #region GetReadWriteProperties
 
         /// <summary>
         /// Get a list of all the readwrite properties.
         /// </summary>
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <returns>List of readwrite properties.</returns>
-        public static List<PropertyInfo> GetListOfReadWriteProperties<T>()
+        public static List<PropertyInfo> GetReadWriteProperties<T>()
         {
-            return new List<PropertyInfo>(typeof(T).GetProperties().Where(property => CheckIfPropertyIsReadWrite(property)));
+            return GetReadWriteProperties(typeof(T));
         }
 
         /// <summary>
@@ -952,9 +498,9 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <param name="obj">Object with properties.</param>
         /// <returns>List of readwrite properties.</returns>
-        public static List<PropertyInfo> GetListOfReadWriteProperties<T>(T obj)
+        public static List<PropertyInfo> GetReadWriteProperties<T>(T obj)
         {
-            return new List<PropertyInfo>(obj.GetType().GetProperties().Where(property => CheckIfPropertyIsReadWrite(property)));
+            return GetReadWriteProperties(obj.GetType());
         }
 
         /// <summary>
@@ -962,22 +508,21 @@ namespace JSR.Utilities
         /// </summary>
         /// <param name="type">Type with properties.</param>
         /// <returns>List of readwrite properties.</returns>
-        public static List<PropertyInfo> GetListOfReadWriteProperties(Type type)
+        public static List<PropertyInfo> GetReadWriteProperties(Type type)
         {
-            return new List<PropertyInfo>(type.GetProperties().Where(property => CheckIfPropertyIsReadWrite(property)));
+            return new List<PropertyInfo>(type.GetProperties().Where(property => IsReadWriteProperty(property)));
         }
 
         /// <summary>
         /// Get a list of all the readwrite properties.
         /// </summary>
         /// <typeparam name="T">Type with properties.</typeparam>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select readwrite properties.</param>
         /// <returns>List of readwrite properties.</returns>
-        public static List<PropertyInfo> GetListOfReadWriteProperties<T>(bool valueTypes, bool classTypes, bool listTypes)
+        public static List<PropertyInfo> GetReadWriteProperties<T>(GetPropertiesOptions options)
         {
-            return GetListOfReadWriteProperties(typeof(T), valueTypes, classTypes, listTypes);
+            return GetReadWriteProperties(typeof(T), options);
         }
 
         /// <summary>
@@ -985,93 +530,42 @@ namespace JSR.Utilities
         /// </summary>
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <param name="obj">Object with properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select readwrite properties.</param>
         /// <returns>List of readwrite properties.</returns>
-        public static List<PropertyInfo> GetListOfReadWriteProperties<T>(T obj, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<PropertyInfo> GetReadWriteProperties<T>(T obj, GetPropertiesOptions options)
         {
-            return GetListOfReadWriteProperties(obj.GetType(), valueTypes, classTypes, listTypes);
+            return GetReadWriteProperties(obj.GetType(), options);
         }
 
         /// <summary>
         /// Get a list of all the readwrite properties.
         /// </summary>
         /// <param name="type">Type with properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select readwrite properties.</param>
         /// <returns>List of readwrite properties.</returns>
-        public static List<PropertyInfo> GetListOfReadWriteProperties(Type type, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<PropertyInfo> GetReadWriteProperties(Type type, GetPropertiesOptions options)
         {
-            List<PropertyInfo> allReadWriteProperties = GetListOfReadWriteProperties(type);
+            options.ReadWriteProperties = true;
+            options.ReadOnlyProperties = false;
+            options.WriteOnlyProperties = false;
 
-            List<PropertyInfo> properties = new List<PropertyInfo>();
-
-            if (valueTypes)
-            {
-                properties.AddRange(allReadWriteProperties.Where(property => CheckIfPropertyIsValue(property)));
-            }
-
-            if (classTypes)
-            {
-                properties.AddRange(allReadWriteProperties.Where(property => CheckIfPropertyIsClass(property)));
-            }
-
-            if (listTypes)
-            {
-                properties.AddRange(allReadWriteProperties.Where(property => CheckIfPropertyIsList(property)));
-            }
-
-            return properties;
+            return GetProperties(type, options);
         }
 
         #endregion
 
-        #region GetListOfReadWritePropertyNames
+        #region GetReadWritePropertyNames
 
         /// <summary>
         /// Get a list of all the readwrite property names.
         /// </summary>
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <returns>List of readwrite property names.</returns>
-        public static List<string> GetListOfReadWritePropertyNames<T>()
+        public static List<string> GetReadWritePropertyNames<T>()
         {
-            return GetListOfReadWritePropertyNames(typeof(T));
-        }
-
-        /// <summary>
-        /// Get a list of all the readwrite property names.
-        /// </summary>
-        /// <typeparam name="T">Type with properties.</typeparam>
-        /// <param name="obj">Object with properties.</param>
-        /// <returns>List of readwrite property names.</returns>
-        public static List<string> GetListOfReadWritePropertyNames<T>(T obj)
-        {
-            return GetListOfReadWritePropertyNames(obj.GetType());
-        }
-
-        /// <summary>
-        /// Get a list of all the readwrite property names.
-        /// </summary>
-        /// <param name="type">Type with properties.</param>
-        /// <returns>List of readwrite property names.</returns>
-        public static List<string> GetListOfReadWritePropertyNames(Type type)
-        {
-            return new List<string>(GetListOfReadWriteProperties(type).Select(property => property.Name));
-        }
-
-        /// <summary>
-        /// Get a list of all the readwrite property names.
-        /// </summary>
-        /// <typeparam name="T">Type with properties.</typeparam>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
-        /// <returns>List of readwrite property names.</returns>
-        public static List<string> GetListOfReadWritePropertyNames<T>(bool valueTypes, bool classTypes, bool listTypes)
-        {
-            return GetListOfReadWritePropertyNames(typeof(T), valueTypes, classTypes, listTypes);
+            return GetReadWritePropertyNames(typeof(T));
         }
 
         /// <summary>
@@ -1079,74 +573,71 @@ namespace JSR.Utilities
         /// </summary>
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <param name="obj">Object with properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
         /// <returns>List of readwrite property names.</returns>
-        public static List<string> GetListOfReadWritePropertyNames<T>(T obj, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<string> GetReadWritePropertyNames<T>(T obj)
         {
-            return GetListOfReadWritePropertyNames(obj.GetType(), valueTypes, classTypes, listTypes);
+            return GetReadWritePropertyNames(obj.GetType());
         }
 
         /// <summary>
         /// Get a list of all the readwrite property names.
         /// </summary>
         /// <param name="type">Type with properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
         /// <returns>List of readwrite property names.</returns>
-        public static List<string> GetListOfReadWritePropertyNames(Type type, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<string> GetReadWritePropertyNames(Type type)
         {
-            return new List<string>(GetListOfReadWriteProperties(type, valueTypes, classTypes, listTypes).Select(property => property.Name));
+            return new List<string>(GetReadWriteProperties(type).Select(property => property.Name));
+        }
+
+        /// <summary>
+        /// Get a list of all the readwrite property names.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select readwrite properties.</param>
+        /// <returns>List of readwrite property names.</returns>
+        public static List<string> GetReadWritePropertyNames<T>(GetPropertiesOptions options)
+        {
+            return GetReadWritePropertyNames(typeof(T), options);
+        }
+
+        /// <summary>
+        /// Get a list of all the readwrite property names.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <param name="obj">Object with properties.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select readwrite properties.</param>
+        /// <returns>List of readwrite property names.</returns>
+        public static List<string> GetReadWritePropertyNames<T>(T obj, GetPropertiesOptions options)
+        {
+            return GetReadWritePropertyNames(obj.GetType(), options);
+        }
+
+        /// <summary>
+        /// Get a list of all the readwrite property names.
+        /// </summary>
+        /// <param name="type">Type with properties.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select readwrite properties.</param>
+        /// <returns>List of readwrite property names.</returns>
+        public static List<string> GetReadWritePropertyNames(Type type, GetPropertiesOptions options)
+        {
+            return new List<string>(GetReadWriteProperties(type, options).Select(property => property.Name));
         }
 
         #endregion
 
-        #region GetListOfReadOnlyProperties
+        #region GetReadOnlyProperties
 
         /// <summary>
         /// Get a list of all the readonly properties.
         /// </summary>
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <returns>List of readonly properties.</returns>
-        public static List<PropertyInfo> GetListOfReadOnlyProperties<T>()
+        public static List<PropertyInfo> GetReadOnlyProperties<T>()
         {
-            return GetListOfReadOnlyProperties(typeof(T));
-        }
-
-        /// <summary>
-        /// Get a list of all the readonly properties.
-        /// </summary>
-        /// <typeparam name="T">Type with properties.</typeparam>
-        /// <param name="obj">Object with properties.</param>
-        /// <returns>List of readonly properties.</returns>
-        public static List<PropertyInfo> GetListOfReadOnlyProperties<T>(T obj)
-        {
-            return GetListOfReadOnlyProperties(obj.GetType());
-        }
-
-        /// <summary>
-        /// Get a list of all the readonly properties.
-        /// </summary>
-        /// <param name="type">Type with properties.</param>
-        /// <returns>List of readonly properties.</returns>
-        public static List<PropertyInfo> GetListOfReadOnlyProperties(Type type)
-        {
-            return new List<PropertyInfo>(type.GetProperties().Where(property => CheckIfPropertyIsReadOnly(property)));
-        }
-
-        /// <summary>
-        /// Get a list of all the readonly properties.
-        /// </summary>
-        /// <typeparam name="T">Type with properties.</typeparam>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
-        /// <returns>List of readonly properties.</returns>
-        public static List<PropertyInfo> GetListOfReadOnlyProperties<T>(bool valueTypes, bool classTypes, bool listTypes)
-        {
-            return GetListOfReadOnlyProperties(typeof(T), valueTypes, classTypes, listTypes);
+            return GetReadOnlyProperties(typeof(T));
         }
 
         /// <summary>
@@ -1154,59 +645,75 @@ namespace JSR.Utilities
         /// </summary>
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <param name="obj">Object with properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
         /// <returns>List of readonly properties.</returns>
-        public static List<PropertyInfo> GetListOfReadOnlyProperties<T>(T obj, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<PropertyInfo> GetReadOnlyProperties<T>(T obj)
         {
-            return GetListOfReadOnlyProperties(obj.GetType(), valueTypes, classTypes, listTypes);
+            return GetReadOnlyProperties(obj.GetType());
         }
 
         /// <summary>
         /// Get a list of all the readonly properties.
         /// </summary>
         /// <param name="type">Type with properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
         /// <returns>List of readonly properties.</returns>
-        public static List<PropertyInfo> GetListOfReadOnlyProperties(Type type, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<PropertyInfo> GetReadOnlyProperties(Type type)
         {
-            List<PropertyInfo> allReadOnlyProperties = GetListOfReadOnlyProperties(type);
+            return new List<PropertyInfo>(type.GetProperties().Where(property => IsReadOnlyProperty(property)));
+        }
 
-            List<PropertyInfo> properties = new List<PropertyInfo>();
+        /// <summary>
+        /// Get a list of all the readonly properties.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select readonly properties.</param>
+        /// <returns>List of readonly properties.</returns>
+        public static List<PropertyInfo> GetReadOnlyProperties<T>(GetPropertiesOptions options)
+        {
+            return GetReadOnlyProperties(typeof(T), options);
+        }
 
-            if (valueTypes)
-            {
-                properties.AddRange(allReadOnlyProperties.Where(property => CheckIfPropertyIsValue(property)));
-            }
+        /// <summary>
+        /// Get a list of all the readonly properties.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <param name="obj">Object with properties.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select readonly properties.</param>
+        /// <returns>List of readonly properties.</returns>
+        public static List<PropertyInfo> GetReadOnlyProperties<T>(T obj, GetPropertiesOptions options)
+        {
+            return GetReadOnlyProperties(obj.GetType(), options);
+        }
 
-            if (classTypes)
-            {
-                properties.AddRange(allReadOnlyProperties.Where(property => CheckIfPropertyIsClass(property)));
-            }
+        /// <summary>
+        /// Get a list of all the readonly properties.
+        /// </summary>
+        /// <param name="type">Type with properties.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select readonly properties.</param>
+        /// <returns>List of readonly properties.</returns>
+        public static List<PropertyInfo> GetReadOnlyProperties(Type type, GetPropertiesOptions options)
+        {
+            options.ReadWriteProperties = false;
+            options.ReadOnlyProperties = true;
+            options.WriteOnlyProperties = false;
 
-            if (listTypes)
-            {
-                properties.AddRange(allReadOnlyProperties.Where(property => CheckIfPropertyIsList(property)));
-            }
-
-            return properties;
+            return GetProperties(type, options);
         }
 
         #endregion
 
-        #region GetListOfReadOnlyPropertyNames
+        #region GetReadOnlyPropertyNames
 
         /// <summary>
         /// Get a list of all the readonly property names.
         /// </summary>
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <returns>List of readonly property names.</returns>
-        public static List<string> GetListOfReadOnlyPropertyNames<T>()
+        public static List<string> GetReadOnlyPropertyNames<T>()
         {
-            return GetListOfReadOnlyPropertyNames(typeof(T));
+            return GetReadOnlyPropertyNames(typeof(T));
         }
 
         /// <summary>
@@ -1215,9 +722,9 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <param name="obj">Object with properties.</param>
         /// <returns>List of readonly property names.</returns>
-        public static List<string> GetListOfReadOnlyPropertyNames<T>(T obj)
+        public static List<string> GetReadOnlyPropertyNames<T>(T obj)
         {
-            return GetListOfReadOnlyPropertyNames(obj.GetType());
+            return GetReadOnlyPropertyNames(obj.GetType());
         }
 
         /// <summary>
@@ -1225,22 +732,21 @@ namespace JSR.Utilities
         /// </summary>
         /// <param name="type">Type with properties.</param>
         /// <returns>List of readonly property names.</returns>
-        public static List<string> GetListOfReadOnlyPropertyNames(Type type)
+        public static List<string> GetReadOnlyPropertyNames(Type type)
         {
-            return new List<string>(GetListOfReadOnlyProperties(type).Select(property => property.Name));
+            return new List<string>(GetReadOnlyProperties(type).Select(property => property.Name));
         }
 
         /// <summary>
         /// Get a list of all the readonly property names.
         /// </summary>
         /// <typeparam name="T">Type with properties.</typeparam>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select readonly properties.</param>
         /// <returns>List of readonly property names.</returns>
-        public static List<string> GetListOfReadOnlyPropertyNames<T>(bool valueTypes, bool classTypes, bool listTypes)
+        public static List<string> GetReadOnlyPropertyNames<T>(GetPropertiesOptions options)
         {
-            return GetListOfReadOnlyPropertyNames(typeof(T), valueTypes, classTypes, listTypes);
+            return GetReadOnlyPropertyNames(typeof(T), options);
         }
 
         /// <summary>
@@ -1248,74 +754,38 @@ namespace JSR.Utilities
         /// </summary>
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <param name="obj">Object with properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select readonly properties.</param>
         /// <returns>List of readonly property names.</returns>
-        public static List<string> GetListOfReadOnlyPropertyNames<T>(T obj, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<string> GetReadOnlyPropertyNames<T>(T obj, GetPropertiesOptions options)
         {
-            return GetListOfReadOnlyPropertyNames(obj.GetType(), valueTypes, classTypes, listTypes);
+            return GetReadOnlyPropertyNames(obj.GetType(), options);
         }
 
         /// <summary>
         /// get a list of all the readonly property names.
         /// </summary>
         /// <param name="type">Type with properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select readonly properties.</param>
         /// <returns>List of readonly property names.</returns>
-        public static List<string> GetListOfReadOnlyPropertyNames(Type type, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<string> GetReadOnlyPropertyNames(Type type, GetPropertiesOptions options)
         {
-            return new List<string>(GetListOfReadOnlyProperties(type, valueTypes, classTypes, listTypes).Select(property => property.Name));
+            return new List<string>(GetReadOnlyProperties(type, options).Select(property => property.Name));
         }
 
         #endregion
 
-        #region GetListOfWriteOnlyProperties
+        #region GetWriteOnlyProperties
 
         /// <summary>
         /// Get a list of all the writeonly properties.
         /// </summary>
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <returns>List of writeonly properties.</returns>
-        public static List<PropertyInfo> GetListOfWriteOnlyProperties<T>()
+        public static List<PropertyInfo> GetWriteOnlyProperties<T>()
         {
-            return GetListOfWriteOnlyProperties(typeof(T));
-        }
-
-        /// <summary>
-        /// Get a list of all the writeonly properties.
-        /// </summary>
-        /// <typeparam name="T">Type with properties.</typeparam>
-        /// <param name="obj">Object with properties.</param>
-        /// <returns>List of writeonly properties.</returns>
-        public static List<PropertyInfo> GetListOfWriteOnlyProperties<T>(T obj)
-        {
-            return GetListOfWriteOnlyProperties(obj.GetType());
-        }
-
-        /// <summary>
-        /// Get a list of all the writeonly properties.
-        /// </summary>
-        /// <param name="type">Type with properties.</param>
-        /// <returns>List of writeonly properties.</returns>
-        public static List<PropertyInfo> GetListOfWriteOnlyProperties(Type type)
-        {
-            return new List<PropertyInfo>(type.GetProperties().Where(property => CheckIfPropertyIsWriteOnly(property)));
-        }
-
-        /// <summary>
-        /// Get a list of all the writeonly properties.
-        /// </summary>
-        /// <typeparam name="T">Type with properties.</typeparam>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
-        /// <returns>List of writeonly properties.</returns>
-        public static List<PropertyInfo> GetListOfWriteOnlyProperties<T>(bool valueTypes, bool classTypes, bool listTypes)
-        {
-            return GetListOfWriteOnlyProperties(typeof(T), valueTypes, classTypes, listTypes);
+            return GetWriteOnlyProperties(typeof(T));
         }
 
         /// <summary>
@@ -1323,93 +793,75 @@ namespace JSR.Utilities
         /// </summary>
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <param name="obj">Object with properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
         /// <returns>List of writeonly properties.</returns>
-        public static List<PropertyInfo> GetListOfWriteOnlyProperties<T>(T obj, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<PropertyInfo> GetWriteOnlyProperties<T>(T obj)
         {
-            return GetListOfWriteOnlyProperties(obj.GetType(), valueTypes, classTypes, listTypes);
+            return GetWriteOnlyProperties(obj.GetType());
         }
 
         /// <summary>
         /// Get a list of all the writeonly properties.
         /// </summary>
         /// <param name="type">Type with properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
         /// <returns>List of writeonly properties.</returns>
-        public static List<PropertyInfo> GetListOfWriteOnlyProperties(Type type, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<PropertyInfo> GetWriteOnlyProperties(Type type)
         {
-            List<PropertyInfo> allWriteOnlyProperties = GetListOfWriteOnlyProperties(type);
+            return new List<PropertyInfo>(type.GetProperties().Where(property => IsWriteOnlyProperty(property)));
+        }
 
-            List<PropertyInfo> properties = new List<PropertyInfo>();
+        /// <summary>
+        /// Get a list of all the writeonly properties.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select writeonly properties.</param>
+        /// <returns>List of writeonly properties.</returns>
+        public static List<PropertyInfo> GetWriteOnlyProperties<T>(GetPropertiesOptions options)
+        {
+            return GetWriteOnlyProperties(typeof(T), options);
+        }
 
-            if (valueTypes)
-            {
-                properties.AddRange(allWriteOnlyProperties.Where(property => CheckIfPropertyIsValue(property)));
-            }
+        /// <summary>
+        /// Get a list of all the writeonly properties.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <param name="obj">Object with properties.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select writeonly properties.</param>
+        /// <returns>List of writeonly properties.</returns>
+        public static List<PropertyInfo> GetWriteOnlyProperties<T>(T obj, GetPropertiesOptions options)
+        {
+            return GetWriteOnlyProperties(obj.GetType(), options);
+        }
 
-            if (classTypes)
-            {
-                properties.AddRange(allWriteOnlyProperties.Where(property => CheckIfPropertyIsClass(property)));
-            }
+        /// <summary>
+        /// Get a list of all the writeonly properties.
+        /// </summary>
+        /// <param name="type">Type with properties.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select writeonly properties.</param>
+        /// <returns>List of writeonly properties.</returns>
+        public static List<PropertyInfo> GetWriteOnlyProperties(Type type, GetPropertiesOptions options)
+        {
+            options.ReadWriteProperties = false;
+            options.ReadOnlyProperties = false;
+            options.WriteOnlyProperties = true;
 
-            if (listTypes)
-            {
-                properties.AddRange(allWriteOnlyProperties.Where(property => CheckIfPropertyIsList(property)));
-            }
-
-            return properties;
+            return GetProperties(type, options);
         }
 
         #endregion
 
-        #region GetListOfWriteOnlyPropertyNames
+        #region GetWriteOnlyPropertyNames
 
         /// <summary>
         /// Get a list of all the writeonly property names.
         /// </summary>
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <returns>List of writeonly property names.</returns>
-        public static List<string> GetListOfWriteOnlyPropertyNames<T>()
+        public static List<string> GetWriteOnlyPropertyNames<T>()
         {
-            return GetListOfWriteOnlyPropertyNames(typeof(T));
-        }
-
-        /// <summary>
-        /// Get a list of all the writeonly property names.
-        /// </summary>
-        /// <typeparam name="T">Type with properties.</typeparam>
-        /// <param name="obj">Object with properties.</param>
-        /// <returns>List of writeonly property names.</returns>
-        public static List<string> GetListOfWriteOnlyPropertyNames<T>(T obj)
-        {
-            return GetListOfWriteOnlyPropertyNames(obj.GetType());
-        }
-
-        /// <summary>
-        /// Get a list of all the writeonly property names.
-        /// </summary>
-        /// <param name="type">Type with properties.</param>
-        /// <returns>List of writeonly property names.</returns>
-        public static List<string> GetListOfWriteOnlyPropertyNames(Type type)
-        {
-            return new List<string>(GetListOfWriteOnlyProperties(type).Select(property => property.Name));
-        }
-
-        /// <summary>
-        /// Get a list of all the writeonly property names.
-        /// </summary>
-        /// <typeparam name="T">Type with properties.</typeparam>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
-        /// <returns>List of writeonly property names.</returns>
-        public static List<string> GetListOfWriteOnlyPropertyNames<T>(bool valueTypes, bool classTypes, bool listTypes)
-        {
-            return GetListOfWriteOnlyPropertyNames(typeof(T), valueTypes, classTypes, listTypes);
+            return GetWriteOnlyPropertyNames(typeof(T));
         }
 
         /// <summary>
@@ -1417,27 +869,656 @@ namespace JSR.Utilities
         /// </summary>
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <param name="obj">Object with properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
         /// <returns>List of writeonly property names.</returns>
-        public static List<string> GetListOfWriteOnlyPropertyNames<T>(T obj, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<string> GetWriteOnlyPropertyNames<T>(T obj)
         {
-            return GetListOfWriteOnlyPropertyNames(obj.GetType(), valueTypes, classTypes, listTypes);
+            return GetWriteOnlyPropertyNames(obj.GetType());
         }
 
         /// <summary>
         /// Get a list of all the writeonly property names.
         /// </summary>
         /// <param name="type">Type with properties.</param>
-        /// <param name="valueTypes">Include properties with value types.</param>
-        /// <param name="classTypes">Include properties with class types.</param>
-        /// <param name="listTypes">Include properties with list types.</param>
         /// <returns>List of writeonly property names.</returns>
-        public static List<string> GetListOfWriteOnlyPropertyNames(Type type, bool valueTypes, bool classTypes, bool listTypes)
+        public static List<string> GetWriteOnlyPropertyNames(Type type)
         {
-            return new List<string>(GetListOfWriteOnlyProperties(type, valueTypes, classTypes, listTypes).Select(property => property.Name));
+            return new List<string>(GetWriteOnlyProperties(type).Select(property => property.Name));
         }
+
+        /// <summary>
+        /// Get a list of all the writeonly property names.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select writeonly properties.</param>
+        /// <returns>List of writeonly property names.</returns>
+        public static List<string> GetWriteOnlyPropertyNames<T>(GetPropertiesOptions options)
+        {
+            return GetWriteOnlyPropertyNames(typeof(T), options);
+        }
+
+        /// <summary>
+        /// Get a list of all the writeonly property names.
+        /// </summary>
+        /// <typeparam name="T">Type with properties.</typeparam>
+        /// <param name="obj">Object with properties.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select writeonly properties.</param>
+        /// <returns>List of writeonly property names.</returns>
+        public static List<string> GetWriteOnlyPropertyNames<T>(T obj, GetPropertiesOptions options)
+        {
+            return GetWriteOnlyPropertyNames(obj.GetType(), options);
+        }
+
+        /// <summary>
+        /// Get a list of all the writeonly property names.
+        /// </summary>
+        /// <param name="type">Type with properties.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other accessability choices, and only select writeonly properties.</param>
+        /// <returns>List of writeonly property names.</returns>
+        public static List<string> GetWriteOnlyPropertyNames(Type type, GetPropertiesOptions options)
+        {
+            return new List<string>(GetWriteOnlyProperties(type, options).Select(property => property.Name));
+        }
+
+        #endregion
+
+        #region GetClassProperties
+
+        /// <summary>
+        /// Gets a list of Properties with class values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <returns>A list of properties with class values.</returns>
+        public static List<PropertyInfo> GetClassProperties<T>()
+        {
+            return GetClassProperties(typeof(T));
+        }
+
+        /// <summary>
+        /// Gets a list of Properties with class values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="obj">Object to get the properties from.</param>
+        /// <returns>A list of properties with class values.</returns>
+        public static List<PropertyInfo> GetClassProperties<T>(T obj)
+        {
+            return GetClassProperties(obj.GetType());
+        }
+
+        /// <summary>
+        /// Gets a list of Properties with class values.
+        /// </summary>
+        /// <param name="type">Type to get the properties from.</param>
+        /// <returns>A list of properties with class values.</returns>
+        public static List<PropertyInfo> GetClassProperties(Type type)
+        {
+            return new List<PropertyInfo>(type.GetProperties().Where(property => IsClassProperty(property)));
+        }
+
+        /// <summary>
+        /// Gets a list of Properties with class values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select class properties.</param>
+        /// <returns>A list of properties with class values.</returns>
+        public static List<PropertyInfo> GetClassProperties<T>(GetPropertiesOptions options)
+        {
+            return GetClassProperties(typeof(T), options);
+        }
+
+        /// <summary>
+        /// Gets a list of Properties with class values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="obj">Object to get the properties from.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select class properties.</param>
+        /// <returns>A list of properties with class values.</returns>
+        public static List<PropertyInfo> GetClassProperties<T>(T obj, GetPropertiesOptions options)
+        {
+            return GetClassProperties(obj.GetType(), options);
+        }
+
+        /// <summary>
+        /// Gets a list of Properties with class values.
+        /// </summary>
+        /// <param name="type">Type to get the properties from.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select class properties.</param>
+        /// <returns>A list of properties with class values.</returns>
+        public static List<PropertyInfo> GetClassProperties(Type type, GetPropertiesOptions options)
+        {
+            options.ClassProperties = true;
+            options.InterfaceProperties = false;
+            options.ValueProperties = false;
+            options.ListProperties = false;
+
+            return GetProperties(type, options);
+        }
+
+        #endregion
+
+        #region GetClassPropertyNames
+
+        /// <summary>
+        /// Gets a list of property names with class values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <returns>A list of property names with class values.</returns>
+        public static List<string> GetClassPropertyNames<T>()
+        {
+            return GetClassPropertyNames(typeof(T));
+        }
+
+        /// <summary>
+        /// Gets a list of property names with class values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="obj">Object to get the properties from.</param>
+        /// <returns>A list of property names with class values.</returns>
+        public static List<string> GetClassPropertyNames<T>(T obj)
+        {
+            return GetClassPropertyNames(obj.GetType());
+        }
+
+        /// <summary>
+        /// Gets a list of property names with class values.
+        /// </summary>
+        /// <param name="type">Type to get the properties from.</param>
+        /// <returns>A list of property names with class values.</returns>
+        public static List<string> GetClassPropertyNames(Type type)
+        {
+            return new List<string>(GetClassProperties(type).Select(property => property.Name));
+        }
+
+        /// <summary>
+        /// Gets a list of property names with class values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select class type properties.</param>
+        /// <returns>A list of property names with class values.</returns>
+        public static List<string> GetClassPropertyNames<T>(GetPropertiesOptions options)
+        {
+            return GetClassPropertyNames(typeof(T), options);
+        }
+
+        /// <summary>
+        /// Gets a list of property names with class values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="obj">Object to get the properties from.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select class type properties.</param>
+        /// <returns>A list of property names with class values.</returns>
+        public static List<string> GetClassPropertyNames<T>(T obj, GetPropertiesOptions options)
+        {
+            return GetClassPropertyNames(obj.GetType(), options);
+        }
+
+        /// <summary>
+        /// Gets a list of property names with class values.
+        /// </summary>
+        /// <param name="type">Type to get the properties from.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select class type properties.</param>
+        /// <returns>A list of property names with class values.</returns>
+        public static List<string> GetClassPropertyNames(Type type, GetPropertiesOptions options)
+        {
+            return new List<string>(GetClassProperties(type, options).Select(p => p.Name));
+        }
+
+        #endregion
+
+        #region GetInterfaceProperties
+
+        /// <summary>
+        /// Gets a list of properties with interface values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <returns>A list of properties with interface values.</returns>
+        public static List<PropertyInfo> GetInterfaceProperties<T>()
+        {
+            return GetInterfaceProperties(typeof(T));
+        }
+
+        /// <summary>
+        /// Gets a list of properties with interface values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="obj">Object to get properties from.</param>
+        /// <returns>A list of properties with interface values.</returns>
+        public static List<PropertyInfo> GetInterfaceProperties<T>(T obj)
+        {
+            return GetInterfaceProperties(obj.GetType());
+        }
+
+        /// <summary>
+        /// Gets a list of properties with interface values.
+        /// </summary>
+        /// <param name="type">Type to get the properties from.</param>
+        /// <returns>A list of properties with interface values.</returns>
+        public static List<PropertyInfo> GetInterfaceProperties(Type type)
+        {
+            return new List<PropertyInfo>(type.GetProperties().Where(p => IsInterfaceProperty(p)));
+        }
+
+        /// <summary>
+        /// Gets a list of properties with interface values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select interface type properties.</param>
+        /// <returns>A list of properties with interface values.</returns>
+        public static List<PropertyInfo> GetInterfaceProperties<T>(GetPropertiesOptions options)
+        {
+            return GetInterfaceProperties(typeof(T), options);
+        }
+
+        /// <summary>
+        /// Gets a list of properties with interface values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="obj">Object to get the properties from.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select interface type properties.</param>
+        /// <returns>A list of properties with interface values.</returns>
+        public static List<PropertyInfo> GetInterfaceProperties<T>(T obj, GetPropertiesOptions options)
+        {
+            return GetInterfaceProperties(obj.GetType(), options);
+        }
+
+        /// <summary>
+        /// Gets a list of properties with interface values.
+        /// </summary>
+        /// <param name="type">Type to get the properties from.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select interface type properties.</param>
+        /// <returns>A list of properties with interface values.</returns>
+        public static List<PropertyInfo> GetInterfaceProperties(Type type, GetPropertiesOptions options)
+        {
+            options.InterfaceProperties = true;
+            options.ClassProperties = false;
+            options.ValueProperties = false;
+            options.ListProperties = false;
+
+            return GetProperties(type, options);
+        }
+
+        #endregion
+
+        #region GetInterfacePropertyNames
+
+        /// <summary>
+        /// Gets a list of property names with interface values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <returns>A list of property names with interface values.</returns>
+        public static List<string> GetInterfacePropertyNames<T>()
+        {
+            return GetInterfacePropertyNames(typeof(T));
+        }
+
+        /// <summary>
+        /// Gets a list of property names with interface values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="obj">Object to get the properties from.</param>
+        /// <returns>A list of property names with interface values.</returns>
+        public static List<string> GetInterfacePropertyNames<T>(T obj)
+        {
+            return GetInterfacePropertyNames(obj.GetType());
+        }
+
+        /// <summary>
+        /// Gets a list of property names with interface values.
+        /// </summary>
+        /// <param name="type">Type to get the properties from.</param>
+        /// <returns>A list of property names with interface values.</returns>
+        public static List<string> GetInterfacePropertyNames(Type type)
+        {
+            return new List<string>(GetInterfaceProperties(type).Select(property => property.Name));
+        }
+
+        /// <summary>
+        /// Gets a list of property names with interface values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select interface type properties.</param>
+        /// <returns>A list of property names with interface values.</returns>
+        public static List<string> GetInterfacePropertyNames<T>(GetPropertiesOptions options)
+        {
+            return GetInterfacePropertyNames(typeof(T), options);
+        }
+
+        /// <summary>
+        /// Gets a list of property names with interface values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="obj">Object to get the properties from.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select interface type properties.</param>
+        /// <returns>A list of property names with interface values.</returns>
+        public static List<string> GetInterfacePropertyNames<T>(T obj, GetPropertiesOptions options)
+        {
+            return GetInterfacePropertyNames(obj.GetType(), options);
+        }
+
+        /// <summary>
+        /// Gets a list of property names with interface values.
+        /// </summary>
+        /// <param name="type">Type to get the properties from.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select interface type properties.</param>
+        /// <returns>A list of property names with interface values.</returns>
+        public static List<string> GetInterfacePropertyNames(Type type, GetPropertiesOptions options)
+        {
+            return new List<string>(GetInterfaceProperties(type, options).Select(property => property.Name));
+        }
+
+        #endregion
+
+        #region GetListProperties
+
+        /// <summary>
+        /// Gets a list of properties with list values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <returns>A list of properties with list values.</returns>
+        public static List<PropertyInfo> GetListProperties<T>()
+        {
+            return GetListProperties(typeof(T));
+        }
+
+        /// <summary>
+        /// Gets a list of properties with list values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="obj">Object to get the properties from.</param>
+        /// <returns>A list of properties with lists values.</returns>
+        public static List<PropertyInfo> GetListProperties<T>(T obj)
+        {
+            return GetListProperties(obj.GetType());
+        }
+
+        /// <summary>
+        /// Gets a list of properties with list values.
+        /// </summary>
+        /// <param name="type">Type to get the properties from.</param>
+        /// <returns>A list of properties with lists values.</returns>
+        public static List<PropertyInfo> GetListProperties(Type type)
+        {
+            return new List<PropertyInfo>(type.GetProperties().Where(property => IsListProperty(property)));
+        }
+
+        /// <summary>
+        /// Gets a list of properties with list values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select list type properties.</param>
+        /// <returns>A list of properties with list values.</returns>
+        public static List<PropertyInfo> GetListProperties<T>(GetPropertiesOptions options)
+        {
+            return GetListProperties(typeof(T), options);
+        }
+
+        /// <summary>
+        /// Gets a list of properties with list values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="obj">Object to get the properties from.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select list type properties.</param>
+        /// <returns>A list of properties with lists values.</returns>
+        public static List<PropertyInfo> GetListProperties<T>(T obj, GetPropertiesOptions options)
+        {
+            return GetListProperties(obj.GetType(), options);
+        }
+
+        /// <summary>
+        /// Gets a list of properties with list values.
+        /// </summary>
+        /// <param name="type">Type to get the properties from.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select list type properties.</param>
+        /// <returns>A list of properties with lists values.</returns>
+        public static List<PropertyInfo> GetListProperties(Type type, GetPropertiesOptions options)
+        {
+            options.ListProperties = true;
+            options.ValueProperties = false;
+            options.ClassProperties = false;
+            options.InterfaceProperties = false;
+
+            return GetProperties(type, options);
+        }
+
+        #endregion
+
+        #region GetListPropertyNames
+
+        /// <summary>
+        /// Gets a list of property names with list values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <returns>A list of property names with list values.</returns>
+        public static List<string> GetListPropertyNames<T>()
+        {
+            return GetListPropertyNames(typeof(T));
+        }
+
+        /// <summary>
+        /// Gets a list of property names with list values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="obj">An Object to get the properties from.</param>
+        /// <returns>A list of property names with list values.</returns>
+        public static List<string> GetListPropertyNames<T>(T obj)
+        {
+            return GetListPropertyNames(obj.GetType());
+        }
+
+        /// <summary>
+        /// Gets a list of property names with list values.
+        /// </summary>
+        /// <param name="type">Type to get the properties from.</param>
+        /// <returns>A list of property names with list values.</returns>
+        public static List<string> GetListPropertyNames(Type type)
+        {
+            return new List<string>(GetListProperties(type).Select(property => property.Name));
+        }
+
+        /// <summary>
+        /// Gets a list of property names with list values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select list type properties.</param>
+        /// <returns>A list of property names with list values.</returns>
+        public static List<string> GetListPropertyNames<T>(GetPropertiesOptions options)
+        {
+            return GetListPropertyNames(typeof(T), options);
+        }
+
+        /// <summary>
+        /// Gets a list of property names with list values.
+        /// </summary>
+        /// <typeparam name="T">Type to get the properties from.</typeparam>
+        /// <param name="obj">An Object to get the properties from.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select list type properties.</param>
+        /// <returns>A list of property names with list values.</returns>
+        public static List<string> GetListPropertyNames<T>(T obj, GetPropertiesOptions options)
+        {
+            return GetListPropertyNames(obj.GetType(), options);
+        }
+
+        /// <summary>
+        /// Gets a list of property names with list values.
+        /// </summary>
+        /// <param name="type">Type to get the properties from.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select list type properties.</param>
+        /// <returns>A list of property names with list values.</returns>
+        public static List<string> GetListPropertyNames(Type type, GetPropertiesOptions options)
+        {
+            return new List<string>(GetListProperties(type, options).Select(property => property.Name));
+        }
+
+        #endregion
+
+        #region GetValueTypeProperties
+
+        /// <summary>
+        /// Get a list of properties with value type values.
+        /// </summary>
+        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
+        /// <returns>A list of properties with value types.</returns>
+        public static List<PropertyInfo> GetValueTypeProperties<T>()
+        {
+            return GetValueTypeProperties(typeof(T));
+        }
+
+        /// <summary>
+        /// Get a list of properties with value type values.
+        /// </summary>
+        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
+        /// <param name="obj">Object to get the properties from.</param>
+        /// <returns>A list of properties with value types.</returns>
+        public static List<PropertyInfo> GetValueTypeProperties<T>(T obj)
+        {
+            return GetValueTypeProperties(obj.GetType());
+        }
+
+        /// <summary>
+        /// Get a list of properties with value type values.
+        /// </summary>
+        /// <param name="type">Type with properties to evaluate.</param>
+        /// <returns>A list of properties with value types.</returns>
+        public static List<PropertyInfo> GetValueTypeProperties(Type type)
+        {
+            return new List<PropertyInfo>(type.GetProperties().Where(property => IsValueProperty(property)));
+        }
+
+        /// <summary>
+        /// Get a list of properties with value types.
+        /// </summary>
+        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select value type properties.</param>
+        /// <returns>A list of properties with value types.</returns>
+        public static List<PropertyInfo> GetValueTypeProperties<T>(GetPropertiesOptions options)
+        {
+            return GetValueTypeProperties(typeof(T), options);
+        }
+
+        /// <summary>
+        /// Get a list of properties with value type values.
+        /// </summary>
+        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
+        /// <param name="obj">Object to get the properties from.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select value type properties.</param>
+        /// <returns>A list of properties with value types.</returns>
+        public static List<PropertyInfo> GetValueTypeProperties<T>(T obj, GetPropertiesOptions options)
+        {
+            return GetValueTypeProperties(obj.GetType(), options);
+        }
+
+        /// <summary>
+        /// Get a list of properties with value type values.
+        /// </summary>
+        /// <param name="type">Type with properties to evaluate.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select value type properties.</param>
+        /// <returns>A list of properties with value types.</returns>
+        public static List<PropertyInfo> GetValueTypeProperties(Type type, GetPropertiesOptions options)
+        {
+            options.ValueProperties = true;
+            options.ClassProperties = false;
+            options.InterfaceProperties = false;
+            options.ListProperties = false;
+
+            return GetProperties(type, options);
+        }
+
+        #endregion
+
+        #region GetValueTypePropertyNames
+
+        /// <summary>
+        /// Get a list of property names with value type values.
+        /// </summary>
+        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
+        /// <returns>A list of property names with value types.</returns>
+        public static List<string> GetValueTypePropertyNames<T>()
+        {
+            return GetValueTypePropertyNames(typeof(T));
+        }
+
+        /// <summary>
+        /// Get a list of property names with value type values.
+        /// </summary>
+        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
+        /// <param name="obj">Object to get the properties from.</param>
+        /// <returns>A list of property names with value types.</returns>
+        public static List<string> GetValueTypePropertyNames<T>(T obj)
+        {
+            return GetValueTypePropertyNames(obj.GetType());
+        }
+
+        /// <summary>
+        /// Get a list of property names with value type values.
+        /// </summary>
+        /// <param name="type">Type with properties to evaluate.</param>
+        /// <returns>A list of property names with value types.</returns>
+        public static List<string> GetValueTypePropertyNames(Type type)
+        {
+            return new List<string>(GetValueTypeProperties(type).Select(property => property.Name));
+        }
+
+        /// <summary>
+        /// Get a list of property names with value type values.
+        /// </summary>
+        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select value type properties.</param>
+        /// <returns>A list of property names with value types.</returns>
+        public static List<string> GetValueTypePropertyNames<T>(GetPropertiesOptions options)
+        {
+            return GetValueTypePropertyNames(typeof(T), options);
+        }
+
+        /// <summary>
+        /// Get a list of property names with value type values.
+        /// </summary>
+        /// <typeparam name="T">Type with properties to evaluate.</typeparam>
+        /// <param name="obj">Object to get the properties from.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select value type properties.</param>
+        /// <returns>A list of property names with value types.</returns>
+        public static List<string> GetValueTypePropertyNames<T>(T obj, GetPropertiesOptions options)
+        {
+            return GetValueTypePropertyNames(obj.GetType(), options);
+        }
+
+        /// <summary>
+        /// Get a list of property names with value type values.
+        /// </summary>
+        /// <param name="type">Type with properties to evaluate.</param>
+        /// <param name="options">Options specifying which properties to get.
+        /// These options ignore other value type choices, and only select value type properties.</param>
+        /// <returns>A list of property names with value types.</returns>
+        public static List<string> GetValueTypePropertyNames(Type type, GetPropertiesOptions options)
+        {
+            return new List<string>(GetValueTypeProperties(type, options).Select(property => property.Name));
+        }
+
+        #endregion
 
         #endregion
     }

@@ -59,21 +59,12 @@ namespace JSR.Utilities
         /// <returns>A copy of <paramref name="objectToCopy"/>.</returns>
         public static T GetSerializedCopyOfObject<T>(T objectToCopy)
         {
-            DataContractSerializer s = new DataContractSerializer(typeof(T), new DataContractSerializerSettings() { PreserveObjectReferences = true });
+            DataContractSerializer s = new(typeof(T), new DataContractSerializerSettings() { PreserveObjectReferences = true });
 
-            using (MemoryStream stream = new MemoryStream())
-            {
-                s.WriteObject(stream, objectToCopy);
-                stream.Position = 0;
-                T retVal = (T)s.ReadObject(stream);
-
-                ////if (retVal is IChangeTracking)
-                ////{
-                ////    ((IChangeTracking)retVal).AcceptChanges();
-                ////}
-
-                return retVal;
-            }
+            using MemoryStream stream = new();
+            s.WriteObject(stream, objectToCopy);
+            stream.Position = 0;
+            return (T)s.ReadObject(stream);
         }
 
         /// <summary>
@@ -166,10 +157,10 @@ namespace JSR.Utilities
             else
             {
                 // Populates all of the readwrite properties including values, classes and lists with values.
-                PopulatePropertiesWithRandomValues(obj, PropertyUtilities.GetListOfReadWriteProperties(obj));
+                PopulatePropertiesWithRandomValues(obj, PropertyUtilities.GetReadWriteProperties(obj));
 
                 // populates all of the readonly classes and lists with values.
-                PopulatePropertiesWithRandomValues(obj, PropertyUtilities.GetListOfProperties(obj.GetType(), false, true, true, false, true, true));
+                PopulatePropertiesWithRandomValues(obj, PropertyUtilities.GetListProperties(obj.GetType(), new GetPropertiesOptions(false) { ReadOnlyProperties = true }));
             }
         }
 
@@ -235,14 +226,14 @@ namespace JSR.Utilities
                 throw new ArgumentNullException(nameof(obj));
             }
 
-            if (PropertyUtilities.CheckIfPropertyIsList(property) || PropertyUtilities.CheckIfPropertyIsClass(property))
+            if (PropertyUtilities.IsListProperty(property) || PropertyUtilities.IsClassProperty(property))
             {
                 if (obj.GetType() == property.PropertyType)
                 {
                     throw new ArgumentException($"The property {property.Name} is trying to add the type {property.PropertyType}, which is the same type.", nameof(property));
                 }
 
-                if (PropertyUtilities.CheckIfPropertyIsReadWrite(property))
+                if (PropertyUtilities.IsReadWriteProperty(property))
                 {
                     property.SetValue(obj, Activator.CreateInstance(property.PropertyType));
                 }
@@ -252,7 +243,7 @@ namespace JSR.Utilities
                 return;
             }
 
-            if (!PropertyUtilities.CheckIfPropertyIsReadWrite(property))
+            if (!PropertyUtilities.IsReadWriteProperty(property))
             {
                 return;
             }

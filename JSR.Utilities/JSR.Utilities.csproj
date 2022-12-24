@@ -1,46 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Authors>Jeremy Regnerus</Authors>
-    <Version>1.1.0</Version>
-    <Copyright>Copyright © Jeremy Regnerus 2021</Copyright>
-    <PackageProjectUrl>https://github.com/jeremyregnerus/JSRCore</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/jeremyregnerus/JSRCore</RepositoryUrl>
-    <RepositoryType>GitHub</RepositoryType>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
-    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-    <Platforms>x64</Platforms>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <VersionPrefix>0.1.0</VersionPrefix>
+        <VersionSuffix>PreRelease</VersionSuffix>
+        <Authors>Jeremy Regnerus</Authors>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <Title>JSR Utilities</Title>
+        <Description>A set of utilities used for mocking and testing classes. Specifically those that implement INotifyPropertyChange and IChangeTracking.</Description>
+        <Copyright>© 2023 Jeremy Regnerus, all rights reserved.</Copyright>
+        <PackageReadmeFile></PackageReadmeFile>
+        <PackageProjectUrl>https://github.com/jeremyregnerus/JSRTools</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/jeremyregnerus/JSRTools</RepositoryUrl>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <CodeAnalysisRuleSet />
-    <DocumentationFile>bin\JSR.Utilities.xml</DocumentationFile>
-    <OutputPath>bin\</OutputPath>
-  </PropertyGroup>
+    <ItemGroup>
+        <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+    </ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <CodeAnalysisRuleSet />
-    <DocumentationFile>bin\JSR.Utilities.xml</DocumentationFile>
-    <OutputPath>bin\</OutputPath>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="MSTest.TestAdapter" Version="3.0.0" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.0.0" />
+        <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.435">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
 
 </Project>

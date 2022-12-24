@@ -2,8 +2,8 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
 using System.Linq;
+using System;
 
 namespace JSR.Utilities
 {
@@ -30,31 +30,13 @@ namespace JSR.Utilities
         /// <returns>A random value of the specified type.</returns>
         public static T GetRandom<T>(T currentValue)
         {
-            switch (typeof(T))
-            {
-                case Type t when t == typeof(string):
-                    return (T)(object)GetRandomString((string)(object)currentValue);
-                case Type t when t.IsEnum:
-                    return (T)(object)GetRandomEnum((dynamic)currentValue);
-                case Type t when t == typeof(bool):
-                    return (T)(object)GetRandomBoolean((bool)(object)currentValue);
-                case Type t when t == typeof(int):
-                    return (T)(object)GetRandomInteger((int)(object)currentValue);
-                case Type t when t == typeof(DateTime):
-                    return (T)(object)GetRandomDateTime((DateTime)(object)currentValue);
-                case Type t when t == typeof(double):
-                    return (T)(object)GetRandomDouble((double)(object)currentValue);
-                case Type t when t == typeof(decimal):
-                    return (T)(object)GetRandomDecimal((decimal)(object)currentValue);
-                default:
-                    throw new ArgumentException($"The type {currentValue.GetType()} is an unsupported value type for the {nameof(GetRandom)} method.", nameof(currentValue));
-            }
+            return GetRandom(currentValue.GetType(), currentValue);
         }
 
         /// <summary>
         /// Generates a random value of the specified type.
         /// </summary>
-        /// <param name="type">Type of value to generate.</param>
+        /// <param name="type">Type of value.</param>
         /// <returns>A random value of the specified type.</returns>
         public static dynamic GetRandom(Type type)
         {
@@ -64,35 +46,25 @@ namespace JSR.Utilities
         /// <summary>
         /// Generates a random value of the provided type.
         /// </summary>
-        /// <param name="type">Type of value to generate.</param>
-        /// <param name="currentValue">Current value to not reproduce.</param>
+        /// <param name="type">Type of value.</param>
+        /// <param name="currentValue">Value to not duplicate.</param>
         /// <returns>A random Value of the specified type.</returns>
         public static dynamic GetRandom(Type type, dynamic currentValue)
         {
-            if (currentValue != null && type != currentValue.GetType())
+            return type switch
             {
-                throw new ArgumentOutOfRangeException(nameof(currentValue), $"The type {type} does not match the type {currentValue.GetType()} of {nameof(currentValue)}.");
-            }
-
-            switch (type)
-            {
-                case Type t when t == typeof(string):
-                    return currentValue == null ? (dynamic)GetRandomString() : GetRandomString(currentValue);
-                case Type t when t.IsEnum:
-                    return currentValue == null ? GetRandomEnum(type) : GetRandomEnum(currentValue);
-                case Type t when t == typeof(bool):
-                    return currentValue == null ? (dynamic)GetRandomBoolean() : GetRandomBoolean(currentValue);
-                case Type t when t == typeof(int):
-                    return currentValue == null ? (dynamic)GetRandomInteger() : GetRandomInteger(currentValue);
-                case Type t when t == typeof(DateTime):
-                    return currentValue == null ? (dynamic)GetRandomDateTime() : GetRandomDateTime(currentValue);
-                case Type t when t == typeof(double):
-                    return currentValue == null ? (dynamic)GetRandomDouble() : GetRandomDouble(currentValue);
-                case Type t when t == typeof(decimal):
-                    return currentValue == null ? (dynamic)GetRandomDecimal() : GetRandomDecimal(currentValue);
-                default:
-                    throw new ArgumentException($"The type {type} is an unsupported value type for the {nameof(GetRandom)} method.", nameof(type));
-            }
+                Type t when t == typeof(bool) => currentValue == null ? GetRandomBoolean() : GetRandomBoolean(currentValue),
+                Type t when t == typeof(char) => currentValue == null ? GetRandomChar() : GetRandomChar(currentValue),
+                Type t when t == typeof(DateTime) => currentValue == null ? GetRandomDateTime() : GetRandomDateTime(currentValue),
+                Type t when t == typeof(decimal) => currentValue == null ? GetRandomDecimal() : GetRandomDecimal(currentValue),
+                Type t when t == typeof(double) => currentValue == null ? GetRandomDouble() : GetRandomDouble(currentValue),
+                Type t when t == typeof(int) => currentValue == null ? GetRandomInteger() : GetRandomInteger(currentValue),
+                Type t when t == typeof(string) => currentValue == null ? GetRandomString() : GetRandomString(currentValue),
+                Type t when t.IsEnum => currentValue == null ? GetRandomEnum(type) : GetRandomEnum(currentValue),
+                Type t when t.IsClass => ObjectUtilities.CreateInstanceWithRandomValues(type),
+                Type t when t.IsValueType && !t.IsEnum => ObjectUtilities.CreateInstanceWithRandomValues(type),
+                _ => throw new ArgumentException($"The type {type} is an unsupported value type for the {nameof(GetRandom)} method.", nameof(type)),
+            };
         }
 
         /// <summary>
@@ -105,19 +77,47 @@ namespace JSR.Utilities
         }
 
         /// <summary>
-        /// Generates a random <see cref="bool"/> different than the provided value.
+        /// Generates a random <see cref="bool"/>.
         /// </summary>
-        /// <param name="currentValue">Value to not match.</param>
+        /// <param name="currentValue">Value to not duplicate.</param>
         /// <returns>Random <see cref="bool"/>.</returns>
-        public static bool GetRandomBoolean(bool? currentValue)
+        public static bool GetRandomBoolean(bool currentValue)
         {
             do
             {
-                bool newVal = GetRandomBoolean();
+                bool v = GetRandomBoolean();
 
-                if (newVal != currentValue)
+                if (v != currentValue)
                 {
-                    return newVal;
+                    return v;
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Generates a random <see cref="char"/>.
+        /// </summary>
+        /// <returns>Random <see cref="char"/>.</returns>
+        public static char GetRandomChar()
+        {
+            char[] chars = "$%#@!*abcdefghijklmnopqrstuvwxyz1234567890?;:ABCDEFGHIJKLMNOPQRSTUVWXYZ^&".ToCharArray();
+            return chars[new Random().Next(0, chars.Length)];
+        }
+
+        /// <summary>
+        /// Generates a random <see cref="char"/>.
+        /// </summary>
+        /// <param name="currentValue">Value to not duplicate.</param>
+        /// <returns>Random <see cref="char"/>.</returns>
+        public static char GetRandomChar(char currentValue)
+        {
+            do
+            {
+                char v = GetRandomChar();
+
+                if (v != currentValue)
+                {
+                    return v;
                 }
             } while (true);
         }
@@ -132,19 +132,19 @@ namespace JSR.Utilities
         }
 
         /// <summary>
-        /// Generates a random <see cref="DateTime"/> different than the provided value.
+        /// Generates a random <see cref="DateTime"/>.
         /// </summary>
-        /// <param name="currentValue">Current value to not match.</param>
+        /// <param name="currentValue">Value to not duplicate.</param>
         /// <returns>Random <see cref="DateTime"/>.</returns>
         public static DateTime GetRandomDateTime(DateTime? currentValue)
         {
             do
             {
-                DateTime newVal = new Random().NextDateTime();
+                DateTime v = new Random().NextDateTime();
 
-                if (newVal != currentValue)
+                if (v != currentValue)
                 {
-                    return newVal;
+                    return v;
                 }
             } while (true);
         }
@@ -159,19 +159,19 @@ namespace JSR.Utilities
         }
 
         /// <summary>
-        /// Generates a random <see cref="decimal"/> different than the provided value.
+        /// Generates a random <see cref="decimal"/>.
         /// </summary>
-        /// <param name="currentValue">Current value to not match.</param>
+        /// <param name="currentValue">Value to not duplicate.</param>
         /// <returns>Random <see cref="decimal"/>.</returns>
         public static decimal GetRandomDecimal(decimal currentValue)
         {
             do
             {
-                decimal newVal = new Random().NextDecimal();
+                decimal v = new Random().NextDecimal();
 
-                if (newVal != currentValue)
+                if (v != currentValue)
                 {
-                    return newVal;
+                    return v;
                 }
             } while (true);
         }
@@ -186,28 +186,28 @@ namespace JSR.Utilities
         }
 
         /// <summary>
-        /// Generates a random <see cref="double"/> different than the provided value.
+        /// Generates a random <see cref="double"/>.
         /// </summary>
-        /// <param name="currentValue">Current value to not match.</param>
+        /// <param name="currentValue">Value to not duplicate.</param>
         /// <returns>A random <see cref="double"/>.</returns>
         public static double GetRandomDouble(double currentValue)
         {
             do
             {
-                double newVal = new Random().NextDouble();
+                double v = new Random().NextDouble();
 
-                if (newVal != currentValue)
+                if (v != currentValue)
                 {
-                    return newVal;
+                    return v;
                 }
             } while (true);
         }
 
         /// <summary>
-        /// Generates a random Enum value.
+        /// Generates a random <see cref="Enum"/> value.
         /// </summary>
-        /// <typeparam name="T">Type of enum value to generate.</typeparam>
-        /// <returns>A random Enum value.</returns>
+        /// <typeparam name="T">Type of <see cref="Enum"/> value to generate.</typeparam>
+        /// <returns>A random <see cref="Enum"/> value.</returns>
         public static T GetRandomEnum<T>() where T : Enum
         {
             Array values = Enum.GetValues(typeof(T));
@@ -215,10 +215,10 @@ namespace JSR.Utilities
         }
 
         /// <summary>
-        /// Generates a random Enum value.
+        /// Generates a random <see cref="Enum"/> value.
         /// </summary>
-        /// <param name="enumType">Type of enum to generate.</param>
-        /// <returns>A random enum.</returns>
+        /// <param name="enumType">Value to not duplicate.</param>
+        /// <returns>A random <see cref="Enum"/> value.</returns>
         public static dynamic GetRandomEnum(Type enumType)
         {
             if (enumType == null)
@@ -236,10 +236,10 @@ namespace JSR.Utilities
         }
 
         /// <summary>
-        /// Generates a random Enum value different than the one specified.
+        /// Generates a random <see cref="Enum"/> value.
         /// </summary>
         /// <typeparam name="T">Type of <see cref="Enum"/> to generate a random value for.</typeparam>
-        /// <param name="currentValue">Current value not to match.</param>
+        /// <param name="currentValue">Value to not duplicate.</param>
         /// <returns>A random <see cref="Enum"/> value.</returns>
         public static T GetRandomEnum<T>(T currentValue) where T : Enum
         {
@@ -250,11 +250,11 @@ namespace JSR.Utilities
 
             do
             {
-                T newVal = GetRandomEnum<T>();
+                T v = GetRandomEnum<T>();
 
-                if (!newVal.Equals(currentValue))
+                if (!v.Equals(currentValue))
                 {
-                    return newVal;
+                    return v;
                 }
             } while (true);
         }
@@ -269,46 +269,46 @@ namespace JSR.Utilities
         }
 
         /// <summary>
-        /// Generates a random <see cref="int"/> different from the provided value.
+        /// Generates a random <see cref="int"/>.
         /// </summary>
-        /// <param name="currentValue">Current value not to match.</param>
+        /// <param name="currentValue">Value to not duplicate.</param>
         /// <returns>A random <see cref="int"/>.</returns>
         public static int GetRandomInteger(int currentValue)
         {
             do
             {
-                int newVal = new Random().NextInt32();
+                int v = new Random().NextInt32();
 
-                if (newVal != currentValue)
+                if (v != currentValue)
                 {
-                    return newVal;
+                    return v;
                 }
             } while (true);
         }
 
         /// <summary>
-        /// Generates a random <see cref="int"/> different from the specified value, for a specific range.
+        /// Generates a random <see cref="int"/>.
         /// </summary>
-        /// <param name="currentValue">Current value to not match.</param>
-        /// <param name="maxValue">Range the integer should fall within.</param>
+        /// <param name="currentValue">Value to not duplicate.</param>
+        /// <param name="maxValue">Range of the value.</param>
         /// <returns>A random <see cref="int"/>.</returns>
         public static int GetRandomInteger(int currentValue, int maxValue)
         {
             do
             {
-                int newVal = new Random().Next(maxValue);
+                int v = new Random().Next(maxValue);
 
-                if (newVal != currentValue)
+                if (v != currentValue)
                 {
-                    return newVal;
+                    return v;
                 }
             } while (true);
         }
 
         /// <summary>
-        /// Generates a random <see cref="int"/> different from the specified value, for a specific range.
+        /// Generates a random <see cref="int"/>.
         /// </summary>
-        /// <param name="currentValue">Current value to not match.</param>
+        /// <param name="currentValue">Value to not duplicate..</param>
         /// <param name="minValue">Minimum value of the range.</param>
         /// <param name="maxValue">Maximum value of the range.</param>
         /// <returns>A random <see cref="int"/>.</returns>
@@ -316,11 +316,11 @@ namespace JSR.Utilities
         {
             do
             {
-                int newVal = new Random().Next(minValue, maxValue);
+                int v = new Random().Next(minValue, maxValue);
 
-                if (newVal != currentValue)
+                if (v != currentValue)
                 {
-                    return newVal;
+                    return v;
                 }
             } while (true);
         }
@@ -328,7 +328,7 @@ namespace JSR.Utilities
         /// <summary>
         /// Generates a random <see cref="string"/>.
         /// </summary>
-        /// <returns>A random <see cref="string"/> from 4 to 20 characters long.</returns>
+        /// <returns>A random <see cref="string"/>.</returns>
         public static string GetRandomString()
         {
             return new Random().NextString();
@@ -337,26 +337,26 @@ namespace JSR.Utilities
         /// <summary>
         /// Generates a random string different from the provided value.
         /// </summary>
-        /// <param name="currentValue">Current value not to match.</param>
+        /// <param name="currentValue">Value to not duplicate.</param>
         /// <returns>A random <see cref="string"/>.</returns>
         public static string GetRandomString(string currentValue)
         {
             do
             {
-                string newVal = new Random().NextString();
+                string v = new Random().NextString();
 
-                if (newVal != currentValue)
+                if (v != currentValue)
                 {
-                    return newVal;
+                    return v;
                 }
             } while (true);
         }
 
         /// <summary>
-        /// Gernates a random <see cref="string"/>.
+        /// Generates a random <see cref="string"/>.
         /// </summary>
-        /// <param name="length">Number of characters / letters the string should contain.</param>
-        /// <returns>A random <see cref="string"/> with the specified number of characters.</returns>
+        /// <param name="length">Number of characters the string should contain.</param>
+        /// <returns>A random <see cref="string"/>.</returns>
         public static string GetRandomString(int length)
         {
             return new Random().NextString(length);
@@ -373,24 +373,24 @@ namespace JSR.Utilities
         }
 
         /// <summary>
-        /// Returns a random <see cref="DateTime"/> value.
+        /// Returns a random <see cref="DateTime"/>.
         /// </summary>
         /// <param name="random"><see cref="Random"/> to add extension.</param>
         /// <returns>A random <see cref="DateTime"/>.</returns>
         public static DateTime NextDateTime(this Random random)
         {
-            DateTime from = new DateTime(1900, 1, 1);
-            DateTime to = new DateTime(2050, 12, 31);
+            DateTime from = new(1900, 1, 1);
+            DateTime to = new(2050, 12, 31);
 
             TimeSpan range = to - from;
 
-            TimeSpan randomRange = new TimeSpan((long)(random.NextDouble() * range.Ticks));
+            TimeSpan randomRange = new((long)(random.NextDouble() * range.Ticks));
 
             return from + randomRange;
         }
 
         /// <summary>
-        /// Returns a random <see cref="decimal"/> value.
+        /// Returns a random <see cref="decimal"/>.
         /// </summary>
         /// <param name="random"><see cref="Random"/> to add extension.</param>
         /// <returns>A random <see cref="decimal"/>.</returns>
@@ -419,10 +419,10 @@ namespace JSR.Utilities
         }
 
         /// <summary>
-        /// Returns a random <see cref="string"/> between 4 and 20 characters long.
+        /// Returns a random <see cref="string"/>.
         /// </summary>
         /// <param name="random"><see cref="Random"/> to add extension.</param>
-        /// <returns>A random <see cref="string"/> between 4 and 20 characters long.</returns>
+        /// <returns>A random <see cref="string"/>.</returns>
         public static string NextString(this Random random)
         {
             return random.NextString(random.Next(4, 20));
@@ -432,7 +432,7 @@ namespace JSR.Utilities
         /// Returns a random <see cref="string"/>.
         /// </summary>
         /// <param name="random"><see cref="Random"/> to add extension.</param>
-        /// <param name="length">Length of the string in characters.</param>
+        /// <param name="length">Number of characters in the string.</param>
         /// <returns>A random <see cref="string"/>.</returns>
         public static string NextString(this Random random, int length)
         {
