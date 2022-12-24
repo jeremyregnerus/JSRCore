@@ -14,10 +14,11 @@
         <PackageProjectUrl>https://github.com/jeremyregnerus/JSRCore</PackageProjectUrl>
         <RepositoryUrl>https://github.com/jeremyregnerus/JSRCore</RepositoryUrl>
         <Version>0.1.0</Version>
+        <RepositoryType>GitHub</RepositoryType>
     </PropertyGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+      <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
     </ItemGroup>
 
     <ItemGroup>

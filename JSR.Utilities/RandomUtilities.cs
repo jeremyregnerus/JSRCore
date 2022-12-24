@@ -2,9 +2,6 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System.Linq;
-using System;
-
 namespace JSR.Utilities
 {
     /// <summary>

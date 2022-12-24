@@ -52,7 +52,7 @@ dotnet_naming_style.pascal_case_style.capitalization             = pascal_case
 # Use PascalCase for constant fields  
 dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols  = constant_fields
-dotnet_naming_rule.constant_fields_should_be_pascal_case.style    = pascal_case_style
+dotnet_naming_rule.constant_fields_should_be_pascal_case.style = pascal_case_style
 dotnet_naming_symbols.constant_fields.applicable_kinds            = field
 dotnet_naming_symbols.constant_fields.applicable_accessibilities  = *
 dotnet_naming_symbols.constant_fields.required_modifiers          = const
@@ -68,6 +68,13 @@ dotnet_diagnostic.IDE0047.severity = none
 
 # IDE0044: Add readonly modifier
 dotnet_diagnostic.IDE0044.severity = suggestion
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+tab_width = 4
+end_of_line = crlf
+dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
+dotnet_style_prefer_compound_assignment = true:suggestion
+dotnet_style_prefer_simplified_interpolation = true:suggestion
+dotnet_style_namespace_match_folder = true:suggestion
 
 [*.cs]
 # var preferences
@@ -134,11 +141,11 @@ dotnet_diagnostic.SA1128.severity=none
 ###############################
 
 # Default severity for all analyzer diagnostics
-dotnet_analyzer_diagnostic.severity = none
+dotnet_analyzer_diagnostic.severity = warning
 csharp_style_unused_value_assignment_preference=discard_variable:silent
 
 # Default severity for analyzer diagnostics with category 'Style'
-dotnet_analyzer_diagnostic.category-Style.severity = none
+dotnet_analyzer_diagnostic.category-Style.severity = warning
 
 # IDE0058: Expression value is never used
 dotnet_diagnostic.IDE0058.severity = silent
@@ -157,6 +164,22 @@ dotnet_diagnostic.CA1711.severity = none
 
 # IDE0025: Use expression body for properties
 dotnet_diagnostic.IDE0025.severity = suggestion
+csharp_using_directive_placement = outside_namespace:silent
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_style_namespace_declarations = block_scoped:silent
+csharp_style_expression_bodied_lambdas = true:silent
+csharp_style_expression_bodied_local_functions = false:silent
+csharp_style_prefer_null_check_over_type_check = true:suggestion
+csharp_style_prefer_local_over_anonymous_function = true:suggestion
+csharp_style_prefer_index_operator = true:suggestion
+csharp_style_prefer_range_operator = true:suggestion
+csharp_style_implicit_object_creation_when_type_is_apparent = true:suggestion
+csharp_style_prefer_tuple_swap = true:suggestion
+dotnet_diagnostic.SA1000.severity = silent
+csharp_style_allow_embedded_statements_on_same_line_experimental = true:silent
+dotnet_diagnostic.SA1124.severity = silent
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_top_level_statements = true:silent
 
 [*.vb]
 # Modifier preferences
