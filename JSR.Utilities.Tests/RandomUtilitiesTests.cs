@@ -2,247 +2,405 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
+using System.Diagnostics.CodeAnalysis;
+using JSR.Utilities.Tests.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JSR.Utilities.Tests
 {
-    /// <summary>
-    /// Enum for testing.
-    /// </summary>
-    public enum TestEnum
-    {
-        /// <summary>
-        /// One
-        /// </summary>
-        One,
-
-        /// <summary>
-        /// Two
-        /// </summary>
-        Two,
-
-        /// <summary>
-        /// Three
-        /// </summary>
-        Three,
-
-        /// <summary>
-        /// Four
-        /// </summary>
-        Four,
-
-        /// <summary>
-        /// Five
-        /// </summary>
-        Five,
-    }
-
-    /// <summary>
-    /// Random test to see if functionality works.
-    /// </summary>
     [TestClass]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Unit test")]
+    [SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "Unit test")]
     public class RandomUtilitiesTests
     {
-        /// <summary>
-        /// Tests random string generation.
-        /// </summary>
         [TestMethod]
-        public void GeneratesRandomString()
+        [DataRow(typeof(bool))]
+        [DataRow(typeof(char))]
+        [DataRow(typeof(decimal))]
+        [DataRow(typeof(double))]
+        [DataRow(typeof(int))]
+        [DataRow(typeof(string))]
+        [DataRow(typeof(DateTime))]
+        [DataRow(typeof(EnumMock))]
+        public void GetRandom_Type_CreatesRandomValueOfType(Type type)
         {
-            for (int i = 0; i < new Random().Next(5, 20); i++)
+            bool isRandom = false;
+            var randomValue = RandomUtilities.GetRandom(type);
+
+            for (int i = 0; i < 100; i++)
             {
-                string v1 = RandomUtilities.GetRandomString();
-                Assert.IsFalse(string.IsNullOrEmpty(v1));
+                // var newRandom = RandomUtilities.GetRandom(type);
+                isRandom = randomValue != RandomUtilities.GetRandom(type);
 
-                string v2 = RandomUtilities.GetRandomString(v1);
-                Assert.IsFalse(string.IsNullOrEmpty(v2));
-                Assert.AreNotEqual(v1, v2);
-
-                v1 = RandomUtilities.GetRandom<string>();
-                Assert.IsFalse(string.IsNullOrEmpty(v1));
-
-                v2 = RandomUtilities.GetRandom(v1);
-                Assert.IsFalse(string.IsNullOrEmpty(v2));
-                Assert.IsInstanceOfType(v2, typeof(string));
-                Assert.AreNotEqual(v1, v2);
-
-                v1 = RandomUtilities.GetRandom(typeof(string));
-                Assert.IsFalse(string.IsNullOrEmpty(v1));
-                Assert.IsInstanceOfType(v1, typeof(string));
-
-                v2 = RandomUtilities.GetRandom(typeof(string), v1);
-                Assert.IsFalse(string.IsNullOrEmpty(v2));
-                Assert.IsInstanceOfType(v2, typeof(string));
-                Assert.AreNotEqual(v1, v2);
+                if (isRandom)
+                {
+                    break;
+                }
             }
+
+            Assert.IsTrue(isRandom);
         }
 
-        /// <summary>
-        /// Tests random enumerator generation.
-        /// </summary>
         [TestMethod]
-        public void GeneratesRandomEnum()
+        [DataRow(typeof(bool))]
+        [DataRow(typeof(char))]
+        [DataRow(typeof(decimal))]
+        [DataRow(typeof(double))]
+        [DataRow(typeof(int))]
+        [DataRow(typeof(string))]
+        [DataRow(typeof(DateTime))]
+        [DataRow(typeof(EnumMock))]
+        public void GetRandom_Generic_CreatesRandomValueOfType(Type type)
         {
-            for (int i = 0; i < new Random().Next(5, 20); i++)
+            bool isRandom = false;
+            var randomValue = typeof(RandomUtilities).GetMethod(nameof(RandomUtilities.GetRandom), Type.EmptyTypes).MakeGenericMethod(type).Invoke(null, null);
+
+            for (int i = 0; i < 100; i++)
             {
-                TestEnum v1 = RandomUtilities.GetRandomEnum<TestEnum>();
-                Assert.IsInstanceOfType(v1, typeof(TestEnum));
+                isRandom = randomValue != typeof(RandomUtilities).GetMethod(nameof(RandomUtilities.GetRandom), Type.EmptyTypes).MakeGenericMethod(type).Invoke(null, null);
 
-                TestEnum v2 = RandomUtilities.GetRandomEnum(v1);
-                Assert.IsInstanceOfType(v2, typeof(TestEnum));
-                Assert.AreNotEqual(v1, v2);
-
-                v1 = RandomUtilities.GetRandomEnum(typeof(TestEnum));
-                Assert.IsInstanceOfType(v1, typeof(TestEnum));
-
-                v1 = RandomUtilities.GetRandom(typeof(TestEnum));
-                Assert.IsInstanceOfType(v1, typeof(TestEnum));
-
-                v2 = RandomUtilities.GetRandom(v1);
-                Assert.IsInstanceOfType(v2, typeof(TestEnum));
-                Assert.AreNotEqual(v1, v2);
+                if (isRandom)
+                {
+                    break;
+                }
             }
+
+            Assert.IsTrue(isRandom);
         }
 
-        /// <summary>
-        /// Tests random boolean generation.
-        /// </summary>
         [TestMethod]
-        public void GeneratesRandomBool()
+        [DataRow(typeof(bool))]
+        [DataRow(typeof(char))]
+        [DataRow(typeof(decimal))]
+        [DataRow(typeof(double))]
+        [DataRow(typeof(int))]
+        [DataRow(typeof(string))]
+        [DataRow(typeof(DateTime))]
+        [DataRow(typeof(EnumMock))]
+        public void GetRandom_Type_CreatesDifferentValue(Type type)
         {
-            for (int i = 0; i < new Random().Next(5, 20); i++)
-            {
-                bool v1 = RandomUtilities.GetRandomBoolean();
-                bool v2 = RandomUtilities.GetRandomBoolean(v1);
-                Assert.AreNotEqual(v1, v2);
-
-                v1 = RandomUtilities.GetRandom<bool>();
-                Assert.IsInstanceOfType(v1, typeof(bool));
-
-                v2 = RandomUtilities.GetRandom(v1);
-                Assert.IsInstanceOfType(v2, typeof(bool));
-                Assert.AreNotEqual(v1, v2);
-
-                v1 = RandomUtilities.GetRandom(typeof(bool));
-                Assert.IsInstanceOfType(v1, typeof(bool));
-
-                v2 = RandomUtilities.GetRandom(typeof(bool), v1);
-                Assert.IsInstanceOfType(v2, typeof(bool));
-                Assert.AreNotEqual(v1, v2);
-            }
+            var random = RandomUtilities.GetRandom(type);
+            Assert.AreNotEqual(random, RandomUtilities.GetRandom(type, random));
+            Assert.AreNotEqual(random, RandomUtilities.GetRandom(random));
         }
 
-        /// <summary>
-        /// Tests random Integer generation.
-        /// </summary>
         [TestMethod]
-        public void GeneratesRandomInt()
+        public void GetRandomBoolean_CreatesRandomBool()
         {
-            for (int i = 0; i < new Random().Next(5, 20); i++)
+            bool isRandom = false;
+
+            bool random = RandomUtilities.GetRandomBoolean();
+
+            for (int i = 0; i < 100; i++)
             {
-                int v1 = RandomUtilities.GetRandomInteger();
-                int v2 = RandomUtilities.GetRandomInteger(v1);
-                Assert.AreNotEqual(v1, v2);
+                isRandom = random != RandomUtilities.GetRandomBoolean();
 
-                v1 = RandomUtilities.GetRandom<int>();
-                Assert.IsInstanceOfType(v1, typeof(int));
-
-                v2 = RandomUtilities.GetRandom(v1);
-                Assert.IsInstanceOfType(v2, typeof(int));
-                Assert.AreNotEqual(v1, v2);
-
-                v1 = RandomUtilities.GetRandom(typeof(int));
-                Assert.IsInstanceOfType(v1, typeof(int));
-
-                v2 = RandomUtilities.GetRandom(typeof(int), v1);
-                Assert.IsInstanceOfType(v2, typeof(int));
-                Assert.AreNotEqual(v1, v2);
+                if (isRandom)
+                {
+                    break;
+                }
             }
+
+            Assert.IsTrue(isRandom);
         }
 
-        /// <summary>
-        /// Tests random DateTime generation.
-        /// </summary>
         [TestMethod]
-        public void GeneratesRandomDateTime()
+        public void GetRandomBoolean_CreatesDifferentBool()
         {
-            for (int i = 0; i < new Random().Next(5, 20); i++)
-            {
-                DateTime v1 = RandomUtilities.GetRandomDateTime();
-                DateTime v2 = RandomUtilities.GetRandomDateTime(v1);
-                Assert.AreNotEqual(v1, v2);
-
-                v1 = RandomUtilities.GetRandom<DateTime>();
-                Assert.IsInstanceOfType(v1, typeof(DateTime));
-
-                v2 = RandomUtilities.GetRandom(v1);
-                Assert.IsInstanceOfType(v2, typeof(DateTime));
-                Assert.AreNotEqual(v1, v2);
-
-                v1 = RandomUtilities.GetRandom(typeof(DateTime));
-                Assert.IsInstanceOfType(v1, typeof(DateTime));
-
-                v2 = RandomUtilities.GetRandom(typeof(DateTime), v1);
-                Assert.IsInstanceOfType(v2, typeof(DateTime));
-                Assert.AreNotEqual(v1, v2);
-            }
+            bool random = RandomUtilities.GetRandomBoolean();
+            Assert.AreNotEqual(random, RandomUtilities.GetRandomBoolean(random));
         }
 
-        /// <summary>
-        /// Tests random double generation.
-        /// </summary>
         [TestMethod]
-        public void GeneratesRandomDouble()
+        public void GetRandomChar_CreatesRandomChar()
+        {
+            bool isRandom = false;
+            char random = RandomUtilities.GetRandomChar();
+
+            for (int i = 0; i < 100; i++)
+            {
+                isRandom = random != RandomUtilities.GetRandomChar();
+
+                if (isRandom)
+                {
+                    break;
+                }
+            }
+
+            Assert.IsTrue(isRandom);
+        }
+
+        [TestMethod]
+        public void GetRandomChar_CreatesDifferentChar()
+        {
+            char random = RandomUtilities.GetRandomChar();
+            Assert.AreNotEqual(random, RandomUtilities.GetRandomChar(random));
+        }
+
+        [TestMethod]
+        public void GetRandomDateTime_CreatesRandomDateTime()
+        {
+            bool isRandom = false;
+            DateTime random = RandomUtilities.GetRandomDateTime();
+
+            for (int i = 0; i < 100; i++)
+            {
+                isRandom = random != RandomUtilities.GetRandomDateTime();
+
+                if (isRandom)
+                {
+                    break;
+                }
+            }
+
+            Assert.IsTrue(isRandom);
+        }
+
+        [TestMethod]
+        public void GetRandomDateTime_CreatesDifferentDateTime()
+        {
+            DateTime random = RandomUtilities.GetRandomDateTime();
+            Assert.AreNotEqual(random, RandomUtilities.GetRandomDateTime(random));
+        }
+
+        [TestMethod]
+        public void GetRandomDecimal_CreatesRandomDecimal()
+        {
+            bool isRandom = false;
+            decimal random = RandomUtilities.GetRandomDecimal();
+
+            for (int i = 0; i < 100; i++)
+            {
+                isRandom = random != RandomUtilities.GetRandomDecimal();
+
+                if (isRandom)
+                {
+                    break;
+                }
+            }
+
+            Assert.IsTrue(isRandom);
+        }
+
+        [TestMethod]
+        public void GetRandomDecimal_CreatesDifferentDecimal()
+        {
+            decimal random = RandomUtilities.GetRandomDecimal();
+            Assert.AreNotEqual(random, RandomUtilities.GetRandomDecimal(random));
+        }
+
+        [TestMethod]
+        public void GetRandomDouble_CreatesRandomDouble()
+        {
+            bool isRandom = false;
+            double random = RandomUtilities.GetRandomDouble();
+
+            for (int i = 0; i < 100; i++)
+            {
+                isRandom = random != RandomUtilities.GetRandomDouble();
+
+                if (isRandom)
+                {
+                    break;
+                }
+            }
+
+            Assert.IsTrue(isRandom);
+        }
+
+        [TestMethod]
+        public void GetRandomDouble_CreatesDifferentDouble()
         {
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
                 double v1 = RandomUtilities.GetRandomDouble();
                 double v2 = RandomUtilities.GetRandomDouble(v1);
                 Assert.AreNotEqual(v1, v2);
+            }
+        }
 
-                v1 = RandomUtilities.GetRandom<double>();
-                Assert.IsInstanceOfType(v1, typeof(double));
+        [TestMethod]
+        public void GetRandomEnum_CreatesRandomEnum()
+        {
+            bool isRandom = false;
+            EnumMock randomEnum = RandomUtilities.GetRandomEnum(typeof(EnumMock));
 
-                v2 = RandomUtilities.GetRandom(v1);
-                Assert.IsInstanceOfType(v2, typeof(double));
-                Assert.AreNotEqual(v1, v2);
+            for (int i = 0; i < 100; i++)
+            {
+                isRandom = randomEnum != RandomUtilities.GetRandomEnum(typeof(EnumMock));
 
-                v1 = RandomUtilities.GetRandom(typeof(double));
-                Assert.IsInstanceOfType(v1, typeof(double));
+                if (isRandom)
+                {
+                    break;
+                }
+            }
 
-                v2 = RandomUtilities.GetRandom(typeof(double), v1);
-                Assert.IsInstanceOfType(v2, typeof(double));
+            Assert.IsTrue(isRandom);
+        }
+
+        [TestMethod]
+        public void GetRandomEnum_CreatesDifferentEnum()
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                EnumMock v1 = RandomUtilities.GetRandomEnum<EnumMock>();
+                EnumMock v2 = RandomUtilities.GetRandomEnum(v1);
                 Assert.AreNotEqual(v1, v2);
             }
         }
 
-        /// <summary>
-        /// Tests random decimal generation.
-        /// </summary>
         [TestMethod]
-        public void GeneratesRandomDecimal()
+        public void GetRandomInteger_CreatesRandomInteger()
         {
-            for (int i = 0; i < new Random().Next(5, 20); i++)
+            bool isRandom = false;
+            int random = RandomUtilities.GetRandomInteger();
+
+            for (int i = 0; i < 100; i++)
             {
-                decimal v1 = RandomUtilities.GetRandomDecimal();
-                decimal v2 = RandomUtilities.GetRandomDecimal(v1);
-                Assert.AreNotEqual(v1, v2);
+                isRandom = random != RandomUtilities.GetRandomInteger();
 
-                v1 = RandomUtilities.GetRandom<decimal>();
-                Assert.IsInstanceOfType(v1, typeof(decimal));
-
-                v2 = RandomUtilities.GetRandom(v1);
-                Assert.IsInstanceOfType(v2, typeof(decimal));
-                Assert.AreNotEqual(v1, v2);
-
-                v1 = RandomUtilities.GetRandom(typeof(decimal));
-                Assert.IsInstanceOfType(v1, typeof(decimal));
-
-                v2 = RandomUtilities.GetRandom(typeof(decimal), v1);
-                Assert.IsInstanceOfType(v2, typeof(decimal));
-                Assert.AreNotEqual(v1, v2);
+                if (isRandom)
+                {
+                    break;
+                }
             }
+
+            Assert.IsTrue(isRandom);
+        }
+
+        [TestMethod]
+        public void GetRandomInteger_CreatesDifferentInteger()
+        {
+            int random = RandomUtilities.GetRandomInteger();
+            Assert.AreNotEqual(random, RandomUtilities.GetRandomInteger(random));
+        }
+
+        [TestMethod]
+        public void GetRandomString_CreatesRandomString()
+        {
+            bool isRandom = false;
+            string random = RandomUtilities.GetRandomString();
+
+            for (int i = 0; i < 100; i++)
+            {
+                isRandom = random != RandomUtilities.GetRandomString();
+
+                if (isRandom)
+                {
+                    break;
+                }
+            }
+
+            Assert.IsTrue(isRandom);
+        }
+
+        [TestMethod]
+        public void GetRandomString_CreatesDifferentString()
+        {
+            string random = RandomUtilities.GetRandomString();
+            Assert.AreNotEqual(random, RandomUtilities.GetRandomString(random));
+        }
+
+        [TestMethod]
+        public void NextBool_CreatesRandomBool()
+        {
+            bool isRandom = false;
+            bool random = new Random().NextBool();
+
+            for (int i = 0; i < 100; i++)
+            {
+                isRandom = random != new Random().NextBool();
+
+                if (isRandom)
+                {
+                    break;
+                }
+            }
+
+            Assert.IsTrue(isRandom);
+        }
+
+        [TestMethod]
+        public void NextDateTime_CreatesRandomDateTime()
+        {
+            bool isRandom = false;
+            DateTime random = new Random().NextDateTime();
+
+            for (int i = 0; i < 100; i++)
+            {
+                isRandom = random != new Random().NextDateTime();
+
+                if (isRandom)
+                {
+                    break;
+                }
+            }
+
+            Assert.IsTrue(isRandom);
+        }
+
+        [TestMethod]
+        public void NextDecimal_CreatesRandomDecimal()
+        {
+            bool isRandom = false;
+            decimal random = new Random().NextDecimal();
+
+            for (int i = 0; i < 100; i++)
+            {
+                isRandom = random != new Random().NextDecimal();
+
+                if (isRandom)
+                {
+                    break;
+                }
+            }
+
+            Assert.IsTrue(isRandom);
+        }
+
+        [TestMethod]
+        public void NextInt32_CreatesRandomInteger()
+        {
+            bool isRandom = false;
+            int random = new Random().NextInt32();
+
+            for (int i = 0; i < 100; i++)
+            {
+                isRandom = random != new Random().NextInt32();
+
+                if (isRandom)
+                {
+                    break;
+                }
+            }
+
+            Assert.IsTrue(isRandom);
+        }
+
+        [TestMethod]
+        public void NextString_CreatesRandomString()
+        {
+            bool isRandom = false;
+            string random = new Random().NextString();
+
+            for (int i = 0; i < 100; i++)
+            {
+                isRandom = random != new Random().NextString();
+
+                if (isRandom)
+                {
+                    break;
+                }
+            }
+
+            Assert.IsTrue(isRandom);
+        }
+
+        [TestMethod]
+        public void NextString_CreatesSpecificNumberOfCharacters()
+        {
+            int count = new Random().Next(5, 30);
+            Assert.AreEqual(count, new Random().NextString(count).Length);
         }
     }
 }

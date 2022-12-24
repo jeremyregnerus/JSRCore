@@ -1,56 +1,49 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <IsPackable>false</IsPackable>
-    <Authors>Jeremy Regnerus</Authors>
-    <PackageProjectUrl>https://github.com/jeremyregnerus/JSRCore</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/jeremyregnerus/JSRCore</RepositoryUrl>
-    <RepositoryType>GitHub</RepositoryType>
-    <Version>1.1.0</Version>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <Platforms>AnyCPU;x64</Platforms>
-  </PropertyGroup>
+        <IsPackable>false</IsPackable>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Utilities.Tests\JSR.Utilities.Tests.xml</DocumentationFile>
-  </PropertyGroup>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DocumentationFile>bin\JSR.Utilities.Tests.xml</DocumentationFile>
-    <OutputPath>bin\</OutputPath>
-  </PropertyGroup>
+        <Authors>Jeremy Regnerus</Authors>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>D:\Dropbox\Visual Studio Projects\JSRCore\JSR.Utilities.Tests\JSR.Utilities.Tests.xml</DocumentationFile>
-  </PropertyGroup>
+        <Title>JSR Utilities Tests</Title>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>bin\JSR.Utilities.Tests.xml</DocumentationFile>
-    <OutputPath>bin\</OutputPath>
-  </PropertyGroup>
+        <Description>This project tests JSR.Utilities</Description>
 
-  <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
+        <PackageProjectUrl>https://github.com/jeremyregnerus/JSRCore</PackageProjectUrl>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+        <RepositoryUrl>https://github.com/jeremyregnerus/JSRCore</RepositoryUrl>
 
-  <ItemGroup>
-    <ProjectReference Include="..\JSR.TestAsserts\JSR.TestAsserts.csproj" />
-    <ProjectReference Include="..\JSR.Utilities\JSR.Utilities.csproj" />
-  </ItemGroup>
+        <Copyright>Copywrite © 2023 Jeremy Regnerus, all rights reserved.</Copyright>
 
+        <Version>0.1.0</Version>
+
+        <RepositoryType>GitHub</RepositoryType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+        <PackageReference Include="coverlet.collector" Version="3.2.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="MSTest.TestAdapter" Version="3.0.0" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.0.0" />
+        <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.435">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\JSR.Utilities\JSR.Utilities.csproj" />
+    </ItemGroup>
 </Project>
