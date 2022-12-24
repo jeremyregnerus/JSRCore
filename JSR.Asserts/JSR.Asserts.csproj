@@ -2,17 +2,17 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <Authors>Jeremy Regnerus</Authors>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <Title>JSR Utilities</Title>
-        <Description>A set of utilities used for mocking and testing classes. Specifically those that implement INotifyPropertyChange and IChangeTracking.</Description>
+        <Authors>Jeremy Regnerus</Authors>
+        <Title>JSR Asserts</Title>
+        <Description>Additional Asserts for testing automated property changes, including INotifyPropertyChange, IChangeTracking and serialization.</Description>
         <Copyright>Copywrite © 2023 Jeremy Regnerus, all rights reserved.</Copyright>
-        <PackageReadmeFile></PackageReadmeFile>
         <PackageProjectUrl>https://github.com/jeremyregnerus/JSRCore</PackageProjectUrl>
         <RepositoryUrl>https://github.com/jeremyregnerus/JSRCore</RepositoryUrl>
+        <RepositoryType>GitHub</RepositoryType>
         <Version>0.1.0</Version>
     </PropertyGroup>
 
@@ -27,6 +27,10 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\JSR.Utilities\JSR.Utilities.csproj" />
     </ItemGroup>
 
 </Project>

@@ -2,23 +2,54 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Reflection;
 using JSR.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace JSR.TestAsserts
+namespace JSR.Asserts
 {
     /// <summary>
     /// Tests and checks objects that implement IChangeTracking.
     /// </summary>
     public static class ChangeTrackingAssert
     {
+        #region IsChangedWhenCreated
+
+        /// <summary>
+        /// Tests that a type of <see cref="IChangeTracking"/> is flagged <see cref="IChangeTracking.IsChanged"/> when initialized.
+        /// </summary>
+        /// <param name="type">Type to test.</param>
+        [TestMethod]
+        public static void IsChangedWhenCreated(Type type)
+        {
+            IsChangedWhenCreated(CheckTypeIsIChangeTracking(type));
+        }
+
+        /// <summary>
+        /// Tests that a type of <see cref="IChangeTracking"/> is flagged <see cref="IChangeTracking.IsChanged"/> when initialized.
+        /// </summary>
+        /// <typeparam name="T">Type of <see cref="IChangeTracking"/> to test.</typeparam>
+        [TestMethod]
+        public static void IsChangedWhenCreated<T>() where T : IChangeTracking
+        {
+            IsChangedWhenCreated(Activator.CreateInstance<T>());
+        }
+
+        /// <summary>
+        /// Tests that a type of <see cref="IChangeTracking"/> is flagged <see cref="IChangeTracking.IsChanged"/> when initialized.
+        /// </summary>
+        /// <typeparam name="T">Type of <see cref="IChangeTracking"/> to test.</typeparam>
+        /// <param name="obj">Object to test. This object should be a new object for this test.</param>
+        [TestMethod]
+        public static void IsChangedWhenCreated<T>(T obj) where T : IChangeTracking
+        {
+            Assert.IsTrue(obj.IsChanged);
+        }
+
+        #endregion
+
         #region AcceptsChanges
 
         /// <summary>
@@ -27,7 +58,7 @@ namespace JSR.TestAsserts
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
         public static void AcceptsChanges(Type type)
         {
-            AcceptsChanges(CreateIChangeTrackingInstance(type));
+            AcceptsChanges(CheckTypeIsIChangeTracking(type));
         }
 
         /// <summary>
@@ -53,9 +84,9 @@ namespace JSR.TestAsserts
                 obj.AcceptChanges();
                 Assert.IsFalse(obj.IsChanged);
 
-                foreach (PropertyInfo property in obj.GetType().GetProperties().Where(property => !PropertyUtilities.CheckIfPropertyIsWriteOnly(property) && typeof(IChangeTracking).IsAssignableFrom(property.PropertyType)))
+                foreach (PropertyInfo property in obj.GetType().GetProperties().Where(property => !PropertyUtilities.IsWriteOnlyProperty(property) && typeof(IChangeTracking).IsAssignableFrom(property.PropertyType)))
                 {
-                    Assert.IsFalse(((IChangeTracking)property.GetValue(obj)).IsChanged);
+                    Assert.IsFalse(((IChangeTracking)property.GetValue(obj)!).IsChanged);
                 }
             }
         }
@@ -70,7 +101,7 @@ namespace JSR.TestAsserts
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
         public static void IsChangedWhenHierarchyChanges(Type type)
         {
-            IsChangedWhenHierarchyChanges(CreateIChangeTrackingInstance(type));
+            IsChangedWhenHierarchyChanges(CheckTypeIsIChangeTracking(type));
         }
 
         /// <summary>
@@ -80,7 +111,7 @@ namespace JSR.TestAsserts
         /// <param name="propertyNames">List of property names to test.</param>
         public static void IsChangedWhenHierarchyChanges(Type type, List<string> propertyNames)
         {
-            IsChangedWhenHierarchyChanges(CreateIChangeTrackingInstance(type), propertyNames);
+            IsChangedWhenHierarchyChanges(CheckTypeIsIChangeTracking(type), propertyNames);
         }
 
         /// <summary>
@@ -90,7 +121,7 @@ namespace JSR.TestAsserts
         /// <param name="properties">List of properties to test.</param>
         public static void IsChangedWhenHierarchyChanges(Type type, List<PropertyInfo> properties)
         {
-            IsChangedWhenHierarchyChanges(CreateIChangeTrackingInstance(type), properties);
+            IsChangedWhenHierarchyChanges(CheckTypeIsIChangeTracking(type), properties);
         }
 
         /// <summary>
@@ -100,7 +131,7 @@ namespace JSR.TestAsserts
         /// <param name="propertyName">Name of property to test.</param>
         public static void IsChangedWhenHierarchyChanges(Type type, string propertyName)
         {
-            IsChangedWhenHierarchyChanges(CreateIChangeTrackingInstance(type), propertyName);
+            IsChangedWhenHierarchyChanges(CheckTypeIsIChangeTracking(type), propertyName);
         }
 
         /// <summary>
@@ -110,7 +141,7 @@ namespace JSR.TestAsserts
         /// <param name="property">Property to test.</param>
         public static void IsChangedWhenHierarchyChanges(Type type, PropertyInfo property)
         {
-            IsChangedWhenHierarchyChanges(CreateIChangeTrackingInstance(type), property);
+            IsChangedWhenHierarchyChanges(CheckTypeIsIChangeTracking(type), property);
         }
 
         /// <summary>
@@ -169,7 +200,7 @@ namespace JSR.TestAsserts
         /// <param name="obj">Object with properties to test.</param>
         public static void IsChangedWhenHierarchyChanges<T>(T obj) where T : IChangeTracking
         {
-            IsChangedWhenHierarchyChanges(obj, PropertyUtilities.GetListOfProperties(obj, true, true, false, true, true, true));
+            IsChangedWhenHierarchyChanges(obj, PropertyUtilities.GetProperties(obj, new GetPropertiesOptions(true) { WriteOnlyProperties = false }));
         }
 
         /// <summary>
@@ -208,7 +239,7 @@ namespace JSR.TestAsserts
         /// <param name="propertyName">Name of property to test.</param>
         public static void IsChangedWhenHierarchyChanges<T>(T obj, string propertyName) where T : IChangeTracking
         {
-            IsChangedWhenHierarchyChanges(obj, obj.GetType().GetProperty(propertyName));
+            IsChangedWhenHierarchyChanges(obj, obj.GetType().GetProperty(propertyName) ?? throw new ArgumentNullException(nameof(propertyName)));
         }
 
         /// <summary>
@@ -219,17 +250,17 @@ namespace JSR.TestAsserts
         /// <param name="property">Property to test.</param>
         public static void IsChangedWhenHierarchyChanges<T>(T obj, PropertyInfo property) where T : IChangeTracking
         {
-            if (PropertyUtilities.CheckIfPropertyIsReadWrite(property))
+            if (PropertyUtilities.IsReadWriteProperty(property))
             {
                 IsChangedWhenPropertyChanges(obj, property);
             }
 
-            if (PropertyUtilities.CheckIfPropertyIsClass(property))
+            if (PropertyUtilities.IsClassProperty(property))
             {
                 IsChangedWhenClassPropertyChanges(obj, property);
             }
 
-            if (PropertyUtilities.CheckIfPropertyIsList(property))
+            if (PropertyUtilities.IsListProperty(property))
             {
                 IsChangedWhenListPropertyChanges(obj, property, true, true, true);
             }
@@ -245,7 +276,7 @@ namespace JSR.TestAsserts
         /// <param name="type">Type that implements <see cref="IChangeTracking"/> to test.</param>
         public static void IsChangedWhenPropertiesChange(Type type)
         {
-            IsChangedWhenPropertiesChange(CreateIChangeTrackingInstance(type));
+            IsChangedWhenPropertiesChange(CheckTypeIsIChangeTracking(type));
         }
 
         /// <summary>
@@ -255,7 +286,7 @@ namespace JSR.TestAsserts
         /// <param name="propertyNames">List of property names to test.</param>
         public static void IsChangedWhenPropertiesChange(Type type, List<string> propertyNames)
         {
-            IsChangedWhenPropertiesChange(CreateIChangeTrackingInstance(type), propertyNames);
+            IsChangedWhenPropertiesChange(CheckTypeIsIChangeTracking(type), propertyNames);
         }
 
         /// <summary>
@@ -265,7 +296,7 @@ namespace JSR.TestAsserts
         /// <param name="properties">List of properties to test.</param>
         public static void IsChangedWhenPropertiesChange(Type type, List<PropertyInfo> properties)
         {
-            IsChangedWhenPropertiesChange(CreateIChangeTrackingInstance(type), properties);
+            IsChangedWhenPropertiesChange(CheckTypeIsIChangeTracking(type), properties);
         }
 
         /// <summary>
@@ -304,7 +335,7 @@ namespace JSR.TestAsserts
         /// <param name="obj">Object that implements <see cref="IChangeTracking"/> to test.</param>
         public static void IsChangedWhenPropertiesChange<T>(T obj) where T : IChangeTracking
         {
-            IsChangedWhenPropertiesChange(obj, PropertyUtilities.GetListOfReadWriteProperties(obj));
+            IsChangedWhenPropertiesChange(obj, PropertyUtilities.GetReadWriteProperties(obj));
         }
 
         /// <summary>
@@ -315,7 +346,7 @@ namespace JSR.TestAsserts
         /// <param name="propertyNames">List of property names to change.</param>
         public static void IsChangedWhenPropertiesChange<T>(T obj, List<string> propertyNames) where T : IChangeTracking
         {
-            IsChangedWhenPropertiesChange(obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName))));
+            IsChangedWhenPropertiesChange(obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName)!)));
         }
 
         /// <summary>
@@ -343,7 +374,7 @@ namespace JSR.TestAsserts
         /// <param name="propertyName">Name of property to change.</param>
         public static void IsChangedWhenPropertyChanges(Type type, string propertyName)
         {
-            IsChangedWhenPropertyChanges(CreateIChangeTrackingInstance(type), propertyName);
+            IsChangedWhenPropertyChanges(CheckTypeIsIChangeTracking(type), propertyName);
         }
 
         /// <summary>
@@ -353,7 +384,7 @@ namespace JSR.TestAsserts
         /// <param name="property">Property to change.</param>
         public static void IsChangedWhenPropertyChanges(Type type, PropertyInfo property)
         {
-            IsChangedWhenPropertyChanges(CreateIChangeTrackingInstance(type), property);
+            IsChangedWhenPropertyChanges(CheckTypeIsIChangeTracking(type), property);
         }
 
         /// <summary>
@@ -384,7 +415,7 @@ namespace JSR.TestAsserts
         /// <param name="propertyName">Name of property to change.</param>
         public static void IsChangedWhenPropertyChanges<T>(T obj, string propertyName) where T : IChangeTracking
         {
-            IsChangedWhenPropertyChanges(obj, obj.GetType().GetProperty(propertyName));
+            IsChangedWhenPropertyChanges(obj, obj.GetType().GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -395,7 +426,7 @@ namespace JSR.TestAsserts
         /// <param name="property">Property to change.</param>
         public static void IsChangedWhenPropertyChanges<T>(T obj, PropertyInfo property) where T : IChangeTracking
         {
-            if (PropertyUtilities.CheckIfPropertyIsReadWrite(property))
+            if (PropertyUtilities.IsReadWriteProperty(property))
             {
                 for (int i = 0; i < new Random().Next(5, 20); i++)
                 {
@@ -410,7 +441,7 @@ namespace JSR.TestAsserts
 
         #endregion
 
-        #region IsChangedWhenChildClassesChange
+        #region IsChangedWhenChildClassPropertiesChange
 
         /// <summary>
         /// Tests that when the child class properties change, the parent's IsChanged property is changed to true.
@@ -418,7 +449,7 @@ namespace JSR.TestAsserts
         /// <param name="type">Type that implements <see cref="IChangeTracking"/> with class properties to test.</param>
         public static void IsChangedWhenClassPropertiesChange(Type type)
         {
-            IsChangedWhenClassPropertiesChange(CreateIChangeTrackingInstance(type));
+            IsChangedWhenClassPropertiesChange(CheckTypeIsIChangeTracking(type));
         }
 
         /// <summary>
@@ -428,7 +459,7 @@ namespace JSR.TestAsserts
         /// <param name="propertyNames">List of property names that implement <see cref="IChangeTracking"/> to test.</param>
         public static void IsChangedWhenClassPropertiesChange(Type type, List<string> propertyNames)
         {
-            IsChangedWhenClassPropertiesChange(CreateIChangeTrackingInstance(type), propertyNames);
+            IsChangedWhenClassPropertiesChange(CheckTypeIsIChangeTracking(type), propertyNames);
         }
 
         /// <summary>
@@ -438,7 +469,7 @@ namespace JSR.TestAsserts
         /// <param name="properties">List of properties that implement <see cref="IChangeTracking"/> to test.</param>
         public static void IsChangedWhenClassPropertiesChange(Type type, List<PropertyInfo> properties)
         {
-            IsChangedWhenClassPropertiesChange(CreateIChangeTrackingInstance(type), properties);
+            IsChangedWhenClassPropertiesChange(CheckTypeIsIChangeTracking(type), properties);
         }
 
         /// <summary>
@@ -477,7 +508,7 @@ namespace JSR.TestAsserts
         /// <param name="obj">Object to test.</param>
         public static void IsChangedWhenClassPropertiesChange<T>(T obj) where T : IChangeTracking
         {
-            IsChangedWhenClassPropertiesChange(obj, PropertyUtilities.GetListOfPropertiesWithClassTypes(obj, true, true, false));
+            IsChangedWhenClassPropertiesChange(obj, PropertyUtilities.GetClassProperties(obj, new GetPropertiesOptions(true) { WriteOnlyProperties = false }));
         }
 
         /// <summary>
@@ -488,7 +519,7 @@ namespace JSR.TestAsserts
         /// <param name="propertyNames">List of class property names to test. Each class should implement <see cref="IChangeTracking"/>.</param>
         public static void IsChangedWhenClassPropertiesChange<T>(T obj, List<string> propertyNames) where T : IChangeTracking
         {
-            IsChangedWhenClassPropertiesChange(obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName))));
+            IsChangedWhenClassPropertiesChange(obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName)!)));
         }
 
         /// <summary>
@@ -507,22 +538,7 @@ namespace JSR.TestAsserts
 
         #endregion
 
-        /// <summary>
-        /// Tests that when the child classes change, it changes the parent's IsChanged property to true.
-        /// </summary>
-        /// <typeparam name="TParent">Type that implements <see cref="IChangeTracking"/> with child classes.</typeparam>
-        /// <typeparam name="TChild">Type that implements <see cref="IChangeTracking"/> as a child class of the parent.</typeparam>
-        /// <param name="parent">Parent object that contains child classes contained within the list.</param>
-        /// <param name="children">Class objects contained within the properties of the object being tested.</param>
-        public static void IsChangedWhenChildClassesChange<TParent, TChild>(TParent parent, List<TChild> children) where TParent : IChangeTracking
-        {
-            foreach (TChild child in children)
-            {
-                IsChangedWhenChildClassChanges(parent, child);
-            }
-        }
-
-        #region IsChangedWhenChildClassChanges
+        #region IsChangedWhenClassPropertyChanges
 
         /// <summary>
         /// Tests that when a property with a class value changes, it changes the parent's IsChanged property to true.
@@ -531,7 +547,7 @@ namespace JSR.TestAsserts
         /// <param name="propertyName">Name of property that implements <see cref="IChangeTracking"/> to test.</param>
         public static void IsChangedWhenClassPropertyChanges(Type type, string propertyName)
         {
-            IsChangedWhenClassPropertyChanges(CreateIChangeTrackingInstance(type), propertyName);
+            IsChangedWhenClassPropertyChanges(CheckTypeIsIChangeTracking(type), propertyName);
         }
 
         /// <summary>
@@ -541,7 +557,7 @@ namespace JSR.TestAsserts
         /// <param name="property">Property that implements <see cref="IChangeTracking"/> to test.</param>
         public static void IsChangedWhenClassPropertyChanges(Type type, PropertyInfo property)
         {
-            IsChangedWhenClassPropertyChanges(CreateIChangeTrackingInstance(type), property);
+            IsChangedWhenClassPropertyChanges(CheckTypeIsIChangeTracking(type), property);
         }
 
         /// <summary>
@@ -551,7 +567,7 @@ namespace JSR.TestAsserts
         /// <param name="propertyName">Name of property that implements <see cref="IChangeTracking"/> to test.</param>
         public static void IsChangedWhenClassPropertyChanges<T>(string propertyName) where T : IChangeTracking
         {
-            IsChangedWhenClassPropertyChanges<T>(typeof(T).GetProperty(propertyName));
+            IsChangedWhenClassPropertyChanges<T>(typeof(T).GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -572,7 +588,7 @@ namespace JSR.TestAsserts
         /// <param name="propertyName">Name of property that implements <see cref="IChangeTracking"/> to test.</param>
         public static void IsChangedWhenClassPropertyChanges<T>(T obj, string propertyName) where T : IChangeTracking
         {
-            IsChangedWhenClassPropertyChanges(obj, obj.GetType().GetProperty(propertyName));
+            IsChangedWhenClassPropertyChanges(obj, obj.GetType().GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -583,10 +599,25 @@ namespace JSR.TestAsserts
         /// <param name="property">Property that implements <see cref="IChangeTracking"/> to test.</param>
         public static void IsChangedWhenClassPropertyChanges<T>(T obj, PropertyInfo property) where T : IChangeTracking
         {
-            IsChangedWhenChildClassChanges(obj, property.GetValue(obj));
+            IsChangedWhenChildClassChanges(obj, property.GetValue(obj)!);
         }
 
         #endregion
+
+        /// <summary>
+        /// Tests that when the child classes change, it changes the parent's IsChanged property to true.
+        /// </summary>
+        /// <typeparam name="TParent">Type that implements <see cref="IChangeTracking"/> with child classes.</typeparam>
+        /// <typeparam name="TChild">Type that implements <see cref="IChangeTracking"/> as a child class of the parent.</typeparam>
+        /// <param name="parent">Parent object that contains child classes contained within the list.</param>
+        /// <param name="children">Class objects contained within the properties of the object being tested.</param>
+        public static void IsChangedWhenChildClassesChange<TParent, TChild>(TParent parent, List<TChild> children) where TParent : IChangeTracking
+        {
+            foreach (TChild child in children)
+            {
+                IsChangedWhenChildClassChanges(parent, child);
+            }
+        }
 
         /// <summary>
         /// Tests that when a child class changes, it changes the parent's IsChanged property to true.
@@ -597,7 +628,7 @@ namespace JSR.TestAsserts
         /// <param name="childObj">Child object to change.</param>
         public static void IsChangedWhenChildClassChanges<TParent, TChild>(TParent parentObj, TChild childObj) where TParent : IChangeTracking
         {
-            bool childIsIChangeTracking = typeof(IChangeTracking).IsAssignableFrom(childObj.GetType());
+            bool childIsIChangeTracking = typeof(IChangeTracking).IsAssignableFrom(typeof(TChild));
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
@@ -609,12 +640,12 @@ namespace JSR.TestAsserts
 
                 if (childIsIChangeTracking)
                 {
-                    Assert.IsTrue(((IChangeTracking)childObj).IsChanged);
+                    Assert.IsTrue(((IChangeTracking)childObj!).IsChanged);
                 }
             }
         }
 
-        #region IsChangedWhenListsChange
+        #region IsChangedWhenListPropertiesChange
 
         /// <summary>
         /// Tests that when list properties change, the parent's IsChanged property is set to true.
@@ -625,7 +656,7 @@ namespace JSR.TestAsserts
         /// <param name="changeItems">Test changing items in lists.</param>
         public static void IsChangedWhenListPropertiesChange(Type type, bool addItems, bool removeItems, bool changeItems)
         {
-            IsChangedWhenListPropertiesChange(CreateIChangeTrackingInstance(type), addItems, removeItems, changeItems);
+            IsChangedWhenListPropertiesChange(CheckTypeIsIChangeTracking(type), addItems, removeItems, changeItems);
         }
 
         /// <summary>
@@ -638,7 +669,7 @@ namespace JSR.TestAsserts
         /// <param name="changeItems">Test changing items in lists.</param>
         public static void IsChangedWhenListPropertiesChange(Type type, List<string> propertyNames, bool addItems, bool removeItems, bool changeItems)
         {
-            IsChangedWhenListPropertiesChange(CreateIChangeTrackingInstance(type), propertyNames, addItems, removeItems, changeItems);
+            IsChangedWhenListPropertiesChange(CheckTypeIsIChangeTracking(type), propertyNames, addItems, removeItems, changeItems);
         }
 
         /// <summary>
@@ -651,7 +682,7 @@ namespace JSR.TestAsserts
         /// <param name="changeItems">Test changing items in lists.</param>
         public static void IsChangedWhenListPropertiesChange(Type type, List<PropertyInfo> properties, bool addItems, bool removeItems, bool changeItems)
         {
-            IsChangedWhenListPropertiesChange(CreateIChangeTrackingInstance(type), properties, addItems, removeItems, changeItems);
+            IsChangedWhenListPropertiesChange(CheckTypeIsIChangeTracking(type), properties, addItems, removeItems, changeItems);
         }
 
         /// <summary>
@@ -702,7 +733,7 @@ namespace JSR.TestAsserts
         /// <param name="changeItems">Test changing items in lists.</param>
         public static void IsChangedWhenListPropertiesChange<T>(T obj, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
         {
-            IsChangedWhenListPropertiesChange(obj, PropertyUtilities.GetListOfPropertiesWithListTypes(obj, true, true, false), addItems, removeItems, changeItems);
+            IsChangedWhenListPropertiesChange(obj, PropertyUtilities.GetListProperties(obj, new GetPropertiesOptions(true) { WriteOnlyProperties = false }), addItems, removeItems, changeItems);
         }
 
         /// <summary>
@@ -716,7 +747,7 @@ namespace JSR.TestAsserts
         /// <param name="changeItems">Test changing items in lists.</param>
         public static void IsChangedWhenListPropertiesChange<T>(T obj, List<string> propertyNames, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
         {
-            IsChangedWhenListPropertiesChange(obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName))), addItems, removeItems, changeItems);
+            IsChangedWhenListPropertiesChange(obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName)!)), addItems, removeItems, changeItems);
         }
 
         /// <summary>
@@ -738,25 +769,7 @@ namespace JSR.TestAsserts
 
         #endregion
 
-        /// <summary>
-        /// Tests that when lists change, the parent's IsChanged property is set to true.
-        /// </summary>
-        /// <typeparam name="TParent">Type implements <see cref="IChangeTracking"/>.</typeparam>
-        /// <typeparam name="TList">Type that implements <see cref="IChangeTracking"/>.</typeparam>
-        /// <param name="obj">Object with lists to test.</param>
-        /// <param name="lists">List of <see cref="IList"/>.</param>
-        /// <param name="addItems">Test adding items to lists.</param>
-        /// <param name="removeItems">Test removing items from lists.</param>
-        /// <param name="changeItems">Test changing items in lists.</param>
-        public static void IsChangedWhenListsChange<TParent, TList>(TParent obj, List<IList> lists, bool addItems, bool removeItems, bool changeItems) where TParent : IChangeTracking where TList : IList
-        {
-            foreach (IList list in lists)
-            {
-                IsChangedWhenListChanges(obj, list, addItems, removeItems, changeItems);
-            }
-        }
-
-        #region IsChangedWhenListChanges
+        #region IsChangedWhenListPropertyChanges
 
         /// <summary>
         /// Tests that when a list property changes, the parent's IsChanged property is set to true.
@@ -768,7 +781,7 @@ namespace JSR.TestAsserts
         /// <param name="changeItems">Test changing items in list.</param>
         public static void IsChangedWhenListPropertyChanges(Type type, string propertyName, bool addItems, bool removeItems, bool changeItems)
         {
-            IsChangedWhenListPropertyChanges(CreateIChangeTrackingInstance(type), propertyName, addItems, removeItems, changeItems);
+            IsChangedWhenListPropertyChanges(CheckTypeIsIChangeTracking(type), propertyName, addItems, removeItems, changeItems);
         }
 
         /// <summary>
@@ -781,7 +794,7 @@ namespace JSR.TestAsserts
         /// <param name="changeItems">Test changing items in list.</param>
         public static void IsChangedWhenListPropertyChanges(Type type, PropertyInfo property, bool addItems, bool removeItems, bool changeItems)
         {
-            IsChangedWhenListPropertyChanges(CreateIChangeTrackingInstance(type), property, addItems, removeItems, changeItems);
+            IsChangedWhenListPropertyChanges(CheckTypeIsIChangeTracking(type), property, addItems, removeItems, changeItems);
         }
 
         /// <summary>
@@ -794,7 +807,7 @@ namespace JSR.TestAsserts
         /// <param name="changeItems">Test changing items in list.</param>
         public static void IsChangedWhenListPropertyChanges<T>(string propertyName, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
         {
-            IsChangedWhenListPropertyChanges<T>(typeof(T).GetProperty(propertyName), addItems, removeItems, changeItems);
+            IsChangedWhenListPropertyChanges<T>(typeof(T).GetProperty(propertyName)!, addItems, removeItems, changeItems);
         }
 
         /// <summary>
@@ -821,7 +834,7 @@ namespace JSR.TestAsserts
         /// <param name="changeItems">Test changing items in list.</param>
         public static void IsChangedWhenListPropertyChanges<T>(T obj, string propertyName, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
         {
-            IsChangedWhenListPropertyChanges(obj, obj.GetType().GetProperty(propertyName), addItems, removeItems, changeItems);
+            IsChangedWhenListPropertyChanges(obj, obj.GetType().GetProperty(propertyName)!, addItems, removeItems, changeItems);
         }
 
         /// <summary>
@@ -837,11 +850,29 @@ namespace JSR.TestAsserts
         {
             if (typeof(IList).IsAssignableFrom(property.PropertyType))
             {
-                IsChangedWhenListChanges(obj, (IList)property.GetValue(obj), addItems, removeItems, changeItems);
+                IsChangedWhenListChanges(obj, (IList)property.GetValue(obj)!, addItems, removeItems, changeItems);
             }
         }
 
         #endregion
+
+        /// <summary>
+        /// Tests that when lists change, the parent's IsChanged property is set to true.
+        /// </summary>
+        /// <typeparam name="TParent">Type implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <typeparam name="TList">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="obj">Object with lists to test.</param>
+        /// <param name="lists">List of <see cref="IList"/>.</param>
+        /// <param name="addItems">Test adding items to lists.</param>
+        /// <param name="removeItems">Test removing items from lists.</param>
+        /// <param name="changeItems">Test changing items in lists.</param>
+        public static void IsChangedWhenListsChange<TParent, TList>(TParent obj, List<IList> lists, bool addItems, bool removeItems, bool changeItems) where TParent : IChangeTracking where TList : IList
+        {
+            foreach (IList list in lists)
+            {
+                IsChangedWhenListChanges(obj, list, addItems, removeItems, changeItems);
+            }
+        }
 
         /// <summary>
         /// Tests that when a list changes, the parent's IsChanged property is set to true.
@@ -969,10 +1000,9 @@ namespace JSR.TestAsserts
         /// </summary>
         /// <param name="type">Type to test and create.</param>
         /// <returns>A new instance of the type specified that implements <see cref="IChangeTracking"/>.</returns>
-        private static IChangeTracking CreateIChangeTrackingInstance(Type type)
+        public static IChangeTracking CheckTypeIsIChangeTracking(Type type)
         {
             Assert.IsTrue(typeof(IChangeTracking).IsAssignableFrom(type));
-
             return (IChangeTracking)Activator.CreateInstance(type);
         }
     }

@@ -2,16 +2,12 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Reflection;
 using JSR.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace JSR.TestAsserts
+namespace JSR.Asserts
 {
     /// <summary>
     /// Tests objects that object that implement <see cref="INotifyPropertyChanged"/> raise property change notifications.
@@ -26,7 +22,7 @@ namespace JSR.TestAsserts
         /// <param name="type">Type that implements <see cref="INotifyPropertyChanged"/>.</param>
         public static void NotifiesPropertiesChanged(Type type)
         {
-            NotifiesPropertiesChanged(CreateINotifyPropertyChangeInstance(type));
+            NotifiesPropertiesChanged(CheckForINotifyPropertyChanged(type));
         }
 
         /// <summary>
@@ -36,7 +32,7 @@ namespace JSR.TestAsserts
         /// <param name="propertyNames">List of property names to test.</param>
         public static void NotifiesPropertiesChanged(Type type, List<string> propertyNames)
         {
-            NotifiesPropertiesChanged(CreateINotifyPropertyChangeInstance(type), propertyNames);
+            NotifiesPropertiesChanged(CheckForINotifyPropertyChanged(type), propertyNames);
         }
 
         /// <summary>
@@ -46,7 +42,7 @@ namespace JSR.TestAsserts
         /// <param name="properties">List of properties to test.</param>
         public static void NotifiesPropertiesChanged(Type type, List<PropertyInfo> properties)
         {
-            NotifiesPropertiesChanged(CreateINotifyPropertyChangeInstance(type), properties);
+            NotifiesPropertiesChanged(CheckForINotifyPropertyChanged(type), properties);
         }
 
         /// <summary>
@@ -85,7 +81,7 @@ namespace JSR.TestAsserts
         /// <param name="obj">Object to test.</param>
         public static void NotifiesPropertiesChanged<T>(T obj) where T : INotifyPropertyChanged
         {
-            NotifiesPropertiesChanged(obj, PropertyUtilities.GetListOfReadWriteProperties(obj));
+            NotifiesPropertiesChanged(obj, PropertyUtilities.GetReadWriteProperties(obj));
         }
 
         /// <summary>
@@ -127,7 +123,7 @@ namespace JSR.TestAsserts
         /// <param name="propertyName">Name of property to test.</param>
         public static void NotifiesPropertyChanged(Type type, string propertyName)
         {
-            NotifiesPropertyChanged(CreateINotifyPropertyChangeInstance(type), propertyName);
+            NotifiesPropertyChanged(CheckForINotifyPropertyChanged(type), propertyName);
         }
 
         /// <summary>
@@ -137,7 +133,7 @@ namespace JSR.TestAsserts
         /// <param name="property">Property to test.</param>
         public static void NotifiesPropertyChanged(Type type, PropertyInfo property)
         {
-            NotifiesPropertyChanged(CreateINotifyPropertyChangeInstance(type), property);
+            NotifiesPropertyChanged(CheckForINotifyPropertyChanged(type), property);
         }
 
         /// <summary>
@@ -147,7 +143,7 @@ namespace JSR.TestAsserts
         /// <param name="propertyName">Name of property to test.</param>
         public static void NotifiesPropertyChanged<T>(string propertyName) where T : INotifyPropertyChanged
         {
-            NotifiesPropertyChanged<T>(typeof(T).GetProperty(propertyName));
+            NotifiesPropertyChanged<T>(typeof(T).GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -168,7 +164,7 @@ namespace JSR.TestAsserts
         /// <param name="propertyName">Name of property to test.</param>
         public static void NotifiesPropertyChanged<T>(T obj, string propertyName) where T : INotifyPropertyChanged
         {
-            NotifiesPropertyChanged(obj, typeof(T).GetProperty(propertyName));
+            NotifiesPropertyChanged(obj, typeof(T).GetProperty(propertyName) ?? throw new ArgumentNullException(nameof(propertyName)));
         }
 
         /// <summary>
@@ -179,31 +175,49 @@ namespace JSR.TestAsserts
         /// <param name="property">Property to test.</param>
         public static void NotifiesPropertyChanged<T>(T obj, PropertyInfo property) where T : INotifyPropertyChanged
         {
-            List<string> propertiesChanged = new List<string>();
+            // create a list of property change notifications
+            List<string> propertiesChanged = new();
+
+            // add an event to add the PropertyChanged property name to the list
             obj.PropertyChanged += (sender, args) => propertiesChanged.Add(args.PropertyName);
 
-            int count = new Random().Next(5, 20);
-
-            for (int i = 0; i < count; i++)
+            // for a random number of times
+            for (int i = 0; i < new Random().Next(5, 20); i++)
             {
+                // populate the property with a random value
                 ObjectUtilities.PopulatePropertyWithRandomValue(obj, property);
+
+                // assert that the PropertyChanged raised the property name the same number of times this loop has run
+                Assert.AreEqual(i + 1, propertiesChanged.Count(propertyName => propertyName == property.Name));
             }
 
-            Assert.AreEqual(count, propertiesChanged.Count(propertyName => propertyName == property.Name));
-
-            if (PropertyUtilities.CheckIfPropertyIsValue(property))
+            // check if the property is a value type
+            if (PropertyUtilities.IsValueProperty(property))
             {
+                // for a random number of times
                 for (int i = 0; i < new Random().Next(5, 20); i++)
                 {
-                    ObjectUtilities.PopulateObjectWithRandomValues(obj);
-                    T copiedObject = ObjectUtilities.GetSerializedCopyOfObject(obj);
+                    // create a new value for the property
+                    dynamic newValue = RandomUtilities.GetRandom(property.PropertyType);
 
+                    // set the property value
+                    property.SetValue(obj, newValue);
+
+                    // clear the monitored property changes
                     propertiesChanged.Clear();
 
-                    property.SetValue(obj, property.GetValue(copiedObject));
+                    // for another random number of times
+                    for (int j = 0; j < new Random().Next(5, 20); j++)
+                    {
+                        // set the property using the same value generated before
+                        property.SetValue(obj, newValue);
 
-                    Assert.AreEqual(property.GetValue(obj), property.GetValue(copiedObject));
-                    Assert.AreEqual(0, propertiesChanged.Count);
+                        // assert that the value has stayed the same as the new value
+                        Assert.AreEqual(newValue, property.GetValue(obj));
+
+                        // assert that the property change list hasn't raised the property changed because the value hasn't changed
+                        Assert.AreEqual(0, propertiesChanged.Count);
+                    }
                 }
             }
         }
@@ -211,14 +225,13 @@ namespace JSR.TestAsserts
         #endregion
 
         /// <summary>
-        /// Tests that the type implements <see cref="INotifyPropertyChanged"/> and creates a new instance of the type.
+        /// Checks that a type implmenents <see cref="INotifyPropertyChanged"/> and creates a new instance of that type.
         /// </summary>
-        /// <param name="type">Type to test and create.</param>
-        /// <returns>A new instance of the type.</returns>
-        private static INotifyPropertyChanged CreateINotifyPropertyChangeInstance(Type type)
+        /// <param name="type">Type to validate.</param>
+        /// <returns>A new instance of the specified type that implements <see cref="INotifyPropertyChanged"/>.</returns>
+        public static INotifyPropertyChanged CheckForINotifyPropertyChanged(Type type)
         {
             Assert.IsTrue(typeof(INotifyPropertyChanged).IsAssignableFrom(type));
-
             return (INotifyPropertyChanged)Activator.CreateInstance(type);
         }
     }
