@@ -23,6 +23,10 @@
         <Version>0.1.0</Version>
 
         <RepositoryType>GitHub</RepositoryType>
+
+        <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+
+        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     </PropertyGroup>
 
     <ItemGroup>

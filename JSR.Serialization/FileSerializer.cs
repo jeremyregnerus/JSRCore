@@ -2,8 +2,6 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System.IO;
-
 namespace JSR.Serialization
 {
     /// <summary>
@@ -26,19 +24,15 @@ namespace JSR.Serialization
         /// <inheritdoc/>
         public T LoadFile(string filePath)
         {
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-            {
-                return serializer.DeserializeFile(fileStream);
-            }
+            using FileStream fileStream = new(filePath, FileMode.Open, FileAccess.Read);
+            return serializer.DeserializeFile(fileStream);
         }
 
         /// <inheritdoc/>
         public void SaveFile(T objectToSave, string filePath)
         {
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
-            {
-                serializer.SerializeFile(objectToSave, fileStream);
-            }
+            using FileStream fileStream = new(filePath, FileMode.Create, FileAccess.ReadWrite, FileShare.None);
+            serializer.SerializeFile(objectToSave, fileStream);
         }
     }
 }

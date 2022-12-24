@@ -2,8 +2,6 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System.IO;
-
 namespace JSR.Serialization
 {
     /// <summary>
