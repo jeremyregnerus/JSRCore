@@ -2,8 +2,6 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
-
 namespace JSR.NumberGenerator
 {
     /// <summary>
@@ -107,7 +105,7 @@ namespace JSR.NumberGenerator
         /// <returns>12 digit long value serial number.</returns>
         public static long GetSerialNumber(string serialNumber)
         {
-            if (serialNumber.Length != 13 || !serialNumber.Contains("-"))
+            if (serialNumber.Length != 13 || !serialNumber.Contains('-'))
             {
                 throw new ArgumentOutOfRangeException($"The value {serialNumber} is not a valid formatted serial number.");
             }
