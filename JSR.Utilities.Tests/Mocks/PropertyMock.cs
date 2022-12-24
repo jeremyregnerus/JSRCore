@@ -87,5 +87,5 @@ namespace JSR.Utilities.Tests.Mocks
         public int IntReadOnly { get => IntReadWrite; }
 
         public int IntWriteOnly { set => IntReadWrite = value; }
-    } 
+    }
 }
