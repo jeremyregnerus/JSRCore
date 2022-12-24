@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Serialization", "JSR.Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.NumberGenerator", "JSR.NumberGenerator\JSR.NumberGenerator.csproj", "{C28D534B-9F7A-4DBA-A2B6-C1E1EF4EF404}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSR.Converters", "JSR.Converters\JSR.Converters.csproj", "{4BF85391-AD12-4A96-A234-94235CC8ED04}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Windows.IO", "JSR.Windows.IO\JSR.Windows.IO.csproj", "{6E6F254F-53A4-47AD-BA3B-5443CC03285D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Utilities.Tests", "JSR.Utilities.Tests\JSR.Utilities.Tests.csproj", "{9C17FB96-7862-412B-82F4-36C8F0385501}"
@@ -28,6 +26,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.BaseClassLibrary.Tests", "JSR.BaseClassLibrary.Tests\JSR.BaseClassLibrary.Tests.csproj", "{C5AF7A58-FF26-4924-B48F-0611337A4EAB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Asserts", "JSR.Asserts\JSR.Asserts.csproj", "{F579C992-0772-4C31-A8E6-2A464E99CC90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSR.Converters", "JSR.Converters\JSR.Converters.csproj", "{245FF276-B52C-4C41-900C-9EA2CAD3F65B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,10 +51,6 @@ Global
 		{C28D534B-9F7A-4DBA-A2B6-C1E1EF4EF404}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C28D534B-9F7A-4DBA-A2B6-C1E1EF4EF404}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C28D534B-9F7A-4DBA-A2B6-C1E1EF4EF404}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4BF85391-AD12-4A96-A234-94235CC8ED04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4BF85391-AD12-4A96-A234-94235CC8ED04}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4BF85391-AD12-4A96-A234-94235CC8ED04}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4BF85391-AD12-4A96-A234-94235CC8ED04}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E6F254F-53A4-47AD-BA3B-5443CC03285D}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{6E6F254F-53A4-47AD-BA3B-5443CC03285D}.Debug|Any CPU.Build.0 = Debug|x64
 		{6E6F254F-53A4-47AD-BA3B-5443CC03285D}.Release|Any CPU.ActiveCfg = Release|x64
@@ -71,6 +67,10 @@ Global
 		{F579C992-0772-4C31-A8E6-2A464E99CC90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F579C992-0772-4C31-A8E6-2A464E99CC90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F579C992-0772-4C31-A8E6-2A464E99CC90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{245FF276-B52C-4C41-900C-9EA2CAD3F65B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{245FF276-B52C-4C41-900C-9EA2CAD3F65B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{245FF276-B52C-4C41-900C-9EA2CAD3F65B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{245FF276-B52C-4C41-900C-9EA2CAD3F65B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

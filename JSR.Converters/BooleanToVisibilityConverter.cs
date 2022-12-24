@@ -2,7 +2,7 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
@@ -12,7 +12,7 @@ namespace JSR.Converters
     /// <summary>
     /// <see cref="IValueConverter"/> for converting a <see cref="bool"/> to a <see cref="Visibility"/> value.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:Element documentation should not be copied and pasted", Justification = "Inherited documentation.")]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:Element documentation should not be copied and pasted", Justification = "Inherited documentation.")]
     public class BooleanToVisibilityConverter : IValueConverter
     {
         /// <summary>

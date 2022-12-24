@@ -2,7 +2,6 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Windows.Data;
@@ -30,7 +29,7 @@ namespace JSR.Converters
         /// <inheritdoc/>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            StringCollection sc = new StringCollection();
+            StringCollection sc = new();
 
             if (value is string[] list)
             {

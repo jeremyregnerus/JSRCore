@@ -2,8 +2,6 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Windows.Data;
@@ -18,7 +16,7 @@ namespace JSR.Converters
         /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            List<string> sortableList = new List<string>();
+            List<string> sortableList = new();
 
             if (value is IEnumerable<string> list)
             {
@@ -27,7 +25,7 @@ namespace JSR.Converters
 
             if (value is StringCollection sc)
             {
-                foreach (string s in sc)
+                foreach (string s in sc.OfType<string>())
                 {
                     sortableList.Add(s);
                 }
