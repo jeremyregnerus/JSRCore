@@ -4,7 +4,7 @@
 
 using System.ComponentModel;
 
-namespace JSR.BaseClassLibrary
+namespace JSR.BaseClasses
 {
     /// <summary>
     /// This event handler is raised when a message is raised by an object.

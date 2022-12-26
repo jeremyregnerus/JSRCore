@@ -2,10 +2,7 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
-using System.Linq;
-
-namespace JSR.BaseClassLibrary
+namespace JSR.BaseClasses
 {
     /// <summary>
     /// Node / Tree structure for managing objects.
@@ -128,7 +125,7 @@ namespace JSR.BaseClassLibrary
         /// <returns>A list of booleans for each node added specifying if it was added to the collection or not.</returns>
         public List<bool> AddChildren(IEnumerable<T> items, bool unique)
         {
-            List<bool> itemsAdded = new List<bool>();
+            List<bool> itemsAdded = new();
 
             foreach (T item in items)
             {
@@ -146,7 +143,7 @@ namespace JSR.BaseClassLibrary
         /// <returns>A list of booleans for each node added specifying if it was added to the collection or not.</returns>
         public List<bool> AddChildren(IEnumerable<Node<T>> nodes, bool unique)
         {
-            List<bool> nodesAdded = new List<bool>();
+            List<bool> nodesAdded = new();
 
             foreach (Node<T> node in nodes)
             {
@@ -163,7 +160,7 @@ namespace JSR.BaseClassLibrary
         /// <returns>A copy of this node.</returns>
         public Node<T> GetCopy(bool copyChildren)
         {
-            Node<T> copy = new Node<T>(Item) { IsCopy = true };
+            Node<T> copy = new(Item) { IsCopy = true };
 
             if (copyChildren)
             {
@@ -285,7 +282,7 @@ namespace JSR.BaseClassLibrary
                 return Root.GetItems(recursive, unique, false);
             }
 
-            List<T> items = new List<T>();
+            List<T> items = new();
 
             foreach (Node<T> child in Children)
             {

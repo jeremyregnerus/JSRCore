@@ -3,22 +3,22 @@
 // </copyright>
 
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace JSR.BaseClassLibrary
+namespace JSR.BaseClasses
 {
     /// <summary>
     /// Collection of objects that can track <see cref="OnChanged"/> and <see cref="OnMessage"/>.
     /// </summary>
     /// <typeparam name="T">Type of object within the Collection.</typeparam>
+    [DataContract]
     public class BaseCollection<T> : ObservableCollection<T>, IList<T>, IList, INotifyChanged, INotifyPropertyChanged, IChangeTracking, IMessenger
     {
         private bool isChanged;
-        private string message;
+        private string message = string.Empty;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseCollection{T}"/> class.
@@ -47,10 +47,10 @@ namespace JSR.BaseClassLibrary
         }
 
         /// <inheritdoc/>
-        public event OnMessageEventHandler OnMessage;
+        public event OnChangedEventHandler? OnChanged;
 
         /// <inheritdoc/>
-        public event OnChangedEventHandler OnChanged;
+        public event OnMessageEventHandler? OnMessage;
 
         /// <inheritdoc/>
         public bool IsChanged
@@ -85,7 +85,7 @@ namespace JSR.BaseClassLibrary
         /// <inheritdoc/>
         public void AcceptChanges()
         {
-            foreach (IChangeTracking item in Items)
+            foreach (IChangeTracking item in Items.OfType<IChangeTracking>())
             {
                 item.AcceptChanges();
             }
@@ -93,37 +93,32 @@ namespace JSR.BaseClassLibrary
             IsChanged = false;
         }
 
-        [OnDeserialized]
-        private void OnDeserialized(StreamingContext s)
+        private void AddChangable(INotifyChanged changable)
         {
-            OnCreated();
-        }
-
-        private void OnCreated()
-        {
-            CollectionChanged += CollectionListChanged;
-
-            foreach (INotifyChanged item in Items)
+            if (changable != null)
             {
-                AddChangable(item);
-            }
-
-            foreach (IMessenger item in Items)
-            {
-                AddMessenger(item);
+                changable.OnChanged += OnChildChanged;
             }
         }
 
-        private void CollectionListChanged(object sender, NotifyCollectionChangedEventArgs args)
+        private void AddMessenger(IMessenger messenger)
+        {
+            if (messenger != null)
+            {
+                messenger.OnMessage += OnChildMessage;
+            }
+        }
+
+        private void CollectionListChanged(object? sender, NotifyCollectionChangedEventArgs args)
         {
             if (args.OldItems != null)
             {
-                foreach (INotifyChanged item in args.OldItems)
+                foreach (var item in args.OldItems.OfType<INotifyChanged>())
                 {
                     RemoveChangable(item);
                 }
 
-                foreach (IMessenger item in args.OldItems)
+                foreach (var item in args.OldItems.OfType<IMessenger>())
                 {
                     RemoveMessenger(item);
                 }
@@ -131,12 +126,12 @@ namespace JSR.BaseClassLibrary
 
             if (args.NewItems != null)
             {
-                foreach (INotifyChanged item in args.NewItems)
+                foreach (var item in args.NewItems.OfType<INotifyChanged>())
                 {
                     AddChangable(item);
                 }
 
-                foreach (IMessenger item in args.NewItems)
+                foreach (var item in args.NewItems.OfType<IMessenger>())
                 {
                     AddMessenger(item);
                 }
@@ -150,12 +145,30 @@ namespace JSR.BaseClassLibrary
             IsChanged = true;
         }
 
-        private void AddChangable(INotifyChanged changable)
+        private void OnChildMessage(object sender, string message)
         {
-            if (changable != null)
+            Message = message;
+        }
+
+        private void OnCreated()
+        {
+            CollectionChanged += CollectionListChanged;
+
+            foreach (var item in Items.OfType<INotifyChanged>())
             {
-                changable.OnChanged += OnChildChanged;
+                AddChangable(item);
             }
+
+            foreach (var item in Items.OfType<IMessenger>())
+            {
+                AddMessenger(item);
+            }
+        }
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext s)
+        {
+            OnCreated();
         }
 
         private void RemoveChangable(INotifyChanged changable)
@@ -163,19 +176,6 @@ namespace JSR.BaseClassLibrary
             if (changable != null)
             {
                 changable.OnChanged -= OnChildChanged;
-            }
-        }
-
-        private void OnChildMessage(object sender, string message)
-        {
-            Message = message;
-        }
-
-        private void AddMessenger(IMessenger messenger)
-        {
-            if (messenger != null)
-            {
-                messenger.OnMessage += OnChildMessage;
             }
         }
 

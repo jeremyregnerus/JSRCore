@@ -2,13 +2,12 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
-namespace JSR.BaseClassLibrary
+namespace JSR.BaseClasses
 {
     /// <summary>
     /// Core base object includes, <see cref="INotifyPropertyChanged"/>, <see cref="IChangeTracking"/> and <see cref="IMessenger"/>.
@@ -17,16 +16,24 @@ namespace JSR.BaseClassLibrary
     public abstract class BaseClass : INotifyChanged, INotifyPropertyChanged, IChangeTracking, IMessenger
     {
         private bool isChanged = true;
-        private string message;
+        private string message = string.Empty;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseClass"/> class.
+        /// </summary>
+        public BaseClass()
+        {
+            OnCreated();
+        }
 
         /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event OnChangedEventHandler? OnChanged;
 
         /// <inheritdoc/>
-        public event OnMessageEventHandler OnMessage;
+        public event OnMessageEventHandler? OnMessage;
 
         /// <inheritdoc/>
-        public event OnChangedEventHandler OnChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <inheritdoc/>
         public virtual bool IsChanged
@@ -61,33 +68,17 @@ namespace JSR.BaseClassLibrary
         /// <inheritdoc/>
         public virtual void AcceptChanges()
         {
-            IsChanged = false;
-        }
-
-        /// <summary>
-        /// Sets the value for a property.
-        /// </summary>
-        /// <typeparam name="T">Type of value to set.</typeparam>
-        /// <param name="field">Field storing the value for the property.</param>
-        /// <param name="value">Value to assign to the property.</param>
-        /// <param name="propertyName">Name of the property.</param>
-        /// <returns>True if the value was changed. This will return false if the values are the same.</returns>
-        protected virtual bool SetValue<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(value, field))
+            foreach (PropertyInfo property in GetType().GetProperties())
             {
-                return false;
+                var val = property.GetValue(this);
+
+                if (val is IChangeTracking ct)
+                {
+                    ct.AcceptChanges();
+                }
             }
 
-            RemoveChildNotifications(field);
-            AddChildNotifications(value);
-
-            field = value;
-
-            NotifyPropertyChanged(propertyName);
-
-            IsChanged = true;
-            return true;
+            IsChanged = false;
         }
 
         /// <summary>
@@ -109,20 +100,15 @@ namespace JSR.BaseClassLibrary
         }
 
         /// <summary>
-        /// Removes notification tracking for <see cref="INotifyChanged"/> and <see cref="IMessenger"/> child objects.
+        /// Adds notification tracking for <see cref="INotifyChanged"/> child objects.
         /// </summary>
-        /// <typeparam name="T">Type of object to no longer watch for notifications.</typeparam>
-        /// <param name="child">Child object to no longer watch for notifications.</param>
-        protected void RemoveChildNotifications<T>(T child)
+        /// <typeparam name="T">Type of objects to add notification tracking.</typeparam>
+        /// <param name="children">Objects to add notification tracking.</param>
+        protected void AddChildNotifications<T>(IEnumerable<T> children)
         {
-            if (child is INotifyChanged notifyChanged)
+            foreach (T child in children)
             {
-                notifyChanged.OnChanged -= OnChildChanged;
-            }
-
-            if (child is IMessenger messenger)
-            {
-                messenger.OnMessage -= OnChildMessage;
+                AddChildNotifications(child);
             }
         }
 
@@ -171,9 +157,74 @@ namespace JSR.BaseClassLibrary
         /// Raise the <see cref="PropertyChangedEventHandler"/>.
         /// </summary>
         /// <param name="propertyName">Property name to raise the event handler.</param>
-        protected void NotifyPropertyChanged(string propertyName)
+        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// This method should run after an object is created to add notification tracking to child objects.
+        /// </summary>
+        protected virtual void OnCreated()
+        {
+            foreach (PropertyInfo property in GetType().GetProperties())
+            {
+                AddChildNotifications(property.GetValue(this));
+            }
+        }
+
+        /// <summary>
+        /// Called when this object is deserialized.
+        /// </summary>
+        /// <param name="s">Streaming context.</param>
+        [OnDeserialized]
+        protected virtual void OnDeserialized(StreamingContext s)
+        {
+            OnCreated();
+            IsChanged = false;
+        }
+
+        /// <summary>
+        /// Removes notification tracking for <see cref="INotifyChanged"/> and <see cref="IMessenger"/> child objects.
+        /// </summary>
+        /// <typeparam name="T">Type of object to no longer watch for notifications.</typeparam>
+        /// <param name="child">Child object to no longer watch for notifications.</param>
+        protected void RemoveChildNotifications<T>(T child)
+        {
+            if (child is INotifyChanged notifyChanged)
+            {
+                notifyChanged.OnChanged -= OnChildChanged;
+            }
+
+            if (child is IMessenger messenger)
+            {
+                messenger.OnMessage -= OnChildMessage;
+            }
+        }
+
+        /// <summary>
+        /// Sets the value for a property.
+        /// </summary>
+        /// <typeparam name="T">Type of value to set.</typeparam>
+        /// <param name="field">Field storing the value for the property.</param>
+        /// <param name="value">Value to assign to the property.</param>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns>True if the value was changed. This will return false if the values are the same.</returns>
+        protected virtual bool SetValue<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+        {
+            if (EqualityComparer<T>.Default.Equals(value, field))
+            {
+                return false;
+            }
+
+            RemoveChildNotifications(field);
+            field = value;
+            AddChildNotifications(value);
+
+            NotifyPropertyChanged(propertyName);
+
+            IsChanged = true;
+            return true;
         }
 
         /// <summary>

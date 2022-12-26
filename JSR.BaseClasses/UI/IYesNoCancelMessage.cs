@@ -2,7 +2,7 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-namespace JSR.BaseClassLibrary.UI
+namespace JSR.BaseClasses.UI
 {
     /// <summary>
     /// Message returns for IYesNoCancelMessage.

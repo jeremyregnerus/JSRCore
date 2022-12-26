@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Utilities", "JSR.Utilities\JSR.Utilities.csproj", "{73FDD3AC-A74A-4904-8A28-3A32CF67C178}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.BaseClassLibrary", "JSR.BaseClassLibrary\JSR.BaseClassLibrary.csproj", "{08725F8B-D41B-4558-94D0-BECF5FFC2728}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Serialization", "JSR.Serialization\JSR.Serialization.csproj", "{5E3C498D-4231-41D5-B447-E776A1DE559E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.NumberGenerator", "JSR.NumberGenerator\JSR.NumberGenerator.csproj", "{C28D534B-9F7A-4DBA-A2B6-C1E1EF4EF404}"
@@ -27,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.BaseClassLibrary.Tests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Asserts", "JSR.Asserts\JSR.Asserts.csproj", "{F579C992-0772-4C31-A8E6-2A464E99CC90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSR.Converters", "JSR.Converters\JSR.Converters.csproj", "{245FF276-B52C-4C41-900C-9EA2CAD3F65B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Converters", "JSR.Converters\JSR.Converters.csproj", "{245FF276-B52C-4C41-900C-9EA2CAD3F65B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.BaseClasses", "JSR.BaseClasses\JSR.BaseClasses.csproj", "{1F91CB25-1AB4-4EF7-AA52-47E7AEC60EF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +39,6 @@ Global
 		{73FDD3AC-A74A-4904-8A28-3A32CF67C178}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73FDD3AC-A74A-4904-8A28-3A32CF67C178}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73FDD3AC-A74A-4904-8A28-3A32CF67C178}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08725F8B-D41B-4558-94D0-BECF5FFC2728}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{08725F8B-D41B-4558-94D0-BECF5FFC2728}.Debug|Any CPU.Build.0 = Debug|x64
-		{08725F8B-D41B-4558-94D0-BECF5FFC2728}.Release|Any CPU.ActiveCfg = Release|x64
-		{08725F8B-D41B-4558-94D0-BECF5FFC2728}.Release|Any CPU.Build.0 = Release|x64
 		{5E3C498D-4231-41D5-B447-E776A1DE559E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5E3C498D-4231-41D5-B447-E776A1DE559E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E3C498D-4231-41D5-B447-E776A1DE559E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -71,6 +67,10 @@ Global
 		{245FF276-B52C-4C41-900C-9EA2CAD3F65B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{245FF276-B52C-4C41-900C-9EA2CAD3F65B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{245FF276-B52C-4C41-900C-9EA2CAD3F65B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F91CB25-1AB4-4EF7-AA52-47E7AEC60EF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F91CB25-1AB4-4EF7-AA52-47E7AEC60EF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F91CB25-1AB4-4EF7-AA52-47E7AEC60EF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F91CB25-1AB4-4EF7-AA52-47E7AEC60EF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

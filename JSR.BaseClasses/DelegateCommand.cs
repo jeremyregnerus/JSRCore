@@ -2,10 +2,9 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
 using System.Windows.Input;
 
-namespace JSR.BaseClassLibrary
+namespace JSR.BaseClasses
 {
     /// <summary>
     /// Provides a default implementation of the <see cref="ICommand"/> interface for use within MVVM and WPF.
@@ -13,7 +12,7 @@ namespace JSR.BaseClassLibrary
     public class DelegateCommand : ICommand
     {
         private readonly Action execute;
-        private readonly Func<bool> canExecute;
+        private readonly Func<bool>? canExecute;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DelegateCommand"/> class.
@@ -28,7 +27,7 @@ namespace JSR.BaseClassLibrary
         /// </summary>
         /// <param name="execute">Action to execute.</param>
         /// <param name="canExecute">Function specifying if this action can execute when called.</param>
-        public DelegateCommand(Action execute, Func<bool> canExecute)
+        public DelegateCommand(Action execute, Func<bool>? canExecute)
         {
             this.execute = execute;
             this.canExecute = canExecute;
@@ -40,23 +39,21 @@ namespace JSR.BaseClassLibrary
         }
 
         /// <inheritdoc/>
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler? CanExecuteChanged;
 
         /// <inheritdoc/>
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
-            if (canExecute == null)
+            if (canExecute is null)
             {
                 return true;
             }
-            else
-            {
-                return canExecute();
-            }
+
+            return canExecute();
         }
 
         /// <inheritdoc/>
-        public void Execute(object parameter)
+        public void Execute(object? parameter)
         {
             execute();
         }
