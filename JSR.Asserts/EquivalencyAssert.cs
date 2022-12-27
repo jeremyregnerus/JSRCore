@@ -9,12 +9,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JSR.Asserts
 {
     /// <summary>
-    /// Tests and checks for equivalency.
+    /// Asserts and checks for equivalency.
     /// </summary>
     public static class EquivalencyAssert
     {
         /// <summary>
-        /// Tests if two objects have the same values for their properties.
+        /// Asserts if two objects have the same values for their properties.
         /// </summary>
         /// <typeparam name="T"><see cref="Type"/> of objects to compare.</typeparam>
         /// <param name="assert">Assert extension.</param>
@@ -29,13 +29,13 @@ namespace JSR.Asserts
             }
 
             // if one value is null, and the other is not, they are not equivalent
-            if ((expected == null && actual != null) || (expected != null && actual == null))
+            if ((expected == null && actual != null) || (actual == null && expected != null))
             {
                 throw new AssertFailedException($"The expected object is {(expected != null ? "not " : string.Empty)}, while the actual object is {(actual != null ? "not " : string.Empty)} null.");
             }
 
             // assert both objects are the same type
-            Assert.AreEqual(expected.GetType(), actual.GetType());
+            Assert.AreEqual(expected!.GetType(), actual!.GetType());
 
             // if the objects are a value type or a string, assert they are equal and return
             if (typeof(T).IsValueType || typeof(T) == typeof(string))
@@ -59,7 +59,7 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Tests if two objects do not have the same values for their properties.
+        /// Asserts if two objects do not have the same values for their properties.
         /// </summary>
         /// <typeparam name="T"><see cref="Type"/> of objects to compare.</typeparam>
         /// <param name="assert">Assert extension.</param>
