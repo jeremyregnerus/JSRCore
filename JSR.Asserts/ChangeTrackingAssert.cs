@@ -11,41 +11,42 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JSR.Asserts
 {
     /// <summary>
-    /// Tests and checks objects that implement IChangeTracking.
+    /// Asserts and checks objects that implement IChangeTracking.
     /// </summary>
     public static class ChangeTrackingAssert
     {
         #region IsChangedWhenCreated
 
         /// <summary>
-        /// Tests that a type of <see cref="IChangeTracking"/> is flagged <see cref="IChangeTracking.IsChanged"/> when initialized.
+        /// Asserts that a type of <see cref="IChangeTracking"/> is flagged <see cref="IChangeTracking.IsChanged"/> when initialized.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type to test.</param>
-        [TestMethod]
-        public static void IsChangedWhenCreated(Type type)
+        public static void IsChangedWhenCreated(this Assert assert, Type type)
         {
-            IsChangedWhenCreated(CheckTypeIsIChangeTracking(type));
+            IsChangedWhenCreated(assert, CheckTypeIsIChangeTracking(type));
         }
 
         /// <summary>
-        /// Tests that a type of <see cref="IChangeTracking"/> is flagged <see cref="IChangeTracking.IsChanged"/> when initialized.
+        /// Asserts that a type of <see cref="IChangeTracking"/> is flagged <see cref="IChangeTracking.IsChanged"/> when initialized.
         /// </summary>
         /// <typeparam name="T">Type of <see cref="IChangeTracking"/> to test.</typeparam>
-        [TestMethod]
-        public static void IsChangedWhenCreated<T>() where T : IChangeTracking
+        /// <param name="assert">Assert extension.</param>
+        public static void IsChangedWhenCreated<T>(this Assert assert) where T : IChangeTracking
         {
-            IsChangedWhenCreated(Activator.CreateInstance<T>());
+            IsChangedWhenCreated(assert, Activator.CreateInstance<T>());
         }
 
         /// <summary>
-        /// Tests that a type of <see cref="IChangeTracking"/> is flagged <see cref="IChangeTracking.IsChanged"/> when initialized.
+        /// Asserts that a type of <see cref="IChangeTracking"/> is flagged <see cref="IChangeTracking.IsChanged"/> when initialized.
         /// </summary>
         /// <typeparam name="T">Type of <see cref="IChangeTracking"/> to test.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object to test. This object should be a new object for this test.</param>
-        [TestMethod]
-        public static void IsChangedWhenCreated<T>(T? obj) where T : IChangeTracking
+        public static void IsChangedWhenCreated<T>(this Assert assert, T obj) where T : IChangeTracking
         {
-            Assert.IsTrue(obj?.IsChanged);
+            _ = assert;
+            Assert.IsTrue(obj.IsChanged);
         }
 
         #endregion
@@ -53,40 +54,45 @@ namespace JSR.Asserts
         #region AcceptsChanges
 
         /// <summary>
-        /// Tests that an object and it's class and list properties can accept changes.
+        /// Asserts that an object and it's class and list properties can accept changes.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
-        public static void AcceptsChanges(Type type)
+        public static void AcceptsChanges(this Assert assert, Type type)
         {
-            AcceptsChanges(CheckTypeIsIChangeTracking(type));
+            AcceptsChanges(assert, CheckTypeIsIChangeTracking(type));
         }
 
         /// <summary>
-        /// Tests that an object and it's class and list properties can accept changes.
+        /// Asserts that an object and it's class and list properties can accept changes.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
-        public static void AcceptsChanges<T>() where T : IChangeTracking
+        /// <param name="assert">Assert extension.</param>
+        public static void AcceptsChanges<T>(this Assert assert) where T : IChangeTracking
         {
-            AcceptsChanges(Activator.CreateInstance<T>());
+            AcceptsChanges(assert, Activator.CreateInstance<T>());
         }
 
         /// <summary>
-        /// Tests that an object and it's class and list properties can accept changes.
+        /// Asserts that an object and it's class and list properties can accept changes.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object to test.</param>
-        public static void AcceptsChanges<T>(T obj) where T : IChangeTracking
+        public static void AcceptsChanges<T>(this Assert assert, T obj) where T : IChangeTracking
         {
-            for (int i = 0; i < new Random().Next(5, 20); i++)
+            _ = assert;
+
+            ObjectUtilities.PopulateObjectWithRandomValues(obj);
+
+            obj.AcceptChanges();
+            Assert.IsFalse(obj.IsChanged);
+
+            foreach (PropertyInfo property in PropertyUtilities.GetProperties(obj, new(true) { WriteOnlyProperties = false }))
             {
-                ObjectUtilities.PopulateObjectWithRandomValues(obj);
-
-                obj.AcceptChanges();
-                Assert.IsFalse(obj.IsChanged);
-
-                foreach (PropertyInfo property in obj.GetType().GetProperties().Where(property => !PropertyUtilities.IsWriteOnlyProperty(property) && typeof(IChangeTracking).IsAssignableFrom(property.PropertyType)))
+                if (property.GetValue(obj) is IChangeTracking tracking)
                 {
-                    Assert.IsFalse(((IChangeTracking)property.GetValue(obj)!).IsChanged);
+                    Assert.IsFalse(tracking.IsChanged);
                 }
             }
         }
@@ -96,173 +102,188 @@ namespace JSR.Asserts
         #region IsChangedWhenHierarchyChanges
 
         /// <summary>
-        /// /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
+        /// Asserts that when properties, lists and classes change, the parent's IsChanged property is set to true.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
-        public static void IsChangedWhenHierarchyChanges(Type type)
+        public static void IsChangedWhenHierarchyChanges(this Assert assert, Type type)
         {
-            IsChangedWhenHierarchyChanges(CheckTypeIsIChangeTracking(type));
+            IsChangedWhenHierarchyChanges(assert, CheckTypeIsIChangeTracking(type));
         }
 
         /// <summary>
-        /// /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
+        /// Asserts that when properties, lists and classes change, the parent's IsChanged property is set to true.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
         /// <param name="propertyNames">List of property names to test.</param>
-        public static void IsChangedWhenHierarchyChanges(Type type, List<string> propertyNames)
+        public static void IsChangedWhenHierarchyChanges(this Assert assert, Type type, List<string> propertyNames)
         {
-            IsChangedWhenHierarchyChanges(CheckTypeIsIChangeTracking(type), propertyNames);
+            IsChangedWhenHierarchyChanges(assert, CheckTypeIsIChangeTracking(type), propertyNames);
         }
 
         /// <summary>
-        /// /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
+        /// Asserts that when properties, lists and classes change, the parent's IsChanged property is set to true.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void IsChangedWhenHierarchyChanges(Type type, List<PropertyInfo> properties)
+        public static void IsChangedWhenHierarchyChanges(this Assert assert, Type type, List<PropertyInfo> properties)
         {
-            IsChangedWhenHierarchyChanges(CheckTypeIsIChangeTracking(type), properties);
+            IsChangedWhenHierarchyChanges(assert, CheckTypeIsIChangeTracking(type), properties);
         }
 
         /// <summary>
-        /// /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
+        /// Asserts that when properties, lists and classes change, the parent's IsChanged property is set to true.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
         /// <param name="propertyName">Name of property to test.</param>
-        public static void IsChangedWhenHierarchyChanges(Type type, string propertyName)
+        public static void IsChangedWhenHierarchyChanges(this Assert assert, Type type, string propertyName)
         {
-            IsChangedWhenHierarchyChanges(CheckTypeIsIChangeTracking(type), propertyName);
+            IsChangedWhenHierarchyChanges(assert, CheckTypeIsIChangeTracking(type), propertyName);
         }
 
         /// <summary>
-        /// /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
+        /// Asserts that when properties, lists and classes change, the parent's IsChanged property is set to true.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
         /// <param name="property">Property to test.</param>
-        public static void IsChangedWhenHierarchyChanges(Type type, PropertyInfo property)
+        public static void IsChangedWhenHierarchyChanges(this Assert assert, Type type, PropertyInfo property)
         {
-            IsChangedWhenHierarchyChanges(CheckTypeIsIChangeTracking(type), property);
+            IsChangedWhenHierarchyChanges(assert, CheckTypeIsIChangeTracking(type), property);
         }
 
         /// <summary>
-        /// /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
+        /// Asserts that when properties, lists and classes change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
-        public static void IsChangedWhenHierarchyChanges<T>() where T : IChangeTracking
+        /// <param name="assert">Assert extension.</param>
+        public static void IsChangedWhenHierarchyChanges<T>(this Assert assert) where T : IChangeTracking
         {
-            IsChangedWhenHierarchyChanges(Activator.CreateInstance<T>());
+            IsChangedWhenHierarchyChanges(assert, Activator.CreateInstance<T>());
         }
 
         /// <summary>
-        /// /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
+        /// Asserts that when properties, lists and classes change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyNames">List of property names to test.</param>
-        public static void IsChangedWhenHierarchyChanges<T>(List<string> propertyNames) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(this Assert assert, List<string> propertyNames) where T : IChangeTracking
         {
-            IsChangedWhenHierarchyChanges(Activator.CreateInstance<T>(), propertyNames);
+            IsChangedWhenHierarchyChanges(assert, Activator.CreateInstance<T>(), propertyNames);
         }
 
         /// <summary>
-        /// /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
+        /// Asserts that when properties, lists and classes change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void IsChangedWhenHierarchyChanges<T>(List<PropertyInfo> properties) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(this Assert assert, List<PropertyInfo> properties) where T : IChangeTracking
         {
-            IsChangedWhenHierarchyChanges(Activator.CreateInstance<T>(), properties);
+            IsChangedWhenHierarchyChanges(assert, Activator.CreateInstance<T>(), properties);
         }
 
         /// <summary>
-        /// /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
+        /// Asserts that when properties, lists and classes change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyName">Property name to test.</param>
-        public static void IsChangedWhenHierarchyChanges<T>(string propertyName) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(this Assert assert, string propertyName) where T : IChangeTracking
         {
-            IsChangedWhenHierarchyChanges(Activator.CreateInstance<T>(), propertyName);
+            IsChangedWhenHierarchyChanges(assert, Activator.CreateInstance<T>(), propertyName);
         }
 
         /// <summary>
-        /// /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
+        /// Asserts that when properties, lists and classes change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="property">Property to test.</param>
-        public static void IsChangedWhenHierarchyChanges<T>(PropertyInfo property) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(this Assert assert, PropertyInfo property) where T : IChangeTracking
         {
-            IsChangedWhenHierarchyChanges(Activator.CreateInstance<T>(), property);
+            IsChangedWhenHierarchyChanges(assert, Activator.CreateInstance<T>(), property);
         }
 
         /// <summary>
-        /// /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
+        /// Asserts that when properties, lists and classes change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with properties to test.</param>
-        public static void IsChangedWhenHierarchyChanges<T>(T obj) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(this Assert assert, T obj) where T : IChangeTracking
         {
-            IsChangedWhenHierarchyChanges(obj, PropertyUtilities.GetProperties(obj, new GetPropertiesOptions(true) { WriteOnlyProperties = false }));
+            IsChangedWhenHierarchyChanges(assert, obj, PropertyUtilities.GetProperties(obj, new GetPropertiesOptions(true) { WriteOnlyProperties = false }));
         }
 
         /// <summary>
-        /// /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
+        /// Asserts that when properties, lists and classes change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with properties to test.</param>
         /// <param name="propertyNames">List of property names to test.</param>
-        public static void IsChangedWhenHierarchyChanges<T>(T obj, List<string> propertyNames) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(this Assert assert, T obj, List<string> propertyNames) where T : IChangeTracking
         {
             foreach (string propertyName in propertyNames)
             {
-                IsChangedWhenHierarchyChanges(obj, propertyName);
+                IsChangedWhenHierarchyChanges(assert, obj, propertyName);
             }
         }
 
         /// <summary>
-        /// /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
+        /// Asserts that when properties, lists and classes change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with properties to test.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void IsChangedWhenHierarchyChanges<T>(T obj, List<PropertyInfo> properties) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(this Assert assert, T obj, List<PropertyInfo> properties) where T : IChangeTracking
         {
             foreach (PropertyInfo property in properties)
             {
-                IsChangedWhenHierarchyChanges(obj, property);
+                IsChangedWhenHierarchyChanges(assert, obj, property);
             }
         }
 
         /// <summary>
-        /// /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
+        /// Asserts that when properties, lists and classes change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with properties to test.</param>
         /// <param name="propertyName">Name of property to test.</param>
-        public static void IsChangedWhenHierarchyChanges<T>(T obj, string propertyName) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(this Assert assert, T obj, string propertyName) where T : IChangeTracking
         {
-            IsChangedWhenHierarchyChanges(obj, obj.GetType().GetProperty(propertyName) ?? throw new ArgumentNullException(nameof(propertyName)));
+            IsChangedWhenHierarchyChanges(assert, obj, obj.GetType().GetProperty(propertyName)!);
         }
 
         /// <summary>
-        /// Tests that when properties, lists and classes change, the parent's IsChanged property is set to true.
+        /// Asserts that when properties, lists and classes change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with properties to test.</param>
         /// <param name="property">Property to test.</param>
-        public static void IsChangedWhenHierarchyChanges<T>(T obj, PropertyInfo property) where T : IChangeTracking
+        public static void IsChangedWhenHierarchyChanges<T>(this Assert assert, T obj, PropertyInfo property) where T : IChangeTracking
         {
             if (PropertyUtilities.IsReadWriteProperty(property))
             {
-                IsChangedWhenPropertyChanges(obj, property);
+                IsChangedWhenPropertyChanges(assert, obj, property);
             }
 
             if (PropertyUtilities.IsClassProperty(property))
             {
-                IsChangedWhenClassPropertyChanges(obj, property);
+                IsChangedWhenClassPropertyChanges(assert, obj, property);
             }
 
             if (PropertyUtilities.IsListProperty(property))
             {
-                IsChangedWhenListPropertyChanges(obj, property, true, true, true);
+                IsChangedWhenListPropertyChanges(assert, obj, property, true, true, true);
             }
         }
 
@@ -271,95 +292,107 @@ namespace JSR.Asserts
         #region IsChangedWhenPropertiesChange
 
         /// <summary>
-        /// Tests that each property changes the IsChanged state of an object when their values change.
+        /// Asserts that each property changes the IsChanged state of an object when their values change.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/> to test.</param>
-        public static void IsChangedWhenPropertiesChange(Type type)
+        public static void IsChangedWhenPropertiesChange(this Assert assert, Type type)
         {
-            IsChangedWhenPropertiesChange(CheckTypeIsIChangeTracking(type));
+            IsChangedWhenPropertiesChange(assert, CheckTypeIsIChangeTracking(type));
         }
 
         /// <summary>
-        /// Tests that each property changes the IsChanged state of an object when their values change.
+        /// Asserts that each property changes the IsChanged state of an object when their values change.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/> to test.</param>
         /// <param name="propertyNames">List of property names to test.</param>
-        public static void IsChangedWhenPropertiesChange(Type type, List<string> propertyNames)
+        public static void IsChangedWhenPropertiesChange(this Assert assert, Type type, List<string> propertyNames)
         {
-            IsChangedWhenPropertiesChange(CheckTypeIsIChangeTracking(type), propertyNames);
+            IsChangedWhenPropertiesChange(assert, CheckTypeIsIChangeTracking(type), propertyNames);
         }
 
         /// <summary>
-        /// Tests that each property changes the IsChanged state of an object when their values change.
+        /// Asserts that each property changes the IsChanged state of an object when their values change.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/> to test.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void IsChangedWhenPropertiesChange(Type type, List<PropertyInfo> properties)
+        public static void IsChangedWhenPropertiesChange(this Assert assert, Type type, List<PropertyInfo> properties)
         {
-            IsChangedWhenPropertiesChange(CheckTypeIsIChangeTracking(type), properties);
+            IsChangedWhenPropertiesChange(assert, CheckTypeIsIChangeTracking(type), properties);
         }
 
         /// <summary>
-        /// Tests that each property changes the IsChanged state of an object when their values changed.
+        /// Asserts that each property changes the IsChanged state of an object when their values changed.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/> to test.</typeparam>
-        public static void IsChangedWhenPropertiesChange<T>() where T : IChangeTracking
+        /// <param name="assert">Assert extension.</param>
+        public static void IsChangedWhenPropertiesChange<T>(this Assert assert) where T : IChangeTracking
         {
-            IsChangedWhenPropertiesChange(Activator.CreateInstance<T>());
+            IsChangedWhenPropertiesChange(assert, Activator.CreateInstance<T>());
         }
 
         /// <summary>
-        /// Tests that each property changes the IsChanged state of an object when their values change.
+        /// Asserts that each property changes the IsChanged state of an object when their values change.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/> to test.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyNames">List of property names to test.</param>
-        public static void IsChangedWhenPropertiesChange<T>(List<string> propertyNames) where T : IChangeTracking
+        public static void IsChangedWhenPropertiesChange<T>(this Assert assert, List<string> propertyNames) where T : IChangeTracking
         {
-            IsChangedWhenPropertiesChange(Activator.CreateInstance<T>(), propertyNames);
+            IsChangedWhenPropertiesChange(assert, Activator.CreateInstance<T>(), propertyNames);
         }
 
         /// <summary>
-        /// Tests that each property changes the IsChanged state of an object when their values change.
+        /// Asserts that each property changes the IsChanged state of an object when their values change.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/> to test.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void IsChangedWhenPropertiesChange<T>(List<PropertyInfo> properties) where T : IChangeTracking
+        public static void IsChangedWhenPropertiesChange<T>(this Assert assert, List<PropertyInfo> properties) where T : IChangeTracking
         {
-            IsChangedWhenPropertiesChange(Activator.CreateInstance<T>(), properties);
+            IsChangedWhenPropertiesChange(assert, Activator.CreateInstance<T>(), properties);
         }
 
         /// <summary>
-        /// Tests that each property changes the IsChanged state of an object when their values change.
+        /// Asserts that each property changes the IsChanged state of an object when their values change.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/> to test.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object that implements <see cref="IChangeTracking"/> to test.</param>
-        public static void IsChangedWhenPropertiesChange<T>(T obj) where T : IChangeTracking
+        public static void IsChangedWhenPropertiesChange<T>(this Assert assert, T obj) where T : IChangeTracking
         {
-            IsChangedWhenPropertiesChange(obj, PropertyUtilities.GetReadWriteProperties(obj));
+            IsChangedWhenPropertiesChange(assert, obj, PropertyUtilities.GetReadWriteProperties(obj));
         }
 
         /// <summary>
-        /// Tests that each property changes the IsChanged state of an object when their values change.
+        /// Asserts that each property changes the IsChanged state of an object when their values change.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/> to test.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object that implements <see cref="IChangeTracking"/> to test.</param>
         /// <param name="propertyNames">List of property names to change.</param>
-        public static void IsChangedWhenPropertiesChange<T>(T obj, List<string> propertyNames) where T : IChangeTracking
+        public static void IsChangedWhenPropertiesChange<T>(this Assert assert, T obj, List<string> propertyNames) where T : IChangeTracking
         {
-            IsChangedWhenPropertiesChange(obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName)!)));
+            foreach (string propertyName in propertyNames)
+            {
+                IsChangedWhenPropertyChanges(assert, obj, propertyName);
+            }
         }
 
         /// <summary>
-        /// Tests that each property changes the IsChanged state of an object when their values change.
+        /// Asserts that each property changes the IsChanged state of an object when their values change.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/> to test.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object that implements <see cref="IChangeTracking"/> to test.</param>
         /// <param name="properties">List of properties to change.</param>
-        public static void IsChangedWhenPropertiesChange<T>(T obj, List<PropertyInfo> properties) where T : IChangeTracking
+        public static void IsChangedWhenPropertiesChange<T>(this Assert assert, T obj, List<PropertyInfo> properties) where T : IChangeTracking
         {
             foreach (PropertyInfo property in properties)
             {
-                IsChangedWhenPropertyChanges(obj, property);
+                IsChangedWhenPropertyChanges(assert, obj, property);
             }
         }
 
@@ -368,74 +401,78 @@ namespace JSR.Asserts
         #region IsChangedWhenPropertyChanges
 
         /// <summary>
-        /// Tests that a property changes the IsChanged state of an object when its value changes.
+        /// Asserts that a property changes the IsChanged state of an object when its value changes.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/> to test.</param>
         /// <param name="propertyName">Name of property to change.</param>
-        public static void IsChangedWhenPropertyChanges(Type type, string propertyName)
+        public static void IsChangedWhenPropertyChanges(this Assert assert, Type type, string propertyName)
         {
-            IsChangedWhenPropertyChanges(CheckTypeIsIChangeTracking(type), propertyName);
+            IsChangedWhenPropertyChanges(assert, CheckTypeIsIChangeTracking(type), propertyName);
         }
 
         /// <summary>
-        /// Tests that a property changes the IsChanged state of an object when its value changes.
+        /// Asserts that a property changes the IsChanged state of an object when its value changes.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/> to test.</param>
         /// <param name="property">Property to change.</param>
-        public static void IsChangedWhenPropertyChanges(Type type, PropertyInfo property)
+        public static void IsChangedWhenPropertyChanges(this Assert assert, Type type, PropertyInfo property)
         {
-            IsChangedWhenPropertyChanges(CheckTypeIsIChangeTracking(type), property);
+            IsChangedWhenPropertyChanges(assert, CheckTypeIsIChangeTracking(type), property);
         }
 
         /// <summary>
-        /// Tests that a property changes the IsChanged state of an object when its value changes.
+        /// Asserts that a property changes the IsChanged state of an object when its value changes.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyName">Name of property to change.</param>
-        public static void IsChangeWhenPropertyChanges<T>(string propertyName) where T : IChangeTracking
+        public static void IsChangeWhenPropertyChanges<T>(this Assert assert, string propertyName) where T : IChangeTracking
         {
-            IsChangedWhenPropertyChanges(Activator.CreateInstance<T>(), propertyName);
+            IsChangedWhenPropertyChanges(assert, Activator.CreateInstance<T>(), propertyName);
         }
 
         /// <summary>
-        /// Tests that a property changes the IsChanged state of an object when its value changes.
+        /// Asserts that a property changes the IsChanged state of an object when its value changes.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="property">Property to change.</param>
-        public static void IsChangedWhenPropertyChanges<T>(PropertyInfo property) where T : IChangeTracking
+        public static void IsChangedWhenPropertyChanges<T>(this Assert assert, PropertyInfo property) where T : IChangeTracking
         {
-            IsChangedWhenPropertyChanges(Activator.CreateInstance<T>(), property);
+            IsChangedWhenPropertyChanges(assert, Activator.CreateInstance<T>(), property);
         }
 
         /// <summary>
-        /// Tests that an object's IsChanged property is true when a specific property changes.
+        /// Asserts that an object's IsChanged property is true when a specific property changes.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object that implements <see cref="IChangeTracking"/> to test.</param>
         /// <param name="propertyName">Name of property to change.</param>
-        public static void IsChangedWhenPropertyChanges<T>(T obj, string propertyName) where T : IChangeTracking
+        public static void IsChangedWhenPropertyChanges<T>(this Assert assert, T obj, string propertyName) where T : IChangeTracking
         {
-            IsChangedWhenPropertyChanges(obj, obj.GetType().GetProperty(propertyName)!);
+            IsChangedWhenPropertyChanges(assert, obj, obj.GetType().GetProperty(propertyName)!);
         }
 
         /// <summary>
-        /// Tests that a property changes the IsChanged state of an object when its value changes.
+        /// Asserts that a property changes the IsChanged state of an object when its value changes.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object that implements <see cref="IChangeTracking"/> to test.</param>
         /// <param name="property">Property to change.</param>
-        public static void IsChangedWhenPropertyChanges<T>(T obj, PropertyInfo property) where T : IChangeTracking
+        public static void IsChangedWhenPropertyChanges<T>(this Assert assert, T obj, PropertyInfo property) where T : IChangeTracking
         {
+            _ = assert;
+
             if (PropertyUtilities.IsReadWriteProperty(property))
             {
-                for (int i = 0; i < new Random().Next(5, 20); i++)
-                {
-                    obj.AcceptChanges();
+                obj.AcceptChanges();
+                ObjectUtilities.PopulatePropertyWithRandomValue(obj, property);
 
-                    ObjectUtilities.PopulatePropertyWithRandomValue(obj, property);
-
-                    Assert.IsTrue(obj.IsChanged);
-                }
+                Assert.IsTrue(obj.IsChanged);
             }
         }
 
@@ -444,95 +481,107 @@ namespace JSR.Asserts
         #region IsChangedWhenChildClassPropertiesChange
 
         /// <summary>
-        /// Tests that when the child class properties change, the parent's IsChanged property is changed to true.
+        /// Asserts that when the child class properties change, the parent's IsChanged property is changed to true.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/> with class properties to test.</param>
-        public static void IsChangedWhenClassPropertiesChange(Type type)
+        public static void IsChangedWhenClassPropertiesChange(this Assert assert, Type type)
         {
-            IsChangedWhenClassPropertiesChange(CheckTypeIsIChangeTracking(type));
+            IsChangedWhenClassPropertiesChange(assert, CheckTypeIsIChangeTracking(type));
         }
 
         /// <summary>
-        /// Tests that when the child class properties change, the parent's Ischanged property is changed to true.
+        /// Asserts that when the child class properties change, the parent's Ischanged property is changed to true.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/> with class properties.</param>
         /// <param name="propertyNames">List of property names that implement <see cref="IChangeTracking"/> to test.</param>
-        public static void IsChangedWhenClassPropertiesChange(Type type, List<string> propertyNames)
+        public static void IsChangedWhenClassPropertiesChange(this Assert assert, Type type, List<string> propertyNames)
         {
-            IsChangedWhenClassPropertiesChange(CheckTypeIsIChangeTracking(type), propertyNames);
+            IsChangedWhenClassPropertiesChange(assert, CheckTypeIsIChangeTracking(type), propertyNames);
         }
 
         /// <summary>
-        /// Tests that when the child class properties change, the parent's IsChanged property is changed to true.
+        /// Asserts that when the child class properties change, the parent's IsChanged property is changed to true.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/> with class properties.</param>
         /// <param name="properties">List of properties that implement <see cref="IChangeTracking"/> to test.</param>
-        public static void IsChangedWhenClassPropertiesChange(Type type, List<PropertyInfo> properties)
+        public static void IsChangedWhenClassPropertiesChange(this Assert assert, Type type, List<PropertyInfo> properties)
         {
-            IsChangedWhenClassPropertiesChange(CheckTypeIsIChangeTracking(type), properties);
+            IsChangedWhenClassPropertiesChange(assert, CheckTypeIsIChangeTracking(type), properties);
         }
 
         /// <summary>
-        /// Tests that when the child class properties change, the parent's IsChanged state is changed to true.
+        /// Asserts that when the child class properties change, the parent's IsChanged state is changed to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/> with class properties.</typeparam>
-        public static void IsChangedWhenClassPropertiesChange<T>() where T : IChangeTracking
+        /// <param name="assert">Assert extension.</param>
+        public static void IsChangedWhenClassPropertiesChange<T>(this Assert assert) where T : IChangeTracking
         {
-            IsChangedWhenClassPropertiesChange(Activator.CreateInstance<T>());
+            IsChangedWhenClassPropertiesChange(assert, Activator.CreateInstance<T>());
         }
 
         /// <summary>
-        /// Tests that when the child class properties change, the parent's IsChanged property is changed to true.
+        /// Asserts that when the child class properties change, the parent's IsChanged property is changed to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/> with class properties to test.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyNames">List of property names that implement <see cref="IChangeTracking"/> to test.</param>
-        public static void IsChangedWhenClassPropertiesChange<T>(List<string> propertyNames) where T : IChangeTracking
+        public static void IsChangedWhenClassPropertiesChange<T>(this Assert assert, List<string> propertyNames) where T : IChangeTracking
         {
-            IsChangedWhenClassPropertiesChange(Activator.CreateInstance<T>(), propertyNames);
+            IsChangedWhenClassPropertiesChange(assert, Activator.CreateInstance<T>(), propertyNames);
         }
 
         /// <summary>
-        /// Tests that when the child class properties change, the parent's IsChanged property is changed to true.
+        /// Asserts that when the child class properties change, the parent's IsChanged property is changed to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/> with class properties to test.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="properties">List of properties that implement <see cref="IChangeTracking"/> to test.</param>
-        public static void IsChangedWhenClassPropertiesChange<T>(List<PropertyInfo> properties) where T : IChangeTracking
+        public static void IsChangedWhenClassPropertiesChange<T>(this Assert assert, List<PropertyInfo> properties) where T : IChangeTracking
         {
-            IsChangedWhenClassPropertiesChange(Activator.CreateInstance<T>(), properties);
+            IsChangedWhenClassPropertiesChange(assert, Activator.CreateInstance<T>(), properties);
         }
 
         /// <summary>
-        /// Tests that when the child class properties change, the parent's IsChanged property is changed to true.
+        /// Asserts that when the child class properties change, the parent's IsChanged property is changed to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/> with class properties.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object to test.</param>
-        public static void IsChangedWhenClassPropertiesChange<T>(T obj) where T : IChangeTracking
+        public static void IsChangedWhenClassPropertiesChange<T>(this Assert assert, T obj) where T : IChangeTracking
         {
-            IsChangedWhenClassPropertiesChange(obj, PropertyUtilities.GetClassProperties(obj, new GetPropertiesOptions(true) { WriteOnlyProperties = false }));
+            IsChangedWhenClassPropertiesChange(assert, obj, PropertyUtilities.GetClassProperties(obj, new GetPropertiesOptions(true) { WriteOnlyProperties = false }));
         }
 
         /// <summary>
-        /// Tests that when the child class properties change, the parent's IsChanged property is changed to true.
+        /// Asserts that when the child class properties change, the parent's IsChanged property is changed to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with properties to test.</param>
         /// <param name="propertyNames">List of class property names to test. Each class should implement <see cref="IChangeTracking"/>.</param>
-        public static void IsChangedWhenClassPropertiesChange<T>(T obj, List<string> propertyNames) where T : IChangeTracking
+        public static void IsChangedWhenClassPropertiesChange<T>(this Assert assert, T obj, List<string> propertyNames) where T : IChangeTracking
         {
-            IsChangedWhenClassPropertiesChange(obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName)!)));
+            foreach (string propertyName in propertyNames)
+            {
+                IsChangedWhenClassPropertyChanges(assert, obj, obj.GetType().GetProperty(propertyName)!);
+            }
         }
 
         /// <summary>
-        /// Tests that when the child class properties change, the parent's IsChanged property is changed to true.
+        /// Asserts that when the child class properties change, the parent's IsChanged property is changed to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with properties to test.</param>
         /// <param name="properties">List of class properties to test. Each class should implement <see cref="IChangeTracking"/>.</param>
-        public static void IsChangedWhenClassPropertiesChange<T>(T obj, List<PropertyInfo> properties) where T : IChangeTracking
+        public static void IsChangedWhenClassPropertiesChange<T>(this Assert assert, T obj, List<PropertyInfo> properties) where T : IChangeTracking
         {
             foreach (PropertyInfo property in properties)
             {
-                IsChangedWhenClassPropertyChanges(obj, property);
+                IsChangedWhenClassPropertyChanges(assert, obj, property);
             }
         }
 
@@ -541,229 +590,245 @@ namespace JSR.Asserts
         #region IsChangedWhenClassPropertyChanges
 
         /// <summary>
-        /// Tests that when a property with a class value changes, it changes the parent's IsChanged property to true.
+        /// Asserts that when a property with a class value changes, it changes the parent's IsChanged property to true.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
         /// <param name="propertyName">Name of property that implements <see cref="IChangeTracking"/> to test.</param>
-        public static void IsChangedWhenClassPropertyChanges(Type type, string propertyName)
+        public static void IsChangedWhenClassPropertyChanges(this Assert assert, Type type, string propertyName)
         {
-            IsChangedWhenClassPropertyChanges(CheckTypeIsIChangeTracking(type), propertyName);
+            IsChangedWhenClassPropertyChanges(assert, CheckTypeIsIChangeTracking(type), propertyName);
         }
 
         /// <summary>
-        /// Tests that when a property with a class value changes, it changes the parent's IsChanged property to true.
+        /// Asserts that when a property with a class value changes, it changes the parent's IsChanged property to true.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
         /// <param name="property">Property that implements <see cref="IChangeTracking"/> to test.</param>
-        public static void IsChangedWhenClassPropertyChanges(Type type, PropertyInfo property)
+        public static void IsChangedWhenClassPropertyChanges(this Assert assert, Type type, PropertyInfo property)
         {
-            IsChangedWhenClassPropertyChanges(CheckTypeIsIChangeTracking(type), property);
+            IsChangedWhenClassPropertyChanges(assert, CheckTypeIsIChangeTracking(type), property);
         }
 
         /// <summary>
-        /// Tests that when a property with a class value changes, it changes the parent's IsChanged property to true.
+        /// Asserts that when a property with a class value changes, it changes the parent's IsChanged property to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyName">Name of property that implements <see cref="IChangeTracking"/> to test.</param>
-        public static void IsChangedWhenClassPropertyChanges<T>(string propertyName) where T : IChangeTracking
+        public static void IsChangedWhenClassPropertyChanges<T>(this Assert assert, string propertyName) where T : IChangeTracking
         {
-            IsChangedWhenClassPropertyChanges<T>(typeof(T).GetProperty(propertyName)!);
+            IsChangedWhenClassPropertyChanges<T>(assert, typeof(T).GetProperty(propertyName)!);
         }
 
         /// <summary>
-        /// Tests that when a property with a class value changes, it changes the parent's IsChanged property to true.
+        /// Asserts that when a property with a class value changes, it changes the parent's IsChanged property to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="property">Property that implements <see cref="IChangeTracking"/> to test.</param>
-        public static void IsChangedWhenClassPropertyChanges<T>(PropertyInfo property) where T : IChangeTracking
+        public static void IsChangedWhenClassPropertyChanges<T>(this Assert assert, PropertyInfo property) where T : IChangeTracking
         {
-            IsChangedWhenClassPropertyChanges(Activator.CreateInstance<T>(), property);
+            IsChangedWhenClassPropertyChanges(assert, Activator.CreateInstance<T>(), property);
         }
 
         /// <summary>
-        /// Tests that when a property with a class value changes, it changes the parent's IsChanged property to true.
+        /// Asserts that when a property with a class value changes, it changes the parent's IsChanged property to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with property to test.</param>
         /// <param name="propertyName">Name of property that implements <see cref="IChangeTracking"/> to test.</param>
-        public static void IsChangedWhenClassPropertyChanges<T>(T obj, string propertyName) where T : IChangeTracking
+        public static void IsChangedWhenClassPropertyChanges<T>(this Assert assert, T obj, string propertyName) where T : IChangeTracking
         {
-            IsChangedWhenClassPropertyChanges(obj, obj.GetType().GetProperty(propertyName)!);
+            IsChangedWhenClassPropertyChanges(assert, obj, obj.GetType().GetProperty(propertyName)!);
         }
 
         /// <summary>
-        /// Tests that when a property with a class value changes, it changes the parent's IsChanged property to true.
+        /// Asserts that when a property with a class value changes, it changes the parent's IsChanged property to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with property to test.</param>
         /// <param name="property">Property that implements <see cref="IChangeTracking"/> to test.</param>
-        public static void IsChangedWhenClassPropertyChanges<T>(T obj, PropertyInfo property) where T : IChangeTracking
+        public static void IsChangedWhenClassPropertyChanges<T>(this Assert assert, T obj, PropertyInfo property) where T : IChangeTracking
         {
-            IsChangedWhenChildClassChanges(obj, property.GetValue(obj)!);
+            IsChangedWhenChildClassChanges(assert, obj, property.GetValue(obj));
         }
 
         #endregion
 
         /// <summary>
-        /// Tests that when the child classes change, it changes the parent's IsChanged property to true.
+        /// Asserts that when the child classes change, it changes the parent's IsChanged property to true.
         /// </summary>
         /// <typeparam name="TParent">Type that implements <see cref="IChangeTracking"/> with child classes.</typeparam>
         /// <typeparam name="TChild">Type that implements <see cref="IChangeTracking"/> as a child class of the parent.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="parent">Parent object that contains child classes contained within the list.</param>
         /// <param name="children">Class objects contained within the properties of the object being tested.</param>
-        public static void IsChangedWhenChildClassesChange<TParent, TChild>(TParent parent, List<TChild> children) where TParent : IChangeTracking
+        public static void IsChangedWhenChildClassesChange<TParent, TChild>(this Assert assert, TParent parent, List<TChild> children) where TParent : IChangeTracking
         {
             foreach (TChild child in children)
             {
-                IsChangedWhenChildClassChanges(parent, child);
+                IsChangedWhenChildClassChanges(assert, parent, child);
             }
         }
 
         /// <summary>
-        /// Tests that when a child class changes, it changes the parent's IsChanged property to true.
+        /// Asserts that when a child class changes, it changes the parent's IsChanged property to true.
         /// </summary>
         /// <typeparam name="TParent">Type that implements <see cref="IChangeTracking"/> and contains the TChild type.</typeparam>
         /// <typeparam name="TChild">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="parentObj">Parent object to test.</param>
         /// <param name="childObj">Child object to change.</param>
-        public static void IsChangedWhenChildClassChanges<TParent, TChild>(TParent parentObj, TChild childObj) where TParent : IChangeTracking
+        public static void IsChangedWhenChildClassChanges<TParent, TChild>(this Assert assert, TParent parentObj, TChild childObj) where TParent : IChangeTracking
         {
-            bool childIsIChangeTracking = typeof(IChangeTracking).IsAssignableFrom(typeof(TChild));
+            _ = assert;
 
-            for (int i = 0; i < new Random().Next(5, 20); i++)
+            parentObj.AcceptChanges();
+            ObjectUtilities.PopulateObjectWithRandomValues(childObj);
+
+            Assert.IsTrue(parentObj.IsChanged);
+
+            if (childObj is IChangeTracking tracking)
             {
-                parentObj.AcceptChanges();
-
-                ObjectUtilities.PopulateObjectWithRandomValues(childObj);
-
-                Assert.IsTrue(parentObj.IsChanged);
-
-                if (childIsIChangeTracking)
-                {
-                    Assert.IsTrue(((IChangeTracking)childObj!).IsChanged);
-                }
+                Assert.IsTrue(tracking.IsChanged);
             }
         }
 
         #region IsChangedWhenListPropertiesChange
 
         /// <summary>
-        /// Tests that when list properties change, the parent's IsChanged property is set to true.
+        /// Asserts that when list properties change, the parent's IsChanged property is set to true.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
         /// <param name="addItems">Test adding items to lists.</param>
         /// <param name="removeItems">Test removing items from lists.</param>
         /// <param name="changeItems">Test changing items in lists.</param>
-        public static void IsChangedWhenListPropertiesChange(Type type, bool addItems, bool removeItems, bool changeItems)
+        public static void IsChangedWhenListPropertiesChange(this Assert assert, Type type, bool addItems, bool removeItems, bool changeItems)
         {
-            IsChangedWhenListPropertiesChange(CheckTypeIsIChangeTracking(type), addItems, removeItems, changeItems);
+            IsChangedWhenListPropertiesChange(assert, CheckTypeIsIChangeTracking(type), addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when list properties change, the parent's IsChanged property is set to true.
+        /// Asserts that when list properties change, the parent's IsChanged property is set to true.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
         /// <param name="propertyNames">List of property names that implement <see cref="IList"/> and <see cref="IChangeTracking"/>.</param>
         /// <param name="addItems">Test adding items to lists.</param>
         /// <param name="removeItems">Test removing items from lists.</param>
         /// <param name="changeItems">Test changing items in lists.</param>
-        public static void IsChangedWhenListPropertiesChange(Type type, List<string> propertyNames, bool addItems, bool removeItems, bool changeItems)
+        public static void IsChangedWhenListPropertiesChange(this Assert assert, Type type, List<string> propertyNames, bool addItems, bool removeItems, bool changeItems)
         {
-            IsChangedWhenListPropertiesChange(CheckTypeIsIChangeTracking(type), propertyNames, addItems, removeItems, changeItems);
+            IsChangedWhenListPropertiesChange(assert, CheckTypeIsIChangeTracking(type), propertyNames, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when list properties change, the parent's IsChanged property is set to true.
+        /// Asserts that when list properties change, the parent's IsChanged property is set to true.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
         /// <param name="properties">List of properties that implement <see cref="IList"/> and <see cref="IChangeTracking"/>.</param>
         /// <param name="addItems">Test adding items to lists.</param>
         /// <param name="removeItems">Test removing items from lists.</param>
         /// <param name="changeItems">Test changing items in lists.</param>
-        public static void IsChangedWhenListPropertiesChange(Type type, List<PropertyInfo> properties, bool addItems, bool removeItems, bool changeItems)
+        public static void IsChangedWhenListPropertiesChange(this Assert assert, Type type, List<PropertyInfo> properties, bool addItems, bool removeItems, bool changeItems)
         {
-            IsChangedWhenListPropertiesChange(CheckTypeIsIChangeTracking(type), properties, addItems, removeItems, changeItems);
+            IsChangedWhenListPropertiesChange(assert, CheckTypeIsIChangeTracking(type), properties, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when list properties change, the parent's IsChanged property is set to true.
+        /// Asserts that when list properties change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="addItems">Test adding items to lists.</param>
         /// <param name="removeItems">Test removing items from lists.</param>
         /// <param name="changeItems">Test changing items in lists.</param>
-        public static void IsChangedWhenListPropertiesChange<T>(bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
+        public static void IsChangedWhenListPropertiesChange<T>(this Assert assert, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
         {
-            IsChangedWhenListPropertiesChange(Activator.CreateInstance<T>(), addItems, removeItems, changeItems);
+            IsChangedWhenListPropertiesChange(assert, Activator.CreateInstance<T>(), addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when list properties change, the parent's IsChanged property is set to true.
+        /// Asserts that when list properties change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyNames">List of property names that implement <see cref="IList"/> and <see cref="IChangeTracking"/>.</param>
         /// <param name="addItems">Test adding items to lists.</param>
         /// <param name="removeItems">Test removing items from lists.</param>
         /// <param name="changeItems">Test changing items in lists.</param>
-        public static void IsChangedWhenListPropertiesChange<T>(List<string> propertyNames, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
+        public static void IsChangedWhenListPropertiesChange<T>(this Assert assert, List<string> propertyNames, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
         {
-            IsChangedWhenListPropertiesChange(Activator.CreateInstance<T>(), propertyNames, addItems, removeItems, changeItems);
+            IsChangedWhenListPropertiesChange(assert, Activator.CreateInstance<T>(), propertyNames, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when list properties change, the parent's IsChanged property is set to true.
+        /// Asserts that when list properties change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="properties">List of properties that implement <see cref="IList"/> and <see cref="IChangeTracking"/>.</param>
         /// <param name="addItems">Test adding items to lists.</param>
         /// <param name="removeItems">Test removing items from lists.</param>
         /// <param name="changeItems">Test changing items in lists.</param>
-        public static void IsChangedWhenListPropertiesChange<T>(List<PropertyInfo> properties, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
+        public static void IsChangedWhenListPropertiesChange<T>(this Assert assert, List<PropertyInfo> properties, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
         {
-            IsChangedWhenListPropertiesChange(Activator.CreateInstance<T>(), properties, addItems, removeItems, changeItems);
+            IsChangedWhenListPropertiesChange(assert, Activator.CreateInstance<T>(), properties, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when list properties change, the parent's IsChanged property is set to true.
+        /// Asserts that when list properties change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with list properties to test.</param>
         /// <param name="addItems">Test adding items to lists.</param>
         /// <param name="removeItems">Test removing items from lists.</param>
         /// <param name="changeItems">Test changing items in lists.</param>
-        public static void IsChangedWhenListPropertiesChange<T>(T obj, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
+        public static void IsChangedWhenListPropertiesChange<T>(this Assert assert, T obj, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
         {
-            IsChangedWhenListPropertiesChange(obj, PropertyUtilities.GetListProperties(obj, new GetPropertiesOptions(true) { WriteOnlyProperties = false }), addItems, removeItems, changeItems);
+            IsChangedWhenListPropertiesChange(assert, obj, PropertyUtilities.GetListProperties(obj, new GetPropertiesOptions(true) { WriteOnlyProperties = false }), addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when list properties change, the parent's IsChanged property is set to true.
+        /// Asserts that when list properties change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with list properties to test.</param>
         /// <param name="propertyNames">List of property names that implement <see cref="IList"/> and <see cref="IChangeTracking"/>.</param>
         /// <param name="addItems">Test adding items to lists.</param>
         /// <param name="removeItems">Test removing items from lists.</param>
         /// <param name="changeItems">Test changing items in lists.</param>
-        public static void IsChangedWhenListPropertiesChange<T>(T obj, List<string> propertyNames, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
+        public static void IsChangedWhenListPropertiesChange<T>(this Assert assert, T obj, List<string> propertyNames, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
         {
-            IsChangedWhenListPropertiesChange(obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName)!)), addItems, removeItems, changeItems);
+            foreach (string propertyName in propertyNames)
+            {
+                IsChangedWhenListPropertyChanges(assert, obj, obj.GetType().GetProperty(propertyName)!, addItems, removeItems, changeItems);
+            }
         }
 
         /// <summary>
-        /// Tests that when list properties change, the parent's IsChanged property is set to true.
+        /// Asserts that when list properties change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with lists to test.</param>
         /// <param name="properties">List of properties that implement <see cref="IList"/> and <see cref="IChangeTracking"/>.</param>
         /// <param name="addItems">Test adding items to lists.</param>
         /// <param name="removeItems">Test removing items from lists.</param>
         /// <param name="changeItems">Test changing items in lists.</param>
-        public static void IsChangedWhenListPropertiesChange<T>(T obj, List<PropertyInfo> properties, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
+        public static void IsChangedWhenListPropertiesChange<T>(this Assert assert, T obj, List<PropertyInfo> properties, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
         {
             foreach (PropertyInfo property in properties)
             {
-                IsChangedWhenListPropertyChanges(obj, property, addItems, removeItems, changeItems);
+                IsChangedWhenListPropertyChanges(assert, obj, property, addItems, removeItems, changeItems);
             }
         }
 
@@ -772,172 +837,179 @@ namespace JSR.Asserts
         #region IsChangedWhenListPropertyChanges
 
         /// <summary>
-        /// Tests that when a list property changes, the parent's IsChanged property is set to true.
+        /// Asserts that when a list property changes, the parent's IsChanged property is set to true.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
         /// <param name="propertyName">Name of list property to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void IsChangedWhenListPropertyChanges(Type type, string propertyName, bool addItems, bool removeItems, bool changeItems)
+        public static void IsChangedWhenListPropertyChanges(this Assert assert, Type type, string propertyName, bool addItems, bool removeItems, bool changeItems)
         {
-            IsChangedWhenListPropertyChanges(CheckTypeIsIChangeTracking(type), propertyName, addItems, removeItems, changeItems);
+            IsChangedWhenListPropertyChanges(assert, CheckTypeIsIChangeTracking(type), propertyName, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when a list property changes, the parent's IsChanged property is set to true.
+        /// Asserts that when a list property changes, the parent's IsChanged property is set to true.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="IChangeTracking"/>.</param>
         /// <param name="property">List property to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void IsChangedWhenListPropertyChanges(Type type, PropertyInfo property, bool addItems, bool removeItems, bool changeItems)
+        public static void IsChangedWhenListPropertyChanges(this Assert assert, Type type, PropertyInfo property, bool addItems, bool removeItems, bool changeItems)
         {
-            IsChangedWhenListPropertyChanges(CheckTypeIsIChangeTracking(type), property, addItems, removeItems, changeItems);
+            IsChangedWhenListPropertyChanges(assert, CheckTypeIsIChangeTracking(type), property, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when a list property changes, the parent's IsChanged property is set to true.
+        /// Asserts that when a list property changes, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyName">Name of list property to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void IsChangedWhenListPropertyChanges<T>(string propertyName, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
+        public static void IsChangedWhenListPropertyChanges<T>(this Assert assert, string propertyName, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
         {
-            IsChangedWhenListPropertyChanges<T>(typeof(T).GetProperty(propertyName)!, addItems, removeItems, changeItems);
+            IsChangedWhenListPropertyChanges<T>(assert, typeof(T).GetProperty(propertyName)!, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when a list property changes, the parent's IsChanged property is set to true.
+        /// Asserts that when a list property changes, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="property">List property to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void IsChangedWhenListPropertyChanges<T>(PropertyInfo property, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
+        public static void IsChangedWhenListPropertyChanges<T>(this Assert assert, PropertyInfo property, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
         {
-            IsChangedWhenListPropertyChanges(Activator.CreateInstance<T>(), property, addItems, removeItems, changeItems);
+            IsChangedWhenListPropertyChanges(assert, Activator.CreateInstance<T>(), property, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when a list property changes, the parent's IsChanged property is set to true.
+        /// Asserts that when a list property changes, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with list property.</param>
         /// <param name="propertyName">Name of list property to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void IsChangedWhenListPropertyChanges<T>(T obj, string propertyName, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
+        public static void IsChangedWhenListPropertyChanges<T>(this Assert assert, T obj, string propertyName, bool addItems, bool removeItems, bool changeItems) where T : IChangeTracking
         {
-            IsChangedWhenListPropertyChanges(obj, obj.GetType().GetProperty(propertyName)!, addItems, removeItems, changeItems);
+            IsChangedWhenListPropertyChanges(assert, obj, obj.GetType().GetProperty(propertyName)!, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when a list property changes, the parent's IsChanged property is set to true.
+        /// Asserts that when a list property changes, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="TParent">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with list property.</param>
         /// <param name="property">List property to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void IsChangedWhenListPropertyChanges<TParent>(TParent obj, PropertyInfo property, bool addItems, bool removeItems, bool changeItems) where TParent : IChangeTracking
+        public static void IsChangedWhenListPropertyChanges<TParent>(this Assert assert, TParent obj, PropertyInfo property, bool addItems, bool removeItems, bool changeItems) where TParent : IChangeTracking
         {
-            if (typeof(IList).IsAssignableFrom(property.PropertyType))
+            if (property.GetValue(obj) is IList list)
             {
-                IsChangedWhenListChanges(obj, (IList)property.GetValue(obj)!, addItems, removeItems, changeItems);
+                IsChangedWhenListChanges(assert, obj, list, addItems, removeItems, changeItems);
             }
         }
 
         #endregion
 
         /// <summary>
-        /// Tests that when lists change, the parent's IsChanged property is set to true.
+        /// Asserts that when lists change, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="TParent">Type implements <see cref="IChangeTracking"/>.</typeparam>
         /// <typeparam name="TList">Type that implements <see cref="IChangeTracking"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with lists to test.</param>
         /// <param name="lists">List of <see cref="IList"/>.</param>
         /// <param name="addItems">Test adding items to lists.</param>
         /// <param name="removeItems">Test removing items from lists.</param>
         /// <param name="changeItems">Test changing items in lists.</param>
-        public static void IsChangedWhenListsChange<TParent, TList>(TParent obj, List<IList> lists, bool addItems, bool removeItems, bool changeItems) where TParent : IChangeTracking where TList : IList
+        public static void IsChangedWhenListsChange<TParent, TList>(this Assert assert, TParent obj, List<IList> lists, bool addItems, bool removeItems, bool changeItems) where TParent : IChangeTracking where TList : IList
         {
             foreach (IList list in lists)
             {
-                IsChangedWhenListChanges(obj, list, addItems, removeItems, changeItems);
+                IsChangedWhenListChanges(assert, obj, list, addItems, removeItems, changeItems);
             }
         }
 
         /// <summary>
-        /// Tests that when a list changes, the parent's IsChanged property is set to true.
+        /// Asserts that when a list changes, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="TParent">Type that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <typeparam name="TList">Type that implements <see cref="IList"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with list to test.</param>
         /// <param name="list">List to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void IsChangedWhenListChanges<TParent, TList>(TParent obj, TList list, bool addItems, bool removeItems, bool changeItems) where TParent : IChangeTracking where TList : IList
+        public static void IsChangedWhenListChanges<TParent, TList>(this Assert assert, TParent obj, TList list, bool addItems, bool removeItems, bool changeItems) where TParent : IChangeTracking where TList : IList
         {
             if (addItems)
             {
-                IsChangedWhenListItemsAdded(obj, list);
+                IsChangedWhenListItemsAdded(assert, obj, list);
             }
 
             if (removeItems)
             {
-                IsChangedWhenListItemsRemoved(obj, list);
+                IsChangedWhenListItemsRemoved(assert, obj, list);
             }
 
             if (changeItems)
             {
-                IsChangedWhenListItemsChange(obj, list);
+                IsChangedWhenListItemsChange(assert, obj, list);
             }
         }
 
         /// <summary>
-        /// Tests that when items are added to a list, the parent's IsChanged property is set to true.
+        /// Asserts that when items are added to a list, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="TParent">Type that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <typeparam name="TList">Type that implements <see cref="IList"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with list to add items to.</param>
         /// <param name="list">List to add items to.</param>
-        public static void IsChangedWhenListItemsAdded<TParent, TList>(TParent obj, TList list) where TParent : IChangeTracking where TList : IList
+        public static void IsChangedWhenListItemsAdded<TParent, TList>(this Assert assert, TParent obj, TList list) where TParent : IChangeTracking where TList : IList
         {
-            bool listIsIChangeTracking = typeof(IChangeTracking).IsAssignableFrom(list.GetType());
+            _ = assert;
 
-            for (int i = 0; i < new Random().Next(5, 20); i++)
+            obj.AcceptChanges();
+
+            ObjectUtilities.AddRandomItemsToList(list);
+
+            Assert.IsTrue(obj.IsChanged);
+
+            if (list is IChangeTracking tracking)
             {
-                obj.AcceptChanges();
-
-                ObjectUtilities.AddRandomItemsToList(list);
-
-                Assert.IsTrue(obj.IsChanged);
-
-                if (listIsIChangeTracking)
-                {
-                    Assert.IsTrue(((IChangeTracking)list).IsChanged);
-                }
+                Assert.IsTrue(tracking.IsChanged);
             }
         }
 
         /// <summary>
-        /// Tests that when items are removed from a list, the parent's IsChanged property is set to true.
+        /// Asserts that when items are removed from a list, the parent's IsChanged property is set to true.
         /// </summary>
         /// <typeparam name="TParent">Type that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <typeparam name="TList">Type that implements <see cref="IList"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with list to remove items from.</param>
         /// <param name="list">List to remove items from.</param>
-        public static void IsChangedWhenListItemsRemoved<TParent, TList>(TParent obj, TList list) where TParent : IChangeTracking where TList : IList
+        public static void IsChangedWhenListItemsRemoved<TParent, TList>(this Assert assert, TParent obj, TList list) where TParent : IChangeTracking where TList : IList
         {
-            bool listIsIChangeTracking = typeof(IChangeTracking).IsAssignableFrom(list.GetType());
+            _ = assert;
 
             if (list.Count == 0)
             {
@@ -952,9 +1024,9 @@ namespace JSR.Asserts
 
                 Assert.IsTrue(obj.IsChanged);
 
-                if (listIsIChangeTracking)
+                if (list is IChangeTracking tracking)
                 {
-                    Assert.IsTrue(((IChangeTracking)list).IsChanged);
+                    Assert.IsTrue(tracking.IsChanged);
                 }
             }
         }
@@ -964,11 +1036,12 @@ namespace JSR.Asserts
         /// </summary>
         /// <typeparam name="TParent">Type that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <typeparam name="TList">Type that implements <see cref="IList"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with list of items to change.</param>
         /// <param name="list">List with items to change.</param>
-        public static void IsChangedWhenListItemsChange<TParent, TList>(TParent obj, TList list) where TParent : IChangeTracking where TList : IList
+        public static void IsChangedWhenListItemsChange<TParent, TList>(this Assert assert, TParent obj, TList list) where TParent : IChangeTracking where TList : IList
         {
-            bool listIsIChangeTracking = typeof(IChangeTracking).IsAssignableFrom(list.GetType());
+            _ = assert;
 
             if (list.Count == 0)
             {
@@ -983,14 +1056,14 @@ namespace JSR.Asserts
 
                 Assert.IsTrue(obj.IsChanged);
 
-                if (listIsIChangeTracking)
+                if (list is IChangeTracking listTracking)
                 {
-                    Assert.IsTrue(((IChangeTracking)list).IsChanged);
+                    Assert.IsTrue(listTracking.IsChanged);
                 }
 
-                if (typeof(IChangeTracking).IsAssignableFrom(item.GetType()))
+                if (item is IChangeTracking itemTracking)
                 {
-                    Assert.IsTrue(((IChangeTracking)item).IsChanged);
+                    Assert.IsTrue(itemTracking.IsChanged);
                 }
             }
         }
@@ -1000,10 +1073,13 @@ namespace JSR.Asserts
         /// </summary>
         /// <param name="type">Type to test and create.</param>
         /// <returns>A new instance of the type specified that implements <see cref="IChangeTracking"/>.</returns>
-        public static IChangeTracking? CheckTypeIsIChangeTracking(Type type)
+        public static IChangeTracking CheckTypeIsIChangeTracking(Type type)
         {
             Assert.IsTrue(typeof(IChangeTracking).IsAssignableFrom(type));
-            return (IChangeTracking?)Activator.CreateInstance(type);
+            var obj = Activator.CreateInstance(type);
+            Assert.IsNotNull(obj);
+
+            return (IChangeTracking)obj;
         }
     }
 }
