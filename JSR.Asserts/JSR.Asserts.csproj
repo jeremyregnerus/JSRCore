@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>disable</Nullable>
+        <Nullable>enable</Nullable>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Authors>Jeremy Regnerus</Authors>
@@ -32,7 +32,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\JSR.Utilities\JSR.Utilities.csproj" />
+      <ProjectReference Include="..\JSR.BaseClasses\JSR.BaseClasses.csproj" />
+      <ProjectReference Include="..\JSR.Utilities\JSR.Utilities.csproj" />
     </ItemGroup>
 
 </Project>

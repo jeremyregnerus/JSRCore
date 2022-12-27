@@ -4,7 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <Authors>Jeremy Regnerus</Authors>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>disable</Nullable>
+        <Nullable>enable</Nullable>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Title>JSR Utilities</Title>

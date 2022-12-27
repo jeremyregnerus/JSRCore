@@ -43,9 +43,9 @@ namespace JSR.Asserts
         /// <typeparam name="T">Type of <see cref="IChangeTracking"/> to test.</typeparam>
         /// <param name="obj">Object to test. This object should be a new object for this test.</param>
         [TestMethod]
-        public static void IsChangedWhenCreated<T>(T obj) where T : IChangeTracking
+        public static void IsChangedWhenCreated<T>(T? obj) where T : IChangeTracking
         {
-            Assert.IsTrue(obj.IsChanged);
+            Assert.IsTrue(obj?.IsChanged);
         }
 
         #endregion
@@ -1000,10 +1000,10 @@ namespace JSR.Asserts
         /// </summary>
         /// <param name="type">Type to test and create.</param>
         /// <returns>A new instance of the type specified that implements <see cref="IChangeTracking"/>.</returns>
-        public static IChangeTracking CheckTypeIsIChangeTracking(Type type)
+        public static IChangeTracking? CheckTypeIsIChangeTracking(Type type)
         {
             Assert.IsTrue(typeof(IChangeTracking).IsAssignableFrom(type));
-            return (IChangeTracking)Activator.CreateInstance(type);
+            return (IChangeTracking?)Activator.CreateInstance(type);
         }
     }
 }

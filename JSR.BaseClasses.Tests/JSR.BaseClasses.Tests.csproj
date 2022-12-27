@@ -1,25 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <Version>0.1.0</Version>
     <Authors>Jeremy Regnerus</Authors>
-    <Copyright>Copyright © Jeremy Regnerus 2023</Copyright>
     <PackageProjectUrl>https://github.com/jeremyregnerus/JSRCore</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jeremyregnerus/JSRCore</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <AssemblyVersion></AssemblyVersion>
-    <FileVersion></FileVersion>
+    <Copyright>Copyright © Jeremy Regnerus 2023</Copyright>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <Version>0.1.0</Version>
     <ImplicitUsings>enable</ImplicitUsings>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <RunAnalyzersDuringBuild>True</RunAnalyzersDuringBuild>
-    <RunAnalyzersDuringLiveAnalysis>True</RunAnalyzersDuringLiveAnalysis>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,10 +19,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.0.1" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.0.1" />
     <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.435">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JSR.Asserts\JSR.Asserts.csproj" />
+    <ProjectReference Include="..\JSR.BaseClasses\JSR.BaseClasses.csproj" />
   </ItemGroup>
 
 </Project>

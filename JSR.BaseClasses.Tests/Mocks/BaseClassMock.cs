@@ -2,19 +2,18 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using JSR.Utilities;
 
-namespace JSR.BaseClassLibrary.Tests.Mocks
+namespace JSR.BaseClasses.Tests.Mocks
 {
     [DataContract]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Mock Class.")]
     public class BaseClassMock : BaseClass
     {
         [DataMember]
-        private string stringProperty;
+        private string stringProperty = string.Empty;
 
         [DataMember]
         private int integerProperty;

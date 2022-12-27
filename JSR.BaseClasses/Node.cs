@@ -11,7 +11,7 @@ namespace JSR.BaseClasses
     public class Node<T> : BaseClass where T : BaseClass
     {
         private T item;
-        private Node<T> parent;
+        private Node<T>? parent;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Node{T}"/> class.
@@ -19,7 +19,7 @@ namespace JSR.BaseClasses
         /// <param name="item">Item contained within this node.</param>
         public Node(T item)
         {
-            Item = item;
+            this.item = item;
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace JSR.BaseClasses
         /// <summary>
         /// Gets or sets the Parent to this Node.
         /// </summary>
-        public Node<T> Parent { get => parent; set => SetValue(ref parent, value); }
+        public Node<T>? Parent { get => parent; set => SetValue(ref parent, value); }
 
         /// <summary>
         /// Gets the Root node for the tree that this Node is contained within.
@@ -213,7 +213,7 @@ namespace JSR.BaseClasses
         /// <param name="recursive">Search all ancestors.</param>
         /// <param name="fromRoot">Start search from Root Node.</param>
         /// <returns>The existing instance of the Item.</returns>
-        public T GetExistingItem(T item, bool recursive, bool fromRoot)
+        public T? GetExistingItem(T item, bool recursive, bool fromRoot)
         {
             return GetExistingNode(item, recursive, fromRoot)?.Item;
         }
@@ -225,7 +225,7 @@ namespace JSR.BaseClasses
         /// <param name="recursive">Include ancestors in search.</param>
         /// <param name="fromRoot">Start search from the Root Node.</param>
         /// <returns>A Node with an Item of equal value, null if not found.</returns>
-        public Node<T> GetExistingNode(Node<T> node, bool recursive, bool fromRoot)
+        public Node<T>? GetExistingNode(Node<T> node, bool recursive, bool fromRoot)
         {
             return GetExistingNode(node.Item, recursive, fromRoot);
         }
@@ -237,7 +237,7 @@ namespace JSR.BaseClasses
         /// <param name="recursive">Include ancestors in search.</param>
         /// <param name="fromRoot">Start search from the Root Node.</param>
         /// <returns>A Node with an Item of equal value, null if not found.</returns>
-        public Node<T> GetExistingNode(T item, bool recursive, bool fromRoot)
+        public Node<T>? GetExistingNode(T item, bool recursive, bool fromRoot)
         {
             if (fromRoot)
             {
@@ -256,7 +256,7 @@ namespace JSR.BaseClasses
             {
                 foreach (Node<T> child in Children)
                 {
-                    Node<T> existingNode = child.GetExistingNode(item, recursive, false);
+                    Node<T>? existingNode = child.GetExistingNode(item, recursive, false);
 
                     if (existingNode != null)
                     {

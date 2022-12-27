@@ -9,15 +9,15 @@ namespace JSR.BaseClasses
     /// </summary>
     public class ViewModelBase : BaseClass, IRequestViewClose
     {
-        private DelegateCommand requestViewCloseCommand;
+        private DelegateCommand? requestViewCloseCommand;
 
         /// <inheritdoc/>
-        public event EventHandler RequestViewCloseEvent;
+        public event EventHandler? RequestViewCloseEvent;
 
         /// <summary>
         /// Gets a command to request the view to close.
         /// </summary>
-        public DelegateCommand RequestCloseCommand { get => requestViewCloseCommand ?? (requestViewCloseCommand = new DelegateCommand(RequestViewClose)); }
+        public DelegateCommand RequestCloseCommand { get => requestViewCloseCommand ??= new DelegateCommand(RequestViewClose); }
 
         /// <summary>
         /// Request closing this object's ViewModel.

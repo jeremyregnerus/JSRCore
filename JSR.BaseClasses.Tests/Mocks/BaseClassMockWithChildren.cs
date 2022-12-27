@@ -4,23 +4,23 @@
 
 using System.Runtime.Serialization;
 
-namespace JSR.BaseClassLibrary.Tests.Mocks
+namespace JSR.BaseClasses.Tests.Mocks
 {
     [DataContract]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Mock Class.")]
     public class BaseClassMockWithChildren : BaseClassMock
     {
         [DataMember]
-        private readonly BaseClassMock childReadOnly = new BaseClassMock();
+        private readonly BaseClassMock childReadOnly = new();
 
         [DataMember]
-        private readonly BaseCollection<BaseClassMock> childCollectionReadOnly = new BaseCollection<BaseClassMock>();
+        private readonly BaseCollection<BaseClassMock> childCollectionReadOnly = new();
 
         [DataMember]
-        private BaseClassMock child;
+        private BaseClassMock child = new();
 
         [DataMember]
-        private BaseCollection<BaseClassMock> childCollection;
+        private BaseCollection<BaseClassMock> childCollection = new();
 
         public BaseClassMockWithChildren()
         {

@@ -2,15 +2,13 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System;
 using System.ComponentModel;
-using System.Linq;
-using JSR.BaseClassLibrary.Tests.Mocks;
-using JSR.TestAsserts;
+using JSR.Asserts;
+using JSR.BaseClasses.Tests.Mocks;
 using JSR.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace JSR.BaseClassLibrary.Tests
+namespace JSR.BaseClasses.Tests
 {
     /// <summary>
     /// Performs testing on <see cref="BaseClass"/> and <see cref="BaseCollection{T}"/> using <see cref="BaseClassMock"/> and <see cref="BaseClassMockWithChildren"/>.
@@ -24,7 +22,8 @@ namespace JSR.BaseClassLibrary.Tests
         [TestMethod]
         public void SerializesAndDeserializes()
         {
-            SerializationAssert.SerializesAndDeserializes<BaseClassMockWithChildren>();
+            Assert.That.SerializesAndDeserializes<BaseClassMock>();
+            Assert.That.SerializesAndDeserializes<BaseClassMockWithChildren>();
         }
 
         /// <summary>
@@ -33,7 +32,8 @@ namespace JSR.BaseClassLibrary.Tests
         [TestMethod]
         public void IsNotChangedAfterDeserialization()
         {
-            SerializationAssert.IsNotChangedAfterDeserialized<BaseClassMockWithChildren>();
+            Assert.That.IsNotChangedAfterDeserialized<BaseClassMock>();
+            Assert.That.IsNotChangedAfterDeserialized<BaseClassMockWithChildren>();
         }
 
         /// <summary>
@@ -42,11 +42,14 @@ namespace JSR.BaseClassLibrary.Tests
         [TestMethod]
         public void HasNoMessageWhenDeserialized()
         {
-            BaseClassMockWithChildren obj = ObjectUtilities.CreateInstanceWithRandomValues<BaseClassMockWithChildren>();
+            BaseClassMock bcm = ObjectUtilities.CreateInstanceWithRandomValues<BaseClassMock>();
+            BaseClassMockWithChildren bcmwc = ObjectUtilities.CreateInstanceWithRandomValues<BaseClassMockWithChildren>();
 
-            obj.ChangeMessage(RandomUtilities.GetRandomString());
+            bcm.ChangeMessage(RandomUtilities.GetRandomString());
+            bcmwc.ChangeMessage(RandomUtilities.GetRandomString());
 
-            Assert.IsTrue(string.IsNullOrEmpty(ObjectUtilities.GetSerializedCopyOfObject(obj).Message));
+            Assert.IsTrue(string.IsNullOrEmpty(ObjectUtilities.GetSerializedCopyOfObject(bcm).Message));
+            Assert.IsTrue(string.IsNullOrEmpty(ObjectUtilities.GetSerializedCopyOfObject(bcmwc).Message));
         }
 
         /// <summary>
@@ -55,6 +58,7 @@ namespace JSR.BaseClassLibrary.Tests
         [TestMethod]
         public void IsChangedWhenCreated()
         {
+            Assert.IsTrue(new BaseClassMock().IsChanged);
             Assert.IsTrue(new BaseClassMockWithChildren().IsChanged);
         }
 
@@ -64,6 +68,7 @@ namespace JSR.BaseClassLibrary.Tests
         [TestMethod]
         public void HasNoMessageWhenInitialized()
         {
+            Assert.IsTrue(string.IsNullOrEmpty(new BaseClassMock().Message));
             Assert.IsTrue(string.IsNullOrEmpty(new BaseClassMockWithChildren().Message));
         }
 
@@ -73,8 +78,8 @@ namespace JSR.BaseClassLibrary.Tests
         [TestMethod]
         public void ChangesValues()
         {
-            PropertyValueChangeAssert.ChangesValues<BaseClassMockWithChildren>();
-            PropertyValueChangeAssert.ChangesValues(GetSerializedBaseClassMockWithChildren());
+            Assert.That.PropertiesChangeValues<BaseClassMock>();
+            Assert.That.PropertiesChangeValues<BaseClassMockWithChildren>();
         }
 
         /// <summary>
