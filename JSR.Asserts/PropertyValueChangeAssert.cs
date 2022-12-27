@@ -9,14 +9,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JSR.Asserts
 {
     /// <summary>
-    /// Tests property changes within objects.
+    /// Asserts property changes within objects.
     /// </summary>
     public static class PropertyValueChangeAssert
     {
         #region PropertiesChangeValues
 
         /// <summary>
-        /// Tests that an object's property values can be changed.
+        /// Asserts that an object's property values can be changed.
         /// </summary>
         /// <param name="assert">Assertion extension.</param>
         /// <param name="type">Type of object to test.</param>
@@ -26,7 +26,7 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Tests that a type's property values can be changed.
+        /// Asserts that a type's property values can be changed.
         /// </summary>
         /// <param name="assert">Assertion extension.</param>
         /// <param name="type">Type of object to test.</param>
@@ -37,7 +37,7 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Tests that a type's property values can be changed.
+        /// Asserts that a type's property values can be changed.
         /// </summary>
         /// <param name="assert">Assertion extension.</param>
         /// <param name="type">Type of object to test.</param>
@@ -48,7 +48,7 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Tests that an type's property values can be changed.
+        /// Asserts that an type's property values can be changed.
         /// </summary>
         /// <typeparam name="T">Type to test properties.</typeparam>
         /// <param name="assert">Assertion extension.</param>
@@ -58,7 +58,7 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Tests that a type's property values can be changed.
+        /// Asserts that a type's property values can be changed.
         /// </summary>
         /// <typeparam name="T">Type to test properties.</typeparam>
         /// <param name="assert">Assertion extension.</param>
@@ -69,7 +69,7 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Tests that a type's property values can be changed.
+        /// Asserts that a type's property values can be changed.
         /// </summary>
         /// <typeparam name="T">Type to test properties.</typeparam>
         /// <param name="assert">Assertion extension.</param>
@@ -80,7 +80,7 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Test that an object's property values can be changed.
+        /// Asserts that an object's property values can be changed.
         /// </summary>
         /// <typeparam name="T">Type to test properties.</typeparam>
         /// <param name="assert">Assertion extension.</param>
@@ -91,7 +91,7 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Tests that an object's propery values can be changed.
+        /// Asserts that an object's propery values can be changed.
         /// </summary>
         /// <typeparam name="T">Type to test properties.</typeparam>
         /// <param name="assert">Assertion extension.</param>
@@ -106,7 +106,7 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Tests that an object's property values can be changed.
+        /// Asserts that an object's property values can be changed.
         /// </summary>
         /// <typeparam name="T">Type to test properties.</typeparam>
         /// <param name="assert">Assertion extension.</param>
@@ -125,7 +125,7 @@ namespace JSR.Asserts
         #region PropertyChangesValue
 
         /// <summary>
-        /// Tests that a specific property within an object's value can be changed.
+        /// Asserts that a specific property within an object's value can be changed.
         /// </summary>
         /// <param name="assert">Assertion extension.</param>
         /// <param name="type">Type of object to test.</param>
@@ -136,7 +136,7 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Tests that a specific property with an object can change it's value.
+        /// Asserts that a specific property with an object can change it's value.
         /// </summary>
         /// <param name="assert">Assertion extension.</param>
         /// <param name="type">Type of object to test.</param>
@@ -147,18 +147,18 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Test that a specific property within an object's value can be changed.
+        /// Asserts that a specific property within an object's value can be changed.
         /// </summary>
         /// <typeparam name="T">Type of object with the property to test.</typeparam>
         /// <param name="assert">Assertion extension.</param>
         /// <param name="propertyName">Name of the property to test.</param>
         public static void PropertyChangesValue<T>(this Assert assert, string propertyName)
         {
-            assert.PropertyChangesValue(Activator.CreateInstance<T>(), typeof(T).GetProperty(propertyName));
+            assert.PropertyChangesValue(Activator.CreateInstance<T>(), typeof(T).GetProperty(propertyName)!);
         }
 
         /// <summary>
-        /// Test that a specific property within an object's value can be changed.
+        /// Asserts that a specific property within an object's value can be changed.
         /// </summary>
         /// <typeparam name="T">Type of object with the property to test.</typeparam>
         /// <param name="assert">Assertion extension.</param>
@@ -169,7 +169,7 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Test that a specific property within an object's value can be changed.
+        /// Asserts that a specific property within an object's value can be changed.
         /// </summary>
         /// <typeparam name="T">Type of object with the property to test.</typeparam>
         /// <param name="assert">Assertion extension.</param>
@@ -177,11 +177,11 @@ namespace JSR.Asserts
         /// <param name="propertyName">Name of the property to test.</param>
         public static void PropertyChangesValue<T>(this Assert assert, T obj, string propertyName)
         {
-            assert.PropertyChangesValue(obj, typeof(T).GetProperty(propertyName));
+            assert.PropertyChangesValue(obj, typeof(T).GetProperty(propertyName)!);
         }
 
         /// <summary>
-        /// Tests that a specific property of an object changes values.
+        /// Asserts that a specific property of an object changes values.
         /// </summary>
         /// <typeparam name="T">Type of object to test.</typeparam>
         /// <param name="assert">Assertion extension.</param>
@@ -189,18 +189,14 @@ namespace JSR.Asserts
         /// <param name="property">Property to test.</param>
         public static void PropertyChangesValue<T>(this Assert assert, T obj, PropertyInfo property)
         {
-            // for a random number of times
-            for (int i = 0; i < new Random().Next(5, 20); i++)
-            {
-                // create a new value for the property
-                dynamic randomValue = RandomUtilities.GetRandom(property.PropertyType);
+            // create a new value for the property
+            dynamic randomValue = RandomUtilities.GetRandom(property.PropertyType);
 
-                // set the property to the new value
-                property.SetValue(obj, randomValue);
+            // set the property to the new value
+            property.SetValue(obj, randomValue);
 
-                // assert that the property value equals the new value
-                Assert.AreEqual(randomValue, property.GetValue(obj));
-            }
+            // assert that the property value equals the new value
+            Assert.AreEqual(randomValue, property.GetValue(obj));
 
             // if the property type is a class
             if (PropertyUtilities.IsClassProperty(property))
