@@ -16,7 +16,7 @@ namespace JSR.Asserts
         #region SerializesAndDeserializes
 
         /// <summary>
-        /// Tests that an object serializes and retains its values when it is deserialized.
+        /// Asserts that an object serializes and retains its values when it is deserialized.
         /// </summary>
         /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type of object to test deserialization.</param>
@@ -26,7 +26,7 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Tests that an object serializes and retains its values when it is deserialized.
+        /// Asserts that an object serializes and retains its values when it is deserialized.
         /// </summary>
         /// <typeparam name="T">Type of object to test serialization.</typeparam>
         /// <param name="assert">Assert extension.</param>
@@ -36,14 +36,15 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Tests that an object serializes and retains its values when it is deserialized.
+        /// Asserts that an object serializes and retains its values when it is deserialized.
         /// </summary>
         /// <typeparam name="T">Type of object to test serialization.</typeparam>
         /// <param name="assert">Assertion extension.</param>
         /// <param name="obj">Object to test serialization.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Assert Extension")]
         public static void SerializesAndDeserializes<T>(this Assert assert, T obj)
         {
+            _ = assert;
+
             T copy = ObjectUtilities.GetSerializedCopyOfObject(obj);
 
             Assert.AreNotSame(copy, obj);
@@ -55,7 +56,7 @@ namespace JSR.Asserts
         #region IsNotChangedAfterDeserialized
 
         /// <summary>
-        /// Tests that an <see cref="IChangeTracking"/> object is not changed after deserialization.
+        /// Asserts that an <see cref="IChangeTracking"/> object is not changed after deserialization.
         /// </summary>
         /// <param name="assert">Assertion extension.</param>
         /// <param name="type">Type of object that implements <see cref="IChangeTracking"/>.
@@ -67,7 +68,7 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Tests that an <see cref="IChangeTracking"/> object is not changed after deserialization.
+        /// Asserts that an <see cref="IChangeTracking"/> object is not changed after deserialization.
         /// </summary>
         /// <typeparam name="T">Type of object that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <param name="assert">Assertion extension.</param>
@@ -77,14 +78,15 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Tests that an <see cref="IChangeTracking"/> object is not changed after deserialization.
+        /// Asserts that an <see cref="IChangeTracking"/> object is not changed after deserialization.
         /// </summary>
         /// <typeparam name="T">Type of object that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <param name="assert">Assertion extension.</param>
         /// <param name="obj">Object to test that implements <see cref="IChangeTracking"/>.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Assert extension")]
         public static void IsNotChangedAfterDeserialized<T>(this Assert assert, T obj) where T : IChangeTracking
         {
+            _ = assert;
+
             T copy = ObjectUtilities.GetSerializedCopyOfObject(obj);
             Assert.IsFalse(copy.IsChanged);
         }
