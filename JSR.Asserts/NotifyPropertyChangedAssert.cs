@@ -10,105 +10,114 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JSR.Asserts
 {
     /// <summary>
-    /// Tests objects that object that implement <see cref="INotifyPropertyChanged"/> raise property change notifications.
+    /// Asserts that object that implement <see cref="INotifyPropertyChanged"/> raise property change notifications.
     /// </summary>
     public static class NotifyPropertyChangedAssert
     {
         #region NotifiesPropertiesChanges
 
         /// <summary>
-        /// Tests that all properties within a Type raise the <see cref="PropertyChangedEventHandler"/>.
+        /// Asserts that all properties within a Type raise the <see cref="PropertyChangedEventHandler"/>.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyPropertyChanged"/>.</param>
-        public static void NotifiesPropertiesChanged(Type type)
+        public static void NotifiesPropertiesChanged(this Assert assert, Type type)
         {
-            NotifiesPropertiesChanged(CheckForINotifyPropertyChanged(type));
+            NotifiesPropertiesChanged(assert, CheckForINotifyPropertyChanged(type));
         }
 
         /// <summary>
-        /// Tests that specified properties within an object raise the <see cref="PropertyChangedEventHandler"/>.
+        /// Asserts that specified properties within an object raise the <see cref="PropertyChangedEventHandler"/>.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyPropertyChanged"/>.</param>
         /// <param name="propertyNames">List of property names to test.</param>
-        public static void NotifiesPropertiesChanged(Type type, List<string> propertyNames)
+        public static void NotifiesPropertiesChanged(this Assert assert, Type type, List<string> propertyNames)
         {
-            NotifiesPropertiesChanged(CheckForINotifyPropertyChanged(type), propertyNames);
+            NotifiesPropertiesChanged(assert, CheckForINotifyPropertyChanged(type), propertyNames);
         }
 
         /// <summary>
-        /// Tests that specified properties within an object raise the <see cref="PropertyChangedEventHandler"/>.
+        /// Asserts that specified properties within an object raise the <see cref="PropertyChangedEventHandler"/>.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyPropertyChanged"/>.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void NotifiesPropertiesChanged(Type type, List<PropertyInfo> properties)
+        public static void NotifiesPropertiesChanged(this Assert assert, Type type, List<PropertyInfo> properties)
         {
-            NotifiesPropertiesChanged(CheckForINotifyPropertyChanged(type), properties);
+            NotifiesPropertiesChanged(assert, CheckForINotifyPropertyChanged(type), properties);
         }
 
         /// <summary>
-        /// Tests that all properties within a Type raise the <see cref="PropertyChangedEventHandler"/>.
+        /// Asserts that all properties within a Type raise the <see cref="PropertyChangedEventHandler"/>.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyPropertyChanged"/>.</typeparam>
-        public static void NotifiesPropertiesChanged<T>() where T : INotifyPropertyChanged
+        /// <param name="assert">Assert extension.</param>
+        public static void NotifiesPropertiesChanged<T>(this Assert assert) where T : INotifyPropertyChanged
         {
-            NotifiesPropertiesChanged(Activator.CreateInstance<T>());
+            NotifiesPropertiesChanged(assert, Activator.CreateInstance<T>());
         }
 
         /// <summary>
-        /// Tests that specified properties within a type raise the <see cref="PropertyChangedEventHandler"/>.
+        /// Asserts that specified properties within a type raise the <see cref="PropertyChangedEventHandler"/>.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyPropertyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyNames">List of properties to test.</param>
-        public static void NotifiesPropertiesChanged<T>(List<string> propertyNames) where T : INotifyPropertyChanged
+        public static void NotifiesPropertiesChanged<T>(this Assert assert, List<string> propertyNames) where T : INotifyPropertyChanged
         {
-            NotifiesPropertiesChanged(Activator.CreateInstance<T>(), propertyNames);
+            NotifiesPropertiesChanged(assert, Activator.CreateInstance<T>(), propertyNames);
         }
 
         /// <summary>
-        /// Tests that specified properties raise the <see cref="PropertyChangedEventHandler"/>.
+        /// Asserts that specified properties raise the <see cref="PropertyChangedEventHandler"/>.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyPropertyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void NotifiesPropertiesChanged<T>(List<PropertyInfo> properties) where T : INotifyPropertyChanged
+        public static void NotifiesPropertiesChanged<T>(this Assert assert, List<PropertyInfo> properties) where T : INotifyPropertyChanged
         {
-            NotifiesPropertiesChanged(Activator.CreateInstance<T>(), properties);
+            NotifiesPropertiesChanged(assert, Activator.CreateInstance<T>(), properties);
         }
 
         /// <summary>
-        /// Tests that all properties within an object raise the <see cref="PropertyChangedEventHandler"/>.
+        /// Asserts that all properties within an object raise the <see cref="PropertyChangedEventHandler"/>.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyPropertyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object to test.</param>
-        public static void NotifiesPropertiesChanged<T>(T obj) where T : INotifyPropertyChanged
+        public static void NotifiesPropertiesChanged<T>(this Assert assert, T obj) where T : INotifyPropertyChanged
         {
-            NotifiesPropertiesChanged(obj, PropertyUtilities.GetReadWriteProperties(obj));
+            NotifiesPropertiesChanged(assert, obj, PropertyUtilities.GetReadWriteProperties(obj));
         }
 
         /// <summary>
-        /// Tests that specified properties within an object raise the <see cref="PropertyChangedEventHandler"/>.
+        /// Asserts that specified properties within an object raise the <see cref="PropertyChangedEventHandler"/>.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyPropertyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with properties to test.</param>
         /// <param name="propertyNames">List of properties to test.</param>
-        public static void NotifiesPropertiesChanged<T>(T obj, List<string> propertyNames) where T : INotifyPropertyChanged
+        public static void NotifiesPropertiesChanged<T>(this Assert assert, T obj, List<string> propertyNames) where T : INotifyPropertyChanged
         {
-            foreach (string property in propertyNames)
+            foreach (string propertyName in propertyNames)
             {
-                NotifiesPropertyChanged(obj, property);
+                NotifiesPropertyChanged(assert, obj, propertyName);
             }
         }
 
         /// <summary>
-        /// Tests that specific properties raise the <see cref="PropertyChangedEventHandler"/>.
+        /// Asserts that specific properties raise the <see cref="PropertyChangedEventHandler"/>.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyPropertyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with properties to test.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void NotifiesPropertiesChanged<T>(T obj, List<PropertyInfo> properties) where T : INotifyPropertyChanged
+        public static void NotifiesPropertiesChanged<T>(this Assert assert, T obj, List<PropertyInfo> properties) where T : INotifyPropertyChanged
         {
             foreach (PropertyInfo property in properties)
             {
-                NotifiesPropertyChanged(obj, property);
+                NotifiesPropertyChanged(assert, obj, property);
             }
         }
 
@@ -117,72 +126,80 @@ namespace JSR.Asserts
         #region NotifiesPropertyChanged
 
         /// <summary>
-        /// Tests that a property raises the <see cref="PropertyChangedEventHandler"/>.
+        /// Asserts that a property raises the <see cref="PropertyChangedEventHandler"/>.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyPropertyChanged"/>.</param>
         /// <param name="propertyName">Name of property to test.</param>
-        public static void NotifiesPropertyChanged(Type type, string propertyName)
+        public static void NotifiesPropertyChanged(this Assert assert, Type type, string propertyName)
         {
-            NotifiesPropertyChanged(CheckForINotifyPropertyChanged(type), propertyName);
+            NotifiesPropertyChanged(assert, CheckForINotifyPropertyChanged(type), propertyName);
         }
 
         /// <summary>
-        /// Tests that a property raises the <see cref="PropertyChangedEventHandler"/>.
+        /// Asserts that a property raises the <see cref="PropertyChangedEventHandler"/>.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyPropertyChanged"/>.</param>
         /// <param name="property">Property to test.</param>
-        public static void NotifiesPropertyChanged(Type type, PropertyInfo property)
+        public static void NotifiesPropertyChanged(this Assert assert, Type type, PropertyInfo property)
         {
-            NotifiesPropertyChanged(CheckForINotifyPropertyChanged(type), property);
+            NotifiesPropertyChanged(assert, CheckForINotifyPropertyChanged(type), property);
         }
 
         /// <summary>
-        /// Tests that a property raises the <see cref="PropertyChangedEventHandler"/>.
+        /// Asserts that a property raises the <see cref="PropertyChangedEventHandler"/>.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyPropertyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyName">Name of property to test.</param>
-        public static void NotifiesPropertyChanged<T>(string propertyName) where T : INotifyPropertyChanged
+        public static void NotifiesPropertyChanged<T>(this Assert assert, string propertyName) where T : INotifyPropertyChanged
         {
-            NotifiesPropertyChanged<T>(typeof(T).GetProperty(propertyName)!);
+            NotifiesPropertyChanged<T>(assert, typeof(T).GetProperty(propertyName)!);
         }
 
         /// <summary>
-        /// Tests that a property raises the <see cref="PropertyChangedEventHandler"/>.
+        /// Asserts that a property raises the <see cref="PropertyChangedEventHandler"/>.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyPropertyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="property">Property to test.</param>
-        public static void NotifiesPropertyChanged<T>(PropertyInfo property) where T : INotifyPropertyChanged
+        public static void NotifiesPropertyChanged<T>(this Assert assert, PropertyInfo property) where T : INotifyPropertyChanged
         {
-            NotifiesPropertyChanged(Activator.CreateInstance<T>(), property);
+            NotifiesPropertyChanged(assert, Activator.CreateInstance<T>(), property);
         }
 
         /// <summary>
-        /// Tests that a property raises the <see cref="PropertyChangedEventHandler"/>.
+        /// Asserts that a property raises the <see cref="PropertyChangedEventHandler"/>.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyPropertyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object to test.</param>
         /// <param name="propertyName">Name of property to test.</param>
-        public static void NotifiesPropertyChanged<T>(T obj, string propertyName) where T : INotifyPropertyChanged
+        public static void NotifiesPropertyChanged<T>(this Assert assert, T obj, string propertyName) where T : INotifyPropertyChanged
         {
-            NotifiesPropertyChanged(obj, typeof(T).GetProperty(propertyName) ?? throw new ArgumentNullException(nameof(propertyName)));
+            NotifiesPropertyChanged(assert, obj, typeof(T).GetProperty(propertyName)!);
         }
 
         /// <summary>
-        /// Tests that a property raises the <see cref="PropertyChangedEventHandler"/>.
+        /// Asserts that a property raises the <see cref="PropertyChangedEventHandler"/>.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyPropertyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with property to test.</param>
         /// <param name="property">Property to test.</param>
-        public static void NotifiesPropertyChanged<T>(T obj, PropertyInfo property) where T : INotifyPropertyChanged
+        public static void NotifiesPropertyChanged<T>(this Assert assert, T obj, PropertyInfo property) where T : INotifyPropertyChanged
         {
+            _ = assert;
+
             // create a list of property change notifications
             List<string> propertiesChanged = new();
 
             // add an event to add the PropertyChanged property name to the list
-            obj.PropertyChanged += (sender, args) => propertiesChanged.Add(args.PropertyName);
+            obj.PropertyChanged += (sender, args) => propertiesChanged.Add(args.PropertyName ?? string.Empty);
 
             // for a random number of times
-            for (int i = 0; i < new Random().Next(5, 20); i++)
+            for (int i = 0; i < new Random().Next(20); i++)
             {
                 // populate the property with a random value
                 ObjectUtilities.PopulatePropertyWithRandomValue(obj, property);
@@ -194,30 +211,26 @@ namespace JSR.Asserts
             // check if the property is a value type
             if (PropertyUtilities.IsValueProperty(property))
             {
-                // for a random number of times
-                for (int i = 0; i < new Random().Next(5, 20); i++)
-                {
-                    // create a new value for the property
-                    dynamic newValue = RandomUtilities.GetRandom(property.PropertyType);
+                // create a new value for the property
+                dynamic newValue = RandomUtilities.GetRandom(property.PropertyType);
 
-                    // set the property value
+                // set the property value
+                property.SetValue(obj, newValue);
+
+                // clear the monitored property changes
+                propertiesChanged.Clear();
+
+                // change the value 20 times
+                for (int j = 0; j < 20; j++)
+                {
+                    // set the property using the same value generated before
                     property.SetValue(obj, newValue);
 
-                    // clear the monitored property changes
-                    propertiesChanged.Clear();
+                    // assert that the value has stayed the same as the new value
+                    Assert.AreEqual(newValue, property.GetValue(obj));
 
-                    // for another random number of times
-                    for (int j = 0; j < new Random().Next(5, 20); j++)
-                    {
-                        // set the property using the same value generated before
-                        property.SetValue(obj, newValue);
-
-                        // assert that the value has stayed the same as the new value
-                        Assert.AreEqual(newValue, property.GetValue(obj));
-
-                        // assert that the property change list hasn't raised the property changed because the value hasn't changed
-                        Assert.AreEqual(0, propertiesChanged.Count);
-                    }
+                    // assert that the property change list hasn't raised the property changed because the value hasn't changed
+                    Assert.AreEqual(0, propertiesChanged.Count);
                 }
             }
         }
@@ -232,7 +245,11 @@ namespace JSR.Asserts
         public static INotifyPropertyChanged CheckForINotifyPropertyChanged(Type type)
         {
             Assert.IsTrue(typeof(INotifyPropertyChanged).IsAssignableFrom(type));
-            return (INotifyPropertyChanged)Activator.CreateInstance(type);
+            var obj = Activator.CreateInstance(type);
+
+            Assert.IsNotNull(obj);
+
+            return (INotifyPropertyChanged)obj;
         }
     }
 }
