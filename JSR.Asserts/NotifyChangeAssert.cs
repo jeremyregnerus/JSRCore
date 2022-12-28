@@ -12,37 +12,42 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JSR.Asserts
 {
     /// <summary>
-    /// Tests the implementation of IChangableObject. Primarily focused on raising change events.
+    /// Asserts the implementation of IChangableObject. Primarily focused on raising change events.
     /// </summary>
     public static class NotifyChangeAssert
     {
         #region NotifiesIsChangedOnAcceptChanges
 
         /// <summary>
-        /// Tests that an object and it's class and list properties raise the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that an object and it's class and list properties raise the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
-        public static void NotifiesIsChangedOnAcceptChanges(Type type)
+        public static void NotifiesIsChangedOnAcceptChanges(this Assert assert, Type type)
         {
-            NotifiesIsChangedOnAcceptChanges(CheckForINotifyChanged(type));
+            NotifiesIsChangedOnAcceptChanges(assert, CheckForINotifyChanged(type));
         }
 
         /// <summary>
-        /// Tests that an object and it's class and list properties raise the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that an object and it's class and list properties raise the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
-        public static void NotifiesIsChangedOnAcceptChanges<T>() where T : INotifyChanged
+        /// <param name="assert">Assert extension.</param>
+        public static void NotifiesIsChangedOnAcceptChanges<T>(this Assert assert) where T : INotifyChanged
         {
-            NotifiesIsChangedOnAcceptChanges(Activator.CreateInstance<T>());
+            NotifiesIsChangedOnAcceptChanges(assert, Activator.CreateInstance<T>());
         }
 
         /// <summary>
-        /// Tests that an object and it's class and list properties raise the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that an object and it's class and list properties raise the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object to test.</param>
-        public static void NotifiesIsChangedOnAcceptChanges<T>(T obj) where T : INotifyChanged
+        public static void NotifiesIsChangedOnAcceptChanges<T>(this Assert assert, T obj) where T : INotifyChanged
         {
+            _ = assert;
+
             // track OnChanged events
             int count = 0;
             obj.OnChanged += (s, c) => count++;
@@ -52,6 +57,7 @@ namespace JSR.Asserts
                 // fill the object with random values
                 ObjectUtilities.PopulateObjectWithRandomValues(obj);
 
+                // reset the count
                 count = 0;
 
                 // accept the changes on the object
@@ -76,136 +82,149 @@ namespace JSR.Asserts
         #region IsChangedWhenHierarchyChanges
 
         /// <summary>
-        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
-        public static void NotifiesIsChangedWhenHierarchyChanges(Type type)
+        public static void NotifiesIsChangedWhenHierarchyChanges(this Assert assert, Type type)
         {
-            NotifiesIsChangedWhenHierarchyChanges(CheckForINotifyChanged(type));
+            NotifiesIsChangedWhenHierarchyChanges(assert, CheckForINotifyChanged(type));
         }
 
         /// <summary>
-        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
         /// <param name="propertyNames">List of property names to test.</param>
-        public static void NotifiesIsChangedWhenHierarchyChanges(Type type, List<string> propertyNames)
+        public static void NotifiesIsChangedWhenHierarchyChanges(this Assert assert, Type type, List<string> propertyNames)
         {
-            NotifiesIsChangedWhenHierarchyChanges(CheckForINotifyChanged(type), propertyNames);
+            NotifiesIsChangedWhenHierarchyChanges(assert, CheckForINotifyChanged(type), propertyNames);
         }
 
         /// <summary>
-        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void NotifiesIsChangedWhenHierarchyChanges(Type type, List<PropertyInfo> properties)
+        public static void NotifiesIsChangedWhenHierarchyChanges(this Assert assert, Type type, List<PropertyInfo> properties)
         {
-            NotifiesIsChangedWhenHierarchyChanges(CheckForINotifyChanged(type), properties);
+            NotifiesIsChangedWhenHierarchyChanges(assert, CheckForINotifyChanged(type), properties);
         }
 
         /// <summary>
-        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
         /// <param name="propertyName">Name of property to test.</param>
-        public static void NotifiesIsChangedWhenHierarchyChanges(Type type, string propertyName)
+        public static void NotifiesIsChangedWhenHierarchyChanges(this Assert assert, Type type, string propertyName)
         {
-            NotifiesIsChangedWhenHierarchyChanges(CheckForINotifyChanged(type), propertyName);
+            NotifiesIsChangedWhenHierarchyChanges(assert, CheckForINotifyChanged(type), propertyName);
         }
 
         /// <summary>
-        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
         /// <param name="property">Property to test.</param>
-        public static void NotifiesIsChangedWhenHierarchyChanges(Type type, PropertyInfo property)
+        public static void NotifiesIsChangedWhenHierarchyChanges(this Assert assert, Type type, PropertyInfo property)
         {
-            NotifiesIsChangedWhenHierarchyChanges(CheckForINotifyChanged(type), property);
+            NotifiesIsChangedWhenHierarchyChanges(assert, CheckForINotifyChanged(type), property);
         }
 
         /// <summary>
-        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
-        public static void NotifiesIsChangedWhenHierarchyChanges<T>() where T : INotifyChanged
+        /// <param name="assert">Assert extension.</param>
+        public static void NotifiesIsChangedWhenHierarchyChanges<T>(this Assert assert) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenHierarchyChanges(Activator.CreateInstance<T>());
+            NotifiesIsChangedWhenHierarchyChanges(assert, Activator.CreateInstance<T>());
         }
 
         /// <summary>
-        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyNames">List of property names to test.</param>
-        public static void NotifiesIsChangedWhenHierarchyChanges<T>(List<string> propertyNames) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenHierarchyChanges<T>(this Assert assert, List<string> propertyNames) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenHierarchyChanges(Activator.CreateInstance<T>(), propertyNames);
+            NotifiesIsChangedWhenHierarchyChanges(assert, Activator.CreateInstance<T>(), propertyNames);
         }
 
         /// <summary>
-        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void NotifiesIsChangedWhenHierarchyChanges<T>(List<PropertyInfo> properties) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenHierarchyChanges<T>(this Assert assert, List<PropertyInfo> properties) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenHierarchyChanges(Activator.CreateInstance<T>(), properties);
+            NotifiesIsChangedWhenHierarchyChanges(assert, Activator.CreateInstance<T>(), properties);
         }
 
         /// <summary>
-        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyName">Name of property to test.</param>
-        public static void NotifiesIsChangedWhenHierarchyChanges<T>(string propertyName) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenHierarchyChanges<T>(this Assert assert, string propertyName) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenHierarchyChanges(Activator.CreateInstance<T>(), propertyName);
+            NotifiesIsChangedWhenHierarchyChanges(assert, Activator.CreateInstance<T>(), propertyName);
         }
 
         /// <summary>
-        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="property">Property to test.</param>
-        public static void NotifiesIsChangedWhenHierarchyChanges<T>(PropertyInfo property) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenHierarchyChanges<T>(this Assert assert, PropertyInfo property) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenHierarchyChanges(Activator.CreateInstance<T>(), property);
+            NotifiesIsChangedWhenHierarchyChanges(assert, Activator.CreateInstance<T>(), property);
         }
 
         /// <summary>
-        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with properties to test.</param>
-        public static void NotifiesIsChangedWhenHierarchyChanges<T>(T obj) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenHierarchyChanges<T>(this Assert assert, T obj) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenHierarchyChanges(obj, PropertyUtilities.GetProperties(obj, new GetPropertiesOptions(true) { WriteOnlyProperties = false, InterfaceProperties = false }));
+            NotifiesIsChangedWhenHierarchyChanges(assert, obj, PropertyUtilities.GetProperties(obj, new GetPropertiesOptions(true) { WriteOnlyProperties = false, InterfaceProperties = false }));
         }
 
         /// <summary>
-        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with properties to test.</param>
         /// <param name="propertyNames">List of property names to test.</param>
-        public static void NotifiesIsChangedWhenHierarchyChanges<T>(T obj, List<string> propertyNames) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenHierarchyChanges<T>(this Assert assert, T obj, List<string> propertyNames) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenHierarchyChanges(obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName)!)));
+            NotifiesIsChangedWhenHierarchyChanges(assert, obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName)!)));
         }
 
         /// <summary>
-        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with properties to test.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void NotifiesIsChangedWhenHierarchyChanges<T>(T obj, List<PropertyInfo> properties) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenHierarchyChanges<T>(this Assert assert, T obj, List<PropertyInfo> properties) where T : INotifyChanged
         {
             // assert change notification on the hiearchy of this object
             foreach (PropertyInfo property in properties)
             {
-                NotifiesIsChangedWhenHierarchyChanges(obj, property);
+                NotifiesIsChangedWhenHierarchyChanges(assert, obj, property);
             }
 
             // Track OnChange events
@@ -238,37 +257,39 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with properties to test.</param>
         /// <param name="propertyName">Name of property to test.</param>
-        public static void NotifiesIsChangedWhenHierarchyChanges<T>(T obj, string propertyName) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenHierarchyChanges<T>(this Assert assert, T obj, string propertyName) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenHierarchyChanges(obj, obj.GetType().GetProperty(propertyName) ?? throw new ArgumentNullException(nameof(propertyName)));
+            NotifiesIsChangedWhenHierarchyChanges(assert, obj, obj.GetType().GetProperty(propertyName)!);
         }
 
         /// <summary>
-        /// Tests that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties, classes and lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with property to test.</param>
         /// <param name="property">Property to test.</param>
-        public static void NotifiesIsChangedWhenHierarchyChanges<T>(T obj, PropertyInfo property) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenHierarchyChanges<T>(this Assert assert, T obj, PropertyInfo property) where T : INotifyChanged
         {
             if (PropertyUtilities.IsReadWriteProperty(property))
             {
-                NotifiesIsChangedWhenPropertyChanges(obj, property);
+                NotifiesIsChangedWhenPropertyChanges(assert, obj, property);
             }
 
             if (PropertyUtilities.IsClassProperty(property))
             {
-                NotifiesIsChangedWhenClassPropertyChanges(obj, property);
+                NotifiesIsChangedWhenClassPropertyChanges(assert, obj, property);
             }
 
             if (PropertyUtilities.IsListProperty(property))
             {
-                NotifiesIsChangedWhenListPropertyChanges(obj, property, true, true, true);
+                NotifiesIsChangedWhenListPropertyChanges(assert, obj, property, true, true, true);
             }
         }
 
@@ -277,96 +298,105 @@ namespace JSR.Asserts
         #region NotifiesIsChangedWhenPropertiesChange
 
         /// <summary>
-        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
-        public static void NotifiesIsChangedWhenPropertiesChange(Type type)
+        public static void NotifiesIsChangedWhenPropertiesChange(this Assert assert, Type type)
         {
-            NotifiesIsChangedWhenPropertiesChange(CheckForINotifyChanged(type));
+            NotifiesIsChangedWhenPropertiesChange(assert, CheckForINotifyChanged(type));
         }
 
         /// <summary>
-        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
         /// <param name="propertyNames">List of property names to test.</param>
-        public static void NotifiesIsChangedWhenPropertiesChange(Type type, List<string> propertyNames)
+        public static void NotifiesIsChangedWhenPropertiesChange(this Assert assert, Type type, List<string> propertyNames)
         {
-            NotifiesIsChangedWhenPropertiesChange(CheckForINotifyChanged(type), propertyNames);
+            NotifiesIsChangedWhenPropertiesChange(assert, CheckForINotifyChanged(type), propertyNames);
         }
 
         /// <summary>
-        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void NotifiesIsChangedWhenPropertiesChange(Type type, List<PropertyInfo> properties)
+        public static void NotifiesIsChangedWhenPropertiesChange(this Assert assert, Type type, List<PropertyInfo> properties)
         {
-            NotifiesIsChangedWhenPropertiesChange(CheckForINotifyChanged(type), properties);
+            NotifiesIsChangedWhenPropertiesChange(assert, CheckForINotifyChanged(type), properties);
         }
 
         /// <summary>
-        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
-        public static void NotifiesIsChangedWhenPropertiesChange<T>() where T : INotifyChanged
+        /// <param name="assert">Assert extension.</param>
+        public static void NotifiesIsChangedWhenPropertiesChange<T>(this Assert assert) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenPropertiesChange(Activator.CreateInstance<T>());
+            NotifiesIsChangedWhenPropertiesChange(assert, Activator.CreateInstance<T>());
         }
 
         /// <summary>
-        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyNames">List of property names to test.</param>
-        public static void NotifiesIsChangedWhenPropertiesChange<T>(List<string> propertyNames) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenPropertiesChange<T>(this Assert assert, List<string> propertyNames) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenPropertiesChange(Activator.CreateInstance<T>(), propertyNames);
+            NotifiesIsChangedWhenPropertiesChange(assert, Activator.CreateInstance<T>(), propertyNames);
         }
 
         /// <summary>
-        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void NotifiesIsChangedWhenPropertiesChange<T>(List<PropertyInfo> properties) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenPropertiesChange<T>(this Assert assert, List<PropertyInfo> properties) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenPropertiesChange(Activator.CreateInstance<T>(), properties);
+            NotifiesIsChangedWhenPropertiesChange(assert, Activator.CreateInstance<T>(), properties);
         }
 
         /// <summary>
-        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with properties to test.</param>
-        public static void NotifiesIsChangedWhenPropertiesChange<T>(T obj) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenPropertiesChange<T>(this Assert assert, T obj) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenPropertiesChange(obj, PropertyUtilities.GetReadWriteProperties(obj));
+            NotifiesIsChangedWhenPropertiesChange(assert, obj, PropertyUtilities.GetReadWriteProperties(obj));
         }
 
         /// <summary>
-        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with properties to test.</param>
         /// <param name="propertyNames">List of property names to test.</param>
-        public static void NotifiesIsChangedWhenPropertiesChange<T>(T obj, List<string> propertyNames) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenPropertiesChange<T>(this Assert assert, T obj, List<string> propertyNames) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenPropertiesChange(obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName)!)));
+            NotifiesIsChangedWhenPropertiesChange(assert, obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName)!)));
         }
 
         /// <summary>
-        /// Tests that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when properties change, the object raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with properties to test.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void NotifiesIsChangedWhenPropertiesChange<T>(T obj, List<PropertyInfo> properties) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenPropertiesChange<T>(this Assert assert, T obj, List<PropertyInfo> properties) where T : INotifyChanged
         {
             // perform NotifiesIsChangedWhenPropertyChanges for each property provided
             foreach (PropertyInfo property in properties)
             {
-                NotifiesIsChangedWhenPropertyChanges(obj, property);
+                NotifiesIsChangedWhenPropertyChanges(assert, obj, property);
             }
 
             // Track the OnChanged events
@@ -411,64 +441,72 @@ namespace JSR.Asserts
         #region NotifiesIsChangedWhenPropertyChanges
 
         /// <summary>
-        /// Tests that a property raises the object's <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that a property raises the object's <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
         /// <param name="propertyName">Name of property to test.</param>
-        public static void NotifiesIsChangedWhenPropertyChanges(Type type, string propertyName)
+        public static void NotifiesIsChangedWhenPropertyChanges(this Assert assert, Type type, string propertyName)
         {
-            NotifiesIsChangedWhenPropertyChanges(CheckForINotifyChanged(type), propertyName);
+            NotifiesIsChangedWhenPropertyChanges(assert, CheckForINotifyChanged(type), propertyName);
         }
 
         /// <summary>
-        /// Tests that a property raises the object's <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that a property raises the object's <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
         /// <param name="property">Property to test.</param>
-        public static void NotifiesIsChangedWhenPropertyChanges(Type type, PropertyInfo property)
+        public static void NotifiesIsChangedWhenPropertyChanges(this Assert assert, Type type, PropertyInfo property)
         {
-            NotifiesIsChangedWhenPropertyChanges(CheckForINotifyChanged(type), property);
+            NotifiesIsChangedWhenPropertyChanges(assert, CheckForINotifyChanged(type), property);
         }
 
         /// <summary>
-        /// Tests that a property raises the object's <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that a property raises the object's <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyName">Name of property to test.</param>
-        public static void NotifiesIsChangedWhenPropertyChanges<T>(string propertyName) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenPropertyChanges<T>(this Assert assert, string propertyName) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenPropertyChanges(Activator.CreateInstance<T>(), propertyName);
+            NotifiesIsChangedWhenPropertyChanges(assert, Activator.CreateInstance<T>(), propertyName);
         }
 
         /// <summary>
-        /// Tests that a property raises the object's <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that a property raises the object's <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="property">Property to test.</param>
-        public static void NotifiesIsChangedWhenPropertyChanges<T>(PropertyInfo property) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenPropertyChanges<T>(this Assert assert, PropertyInfo property) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenPropertyChanges(Activator.CreateInstance<T>(), property);
+            NotifiesIsChangedWhenPropertyChanges(assert, Activator.CreateInstance<T>(), property);
         }
 
         /// <summary>
-        /// Tests that a property raises the object's <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that a property raises the object's <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with property to test.</param>
         /// <param name="propertyName">Name of property to test.</param>
-        public static void NotifiesIsChangedWhenPropertyChanges<T>(T obj, string propertyName) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenPropertyChanges<T>(this Assert assert, T obj, string propertyName) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenPropertyChanges(obj, obj.GetType().GetProperty(propertyName) ?? throw new ArgumentNullException(nameof(propertyName)));
+            NotifiesIsChangedWhenPropertyChanges(assert, obj, obj.GetType().GetProperty(propertyName)!);
         }
 
         /// <summary>
-        /// Tests that a property raises the object's <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that a property raises the object's <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/> with property to test.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with property to test.</param>
         /// <param name="property">Property to test.</param>
-        public static void NotifiesIsChangedWhenPropertyChanges<T>(T obj, PropertyInfo property) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenPropertyChanges<T>(this Assert assert, T obj, PropertyInfo property) where T : INotifyChanged
         {
+            _ = assert;
+
             // only run this test if the property is ReadWrite
             if (PropertyUtilities.IsReadWriteProperty(property))
             {
@@ -507,96 +545,105 @@ namespace JSR.Asserts
         #region NotifiesIsChangedWhenClassPropertiesChange
 
         /// <summary>
-        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
-        public static void NotifiesIsChangedWhenClassPropertiesChange(Type type)
+        public static void NotifiesIsChangedWhenClassPropertiesChange(this Assert assert, Type type)
         {
-            NotifiesIsChangedWhenClassPropertiesChange(CheckForINotifyChanged(type));
+            NotifiesIsChangedWhenClassPropertiesChange(assert, CheckForINotifyChanged(type));
         }
 
         /// <summary>
-        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
         /// <param name="propertyNames">List of property Names to test.</param>
-        public static void NotifiesIsChangedWhenClassPropertiesChange(Type type, List<string> propertyNames)
+        public static void NotifiesIsChangedWhenClassPropertiesChange(this Assert assert, Type type, List<string> propertyNames)
         {
-            NotifiesIsChangedWhenClassPropertiesChange(CheckForINotifyChanged(type), propertyNames);
+            NotifiesIsChangedWhenClassPropertiesChange(assert, CheckForINotifyChanged(type), propertyNames);
         }
 
         /// <summary>
-        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void NotifiesIsChangedWhenClassPropertiesChange(Type type, List<PropertyInfo> properties)
+        public static void NotifiesIsChangedWhenClassPropertiesChange(this Assert assert, Type type, List<PropertyInfo> properties)
         {
-            NotifiesIsChangedWhenClassPropertiesChange(CheckForINotifyChanged(type), properties);
+            NotifiesIsChangedWhenClassPropertiesChange(assert, CheckForINotifyChanged(type), properties);
         }
 
         /// <summary>
-        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
-        public static void NotifiesIsChangedWhenClassPropertiesChange<T>() where T : INotifyChanged
+        /// <param name="assert">Assert extension.</param>
+        public static void NotifiesIsChangedWhenClassPropertiesChange<T>(this Assert assert) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenClassPropertiesChange(Activator.CreateInstance<T>());
+            NotifiesIsChangedWhenClassPropertiesChange(assert, Activator.CreateInstance<T>());
         }
 
         /// <summary>
-        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyNames">List of property Names to test.</param>
-        public static void NotifiesIsChangedWhenClassPropertiesChange<T>(List<string> propertyNames) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenClassPropertiesChange<T>(this Assert assert, List<string> propertyNames) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenClassPropertiesChange(Activator.CreateInstance<T>(), propertyNames);
+            NotifiesIsChangedWhenClassPropertiesChange(assert, Activator.CreateInstance<T>(), propertyNames);
         }
 
         /// <summary>
-        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void NotifiesIsChangedWhenClassPropertiesChange<T>(List<PropertyInfo> properties) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenClassPropertiesChange<T>(this Assert assert, List<PropertyInfo> properties) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenClassPropertiesChange(Activator.CreateInstance<T>(), properties);
+            NotifiesIsChangedWhenClassPropertiesChange(assert, Activator.CreateInstance<T>(), properties);
         }
 
         /// <summary>
-        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with child objects to test.</param>
-        public static void NotifiesIsChangedWhenClassPropertiesChange<T>(T obj) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenClassPropertiesChange<T>(this Assert assert, T obj) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenClassPropertiesChange(obj, PropertyUtilities.GetClassProperties(obj, new GetPropertiesOptions(true) { WriteOnlyProperties = false }));
+            NotifiesIsChangedWhenClassPropertiesChange(assert, obj, PropertyUtilities.GetClassProperties(obj, new GetPropertiesOptions(true) { WriteOnlyProperties = false }));
         }
 
         /// <summary>
-        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with child objects to test.</param>
         /// <param name="propertyNames">List of property Names to test.</param>
-        public static void NotifiesIsChangedWhenClassPropertiesChange<T>(T obj, List<string> propertyNames) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenClassPropertiesChange<T>(this Assert assert, T obj, List<string> propertyNames) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenClassPropertiesChange(obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName)!)));
+            NotifiesIsChangedWhenClassPropertiesChange(assert, obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName)!)));
         }
 
         /// <summary>
-        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with child objects to test.</param>
         /// <param name="properties">List of properties to test.</param>
-        public static void NotifiesIsChangedWhenClassPropertiesChange<T>(T obj, List<PropertyInfo> properties) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenClassPropertiesChange<T>(this Assert assert, T obj, List<PropertyInfo> properties) where T : INotifyChanged
         {
             // for each property in the object, perform this same assertion
             foreach (PropertyInfo property in properties)
             {
-                NotifiesIsChangedWhenClassPropertyChanges(obj, property);
+                NotifiesIsChangedWhenClassPropertyChanges(assert, obj, property);
             }
 
             // Track of the OnChanged events
@@ -637,18 +684,19 @@ namespace JSR.Asserts
         #endregion
 
         /// <summary>
-        /// Tests that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when child classes change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="TParent">Type that implements <see cref="INotifyChanged"/>.</typeparam>
         /// <typeparam name="TList">Type that implements <see cref="IList"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with child objects to test.</param>
         /// <param name="children">Child objects to change.</param>
-        public static void NotifiesIsChangedWhenChildClassesChange<TParent, TList>(TParent obj, TList children) where TParent : INotifyChanged where TList : IList
+        public static void NotifiesIsChangedWhenChildClassesChange<TParent, TList>(this Assert assert, TParent obj, TList children) where TParent : INotifyChanged where TList : IList
         {
             // perform this assertion on any child classes
             foreach (INotifyChanged child in children)
             {
-                NotifiesIsChangedWhenChildClassChanges(obj, child);
+                NotifiesIsChangedWhenChildClassChanges(assert, obj, child);
             }
 
             // Track OnChanged notifications
@@ -691,78 +739,87 @@ namespace JSR.Asserts
         #region NotifiesIsChangedWhenClassPropertyChanges
 
         /// <summary>
-        /// Tests that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
         /// <param name="propertyName">Name of property to test.</param>
-        public static void NotifiesIsChangedWhenClassPropertyChanges(Type type, string propertyName)
+        public static void NotifiesIsChangedWhenClassPropertyChanges(this Assert assert, Type type, string propertyName)
         {
-            NotifiesIsChangedWhenClassPropertyChanges(CheckForINotifyChanged(type), propertyName);
+            NotifiesIsChangedWhenClassPropertyChanges(assert, CheckForINotifyChanged(type), propertyName);
         }
 
         /// <summary>
-        /// Tests that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
         /// <param name="property">Property to test.</param>
-        public static void NotifiesIsChangedWhenClassPropertyChanges(Type type, PropertyInfo property)
+        public static void NotifiesIsChangedWhenClassPropertyChanges(this Assert assert, Type type, PropertyInfo property)
         {
-            NotifiesIsChangedWhenClassPropertyChanges(CheckForINotifyChanged(type), property);
+            NotifiesIsChangedWhenClassPropertyChanges(assert, CheckForINotifyChanged(type), property);
         }
 
         /// <summary>
-        /// Tests that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyName">Name of property to test.</param>
-        public static void NotifiesIsChangedWhenClassPropertyChanges<T>(string propertyName) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenClassPropertyChanges<T>(this Assert assert, string propertyName) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenClassPropertyChanges(Activator.CreateInstance<T>(), propertyName);
+            NotifiesIsChangedWhenClassPropertyChanges(assert, Activator.CreateInstance<T>(), propertyName);
         }
 
         /// <summary>
-        /// Tests that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="property">Property to test.</param>
-        public static void NotifiesIsChangedWhenClassPropertyChanges<T>(PropertyInfo property) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenClassPropertyChanges<T>(this Assert assert, PropertyInfo property) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenClassPropertyChanges(Activator.CreateInstance<T>(), property);
+            NotifiesIsChangedWhenClassPropertyChanges(assert, Activator.CreateInstance<T>(), property);
         }
 
         /// <summary>
-        /// Tests that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with child to test.</param>
         /// <param name="propertyName">Name of property to test.</param>
-        public static void NotifiesIsChangedWhenClassPropertyChanges<T>(T obj, string propertyName) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenClassPropertyChanges<T>(this Assert assert, T obj, string propertyName) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenClassPropertyChanges(obj, obj.GetType().GetProperty(propertyName) ?? throw new ArgumentNullException(nameof(propertyName)));
+            NotifiesIsChangedWhenClassPropertyChanges(assert, obj, obj.GetType().GetProperty(propertyName)!);
         }
 
         /// <summary>
-        /// Tests that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with child to test.</param>
         /// <param name="property">Property to test.</param>
-        public static void NotifiesIsChangedWhenClassPropertyChanges<T>(T obj, PropertyInfo property) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenClassPropertyChanges<T>(this Assert assert, T obj, PropertyInfo property) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenChildClassChanges(obj, property.GetValue(obj));
+            NotifiesIsChangedWhenChildClassChanges(assert, obj, property.GetValue(obj));
         }
 
         #endregion
 
         /// <summary>
-        /// Tests that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when a child class changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="TParent">Type of the parent object that implements <see cref="INotifyChanged"/>.</typeparam>
         /// <typeparam name="TChild">Type of the child object.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="parentObj">Object with child to test.</param>
         /// <param name="childObj">Child object to change.</param>
-        public static void NotifiesIsChangedWhenChildClassChanges<TParent, TChild>(TParent parentObj, TChild childObj) where TParent : INotifyChanged
+        public static void NotifiesIsChangedWhenChildClassChanges<TParent, TChild>(this Assert assert, TParent parentObj, TChild childObj) where TParent : INotifyChanged
         {
+            _ = assert;
+
             // Track OnChange notifications on the parent object
             int count = 0;
             parentObj.OnChanged += (s, c) => count++;
@@ -795,123 +852,132 @@ namespace JSR.Asserts
         #region NotifiesIsChangedWhenListPropertiesChange
 
         /// <summary>
-        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListPropertiesChange(Type type, bool addItems, bool removeItems, bool changeItems)
+        public static void NotifiesIsChangedWhenListPropertiesChange(this Assert assert, Type type, bool addItems, bool removeItems, bool changeItems)
         {
-            NotifiesIsChangedWhenListPropertiesChange(CheckForINotifyChanged(type), addItems, removeItems, changeItems);
+            NotifiesIsChangedWhenListPropertiesChange(assert, CheckForINotifyChanged(type), addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
         /// <param name="propertyNames">List of property names to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListPropertiesChange(Type type, List<string> propertyNames, bool addItems, bool removeItems, bool changeItems)
+        public static void NotifiesIsChangedWhenListPropertiesChange(this Assert assert, Type type, List<string> propertyNames, bool addItems, bool removeItems, bool changeItems)
         {
-            NotifiesIsChangedWhenListPropertiesChange(CheckForINotifyChanged(type), propertyNames, addItems, removeItems, changeItems);
+            NotifiesIsChangedWhenListPropertiesChange(assert, CheckForINotifyChanged(type), propertyNames, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
         /// <param name="properties">List of properties to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListPropertiesChange(Type type, List<PropertyInfo> properties, bool addItems, bool removeItems, bool changeItems)
+        public static void NotifiesIsChangedWhenListPropertiesChange(this Assert assert, Type type, List<PropertyInfo> properties, bool addItems, bool removeItems, bool changeItems)
         {
-            NotifiesIsChangedWhenListPropertiesChange(CheckForINotifyChanged(type), properties, addItems, removeItems, changeItems);
+            NotifiesIsChangedWhenListPropertiesChange(assert, CheckForINotifyChanged(type), properties, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListPropertiesChange<T>(bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenListPropertiesChange<T>(this Assert assert, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenListPropertiesChange(Activator.CreateInstance<T>(), addItems, removeItems, changeItems);
+            NotifiesIsChangedWhenListPropertiesChange(assert, Activator.CreateInstance<T>(), addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyNames">List of property names to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListPropertiesChange<T>(List<string> propertyNames, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenListPropertiesChange<T>(this Assert assert, List<string> propertyNames, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenListPropertiesChange(Activator.CreateInstance<T>(), propertyNames, addItems, removeItems, changeItems);
+            NotifiesIsChangedWhenListPropertiesChange(assert, Activator.CreateInstance<T>(), propertyNames, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="properties">List of properties to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListPropertiesChange<T>(List<PropertyInfo> properties, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenListPropertiesChange<T>(this Assert assert, List<PropertyInfo> properties, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenListPropertiesChange(Activator.CreateInstance<T>(), properties, addItems, removeItems, changeItems);
+            NotifiesIsChangedWhenListPropertiesChange(assert, Activator.CreateInstance<T>(), properties, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with lists to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListPropertiesChange<T>(T obj, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenListPropertiesChange<T>(this Assert assert, T obj, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenListPropertiesChange(obj, PropertyUtilities.GetListProperties(obj, new GetPropertiesOptions(true) { WriteOnlyProperties = false }), addItems, removeItems, changeItems);
+            NotifiesIsChangedWhenListPropertiesChange(assert, obj, PropertyUtilities.GetListProperties(obj, new GetPropertiesOptions(true) { WriteOnlyProperties = false }), addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with lists to test.</param>
         /// <param name="propertyNames">List of property names to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListPropertiesChange<T>(T obj, List<string> propertyNames, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenListPropertiesChange<T>(this Assert assert, T obj, List<string> propertyNames, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenListPropertiesChange(obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName)!)), addItems, removeItems, changeItems);
+            NotifiesIsChangedWhenListPropertiesChange(assert, obj, new List<PropertyInfo>(propertyNames.Select(propertyName => obj.GetType().GetProperty(propertyName)!)), addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with lists to test.</param>
         /// <param name="properties">List of properties to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListPropertiesChange<T>(T obj, List<PropertyInfo> properties, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenListPropertiesChange<T>(this Assert assert, T obj, List<PropertyInfo> properties, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
         {
             // perform this assertion for each property
             foreach (PropertyInfo property in properties)
             {
-                NotifiesIsChangedWhenListPropertyChanges(obj, property, addItems, removeItems, changeItems);
+                NotifiesIsChangedWhenListPropertyChanges(assert, obj, property, addItems, removeItems, changeItems);
             }
 
             // create counter to monitor OnChanged events
@@ -951,20 +1017,21 @@ namespace JSR.Asserts
         #endregion
 
         /// <summary>
-        /// Tests that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when lists change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="TParent">Parent type that implements <see cref="INotifyChanged"/>.</typeparam>
         /// <typeparam name="TList">List type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with lists to test.</param>
         /// <param name="lists">List of lists to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListsChange<TParent, TList>(TParent obj, List<TList> lists, bool addItems, bool removeItems, bool changeItems) where TParent : INotifyChanged where TList : IList
+        public static void NotifiesIsChangedWhenListsChange<TParent, TList>(this Assert assert, TParent obj, List<TList> lists, bool addItems, bool removeItems, bool changeItems) where TParent : INotifyChanged where TList : IList
         {
             foreach (TList list in lists)
             {
-                NotifiesIsChangedWhenListChanges(obj, list, addItems, removeItems, changeItems);
+                NotifiesIsChangedWhenListChanges(assert, obj, list, addItems, removeItems, changeItems);
             }
 
             int count = 0;
@@ -1000,134 +1067,139 @@ namespace JSR.Asserts
         #region NotifiesIsChangedWhenListPropertyChanges
 
         /// <summary>
-        /// Tests that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
         /// <param name="propertyName">Name of property to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListPropertyChanges(Type type, string propertyName, bool addItems, bool removeItems, bool changeItems)
+        public static void NotifiesIsChangedWhenListPropertyChanges(this Assert assert, Type type, string propertyName, bool addItems, bool removeItems, bool changeItems)
         {
-            NotifiesIsChangedWhenListPropertyChanges(CheckForINotifyChanged(type), propertyName, addItems, removeItems, changeItems);
+            NotifiesIsChangedWhenListPropertyChanges(assert, CheckForINotifyChanged(type), propertyName, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="type">Type that implements <see cref="INotifyChanged"/>.</param>
         /// <param name="property">Property to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListPropertyChanges(Type type, PropertyInfo property, bool addItems, bool removeItems, bool changeItems)
+        public static void NotifiesIsChangedWhenListPropertyChanges(this Assert assert, Type type, PropertyInfo property, bool addItems, bool removeItems, bool changeItems)
         {
-            NotifiesIsChangedWhenListPropertyChanges(CheckForINotifyChanged(type), property, addItems, removeItems, changeItems);
+            NotifiesIsChangedWhenListPropertyChanges(assert, CheckForINotifyChanged(type), property, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="propertyName">Name of property to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListPropertyChanges<T>(string propertyName, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenListPropertyChanges<T>(this Assert assert, string propertyName, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenListPropertyChanges<T>(typeof(T).GetProperty(propertyName) ?? throw new ArgumentNullException(nameof(propertyName)), addItems, removeItems, changeItems);
+            NotifiesIsChangedWhenListPropertyChanges<T>(assert, typeof(T).GetProperty(propertyName)!, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="property">Property to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListPropertyChanges<T>(PropertyInfo property, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenListPropertyChanges<T>(this Assert assert, PropertyInfo property, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenListPropertyChanges(Activator.CreateInstance<T>(), property, addItems, removeItems, changeItems);
+            NotifiesIsChangedWhenListPropertyChanges(assert, Activator.CreateInstance<T>(), property, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with list to test.</param>
         /// <param name="propertyName">Name of property to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListPropertyChanges<T>(T obj, string propertyName, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenListPropertyChanges<T>(this Assert assert, T obj, string propertyName, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenListPropertyChanges(obj, obj.GetType().GetProperty(propertyName) ?? throw new ArgumentNullException(nameof(propertyName)), addItems, removeItems, changeItems);
+            NotifiesIsChangedWhenListPropertyChanges(assert, obj, obj.GetType().GetProperty(propertyName)!, addItems, removeItems, changeItems);
         }
 
         /// <summary>
-        /// Tests that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="T">Type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with list to test.</param>
         /// <param name="property">Property to test.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListPropertyChanges<T>(T obj, PropertyInfo property, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
+        public static void NotifiesIsChangedWhenListPropertyChanges<T>(this Assert assert, T obj, PropertyInfo property, bool addItems, bool removeItems, bool changeItems) where T : INotifyChanged
         {
             if (typeof(IList).IsAssignableFrom(property.PropertyType))
             {
-                NotifiesIsChangedWhenListChanges(obj, (IList)property.GetValue(obj)!, addItems, removeItems, changeItems);
+                NotifiesIsChangedWhenListChanges(assert, obj, (IList)property.GetValue(obj)!, addItems, removeItems, changeItems);
             }
         }
 
         #endregion
 
         /// <summary>
-        /// Tests that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that when a list changes, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="TParent">Parent type that implements <see cref="INotifyChanged"/>.</typeparam>
         /// <typeparam name="TList">List type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object with list to test.</param>
         /// <param name="list">List to change.</param>
         /// <param name="addItems">Test adding items to list.</param>
         /// <param name="removeItems">Test removing items from list.</param>
         /// <param name="changeItems">Test changing items in list.</param>
-        public static void NotifiesIsChangedWhenListChanges<TParent, TList>(TParent obj, TList list, bool addItems, bool removeItems, bool changeItems) where TParent : INotifyChanged where TList : IList
+        public static void NotifiesIsChangedWhenListChanges<TParent, TList>(this Assert assert, TParent obj, TList list, bool addItems, bool removeItems, bool changeItems) where TParent : INotifyChanged where TList : IList
         {
             if (addItems)
             {
-                NotifiesIsChangedWhenListItemsAdded(obj, list);
+                NotifiesIsChangedWhenListItemsAdded(assert, obj, list);
             }
 
             if (removeItems)
             {
-                NotifiesIsChangedWhenListItemsRemoved(obj, list);
+                NotifiesIsChangedWhenListItemsRemoved(assert, obj, list);
             }
 
             if (changeItems)
             {
-                NotifiesIsChangedWhenListItemsChange(obj, list);
+                NotifiesIsChangedWhenListItemsChange(assert, obj, list);
             }
         }
 
         /// <summary>
-        /// Tests that as items are added to a list, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that as items are added to a list, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="TParent">Parent type that implements <see cref="INotifyChanged"/>.</typeparam>
         /// <typeparam name="TList">List type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object to test.</param>
         /// <param name="list">List to add items to.</param>
-        public static void NotifiesIsChangedWhenListItemsAdded<TParent, TList>(TParent obj, TList list) where TParent : INotifyChanged where TList : IList
+        public static void NotifiesIsChangedWhenListItemsAdded<TParent, TList>(this Assert assert, TParent obj, TList list) where TParent : INotifyChanged where TList : IList
         {
-            // get the type of items in the list
+            _ = assert;
+
             Type listItemType = list.GetType().GenericTypeArguments[0];
 
-            // determine if the items in the list are IChangeTracking
-            bool listItemsAreIChangeTracking = typeof(IChangeTracking).IsAssignableFrom(listItemType);
-
-            // track OnChange events
             int count = 0;
             obj.OnChanged += (s, c) => count++;
 
@@ -1138,9 +1210,9 @@ namespace JSR.Asserts
 
                 dynamic item = ObjectUtilities.CreateInstanceWithRandomValues(listItemType);
 
-                if (listItemsAreIChangeTracking)
+                if (item is IChangeTracking tracking)
                 {
-                    ((IChangeTracking)item).AcceptChanges();
+                    tracking.AcceptChanges();
                 }
 
                 list.Add(item);
@@ -1155,9 +1227,9 @@ namespace JSR.Asserts
             {
                 dynamic item = ObjectUtilities.CreateInstanceWithRandomValues(listItemType);
 
-                if (listItemsAreIChangeTracking)
+                if (item is IChangeTracking tracking)
                 {
-                    ((IChangeTracking)item).AcceptChanges();
+                    tracking.AcceptChanges();
                 }
 
                 list.Add(item);
@@ -1167,14 +1239,17 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Tests that as items are removed from a list, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that as items are removed from a list, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="TParent">Parent type that implements <see cref="INotifyChanged"/>.</typeparam>
         /// <typeparam name="TList">List type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object to test.</param>
         /// <param name="list">List to remove items from.</param>
-        public static void NotifiesIsChangedWhenListItemsRemoved<TParent, TList>(TParent obj, TList list) where TParent : INotifyChanged where TList : IList
+        public static void NotifiesIsChangedWhenListItemsRemoved<TParent, TList>(this Assert assert, TParent obj, TList list) where TParent : INotifyChanged where TList : IList
         {
+            _ = assert;
+
             if (list.Count == 0)
             {
                 ObjectUtilities.PopulateListWithRandomValues(list);
@@ -1215,14 +1290,17 @@ namespace JSR.Asserts
         }
 
         /// <summary>
-        /// Tests that as items in a list change, the parent raises the <see cref="OnChangedEventHandler"/> once.
+        /// Asserts that as items in a list change, the parent raises the <see cref="OnChangedEventHandler"/> once.
         /// </summary>
         /// <typeparam name="TParent">Parent type that implements <see cref="INotifyChanged"/>.</typeparam>
         /// <typeparam name="TList">List type that implements <see cref="INotifyChanged"/>.</typeparam>
+        /// <param name="assert">Assert extension.</param>
         /// <param name="obj">Object to test.</param>
         /// <param name="list">List with items to change.</param>
-        public static void NotifiesIsChangedWhenListItemsChange<TParent, TList>(TParent obj, TList list) where TParent : INotifyChanged where TList : IList
+        public static void NotifiesIsChangedWhenListItemsChange<TParent, TList>(this Assert assert, TParent obj, TList list) where TParent : INotifyChanged where TList : IList
         {
+            _ = assert;
+
             // if the list doesn't contain any items
             if (list.Count == 0)
             {
@@ -1263,7 +1341,10 @@ namespace JSR.Asserts
         private static INotifyChanged CheckForINotifyChanged(Type type)
         {
             Assert.IsTrue(typeof(INotifyChanged).IsAssignableFrom(type));
-            return (INotifyChanged)Activator.CreateInstance(type);
+            var obj = Activator.CreateInstance(type);
+            Assert.IsNotNull(obj);
+
+            return (INotifyChanged)obj;
         }
     }
 }
