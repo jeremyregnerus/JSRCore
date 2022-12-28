@@ -88,8 +88,8 @@ namespace JSR.BaseClasses.Tests
         [TestMethod]
         public void NotifiesPropertiesChange()
         {
-            NotifyPropertyChangedAssert.NotifiesPropertiesChanged<BaseClassMockWithChildren>();
-            NotifyPropertyChangedAssert.NotifiesPropertiesChanged(GetSerializedBaseClassMockWithChildren());
+            Assert.That.NotifiesPropertiesChanged<BaseClassMockWithChildren>();
+            Assert.That.NotifiesPropertiesChanged(GetSerializedBaseClassMockWithChildren());
         }
 
         /// <summary>
@@ -98,8 +98,8 @@ namespace JSR.BaseClasses.Tests
         [TestMethod]
         public void IsChangedWhenHiearchyChanges()
         {
-            ChangeTrackingAssert.IsChangedWhenHierarchyChanges<BaseClassMockWithChildren>();
-            ChangeTrackingAssert.IsChangedWhenHierarchyChanges(GetSerializedBaseClassMockWithChildren());
+            Assert.That.IsChangedWhenHierarchyChanges<BaseClassMockWithChildren>();
+            Assert.That.IsChangedWhenHierarchyChanges(GetSerializedBaseClassMockWithChildren());
         }
 
         /// <summary>
@@ -108,8 +108,8 @@ namespace JSR.BaseClasses.Tests
         [TestMethod]
         public void NotifiesIsChangedWhenHiearchyChanges()
         {
-            NotifyChangeAssert.NotifiesIsChangedWhenHierarchyChanges<BaseClassMockWithChildren>();
-            NotifyChangeAssert.NotifiesIsChangedWhenHierarchyChanges(GetSerializedBaseClassMockWithChildren());
+            Assert.That.NotifiesIsChangedWhenHierarchyChanges<BaseClassMockWithChildren>();
+            Assert.That.NotifiesIsChangedWhenHierarchyChanges(GetSerializedBaseClassMockWithChildren());
         }
 
         /// <summary>
@@ -118,8 +118,8 @@ namespace JSR.BaseClasses.Tests
         [TestMethod]
         public void AcceptsChanges()
         {
-            ChangeTrackingAssert.AcceptsChanges<BaseClassMockWithChildren>();
-            ChangeTrackingAssert.AcceptsChanges(GetSerializedBaseClassMockWithChildren());
+            Assert.That.AcceptsChanges<BaseClassMockWithChildren>();
+            Assert.That.AcceptsChanges(GetSerializedBaseClassMockWithChildren());
         }
 
         /// <summary>
@@ -128,8 +128,8 @@ namespace JSR.BaseClasses.Tests
         [TestMethod]
         public void NotifiesIsChangedOnAcceptChanges()
         {
-            NotifyChangeAssert.NotifiesIsChangedOnAcceptChanges<BaseClassMockWithChildren>();
-            NotifyChangeAssert.NotifiesIsChangedOnAcceptChanges(GetSerializedBaseClassMockWithChildren());
+            Assert.That.NotifiesIsChangedOnAcceptChanges<BaseClassMockWithChildren>();
+            Assert.That.NotifiesIsChangedOnAcceptChanges(GetSerializedBaseClassMockWithChildren());
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace JSR.BaseClasses.Tests
         [TestMethod]
         public void RaisesMessages()
         {
-            BaseClassMockWithChildren obj = new BaseClassMockWithChildren();
+            BaseClassMockWithChildren obj = new();
             MessengerMonitor<BaseClassMockWithChildren> monitor = new MessengerMonitor<BaseClassMockWithChildren>(obj);
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
@@ -157,7 +157,7 @@ namespace JSR.BaseClasses.Tests
         [TestMethod]
         public void DoesNotRaiseMessageNotificationOnSameMessage()
         {
-            BaseClassMockWithChildren obj = new BaseClassMockWithChildren();
+            BaseClassMockWithChildren obj = new();
             MessengerMonitor<BaseClassMockWithChildren> monitor = new MessengerMonitor<BaseClassMockWithChildren>(obj);
 
             string message = RandomUtilities.GetRandomString();
