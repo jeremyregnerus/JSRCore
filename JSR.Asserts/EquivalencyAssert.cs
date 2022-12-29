@@ -62,7 +62,7 @@ namespace JSR.Asserts
                 {
                     if (ex is AssertFailedException)
                     {
-                        throw new AssertFailedException($"Property Name: {property.Name}. " + ex.Message);
+                        throw new AssertFailedException($"Property Name: {property.Name} " + ex.Message);
                     }
                     else
                     {
