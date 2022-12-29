@@ -31,7 +31,7 @@ namespace JSR.Asserts
             // if one value is null, and the other is not, they are not equivalent
             if ((expected == null && actual != null) || (actual == null && expected != null))
             {
-                throw new AssertFailedException($"The expected object is {(expected != null ? "not " : string.Empty)}, while the actual object is {(actual != null ? "not " : string.Empty)} null.");
+                throw new AssertFailedException($"The expected object is {(expected != null ? $"({expected.GetType()}) not " : string.Empty)}null, while the actual object is {(actual != null ? $"{actual.GetType()} not " : string.Empty)}null.");
             }
 
             // assert both objects are the same type
@@ -52,9 +52,23 @@ namespace JSR.Asserts
             }
 
             // for each property in the objects, assert those objects are equivalent
-            foreach (PropertyInfo property in typeof(T).GetRuntimeProperties())
+            foreach (PropertyInfo property in typeof(T).GetProperties())
             {
-                assert.ObjectsAreEquivalent(property.GetValue(expected), property.GetValue(actual));
+                try
+                {
+                    assert.ObjectsAreEquivalent(property.GetValue(expected), property.GetValue(actual));
+                }
+                catch (Exception ex)
+                {
+                    if (ex is AssertFailedException)
+                    {
+                        throw new AssertFailedException($"Property Name: {property.Name}. " + ex.Message);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
             }
         }
 

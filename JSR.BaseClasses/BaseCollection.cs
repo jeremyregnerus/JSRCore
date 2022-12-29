@@ -14,7 +14,6 @@ namespace JSR.BaseClasses
     /// Collection of objects that can track <see cref="OnChanged"/> and <see cref="OnMessage"/>.
     /// </summary>
     /// <typeparam name="T">Type of object within the Collection.</typeparam>
-    [DataContract]
     public class BaseCollection<T> : ObservableCollection<T>, IList<T>, IList, INotifyChanged, INotifyPropertyChanged, IChangeTracking, IMessenger
     {
         private bool isChanged;

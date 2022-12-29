@@ -178,9 +178,10 @@ namespace JSR.BaseClasses
         /// </summary>
         /// <param name="s">Streaming context.</param>
         [OnDeserialized]
-        protected virtual void OnDeserialized(StreamingContext s)
+        protected void OnDeserialized(StreamingContext s)
         {
             OnCreated();
+            message = string.Empty;
             IsChanged = false;
         }
 

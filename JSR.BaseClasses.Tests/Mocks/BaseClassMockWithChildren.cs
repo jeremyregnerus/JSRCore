@@ -45,12 +45,6 @@ namespace JSR.BaseClasses.Tests.Mocks
             base.AcceptChanges();
         }
 
-        [OnDeserialized]
-        protected override void OnDeserialized(StreamingContext s)
-        {
-            OnCreated();
-        }
-
         protected override void OnCreated()
         {
             AddChildNotifications(childReadOnly);
