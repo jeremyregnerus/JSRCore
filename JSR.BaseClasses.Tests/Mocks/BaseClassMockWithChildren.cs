@@ -35,12 +35,6 @@ namespace JSR.BaseClasses.Tests.Mocks
 
         public BaseCollection<BaseClassMock> ChildCollection { get => childCollection; set => SetValue(ref childCollection, value); }
 
-        [OnDeserialized]
-        public void OnDeserialized(StreamingContext streamingContext)
-        {
-            OnCreated();
-        }
-
         public override void AcceptChanges()
         {
             childReadOnly.AcceptChanges();
@@ -51,7 +45,13 @@ namespace JSR.BaseClasses.Tests.Mocks
             base.AcceptChanges();
         }
 
-        private void OnCreated()
+        [OnDeserialized]
+        protected override void OnDeserialized(StreamingContext s)
+        {
+            OnCreated();
+        }
+
+        protected override void OnCreated()
         {
             AddChildNotifications(childReadOnly);
             AddChildNotifications(childCollectionReadOnly);
