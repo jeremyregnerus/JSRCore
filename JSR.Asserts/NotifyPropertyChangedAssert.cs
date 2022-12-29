@@ -199,7 +199,7 @@ namespace JSR.Asserts
             obj.PropertyChanged += (sender, args) => propertiesChanged.Add(args.PropertyName ?? string.Empty);
 
             // for a random number of times
-            for (int i = 0; i < new Random().Next(20); i++)
+            for (int i = 0; i < new Random().Next(5, 20); i++)
             {
                 // populate the property with a random value
                 ObjectUtilities.PopulatePropertyWithRandomValue(obj, property);
@@ -221,7 +221,7 @@ namespace JSR.Asserts
                 propertiesChanged.Clear();
 
                 // change the value 20 times
-                for (int j = 0; j < 20; j++)
+                for (int j = 0; j < new Random().Next(5, 20); j++)
                 {
                     // set the property using the same value generated before
                     property.SetValue(obj, newValue);
