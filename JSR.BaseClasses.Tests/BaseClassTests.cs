@@ -139,15 +139,16 @@ namespace JSR.BaseClasses.Tests
         public void RaisesMessages()
         {
             BaseClassMockWithChildren obj = new();
-            MessengerMonitor<BaseClassMockWithChildren> monitor = new MessengerMonitor<BaseClassMockWithChildren>(obj);
+            List<string> messages = new();
+            obj.OnMessage += (s, m) => messages.Add(m);
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
                 string message = RandomUtilities.GetRandomString(obj.Message);
                 obj.ChangeMessage(message);
 
-                monitor.AssertMessageNotification(message, false);
-                monitor.AssertMessageCount(i + 1, false);
+                Assert.AreEqual(message, messages.LastOrDefault());
+                Assert.AreEqual(i + 1, messages.Count);
             }
         }
 
@@ -158,7 +159,8 @@ namespace JSR.BaseClasses.Tests
         public void DoesNotRaiseMessageNotificationOnSameMessage()
         {
             BaseClassMockWithChildren obj = new();
-            MessengerMonitor<BaseClassMockWithChildren> monitor = new MessengerMonitor<BaseClassMockWithChildren>(obj);
+            List<string> messages = new();
+            obj.OnMessage += (s, m) => messages.Add(m);
 
             string message = RandomUtilities.GetRandomString();
 
@@ -167,8 +169,8 @@ namespace JSR.BaseClasses.Tests
                 obj.ChangeMessage(message);
             }
 
-            monitor.AssertMessageNotification(message, false);
-            monitor.AssertMessageCount(1, false);
+            Assert.AreEqual(message, messages.LastOrDefault());
+            Assert.AreEqual(1, messages.Count);
         }
 
         /// <summary>
@@ -178,29 +180,30 @@ namespace JSR.BaseClasses.Tests
         public void RaisesChildMessages()
         {
             BaseClassMockWithChildren obj = ObjectUtilities.CreateInstanceWithRandomValues<BaseClassMockWithChildren>();
-            MessengerMonitor<BaseClassMockWithChildren> monitor = new MessengerMonitor<BaseClassMockWithChildren>(obj);
+            List<string> messages = new();
+            obj.OnMessage += (s, m) => messages.Add(m);
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
                 string message = RandomUtilities.GetRandomString(obj.Child.Message);
                 obj.Child.ChangeMessage(message);
 
-                monitor.AssertMessageNotification(message, false);
-                monitor.AssertMessageCount(i + 1, false);
+                Assert.AreEqual(message, messages.LastOrDefault());
+                Assert.AreEqual(i + 1, messages.Count);
             }
 
-            monitor.ClearNotifications();
+            messages.Clear();
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
                 string message = RandomUtilities.GetRandomString(obj.ChildReadOnly.Message);
                 obj.ChildReadOnly.ChangeMessage(message);
 
-                monitor.AssertMessageNotification(message, false);
-                monitor.AssertMessageCount(i + 1, false);
+                Assert.AreEqual(message, messages.LastOrDefault());
+                Assert.AreEqual(i + 1, messages.Count);
             }
 
-            monitor.ClearNotifications();
+            messages.Clear();
 
             for (int i = 0; i < new Random().Next(5, 20); i++)
             {
@@ -209,8 +212,8 @@ namespace JSR.BaseClasses.Tests
                 obj.Child.ChangeMessage(message);
                 obj.ChildReadOnly.ChangeMessage(message);
 
-                monitor.AssertMessageNotification(message, false);
-                monitor.AssertMessageCount(i + 1, false);
+                Assert.AreEqual(message, messages.LastOrDefault());
+                Assert.AreEqual(i + 1, messages.Count);
             }
         }
 
@@ -221,7 +224,9 @@ namespace JSR.BaseClasses.Tests
         public void RaisesListItemMessages()
         {
             BaseClassMockWithChildren obj = ObjectUtilities.CreateInstanceWithRandomValues<BaseClassMockWithChildren>();
-            MessengerMonitor<BaseClassMockWithChildren> monitor = new MessengerMonitor<BaseClassMockWithChildren>(obj);
+
+            List<string> messages = new();
+            obj.OnMessage += (s, m) => messages.Add(m);
 
             int count = 0;
 
@@ -232,11 +237,11 @@ namespace JSR.BaseClasses.Tests
 
                 count++;
 
-                monitor.AssertMessageNotification(message, false);
-                monitor.AssertMessageCount(count, false);
+                Assert.AreEqual(message, messages.LastOrDefault());
+                Assert.AreEqual(count, messages.Count);
             }
 
-            monitor.ClearNotifications();
+            messages.Clear();
             count = 0;
 
             foreach (BaseClassMock item in obj.ChildCollectionReadOnly)
@@ -246,8 +251,8 @@ namespace JSR.BaseClasses.Tests
 
                 count++;
 
-                monitor.AssertMessageNotification(message, false);
-                monitor.AssertMessageCount(count, false);
+                Assert.AreEqual(message, messages.LastOrDefault());
+                Assert.AreEqual(count, messages.Count);
             }
         }
 
@@ -260,7 +265,8 @@ namespace JSR.BaseClasses.Tests
             BaseClassMockWithChildren obj = ObjectUtilities.CreateInstanceWithRandomValues<BaseClassMockWithChildren>();
             obj.ChangeMessage();
 
-            MessengerMonitor<BaseClassMockWithChildren> monitor = new MessengerMonitor<BaseClassMockWithChildren>(obj);
+            List<string> messages = new();
+            obj.OnMessage += (s, m) => messages.Add(m);
 
             BaseClassMock child = obj.Child;
             obj.Child = new BaseClassMock();
@@ -270,10 +276,9 @@ namespace JSR.BaseClasses.Tests
                 string message = RandomUtilities.GetRandomString(obj.Message);
                 child.ChangeMessage(message);
 
-                Assert.AreNotEqual(message, obj.Message);
+                Assert.AreNotEqual(message, messages.LastOrDefault());
+                Assert.AreEqual(0, messages.Count);
             }
-
-            monitor.AssertMessageCount(0, false);
         }
 
         /// <summary>
@@ -285,7 +290,8 @@ namespace JSR.BaseClasses.Tests
             BaseClassMockWithChildren obj = ObjectUtilities.CreateInstanceWithRandomValues<BaseClassMockWithChildren>();
             obj.ChangeMessage();
 
-            MessengerMonitor<BaseClassMockWithChildren> monitor = new MessengerMonitor<BaseClassMockWithChildren>(obj);
+            List<string> messages = new();
+            obj.OnMessage += (s, m) => messages.Add(m);
 
             while (obj.ChildCollection.Count > 0)
             {
@@ -294,8 +300,8 @@ namespace JSR.BaseClasses.Tests
 
                 child.ChangeMessage(RandomUtilities.GetRandomString(obj.Message));
 
-                Assert.AreNotEqual(child.Message, obj.Message);
-                monitor.AssertMessageCount(0, false);
+                Assert.AreNotEqual(child.Message, messages.LastOrDefault());
+                Assert.AreEqual(0, messages.Count);
             }
 
             while (obj.ChildCollectionReadOnly.Count > 0)
@@ -305,8 +311,8 @@ namespace JSR.BaseClasses.Tests
 
                 child.ChangeMessage(RandomUtilities.GetRandomString(obj.Message));
 
-                Assert.AreNotEqual(child.Message, obj.Message);
-                monitor.AssertMessageCount(0, false);
+                Assert.AreNotEqual(child.Message, messages.LastOrDefault());
+                Assert.AreEqual(0, messages.Count);
             }
         }
 
