@@ -22,7 +22,7 @@ namespace JSR.Asserts
         /// <param name="type">Type of object to test.</param>
         public static void PropertiesChangeValues(this Assert assert, Type type)
         {
-            assert.PropertiesChangeValues(Activator.CreateInstance(type));
+            PropertiesChangeValues(assert, Activator.CreateInstance(type));
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace JSR.Asserts
         /// <param name="propertyNames">List of property names to test.</param>
         public static void PropertiesChangeValues(this Assert assert, Type type, List<string> propertyNames)
         {
-            assert.PropertiesChangeValues(Activator.CreateInstance(type), propertyNames);
+            PropertiesChangeValues(assert, Activator.CreateInstance(type), propertyNames);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace JSR.Asserts
         /// <param name="properties">List of properties to test.</param>
         public static void PropertiesChangeValues(this Assert assert, Type type, List<PropertyInfo> properties)
         {
-            assert.PropertiesChangeValues(Activator.CreateInstance(type), properties);
+            PropertiesChangeValues(assert, Activator.CreateInstance(type), properties);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace JSR.Asserts
         /// <param name="assert">Assertion extension.</param>
         public static void PropertiesChangeValues<T>(this Assert assert)
         {
-            assert.PropertiesChangeValues(Activator.CreateInstance<T>());
+            PropertiesChangeValues(assert, Activator.CreateInstance<T>());
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace JSR.Asserts
         /// <param name="propertyNames">List of property names to test.</param>
         public static void PropertiesChangeValues<T>(this Assert assert, List<string> propertyNames)
         {
-            assert.PropertiesChangeValues(Activator.CreateInstance<T>(), propertyNames);
+            PropertiesChangeValues(assert, Activator.CreateInstance<T>(), propertyNames);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace JSR.Asserts
         /// <param name="properties">List of properties to test.</param>
         public static void PropertiesChangeValues<T>(this Assert assert, List<PropertyInfo> properties)
         {
-            assert.PropertiesChangeValues(Activator.CreateInstance<T>(), properties);
+            PropertiesChangeValues(assert, Activator.CreateInstance<T>(), properties);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace JSR.Asserts
         /// <param name="obj">Object with properties to test properties.</param>
         public static void PropertiesChangeValues<T>(this Assert assert, T obj)
         {
-            assert.PropertiesChangeValues(obj, PropertyUtilities.GetReadWriteProperties(obj));
+            PropertiesChangeValues(assert, obj, PropertyUtilities.GetReadWriteProperties(obj));
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace JSR.Asserts
         {
             foreach (string propertyName in propertyNames)
             {
-                assert.PropertyChangesValue(obj, propertyName);
+                PropertyChangesValue(assert, obj, propertyName);
             }
         }
 
@@ -116,7 +116,7 @@ namespace JSR.Asserts
         {
             foreach (PropertyInfo property in properties)
             {
-                assert.PropertyChangesValue(obj, property);
+                PropertyChangesValue(assert, obj, property);
             }
         }
 
@@ -132,7 +132,7 @@ namespace JSR.Asserts
         /// <param name="propertyName">Name of property to test.</param>
         public static void PropertyChangesValue(this Assert assert, Type type, string propertyName)
         {
-            assert.PropertyChangesValue(Activator.CreateInstance(type), propertyName);
+            PropertyChangesValue(assert, Activator.CreateInstance(type), propertyName);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace JSR.Asserts
         /// <param name="property">Property to test.</param>
         public static void PropertyChangesValue(this Assert assert, Type type, PropertyInfo property)
         {
-            assert.PropertyChangesValue(Activator.CreateInstance(type), property);
+            PropertyChangesValue(assert, Activator.CreateInstance(type), property);
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace JSR.Asserts
         /// <param name="propertyName">Name of the property to test.</param>
         public static void PropertyChangesValue<T>(this Assert assert, string propertyName)
         {
-            assert.PropertyChangesValue(Activator.CreateInstance<T>(), typeof(T).GetProperty(propertyName)!);
+            PropertyChangesValue(assert, Activator.CreateInstance<T>(), typeof(T).GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace JSR.Asserts
         /// <param name="property">Property to test.</param>
         public static void PropertyChangesValue<T>(this Assert assert, PropertyInfo property)
         {
-            assert.PropertyChangesValue(Activator.CreateInstance<T>(), property);
+            PropertyChangesValue(assert, Activator.CreateInstance<T>(), property);
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace JSR.Asserts
         /// <param name="propertyName">Name of the property to test.</param>
         public static void PropertyChangesValue<T>(this Assert assert, T obj, string propertyName)
         {
-            assert.PropertyChangesValue(obj, typeof(T).GetProperty(propertyName)!);
+            PropertyChangesValue(assert, obj, typeof(T).GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace JSR.Asserts
             if (PropertyUtilities.IsClassProperty(property))
             {
                 // check the properties within that class
-                assert.PropertiesChangeValues(property.GetValue(obj));
+                PropertiesChangeValues(assert, property.GetValue(obj));
             }
         }
 
