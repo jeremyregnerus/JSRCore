@@ -2,8 +2,6 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System.ComponentModel;
-
 namespace JSR.BaseClasses
 {
     /// <summary>
@@ -16,7 +14,7 @@ namespace JSR.BaseClasses
     /// <summary>
     /// IMessenger raises a PropertyChange notification when a Property called Message is changed.
     /// </summary>
-    public interface IMessenger : INotifyPropertyChanged
+    public interface IMessenger
     {
         /// <summary>
         /// Event raised when the Message changes.
