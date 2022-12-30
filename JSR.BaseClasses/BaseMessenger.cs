@@ -1,4 +1,4 @@
-﻿// <copyright file="Messenger.cs" company="Jeremy Regnerus">
+﻿// <copyright file="BaseMessenger.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 

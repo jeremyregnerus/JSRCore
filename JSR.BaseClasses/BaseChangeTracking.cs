@@ -1,4 +1,4 @@
-﻿// <copyright file="ChangeTracking.cs" company="Jeremy Regnerus">
+﻿// <copyright file="BaseChangeTracking.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 

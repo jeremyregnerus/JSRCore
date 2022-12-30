@@ -1,4 +1,4 @@
-﻿// <copyright file="NotifyChanged.cs" company="Jeremy Regnerus">
+﻿// <copyright file="BaseNotifyChanged.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 

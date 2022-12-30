@@ -1,4 +1,4 @@
-﻿// <copyright file="NotifyPropertyChanged.cs" company="Jeremy Regnerus">
+﻿// <copyright file="BaseNotifyPropertyChanged.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
@@ -23,7 +23,7 @@ namespace JSR.BaseClasses
         {
             foreach (PropertyInfo property in GetType().GetProperties())
             {
-                PropertyChangedNotify(property.Name);
+                NotifyPropertyChanged(property.Name);
             }
         }
 
@@ -37,7 +37,7 @@ namespace JSR.BaseClasses
             {
                 foreach (string propertyName in propertyNames)
                 {
-                    PropertyChangedNotify(propertyName);
+                    NotifyPropertyChanged(propertyName);
                 }
             }
         }
@@ -52,7 +52,7 @@ namespace JSR.BaseClasses
             {
                 foreach (string propertyName in propertyNames)
                 {
-                    PropertyChangedNotify(propertyName);
+                    NotifyPropertyChanged(propertyName);
                 }
             }
         }
@@ -61,7 +61,7 @@ namespace JSR.BaseClasses
         /// Raise the <see cref="PropertyChangedEventHandler"/>.
         /// </summary>
         /// <param name="propertyName">Property name to raise the event handler.</param>
-        protected void PropertyChangedNotify([CallerMemberName] string propertyName = "")
+        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -82,7 +82,7 @@ namespace JSR.BaseClasses
             }
 
             field = value;
-            PropertyChangedNotify(propertyName);
+            NotifyPropertyChanged(propertyName);
 
             return true;
         }
