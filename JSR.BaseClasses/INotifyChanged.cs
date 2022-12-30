@@ -16,7 +16,7 @@ namespace JSR.BaseClasses
     /// <summary>
     /// IChangableObject implements <see cref="INotifyPropertyChanged"/> and <see cref="IChangeTracking"/>. Also provides an event that raises when the object is changed.
     /// </summary>
-    public interface INotifyChanged : IChangeTracking, INotifyPropertyChanged
+    public interface INotifyChanged : IChangeTracking
     {
         /// <summary>
         /// This event is raised when the object's IsChanged value changes.
