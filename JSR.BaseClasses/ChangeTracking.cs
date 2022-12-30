@@ -38,7 +38,7 @@ namespace JSR.BaseClasses
                 return false;
             }
 
-            private set => isChanged = value;
+            protected set => isChanged = value;
         }
 
         /// <inheritdoc/>
