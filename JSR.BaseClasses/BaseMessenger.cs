@@ -9,7 +9,7 @@ namespace JSR.BaseClasses
     /// <summary>
     /// Base implementation of <see cref="IMessenger"/>.
     /// </summary>
-    public abstract class Messenger : IMessenger
+    public abstract class BaseMessenger : IMessenger
     {
         private string message = string.Empty;
 

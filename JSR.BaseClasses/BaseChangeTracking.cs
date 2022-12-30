@@ -10,7 +10,7 @@ namespace JSR.BaseClasses
     /// <summary>
     /// Base implementation of <see cref="IChangeTracking"/>.
     /// </summary>
-    public abstract class ChangeTracking : IChangeTracking
+    public abstract class BaseChangeTracking : IChangeTracking
     {
         private bool isChanged;
 

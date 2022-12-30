@@ -11,7 +11,7 @@ namespace JSR.BaseClasses
     /// <summary>
     /// Base implementation of <see cref="INotifyPropertyChanged"/>.
     /// </summary>
-    public abstract class NotifyPropertyChanged : INotifyPropertyChanged
+    public abstract class BaseNotifyPropertyChanged : INotifyPropertyChanged
     {
         /// <inheritdoc/>
         public event PropertyChangedEventHandler? PropertyChanged;

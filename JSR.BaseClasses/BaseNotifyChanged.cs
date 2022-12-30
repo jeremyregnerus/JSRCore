@@ -10,7 +10,7 @@ namespace JSR.BaseClasses
     /// <summary>
     /// Base implementation of <see cref="INotifyChanged"/>.
     /// </summary>
-    public abstract class NotifyChanged : ChangeTracking, INotifyChanged
+    public abstract class BaseNotifyChanged : BaseChangeTracking, INotifyChanged
     {
         /// <inheritdoc/>
         public event OnChangedEventHandler? OnChanged;
