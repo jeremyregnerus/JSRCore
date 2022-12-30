@@ -33,11 +33,11 @@ namespace JSR.BaseClasses
         /// <summary>
         /// Adds <see cref="IMessenger"/> notification tracking for all property objects that implement <see cref="IMessenger"/>.
         /// </summary>
-        protected void AddChildNotifications()
+        protected void AddChildMessaging()
         {
             foreach (PropertyInfo property in GetType().GetProperties())
             {
-                AddChildNotifications(property.GetValue(this));
+                AddChildMessaging(property.GetValue(this));
             }
         }
 
@@ -46,7 +46,7 @@ namespace JSR.BaseClasses
         /// </summary>
         /// <typeparam name="T">Type of object to track notifications.</typeparam>
         /// <param name="child">Object to track notifications.</param>
-        protected void AddChildNotifications<T>(T child)
+        protected void AddChildMessaging<T>(T child)
         {
             if (child is IMessenger messenger)
             {
@@ -57,11 +57,11 @@ namespace JSR.BaseClasses
         /// <summary>
         /// Removes <see cref="IMessenger"/> notification tracking for all property objects that implement <see cref="IMessenger"/>.
         /// </summary>
-        protected void RemoveChildNotifications()
+        protected void RemoveChildMessaging()
         {
             foreach (PropertyInfo property in GetType().GetProperties())
             {
-                RemoveChildNotifications(property.GetValue(this));
+                RemoveChildMessaging(property.GetValue(this));
             }
         }
 
@@ -70,7 +70,7 @@ namespace JSR.BaseClasses
         /// </summary>
         /// <typeparam name="T">Type of object to no longer track notifications.</typeparam>
         /// <param name="child">Object to no longer track notifications.</param>
-        protected void RemoveChildNotifications<T>(T child)
+        protected void RemoveChildMessaging<T>(T child)
         {
             if (child is IMessenger messenger)
             {
