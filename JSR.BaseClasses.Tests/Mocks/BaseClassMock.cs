@@ -10,7 +10,7 @@ namespace JSR.BaseClasses.Tests.Mocks
 {
     [DataContract]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Mock Class.")]
-    public class BaseClassMock : BaseClass
+    public class BaseClassMock : BaseNotifyPropertyChangedNotifyChangedMessenger
     {
         [DataMember]
         private string stringProperty = string.Empty;

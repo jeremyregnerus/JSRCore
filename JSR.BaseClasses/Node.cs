@@ -8,7 +8,7 @@ namespace JSR.BaseClasses
     /// Node / Tree structure for managing objects.
     /// </summary>
     /// <typeparam name="T">Type of object contained in this Node within the Item property.</typeparam>
-    public class Node<T> : BaseClass where T : BaseClass
+    public class Node<T> : BaseNotifyPropertyChangedNotifyChangedMessenger where T : BaseNotifyPropertyChangedNotifyChangedMessenger
     {
         private T item;
         private Node<T>? parent;

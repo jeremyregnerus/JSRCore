@@ -11,13 +11,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JSR.BaseClasses.Tests
 {
     /// <summary>
-    /// Performs testing on <see cref="BaseClass"/> and <see cref="BaseCollection{T}"/> using <see cref="BaseClassMock"/> and <see cref="BaseClassMockWithChildren"/>.
+    /// Performs testing on <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger"/> and <see cref="BaseCollection{T}"/> using <see cref="BaseClassMock"/> and <see cref="BaseClassMockWithChildren"/>.
     /// </summary>
     [TestClass]
     public class BaseClassTests
     {
         /// <summary>
-        /// Tests that <see cref="BaseClass"/> serializes and deserializes.
+        /// Tests that <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger"/> serializes and deserializes.
         /// </summary>
         [TestMethod]
         public void SerializesAndDeserializes()
@@ -27,7 +27,7 @@ namespace JSR.BaseClasses.Tests
         }
 
         /// <summary>
-        /// Tests that <see cref="BaseClass.IsChanged"/> is false when deserialized.
+        /// Tests that <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger.IsChanged"/> is false when deserialized.
         /// </summary>
         [TestMethod]
         public void IsNotChangedAfterDeserialization()
@@ -37,7 +37,7 @@ namespace JSR.BaseClasses.Tests
         }
 
         /// <summary>
-        /// Tests that <see cref="BaseClass"/> does not set the <see cref="BaseClass.Message"/> value when deserializing.
+        /// Tests that <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger"/> does not set the <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger.Message"/> value when deserializing.
         /// </summary>
         [TestMethod]
         public void HasNoMessageWhenDeserialized()
@@ -53,7 +53,7 @@ namespace JSR.BaseClasses.Tests
         }
 
         /// <summary>
-        /// Tests that <see cref="BaseClass"/> initializes without setting <see cref="BaseClass.IsChanged"/> to true.
+        /// Tests that <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger"/> initializes without setting <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger.IsChanged"/> to true.
         /// </summary>
         [TestMethod]
         public void IsChangedWhenCreated()
@@ -63,7 +63,7 @@ namespace JSR.BaseClasses.Tests
         }
 
         /// <summary>
-        /// Tests that <see cref="BaseClass"/> initializes without setting <see cref="BaseClass.Message"/> value.
+        /// Tests that <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger"/> initializes without setting <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger.Message"/> value.
         /// </summary>
         [TestMethod]
         public void HasNoMessageWhenInitialized()
@@ -73,7 +73,7 @@ namespace JSR.BaseClasses.Tests
         }
 
         /// <summary>
-        /// Tests that <see cref="BaseClass"/> updates the values of its properties.
+        /// Tests that <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger"/> updates the values of its properties.
         /// </summary>
         [TestMethod]
         public void ChangesValues()
@@ -83,7 +83,7 @@ namespace JSR.BaseClasses.Tests
         }
 
         /// <summary>
-        /// Tests that <see cref="BaseClass"/> raises the <see cref="PropertyChangedEventHandler"/> when property values change.
+        /// Tests that <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger"/> raises the <see cref="PropertyChangedEventHandler"/> when property values change.
         /// </summary>
         [TestMethod]
         public void NotifiesPropertiesChange()
@@ -93,7 +93,7 @@ namespace JSR.BaseClasses.Tests
         }
 
         /// <summary>
-        /// Tests that <see cref="BaseClass"/> change <see cref="BaseClass.IsChanged"/> to true when its property values change.
+        /// Tests that <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger"/> change <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger.IsChanged"/> to true when its property values change.
         /// </summary>
         [TestMethod]
         public void IsChangedWhenHiearchyChanges()
@@ -103,7 +103,7 @@ namespace JSR.BaseClasses.Tests
         }
 
         /// <summary>
-        /// Tests that <see cref="BaseClass"/> raises the <see cref="OnChangedEventHandler"/> when its property values change.
+        /// Tests that <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger"/> raises the <see cref="OnChangedEventHandler"/> when its property values change.
         /// </summary>
         [TestMethod]
         public void NotifiesIsChangedWhenHiearchyChanges()
@@ -113,7 +113,7 @@ namespace JSR.BaseClasses.Tests
         }
 
         /// <summary>
-        /// Tests that <see cref="BaseClass"/> sets <see cref="BaseClass.IsChanged"/> to false when executing <see cref="BaseClass.AcceptChanges"/>.
+        /// Tests that <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger"/> sets <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger.IsChanged"/> to false when executing <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger.AcceptChanges"/>.
         /// </summary>
         [TestMethod]
         public void AcceptsChanges()
@@ -123,7 +123,7 @@ namespace JSR.BaseClasses.Tests
         }
 
         /// <summary>
-        /// Tests that <see cref="BaseClass"/> raises the <see cref="OnChangedEventHandler"/> once when executing <see cref="BaseClass.AcceptChanges"/>.
+        /// Tests that <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger"/> raises the <see cref="OnChangedEventHandler"/> once when executing <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger.AcceptChanges"/>.
         /// </summary>
         [TestMethod]
         public void NotifiesIsChangedOnAcceptChanges()
@@ -133,7 +133,7 @@ namespace JSR.BaseClasses.Tests
         }
 
         /// <summary>
-        /// Tests that <see cref="BaseClass"/> raises the <see cref="OnMessageEventHandler"/>.
+        /// Tests that <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger"/> raises the <see cref="OnMessageEventHandler"/>.
         /// </summary>
         [TestMethod]
         public void RaisesMessages()
@@ -153,7 +153,7 @@ namespace JSR.BaseClasses.Tests
         }
 
         /// <summary>
-        /// Tests that <see cref="BaseClass"/> does not raise the <see cref="OnMessageEventHandler"/> when the same value is set for <see cref="BaseClass.Message"/> multiple times.
+        /// Tests that <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger"/> does not raise the <see cref="OnMessageEventHandler"/> when the same value is set for <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger.Message"/> multiple times.
         /// </summary>
         [TestMethod]
         public void DoesNotRaiseMessageNotificationOnSameMessage()
@@ -174,7 +174,7 @@ namespace JSR.BaseClasses.Tests
         }
 
         /// <summary>
-        /// Tests that <see cref="BaseClass"/> raises the <see cref="OnMessageEventHandler"/> when it's children raise messages.
+        /// Tests that <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger"/> raises the <see cref="OnMessageEventHandler"/> when it's children raise messages.
         /// </summary>
         [TestMethod]
         public void RaisesChildMessages()
@@ -218,7 +218,7 @@ namespace JSR.BaseClasses.Tests
         }
 
         /// <summary>
-        /// Tests that <see cref="BaseClass"/> raises the <see cref="OnMessageEventHandler"/> when items in a list raise a message.
+        /// Tests that <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger"/> raises the <see cref="OnMessageEventHandler"/> when items in a list raise a message.
         /// </summary>
         [TestMethod]
         public void RaisesListItemMessages()
@@ -257,7 +257,7 @@ namespace JSR.BaseClasses.Tests
         }
 
         /// <summary>
-        /// Tests that <see cref="BaseClass"/> no longer notifies messages when Child is removed.
+        /// Tests that <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger"/> no longer notifies messages when Child is removed.
         /// </summary>
         [TestMethod]
         public void RemovesChildMessageNotification()
@@ -282,7 +282,7 @@ namespace JSR.BaseClasses.Tests
         }
 
         /// <summary>
-        /// Tests that <see cref="BaseClass"/> no longer notifies messages for items that are removed from a list.
+        /// Tests that <see cref="BaseNotifyPropertyChangedNotifyChangedMessenger"/> no longer notifies messages for items that are removed from a list.
         /// </summary>
         [TestMethod]
         public void RemovesListItemMessageNotification()

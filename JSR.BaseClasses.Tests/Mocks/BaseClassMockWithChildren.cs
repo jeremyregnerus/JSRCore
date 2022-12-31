@@ -45,7 +45,7 @@ namespace JSR.BaseClasses.Tests.Mocks
             base.AcceptChanges();
         }
 
-        protected override void OnCreated()
+        protected void OnCreated()
         {
             AddChildNotifications(childReadOnly);
             AddChildNotifications(childCollectionReadOnly);

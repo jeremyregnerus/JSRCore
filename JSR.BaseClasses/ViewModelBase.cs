@@ -7,7 +7,7 @@ namespace JSR.BaseClasses
     /// <summary>
     /// Base ViewModel object for MVVM environments.
     /// </summary>
-    public class ViewModelBase : BaseClass, IRequestViewClose
+    public class ViewModelBase : BaseNotifyPropertyChangedNotifyChangedMessenger, IRequestViewClose
     {
         private DelegateCommand? requestViewCloseCommand;
 
