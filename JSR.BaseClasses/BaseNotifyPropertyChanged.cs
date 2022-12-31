@@ -76,7 +76,7 @@ namespace JSR.BaseClasses
         /// <returns>True if the value was changed. This will return false if the values are the same.</returns>
         protected virtual bool SetValue<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
         {
-            if (EqualityComparer<T>.Default.Equals(value, field))
+            if (EqualityComparer<T>.Default.Equals(field, value))
             {
                 return false;
             }

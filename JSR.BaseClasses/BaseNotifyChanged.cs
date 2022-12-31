@@ -94,6 +94,21 @@ namespace JSR.BaseClasses
             }
         }
 
+        /// <inheritdoc/>
+        protected override bool SetValue<T>(ref T field, T value)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value))
+            {
+                return false;
+            }
+
+            RemoveChildChangeTracking(field);
+            field = value;
+            AddChildChangeTracking(field);
+
+            return true;
+        }
+
         /// <summary>
         /// Changes <see cref="IsChanged"/> when a child raises <see cref="OnChanged"/> with a value of true.
         /// </summary>
