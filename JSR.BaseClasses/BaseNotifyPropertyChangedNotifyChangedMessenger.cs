@@ -1,19 +1,17 @@
-﻿// <copyright file="BaseClass.cs" company="Jeremy Regnerus">
+﻿// <copyright file="BaseNotifyPropertyChangedNotifyChangedMessenger.cs" company="Jeremy Regnerus">
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
 using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 
 namespace JSR.BaseClasses
 {
     /// <summary>
     /// Implements <see cref="INotifyPropertyChanged"/>, <see cref="IChangeTracking"/>, <see cref="INotifyChanged"/> and <see cref="IMessenger"/>.
     /// </summary>
-    [DataContract]
-    public abstract class BaseClass : INotifyPropertyChanged, IChangeTracking, INotifyChanged, IMessenger
+    public abstract class BaseNotifyPropertyChangedNotifyChangedMessenger : INotifyPropertyChanged, IChangeTracking, INotifyChanged, IMessenger
     {
         private bool isChanged = true;
         private string message = string.Empty;
