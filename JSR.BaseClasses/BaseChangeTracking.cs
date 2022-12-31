@@ -3,7 +3,6 @@
 // </copyright>
 
 using System.ComponentModel;
-using System.Reflection;
 
 namespace JSR.BaseClasses
 {
@@ -12,46 +11,12 @@ namespace JSR.BaseClasses
     /// </summary>
     public abstract class BaseChangeTracking : IChangeTracking
     {
-        private bool isChanged = true;
-
         /// <inheritdoc/>
-        public virtual bool IsChanged
-        {
-            get
-            {
-                if (isChanged)
-                {
-                    return true;
-                }
-
-                foreach (PropertyInfo property in GetType().GetProperties())
-                {
-                    if (property.GetValue(this) is IChangeTracking tracking)
-                    {
-                        if (tracking.IsChanged)
-                        {
-                            return true;
-                        }
-                    }
-                }
-
-                return false;
-            }
-
-            protected set => isChanged = value;
-        }
+        public virtual bool IsChanged { get; protected set; }
 
         /// <inheritdoc/>
         public virtual void AcceptChanges()
         {
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                if (property.GetValue(this) is IChangeTracking tracking)
-                {
-                    tracking.AcceptChanges();
-                }
-            }
-
             IsChanged = false;
         }
 

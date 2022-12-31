@@ -3,7 +3,6 @@
 // </copyright>
 
 using System.ComponentModel;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace JSR.BaseClasses
@@ -18,26 +17,7 @@ namespace JSR.BaseClasses
         /// <inheritdoc/>
         public virtual bool IsChanged
         {
-            get
-            {
-                if (isChanged)
-                {
-                    return true;
-                }
-
-                foreach (PropertyInfo property in GetType().GetProperties())
-                {
-                    if (property.GetValue(this) is IChangeTracking tracking)
-                    {
-                        if (tracking.IsChanged)
-                        {
-                            return true;
-                        }
-                    }
-                }
-
-                return false;
-            }
+            get => isChanged;
 
             protected set
             {
@@ -52,14 +32,6 @@ namespace JSR.BaseClasses
         /// <inheritdoc/>
         public virtual void AcceptChanges()
         {
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                if (property.GetValue(this) is IChangeTracking tracking)
-                {
-                    tracking.AcceptChanges();
-                }
-            }
-
             IsChanged = false;
         }
 

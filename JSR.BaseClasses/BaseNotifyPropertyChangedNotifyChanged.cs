@@ -2,7 +2,6 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace JSR.BaseClasses
@@ -32,17 +31,6 @@ namespace JSR.BaseClasses
         }
 
         /// <summary>
-        /// Adds <see cref="INotifyChanged"/> notification tracking for all property objects that implement <see cref="INotifyChanged"/>.
-        /// </summary>
-        protected void AddChildChangeTracking()
-        {
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                AddChildChangeTracking(property.GetValue(this));
-            }
-        }
-
-        /// <summary>
         /// Adds <see cref="INotifyChanged"/> notification tracking for an object if it implements <see cref="INotifyChanged"/>.
         /// </summary>
         /// <typeparam name="T">Type of object to track notifications.</typeparam>
@@ -52,17 +40,6 @@ namespace JSR.BaseClasses
             if (child is INotifyChanged changed)
             {
                 changed.OnChanged += OnChildChanged;
-            }
-        }
-
-        /// <summary>
-        /// Removes <see cref="INotifyChanged"/> notification tracking for all property objects that implement <see cref="INotifyChanged"/>.
-        /// </summary>
-        protected void RemoveChildChangeTracking()
-        {
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                RemoveChildChangeTracking(property.GetValue(this));
             }
         }
 

@@ -6,7 +6,6 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Runtime.Serialization;
 
 namespace JSR.BaseClasses
 {
@@ -24,7 +23,7 @@ namespace JSR.BaseClasses
         /// </summary>
         public BaseCollection() : base()
         {
-            OnCreated();
+            AddListItemNotification();
         }
 
         /// <summary>
@@ -33,7 +32,7 @@ namespace JSR.BaseClasses
         /// <param name="collection"><see cref="IEnumerable"/> of the list type.</param>
         public BaseCollection(IEnumerable<T> collection) : base(collection)
         {
-            OnCreated();
+            AddListItemNotification();
         }
 
         /// <summary>
@@ -42,7 +41,7 @@ namespace JSR.BaseClasses
         /// <param name="list"><see cref="IList"/> of the list type.</param>
         public BaseCollection(List<T> list) : base(list)
         {
-            OnCreated();
+            AddListItemNotification();
         }
 
         /// <inheritdoc/>
@@ -90,6 +89,27 @@ namespace JSR.BaseClasses
             }
 
             IsChanged = false;
+        }
+
+        /// <summary>
+        /// Adds <see cref="INotifyChanged"/> and <see cref="IMessenger"/> tracking to list items.
+        /// </summary>
+        protected void AddListItemNotification()
+        {
+            CollectionChanged += CollectionListChanged;
+
+            foreach (var item in Items)
+            {
+                if (item is INotifyChanged notify)
+                {
+                    AddChangable(notify);
+                }
+
+                if (item is IMessenger messenger)
+                {
+                    AddMessenger(messenger);
+                }
+            }
         }
 
         private void AddChangable(INotifyChanged changable)
@@ -147,27 +167,6 @@ namespace JSR.BaseClasses
         private void OnChildMessage(object sender, string message)
         {
             Message = message;
-        }
-
-        private void OnCreated()
-        {
-            CollectionChanged += CollectionListChanged;
-
-            foreach (var item in Items.OfType<INotifyChanged>())
-            {
-                AddChangable(item);
-            }
-
-            foreach (var item in Items.OfType<IMessenger>())
-            {
-                AddMessenger(item);
-            }
-        }
-
-        [OnDeserialized]
-        private void OnDeserialized(StreamingContext s)
-        {
-            OnCreated();
         }
 
         private void RemoveChangable(INotifyChanged changable)

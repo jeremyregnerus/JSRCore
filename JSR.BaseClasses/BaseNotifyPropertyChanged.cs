@@ -3,7 +3,6 @@
 // </copyright>
 
 using System.ComponentModel;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace JSR.BaseClasses
@@ -15,17 +14,6 @@ namespace JSR.BaseClasses
     {
         /// <inheritdoc/>
         public event PropertyChangedEventHandler? PropertyChanged;
-
-        /// <summary>
-        /// Raises the <see cref="PropertyChangedEventHandler"/> for ever property within the object.
-        /// </summary>
-        protected void NotifyAllPropertiesChanged()
-        {
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                NotifyPropertyChanged(property.Name);
-            }
-        }
 
         /// <summary>
         /// Raise the <see cref="PropertyChangedEventHandler"/> for multiple properties.

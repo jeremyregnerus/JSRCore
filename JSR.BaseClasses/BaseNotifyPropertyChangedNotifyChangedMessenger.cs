@@ -3,7 +3,6 @@
 // </copyright>
 
 using System.ComponentModel;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace JSR.BaseClasses
@@ -28,23 +27,7 @@ namespace JSR.BaseClasses
         /// <inheritdoc/>
         public virtual bool IsChanged
         {
-            get
-            {
-                if (isChanged)
-                {
-                    return true;
-                }
-
-                foreach (PropertyInfo property in GetType().GetProperties())
-                {
-                    if (property.GetValue(this) is IChangeTracking tracking && tracking.IsChanged)
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
+            get => isChanged;
 
             protected set
             {
@@ -75,26 +58,7 @@ namespace JSR.BaseClasses
         /// <inheritdoc/>
         public virtual void AcceptChanges()
         {
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                if (property.GetValue(this) is IChangeTracking tracking)
-                {
-                    tracking.AcceptChanges();
-                }
-            }
-
             IsChanged = false;
-        }
-
-        /// <summary>
-        /// Adds <see cref="INotifyChanged"/> and <see cref="IMessenger"/> notification tracking for all property objects that implement those interfaces.
-        /// </summary>
-        protected void AddChildNotifications()
-        {
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                AddChildNotifications(property.GetValue(this));
-            }
         }
 
         /// <summary>
@@ -112,17 +76,6 @@ namespace JSR.BaseClasses
             if (child is IMessenger messenger)
             {
                 messenger.OnMessage += OnChildMessage;
-            }
-        }
-
-        /// <summary>
-        /// Raises the <see cref="PropertyChangedEventHandler"/> for ever property within the object.
-        /// </summary>
-        protected void NotifyAllPropertiesChanged()
-        {
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                NotifyPropertyChanged(property.Name);
             }
         }
 
@@ -163,17 +116,6 @@ namespace JSR.BaseClasses
         protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        /// <summary>
-        /// Removes <see cref="INotifyChanged"/> and <see cref="IMessenger"/> notification tracking for all property objects that implenment those interfaces.
-        /// </summary>
-        protected void RemoveChildNotifications()
-        {
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                RemoveChildNotifications(property.GetValue(this));
-            }
         }
 
         /// <summary>

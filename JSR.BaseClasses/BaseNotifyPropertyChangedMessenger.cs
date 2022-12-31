@@ -3,7 +3,6 @@
 // </copyright>
 
 using System.ComponentModel;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace JSR.BaseClasses
@@ -32,17 +31,6 @@ namespace JSR.BaseClasses
         }
 
         /// <summary>
-        /// Adds <see cref="IMessenger"/> notification tracking for all property objects that implement <see cref="IMessenger"/>.
-        /// </summary>
-        protected void AddChildMessaging()
-        {
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                AddChildMessaging(property.GetValue(this));
-            }
-        }
-
-        /// <summary>
         /// Adds <see cref="IMessenger"/> notification tracking for an object if it implements <see cref="IMessenger"/>.
         /// </summary>
         /// <typeparam name="T">Type of object to track notifications.</typeparam>
@@ -52,17 +40,6 @@ namespace JSR.BaseClasses
             if (child is IMessenger messenger)
             {
                 messenger.OnMessage += OnChildMessage;
-            }
-        }
-
-        /// <summary>
-        /// Removes <see cref="IMessenger"/> notification tracking for all property objects that implement <see cref="IMessenger"/>.
-        /// </summary>
-        protected void RemoveChildMessaging()
-        {
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                RemoveChildMessaging(property.GetValue(this));
             }
         }
 

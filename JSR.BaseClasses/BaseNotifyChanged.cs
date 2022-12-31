@@ -2,9 +2,6 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
-using System.ComponentModel;
-using System.Reflection;
-
 namespace JSR.BaseClasses
 {
     /// <summary>
@@ -18,23 +15,7 @@ namespace JSR.BaseClasses
         /// <inheritdoc/>
         public override bool IsChanged
         {
-            get
-            {
-                if (base.IsChanged)
-                {
-                    return true;
-                }
-
-                foreach (PropertyInfo property in GetType().GetProperties())
-                {
-                    if (property.GetValue(this) is IChangeTracking tracking && tracking.IsChanged)
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
+            get => base.IsChanged;
 
             protected set
             {
@@ -43,17 +24,6 @@ namespace JSR.BaseClasses
                     base.IsChanged = value;
                     OnChanged?.Invoke(this, value);
                 }
-            }
-        }
-
-        /// <summary>
-        /// Adds <see cref="INotifyChanged"/> notification tracking for all property objects that implement <see cref="INotifyChanged"/>.
-        /// </summary>
-        protected void AddChildChangeTracking()
-        {
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                AddChildChangeTracking(property.GetValue(this));
             }
         }
 
@@ -67,17 +37,6 @@ namespace JSR.BaseClasses
             if (child is INotifyChanged changed)
             {
                 changed.OnChanged += OnChildChanged;
-            }
-        }
-
-        /// <summary>
-        /// Removes <see cref="INotifyChanged"/> notification tracking for all property objects that implement <see cref="INotifyChanged"/>.
-        /// </summary>
-        protected void RemoveChildChangeTracking()
-        {
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                RemoveChildChangeTracking(property.GetValue(this));
             }
         }
 
