@@ -10,21 +10,13 @@ using System.Runtime.Serialization;
 namespace JSR.BaseClasses
 {
     /// <summary>
-    /// Core base object includes, <see cref="INotifyPropertyChanged"/>, <see cref="IChangeTracking"/> and <see cref="IMessenger"/>.
+    /// Implements <see cref="INotifyPropertyChanged"/>, <see cref="IChangeTracking"/>, <see cref="INotifyChanged"/> and <see cref="IMessenger"/>.
     /// </summary>
     [DataContract]
-    public abstract class BaseClass : INotifyChanged, INotifyPropertyChanged, IChangeTracking, IMessenger
+    public abstract class BaseClass : INotifyPropertyChanged, IChangeTracking, INotifyChanged, IMessenger
     {
         private bool isChanged = true;
         private string message = string.Empty;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BaseClass"/> class.
-        /// </summary>
-        public BaseClass()
-        {
-            OnCreated();
-        }
 
         /// <inheritdoc/>
         public event OnChangedEventHandler? OnChanged;
@@ -38,13 +30,30 @@ namespace JSR.BaseClasses
         /// <inheritdoc/>
         public virtual bool IsChanged
         {
-            get => isChanged;
+            get
+            {
+                if (isChanged)
+                {
+                    return true;
+                }
+
+                foreach (PropertyInfo property in GetType().GetProperties())
+                {
+                    if (property.GetValue(this) is IChangeTracking tracking && tracking.IsChanged)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
             protected set
             {
                 if (value != isChanged)
                 {
                     isChanged = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsChanged)));
+                    NotifyPropertyChanged();
                     OnChanged?.Invoke(this, isChanged);
                 }
             }
@@ -70,11 +79,9 @@ namespace JSR.BaseClasses
         {
             foreach (PropertyInfo property in GetType().GetProperties())
             {
-                var val = property.GetValue(this);
-
-                if (val is IChangeTracking ct)
+                if (property.GetValue(this) is IChangeTracking tracking)
                 {
-                    ct.AcceptChanges();
+                    tracking.AcceptChanges();
                 }
             }
 
@@ -82,7 +89,18 @@ namespace JSR.BaseClasses
         }
 
         /// <summary>
-        /// Adds notification tracking for <see cref="INotifyChanged"/> and <see cref="IMessenger"/> child object.
+        /// Adds <see cref="INotifyChanged"/> and <see cref="IMessenger"/> notification tracking for all property objects that implement those interfaces.
+        /// </summary>
+        protected void AddChildNotifications()
+        {
+            foreach (PropertyInfo property in GetType().GetProperties())
+            {
+                AddChildNotifications(property.GetValue(this));
+            }
+        }
+
+        /// <summary>
+        /// Adds <see cref="INotifyChanged"/> and <see cref="IMessenger"/> notification tracking for an object that implements those interfaces.
         /// </summary>
         /// <typeparam name="T">Type of object to watch for notifications.</typeparam>
         /// <param name="child">Child object to watch for notifications.</param>
@@ -96,19 +114,6 @@ namespace JSR.BaseClasses
             if (child is IMessenger messenger)
             {
                 messenger.OnMessage += OnChildMessage;
-            }
-        }
-
-        /// <summary>
-        /// Adds notification tracking for <see cref="INotifyChanged"/> child objects.
-        /// </summary>
-        /// <typeparam name="T">Type of objects to add notification tracking.</typeparam>
-        /// <param name="children">Objects to add notification tracking.</param>
-        protected void AddChildNotifications<T>(IEnumerable<T> children)
-        {
-            foreach (T child in children)
-            {
-                AddChildNotifications(child);
             }
         }
 
@@ -163,30 +168,18 @@ namespace JSR.BaseClasses
         }
 
         /// <summary>
-        /// This method should run after an object is created to add notification tracking to child objects.
+        /// Removes <see cref="INotifyChanged"/> and <see cref="IMessenger"/> notification tracking for all property objects that implenment those interfaces.
         /// </summary>
-        protected virtual void OnCreated()
+        protected void RemoveChildNotifications()
         {
             foreach (PropertyInfo property in GetType().GetProperties())
             {
-                AddChildNotifications(property.GetValue(this));
+                RemoveChildNotifications(property.GetValue(this));
             }
         }
 
         /// <summary>
-        /// Called when this object is deserialized.
-        /// </summary>
-        /// <param name="s">Streaming context.</param>
-        [OnDeserialized]
-        protected void OnDeserialized(StreamingContext s)
-        {
-            OnCreated();
-            message = string.Empty;
-            IsChanged = false;
-        }
-
-        /// <summary>
-        /// Removes notification tracking for <see cref="INotifyChanged"/> and <see cref="IMessenger"/> child objects.
+        /// Removes <see cref="INotifyChanged"/> and <see cref="IMessenger"/> notification tracking for an object that implenments those interfaces.
         /// </summary>
         /// <typeparam name="T">Type of object to no longer watch for notifications.</typeparam>
         /// <param name="child">Child object to no longer watch for notifications.</param>
@@ -205,12 +198,15 @@ namespace JSR.BaseClasses
 
         /// <summary>
         /// Sets the value for a property.
+        /// If the value changes, this method raises the <see cref="PropertyChanged"/> event.
+        /// If the property value implements <see cref="IChangeTracking"/> this method manages tracking those events.
+        /// If the property value implements <see cref="IMessenger"/> this method manages tracking those events.
         /// </summary>
         /// <typeparam name="T">Type of value to set.</typeparam>
-        /// <param name="field">Field storing the value for the property.</param>
+        /// <param name="field">Field storing the property value.</param>
         /// <param name="value">Value to assign to the property.</param>
         /// <param name="propertyName">Name of the property.</param>
-        /// <returns>True if the value was changed. This will return false if the values are the same.</returns>
+        /// <returns>True if the value was changed. false if the value was the same and not changed.</returns>
         protected virtual bool SetValue<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
         {
             if (EqualityComparer<T>.Default.Equals(value, field))
@@ -229,7 +225,7 @@ namespace JSR.BaseClasses
         }
 
         /// <summary>
-        /// Changes the <see cref="IsChanged"/> state of this object when a child raises <see cref="OnChanged"/>.
+        /// Changes the <see cref="IsChanged"/> value of this object when a child raises <see cref="OnChanged"/>.
         /// </summary>
         /// <param name="sender">Object raising <see cref="OnChangedEventHandler"/>.</param>
         /// <param name="wasChanged">True if the object was changed, false otherwise.</param>
@@ -239,7 +235,7 @@ namespace JSR.BaseClasses
         }
 
         /// <summary>
-        /// Changes the Message of this object when a child raises <see cref="OnMessage"/>.
+        /// Changes the <see cref="Message"/> of this object when a child raises <see cref="OnMessage"/>.
         /// </summary>
         /// <param name="sender">Object raising <see cref="OnMessageEventHandler"/>.</param>
         /// <param name="message">Message the child raised.</param>
