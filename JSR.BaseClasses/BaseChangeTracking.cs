@@ -12,7 +12,7 @@ namespace JSR.BaseClasses
     /// </summary>
     public abstract class BaseChangeTracking : IChangeTracking
     {
-        private bool isChanged;
+        private bool isChanged = true;
 
         /// <inheritdoc/>
         public virtual bool IsChanged
