@@ -428,7 +428,7 @@ namespace JSR.Asserts
         /// <typeparam name="T">Type that implements <see cref="IChangeTracking"/>.</typeparam>
         /// <param name="assert">Assert extension.</param>
         /// <param name="propertyName">Name of property to change.</param>
-        public static void IsChangeWhenPropertyChanges<T>(this Assert assert, string propertyName) where T : IChangeTracking
+        public static void IsChangedWhenPropertyChanges<T>(this Assert assert, string propertyName) where T : IChangeTracking
         {
             IsChangedWhenPropertyChanges(assert, Activator.CreateInstance<T>(), propertyName);
         }
