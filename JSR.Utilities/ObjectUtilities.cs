@@ -3,6 +3,7 @@
 // </copyright>
 
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.Serialization;
 
@@ -19,7 +20,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type of object to perform the copy.</typeparam>
         /// <param name="objectToCopyFrom">Object to copy values from.</param>
         /// <param name="objectToCopyTo">Object to copy values to.</param>
-        public static void CopyValuesFromObjectToObject<T>(T objectToCopyFrom, T objectToCopyTo)
+        public static void CopyValuesFromObjectToObject<T>([DisallowNull] T objectToCopyFrom, [DisallowNull] T objectToCopyTo)
         {
             Type type = objectToCopyFrom.GetType();
 
@@ -30,8 +31,8 @@ namespace JSR.Utilities
 
             foreach (PropertyInfo property in type.GetProperties().Where(p => (p.SetMethod == null || !p.SetMethod.IsPublic) && typeof(IList).IsAssignableFrom(p.PropertyType)))
             {
-                IList objectFromList = (IList)property.GetValue(objectToCopyFrom);
-                IList objectToList = (IList)property.GetValue(objectToCopyTo);
+                IList objectFromList = (IList)property.GetValue(objectToCopyFrom)!;
+                IList objectToList = (IList)property.GetValue(objectToCopyTo)!;
 
                 objectToList.Clear();
 
@@ -43,7 +44,7 @@ namespace JSR.Utilities
 
             foreach (PropertyInfo property in type.GetProperties().Where(x => (x.SetMethod == null || !x.SetMethod.IsPublic) && x.PropertyType.IsClass && x.PropertyType != typeof(string)))
             {
-                CopyValuesFromObjectToObject((dynamic)property.GetValue(objectToCopyFrom), (dynamic)property.GetValue(objectToCopyTo));
+                CopyValuesFromObjectToObject((dynamic)property.GetValue(objectToCopyFrom)!, (dynamic)property.GetValue(objectToCopyTo)!);
             }
         }
 
@@ -53,14 +54,22 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type of object to serialize.</typeparam>
         /// <param name="objectToCopy">Object to copy.</param>
         /// <returns>A copy of <paramref name="objectToCopy"/>.</returns>
-        public static T GetSerializedCopyOfObject<T>(T objectToCopy)
+        public static T GetSerializedCopyOfObject<T>([DisallowNull] T objectToCopy)
         {
             DataContractSerializer s = new(typeof(T), new DataContractSerializerSettings() { PreserveObjectReferences = true });
 
             using MemoryStream stream = new();
             s.WriteObject(stream, objectToCopy);
             stream.Position = 0;
-            return (T)s.ReadObject(stream);
+
+            var copy = s.ReadObject(stream);
+
+            if (copy is null)
+            {
+                throw new SerializationException($"Failed to deserialize {nameof(objectToCopy)}");
+            }
+
+            return (T)copy;
         }
 
         /// <summary>
@@ -70,7 +79,7 @@ namespace JSR.Utilities
         /// <returns>A new object with random property values.</returns>
         public static T CreateInstanceWithRandomValues<T>()
         {
-            T obj = Activator.CreateInstance<T>();
+            T obj = Activator.CreateInstance<T>()!;
             PopulateObjectWithRandomValues(obj);
             return obj;
         }
@@ -83,7 +92,7 @@ namespace JSR.Utilities
         /// <returns>A new object with random property values for the provided property names.</returns>
         public static T CreateInstanceWithRandomValues<T>(List<string> propertyNames)
         {
-            T obj = Activator.CreateInstance<T>();
+            T obj = Activator.CreateInstance<T>()!;
             PopulatePropertiesWithRandomValues(obj, propertyNames);
             return obj;
         }
@@ -96,7 +105,7 @@ namespace JSR.Utilities
         /// <returns>A new object of the specified Type.</returns>
         public static T CreateInstanceWithRandomValues<T>(List<PropertyInfo> properties)
         {
-            T obj = Activator.CreateInstance<T>();
+            T obj = Activator.CreateInstance<T>()!;
             PopulatePropertiesWithRandomValues(obj, properties);
             return obj;
         }
@@ -108,7 +117,7 @@ namespace JSR.Utilities
         /// <returns>A new object of the specified type with populated values.</returns>
         public static dynamic CreateInstanceWithRandomValues(Type type)
         {
-            dynamic obj = Activator.CreateInstance(type);
+            var obj = Activator.CreateInstance(type)!;
             PopulateObjectWithRandomValues(obj);
             return obj;
         }
@@ -121,7 +130,7 @@ namespace JSR.Utilities
         /// <returns>A new object of the defined type with populated values.</returns>
         public static dynamic CreateInstanceWithRandomValues(Type type, List<string> propertyNames)
         {
-            dynamic obj = Activator.CreateInstance(type);
+            dynamic obj = Activator.CreateInstance(type)!;
             PopulatePropertiesWithRandomValues(obj, propertyNames);
             return obj;
         }
@@ -134,7 +143,7 @@ namespace JSR.Utilities
         /// <returns>A new object of the specified type with populated values is specific properties.</returns>
         public static dynamic CreateInstanceWithRandomValues(Type type, List<PropertyInfo> properties)
         {
-            dynamic obj = Activator.CreateInstance(type);
+            dynamic obj = Activator.CreateInstance(type)!;
             PopulatePropertiesWithRandomValues(obj, properties);
             return obj;
         }
@@ -144,7 +153,7 @@ namespace JSR.Utilities
         /// </summary>
         /// <typeparam name="T"><see cref="Type"/> of <see cref="object"/> to populate.</typeparam>
         /// <param name="obj"><see cref="object"/> to populate with random values.</param>
-        public static void PopulateObjectWithRandomValues<T>(T obj)
+        public static void PopulateObjectWithRandomValues<T>([DisallowNull] T obj)
         {
             if (typeof(IList).IsAssignableFrom(obj.GetType()))
             {
@@ -166,7 +175,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type of object with properties to populate.</typeparam>
         /// <param name="obj">Object to populate properties to.</param>
         /// <param name="propertyNames">List of Property Names specifying which properties to populate values.</param>
-        public static void PopulatePropertiesWithRandomValues<T>(T obj, List<string> propertyNames)
+        public static void PopulatePropertiesWithRandomValues<T>([DisallowNull] T obj, List<string> propertyNames)
         {
             if (propertyNames != null)
             {
@@ -183,7 +192,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type of object with properties to populate.</typeparam>
         /// <param name="obj">Object to populate properties to.</param>
         /// <param name="properties">List of <see cref="PropertyInfo"/> specifying which properties to populate values.</param>
-        public static void PopulatePropertiesWithRandomValues<T>(T obj, List<PropertyInfo> properties)
+        public static void PopulatePropertiesWithRandomValues<T>([DisallowNull] T obj, List<PropertyInfo> properties)
         {
             if (properties != null)
             {
@@ -200,9 +209,9 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type to add the property value to.</typeparam>
         /// <param name="obj">Object to add the property value to.</param>
         /// <param name="propertyName">Name of the property to add a random value to.</param>
-        public static void PopulatePropertyWithRandomValue<T>(T obj, string propertyName)
+        public static void PopulatePropertyWithRandomValue<T>([DisallowNull] T obj, string propertyName)
         {
-            PopulatePropertyWithRandomValue(obj, obj.GetType().GetRuntimeProperty(propertyName));
+            PopulatePropertyWithRandomValue(obj, obj.GetType().GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -211,17 +220,8 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type to add the property value to.</typeparam>
         /// <param name="obj">Object to add the property value to.</param>
         /// <param name="property">Property to add the value to.</param>
-        public static void PopulatePropertyWithRandomValue<T>(T obj, PropertyInfo property)
+        public static void PopulatePropertyWithRandomValue<T>([DisallowNull] T obj, PropertyInfo property)
         {
-            if (obj == null)
-            {
-                throw new ArgumentNullException(nameof(obj));
-            }
-            else if (property == null)
-            {
-                throw new ArgumentNullException(nameof(obj));
-            }
-
             if (PropertyUtilities.IsListProperty(property) || PropertyUtilities.IsClassProperty(property))
             {
                 if (obj.GetType() == property.PropertyType)
@@ -234,7 +234,7 @@ namespace JSR.Utilities
                     property.SetValue(obj, Activator.CreateInstance(property.PropertyType));
                 }
 
-                PopulateObjectWithRandomValues(property.GetValue(obj));
+                PopulateObjectWithRandomValues(property.GetValue(obj)!);
 
                 return;
             }
@@ -247,25 +247,25 @@ namespace JSR.Utilities
             switch (property.PropertyType)
             {
                 case Type t when t == typeof(string):
-                    property.SetValue(obj, RandomUtilities.GetRandomString((string)property.GetValue(obj)));
+                    property.SetValue(obj, RandomUtilities.GetRandomString((string)property.GetValue(obj)!));
                     break;
                 case Type t when t.IsEnum:
-                    property.SetValue(obj, RandomUtilities.GetRandomEnum((Enum)property.GetValue(obj)));
+                    property.SetValue(obj, RandomUtilities.GetRandomEnum((Enum)property.GetValue(obj)!));
                     break;
                 case Type t when t == typeof(bool):
-                    property.SetValue(obj, RandomUtilities.GetRandomBoolean((bool)property.GetValue(obj)));
+                    property.SetValue(obj, RandomUtilities.GetRandomBoolean((bool)property.GetValue(obj)!));
                     break;
                 case Type t when t == typeof(int):
-                    property.SetValue(obj, RandomUtilities.GetRandomInteger((int)property.GetValue(obj)));
+                    property.SetValue(obj, RandomUtilities.GetRandomInteger((int)property.GetValue(obj)!));
                     break;
                 case Type t when t == typeof(DateTime):
-                    property.SetValue(obj, RandomUtilities.GetRandomDateTime((DateTime)property.GetValue(obj)));
+                    property.SetValue(obj, RandomUtilities.GetRandomDateTime((DateTime)property.GetValue(obj)!));
                     break;
                 case Type t when t == typeof(double):
-                    property.SetValue(obj, RandomUtilities.GetRandomDouble((double)property.GetValue(obj)));
+                    property.SetValue(obj, RandomUtilities.GetRandomDouble((double)property.GetValue(obj)!));
                     break;
                 case Type t when t == typeof(decimal):
-                    property.SetValue(obj, RandomUtilities.GetRandomDecimal((decimal)property.GetValue(obj)));
+                    property.SetValue(obj, RandomUtilities.GetRandomDecimal((decimal)property.GetValue(obj)!));
                     break;
                 default:
                     throw new ArgumentException($"The property {property.Name} uses an unsupported value type of {property.PropertyType} for this method.", nameof(property));
@@ -278,7 +278,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type of list to populate.</typeparam>
         /// <param name="list">List to populate with random values.</param>
         /// <param name="parentType">Type of the object that contains the list.</param>
-        public static void PopulateListWithRandomValues<T>(T list, Type parentType = null) where T : IList
+        public static void PopulateListWithRandomValues<T>(T list, Type? parentType = null) where T : IList
         {
             RemoveRandomItemsFromList(list);
 

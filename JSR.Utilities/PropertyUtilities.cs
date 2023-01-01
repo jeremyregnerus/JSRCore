@@ -3,6 +3,7 @@
 // </copyright>
 
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace JSR.Utilities
@@ -24,7 +25,7 @@ namespace JSR.Utilities
         /// <returns>True if the property is readwrite.</returns>
         public static bool IsReadWriteProperty<T>(string propertyName)
         {
-            return IsReadWriteProperty(typeof(T).GetProperty(propertyName));
+            return IsReadWriteProperty(typeof(T).GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -34,9 +35,9 @@ namespace JSR.Utilities
         /// <param name="obj">Object with property to evaluate.</param>
         /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is readwrite.</returns>
-        public static bool IsReadWriteProperty<T>(T obj, string propertyName)
+        public static bool IsReadWriteProperty<T>([DisallowNull] T obj, string propertyName)
         {
-            return IsReadWriteProperty(obj.GetType().GetProperty(propertyName));
+            return IsReadWriteProperty(obj.GetType().GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace JSR.Utilities
         /// <returns>True if the property is readwrite.</returns>
         public static bool IsReadWriteProperty(Type type, string propertyName)
         {
-            return IsReadWriteProperty(type.GetProperty(propertyName));
+            return IsReadWriteProperty(type.GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -72,7 +73,7 @@ namespace JSR.Utilities
         /// <returns>True if the property is readonly.</returns>
         public static bool IsReadOnlyProperty<T>(string propertyName)
         {
-            return IsReadOnlyProperty(typeof(T).GetProperty(propertyName));
+            return IsReadOnlyProperty(typeof(T).GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -82,9 +83,9 @@ namespace JSR.Utilities
         /// <param name="obj">Object with property to evaluate.</param>
         /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is readonly.</returns>
-        public static bool IsReadOnlyProperty<T>(T obj, string propertyName)
+        public static bool IsReadOnlyProperty<T>([DisallowNull] T obj, string propertyName)
         {
-            return IsReadOnlyProperty(obj.GetType().GetProperty(propertyName));
+            return IsReadOnlyProperty(obj.GetType().GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -95,7 +96,7 @@ namespace JSR.Utilities
         /// <returns>True if the property is readonly.</returns>
         public static bool IsReadOnlyProperty(Type type, string propertyName)
         {
-            return IsReadOnlyProperty(type.GetProperty(propertyName));
+            return IsReadOnlyProperty(type.GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -120,7 +121,7 @@ namespace JSR.Utilities
         /// <returns>True if the property is writeonly.</returns>
         public static bool IsWriteOnlyProperty<T>(string propertyName)
         {
-            return IsWriteOnlyProperty(typeof(T).GetProperty(propertyName));
+            return IsWriteOnlyProperty(typeof(T).GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -130,9 +131,9 @@ namespace JSR.Utilities
         /// <param name="obj">Object with property to evaluate.</param>
         /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is writeonly.</returns>
-        public static bool IsWriteOnlyProperty<T>(T obj, string propertyName)
+        public static bool IsWriteOnlyProperty<T>([DisallowNull] T obj, string propertyName)
         {
-            return IsWriteOnlyProperty(obj.GetType().GetProperty(propertyName));
+            return IsWriteOnlyProperty(obj.GetType().GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -143,7 +144,7 @@ namespace JSR.Utilities
         /// <returns>True if the property is writeonly.</returns>
         public static bool IsWriteOnlyProperty(Type type, string propertyName)
         {
-            return IsWriteOnlyProperty(type.GetProperty(propertyName));
+            return IsWriteOnlyProperty(type.GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -168,7 +169,7 @@ namespace JSR.Utilities
         /// <returns>True if the property is a class.</returns>
         public static bool IsClassProperty<T>(string propertyName)
         {
-            return IsClassProperty(typeof(T).GetProperty(propertyName));
+            return IsClassProperty(typeof(T).GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -178,9 +179,9 @@ namespace JSR.Utilities
         /// <param name="obj">Object with property to evaluate.</param>
         /// <param name="propertyName">Property name to evaluate.</param>
         /// <returns>True if the property is a class.</returns>
-        public static bool IsClassProperty<T>(T obj, string propertyName)
+        public static bool IsClassProperty<T>([DisallowNull] T obj, string propertyName)
         {
-            return IsClassProperty(obj.GetType().GetProperty(propertyName));
+            return IsClassProperty(obj.GetType().GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -191,7 +192,7 @@ namespace JSR.Utilities
         /// <returns>True if the property is a class.</returns>
         public static bool IsClassProperty(Type type, string propertyName)
         {
-            return IsClassProperty(type.GetProperty(propertyName));
+            return IsClassProperty(type.GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -216,7 +217,7 @@ namespace JSR.Utilities
         /// <returns>True if the property is an interface.</returns>
         public static bool IsInterfaceProperty<T>(string propertyName)
         {
-            return IsInterfaceProperty(typeof(T).GetProperty(propertyName));
+            return IsInterfaceProperty(typeof(T).GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -226,9 +227,9 @@ namespace JSR.Utilities
         /// <param name="obj">Object with property to evaluate.</param>
         /// <param name="propertyName">Property name to evaluate.</param>
         /// <returns>True if the property is an interface.</returns>
-        public static bool IsInterfaceProperty<T>(T obj, string propertyName)
+        public static bool IsInterfaceProperty<T>([DisallowNull] T obj, string propertyName)
         {
-            return IsInterfaceProperty(obj.GetType().GetProperty(propertyName));
+            return IsInterfaceProperty(obj.GetType().GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -239,7 +240,7 @@ namespace JSR.Utilities
         /// <returns>True if the property is an interface type.</returns>
         public static bool IsInterfaceProperty(Type type, string propertyName)
         {
-            return IsInterfaceProperty(type.GetProperty(propertyName));
+            return IsInterfaceProperty(type.GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -264,7 +265,7 @@ namespace JSR.Utilities
         /// <returns>True if the property is a list.</returns>
         public static bool IsListProperty<T>(string propertyName)
         {
-            return IsListProperty(typeof(T).GetProperty(propertyName));
+            return IsListProperty(typeof(T).GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -274,9 +275,9 @@ namespace JSR.Utilities
         /// <param name="obj">Object with property to evaluate.</param>
         /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is a list.</returns>
-        public static bool IsListProperty<T>(T obj, string propertyName)
+        public static bool IsListProperty<T>([DisallowNull] T obj, string propertyName)
         {
-            return IsListProperty(obj.GetType().GetProperty(propertyName));
+            return IsListProperty(obj.GetType().GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -287,7 +288,7 @@ namespace JSR.Utilities
         /// <returns>True if the property is a list.</returns>
         public static bool IsListProperty(Type type, string propertyName)
         {
-            return IsListProperty(type.GetProperty(propertyName));
+            return IsListProperty(type.GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -322,7 +323,7 @@ namespace JSR.Utilities
         /// <param name="obj">Object with property to evaluate.</param>
         /// <param name="propertyName">Name of property to evaluate.</param>
         /// <returns>True if the property is a value type.</returns>
-        public static bool IsValueProperty<T>(T obj, string propertyName)
+        public static bool IsValueProperty<T>([DisallowNull] T obj, string propertyName)
         {
             return IsValueProperty(obj.GetType(), propertyName);
         }
@@ -335,7 +336,7 @@ namespace JSR.Utilities
         /// <returns>True if the property is a value type.</returns>
         public static bool IsValueProperty(Type type, string propertyName)
         {
-            return IsValueProperty(type.GetProperty(propertyName));
+            return IsValueProperty(type.GetProperty(propertyName)!);
         }
 
         /// <summary>
@@ -374,7 +375,7 @@ namespace JSR.Utilities
         /// <param name="obj">Object to get properties from.</param>
         /// <param name="options">Options specifying which properties to get.</param>
         /// <returns>A list of <see cref="PropertyInfo"/>.</returns>
-        public static List<PropertyInfo> GetProperties<T>(T obj, GetPropertiesOptions options)
+        public static List<PropertyInfo> GetProperties<T>([DisallowNull] T obj, GetPropertiesOptions options)
         {
             return GetProperties(obj.GetType(), options);
         }
@@ -459,7 +460,7 @@ namespace JSR.Utilities
         /// <param name="obj">Object to get property names from.</param>
         /// <param name="options">Options specifying which properties to get.</param>
         /// <returns>A list of property names.</returns>
-        public static List<string> GetPropertyNames<T>(T obj, GetPropertiesOptions options)
+        public static List<string> GetPropertyNames<T>([DisallowNull] T obj, GetPropertiesOptions options)
         {
             return GetPropertyNames(obj.GetType(), options);
         }
@@ -495,7 +496,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <param name="obj">Object with properties.</param>
         /// <returns>List of readwrite properties.</returns>
-        public static List<PropertyInfo> GetReadWriteProperties<T>(T obj)
+        public static List<PropertyInfo> GetReadWriteProperties<T>([DisallowNull] T obj)
         {
             return GetReadWriteProperties(obj.GetType());
         }
@@ -530,7 +531,7 @@ namespace JSR.Utilities
         /// <param name="options">Options specifying which properties to get.
         /// These options ignore other accessability choices, and only select readwrite properties.</param>
         /// <returns>List of readwrite properties.</returns>
-        public static List<PropertyInfo> GetReadWriteProperties<T>(T obj, GetPropertiesOptions options)
+        public static List<PropertyInfo> GetReadWriteProperties<T>([DisallowNull] T obj, GetPropertiesOptions options)
         {
             return GetReadWriteProperties(obj.GetType(), options);
         }
@@ -571,7 +572,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <param name="obj">Object with properties.</param>
         /// <returns>List of readwrite property names.</returns>
-        public static List<string> GetReadWritePropertyNames<T>(T obj)
+        public static List<string> GetReadWritePropertyNames<T>([DisallowNull] T obj)
         {
             return GetReadWritePropertyNames(obj.GetType());
         }
@@ -606,7 +607,7 @@ namespace JSR.Utilities
         /// <param name="options">Options specifying which properties to get.
         /// These options ignore other accessability choices, and only select readwrite properties.</param>
         /// <returns>List of readwrite property names.</returns>
-        public static List<string> GetReadWritePropertyNames<T>(T obj, GetPropertiesOptions options)
+        public static List<string> GetReadWritePropertyNames<T>([DisallowNull] T obj, GetPropertiesOptions options)
         {
             return GetReadWritePropertyNames(obj.GetType(), options);
         }
@@ -643,7 +644,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <param name="obj">Object with properties.</param>
         /// <returns>List of readonly properties.</returns>
-        public static List<PropertyInfo> GetReadOnlyProperties<T>(T obj)
+        public static List<PropertyInfo> GetReadOnlyProperties<T>([DisallowNull] T obj)
         {
             return GetReadOnlyProperties(obj.GetType());
         }
@@ -678,7 +679,7 @@ namespace JSR.Utilities
         /// <param name="options">Options specifying which properties to get.
         /// These options ignore other accessability choices, and only select readonly properties.</param>
         /// <returns>List of readonly properties.</returns>
-        public static List<PropertyInfo> GetReadOnlyProperties<T>(T obj, GetPropertiesOptions options)
+        public static List<PropertyInfo> GetReadOnlyProperties<T>([DisallowNull] T obj, GetPropertiesOptions options)
         {
             return GetReadOnlyProperties(obj.GetType(), options);
         }
@@ -719,7 +720,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <param name="obj">Object with properties.</param>
         /// <returns>List of readonly property names.</returns>
-        public static List<string> GetReadOnlyPropertyNames<T>(T obj)
+        public static List<string> GetReadOnlyPropertyNames<T>([DisallowNull] T obj)
         {
             return GetReadOnlyPropertyNames(obj.GetType());
         }
@@ -754,7 +755,7 @@ namespace JSR.Utilities
         /// <param name="options">Options specifying which properties to get.
         /// These options ignore other accessability choices, and only select readonly properties.</param>
         /// <returns>List of readonly property names.</returns>
-        public static List<string> GetReadOnlyPropertyNames<T>(T obj, GetPropertiesOptions options)
+        public static List<string> GetReadOnlyPropertyNames<T>([DisallowNull] T obj, GetPropertiesOptions options)
         {
             return GetReadOnlyPropertyNames(obj.GetType(), options);
         }
@@ -791,7 +792,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <param name="obj">Object with properties.</param>
         /// <returns>List of writeonly properties.</returns>
-        public static List<PropertyInfo> GetWriteOnlyProperties<T>(T obj)
+        public static List<PropertyInfo> GetWriteOnlyProperties<T>([DisallowNull] T obj)
         {
             return GetWriteOnlyProperties(obj.GetType());
         }
@@ -826,7 +827,7 @@ namespace JSR.Utilities
         /// <param name="options">Options specifying which properties to get.
         /// These options ignore other accessability choices, and only select writeonly properties.</param>
         /// <returns>List of writeonly properties.</returns>
-        public static List<PropertyInfo> GetWriteOnlyProperties<T>(T obj, GetPropertiesOptions options)
+        public static List<PropertyInfo> GetWriteOnlyProperties<T>([DisallowNull] T obj, GetPropertiesOptions options)
         {
             return GetWriteOnlyProperties(obj.GetType(), options);
         }
@@ -867,7 +868,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type with properties.</typeparam>
         /// <param name="obj">Object with properties.</param>
         /// <returns>List of writeonly property names.</returns>
-        public static List<string> GetWriteOnlyPropertyNames<T>(T obj)
+        public static List<string> GetWriteOnlyPropertyNames<T>([DisallowNull] T obj)
         {
             return GetWriteOnlyPropertyNames(obj.GetType());
         }
@@ -902,7 +903,7 @@ namespace JSR.Utilities
         /// <param name="options">Options specifying which properties to get.
         /// These options ignore other accessability choices, and only select writeonly properties.</param>
         /// <returns>List of writeonly property names.</returns>
-        public static List<string> GetWriteOnlyPropertyNames<T>(T obj, GetPropertiesOptions options)
+        public static List<string> GetWriteOnlyPropertyNames<T>([DisallowNull] T obj, GetPropertiesOptions options)
         {
             return GetWriteOnlyPropertyNames(obj.GetType(), options);
         }
@@ -939,7 +940,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type to get the properties from.</typeparam>
         /// <param name="obj">Object to get the properties from.</param>
         /// <returns>A list of properties with class values.</returns>
-        public static List<PropertyInfo> GetClassProperties<T>(T obj)
+        public static List<PropertyInfo> GetClassProperties<T>([DisallowNull] T obj)
         {
             return GetClassProperties(obj.GetType());
         }
@@ -974,7 +975,7 @@ namespace JSR.Utilities
         /// <param name="options">Options specifying which properties to get.
         /// These options ignore other value type choices, and only select class properties.</param>
         /// <returns>A list of properties with class values.</returns>
-        public static List<PropertyInfo> GetClassProperties<T>(T obj, GetPropertiesOptions options)
+        public static List<PropertyInfo> GetClassProperties<T>([DisallowNull] T obj, GetPropertiesOptions options)
         {
             return GetClassProperties(obj.GetType(), options);
         }
@@ -1016,7 +1017,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type to get the properties from.</typeparam>
         /// <param name="obj">Object to get the properties from.</param>
         /// <returns>A list of property names with class values.</returns>
-        public static List<string> GetClassPropertyNames<T>(T obj)
+        public static List<string> GetClassPropertyNames<T>([DisallowNull] T obj)
         {
             return GetClassPropertyNames(obj.GetType());
         }
@@ -1051,7 +1052,7 @@ namespace JSR.Utilities
         /// <param name="options">Options specifying which properties to get.
         /// These options ignore other value type choices, and only select class type properties.</param>
         /// <returns>A list of property names with class values.</returns>
-        public static List<string> GetClassPropertyNames<T>(T obj, GetPropertiesOptions options)
+        public static List<string> GetClassPropertyNames<T>([DisallowNull] T obj, GetPropertiesOptions options)
         {
             return GetClassPropertyNames(obj.GetType(), options);
         }
@@ -1088,7 +1089,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type to get the properties from.</typeparam>
         /// <param name="obj">Object to get properties from.</param>
         /// <returns>A list of properties with interface values.</returns>
-        public static List<PropertyInfo> GetInterfaceProperties<T>(T obj)
+        public static List<PropertyInfo> GetInterfaceProperties<T>([DisallowNull] T obj)
         {
             return GetInterfaceProperties(obj.GetType());
         }
@@ -1123,7 +1124,7 @@ namespace JSR.Utilities
         /// <param name="options">Options specifying which properties to get.
         /// These options ignore other value type choices, and only select interface type properties.</param>
         /// <returns>A list of properties with interface values.</returns>
-        public static List<PropertyInfo> GetInterfaceProperties<T>(T obj, GetPropertiesOptions options)
+        public static List<PropertyInfo> GetInterfaceProperties<T>([DisallowNull] T obj, GetPropertiesOptions options)
         {
             return GetInterfaceProperties(obj.GetType(), options);
         }
@@ -1165,7 +1166,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type to get the properties from.</typeparam>
         /// <param name="obj">Object to get the properties from.</param>
         /// <returns>A list of property names with interface values.</returns>
-        public static List<string> GetInterfacePropertyNames<T>(T obj)
+        public static List<string> GetInterfacePropertyNames<T>([DisallowNull] T obj)
         {
             return GetInterfacePropertyNames(obj.GetType());
         }
@@ -1200,7 +1201,7 @@ namespace JSR.Utilities
         /// <param name="options">Options specifying which properties to get.
         /// These options ignore other value type choices, and only select interface type properties.</param>
         /// <returns>A list of property names with interface values.</returns>
-        public static List<string> GetInterfacePropertyNames<T>(T obj, GetPropertiesOptions options)
+        public static List<string> GetInterfacePropertyNames<T>([DisallowNull] T obj, GetPropertiesOptions options)
         {
             return GetInterfacePropertyNames(obj.GetType(), options);
         }
@@ -1237,7 +1238,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type to get the properties from.</typeparam>
         /// <param name="obj">Object to get the properties from.</param>
         /// <returns>A list of properties with lists values.</returns>
-        public static List<PropertyInfo> GetListProperties<T>(T obj)
+        public static List<PropertyInfo> GetListProperties<T>([DisallowNull] T obj)
         {
             return GetListProperties(obj.GetType());
         }
@@ -1272,7 +1273,7 @@ namespace JSR.Utilities
         /// <param name="options">Options specifying which properties to get.
         /// These options ignore other value type choices, and only select list type properties.</param>
         /// <returns>A list of properties with lists values.</returns>
-        public static List<PropertyInfo> GetListProperties<T>(T obj, GetPropertiesOptions options)
+        public static List<PropertyInfo> GetListProperties<T>([DisallowNull] T obj, GetPropertiesOptions options)
         {
             return GetListProperties(obj.GetType(), options);
         }
@@ -1314,7 +1315,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type to get the properties from.</typeparam>
         /// <param name="obj">An Object to get the properties from.</param>
         /// <returns>A list of property names with list values.</returns>
-        public static List<string> GetListPropertyNames<T>(T obj)
+        public static List<string> GetListPropertyNames<T>([DisallowNull] T obj)
         {
             return GetListPropertyNames(obj.GetType());
         }
@@ -1349,7 +1350,7 @@ namespace JSR.Utilities
         /// <param name="options">Options specifying which properties to get.
         /// These options ignore other value type choices, and only select list type properties.</param>
         /// <returns>A list of property names with list values.</returns>
-        public static List<string> GetListPropertyNames<T>(T obj, GetPropertiesOptions options)
+        public static List<string> GetListPropertyNames<T>([DisallowNull] T obj, GetPropertiesOptions options)
         {
             return GetListPropertyNames(obj.GetType(), options);
         }
@@ -1386,7 +1387,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type with properties to evaluate.</typeparam>
         /// <param name="obj">Object to get the properties from.</param>
         /// <returns>A list of properties with value types.</returns>
-        public static List<PropertyInfo> GetValueTypeProperties<T>(T obj)
+        public static List<PropertyInfo> GetValueTypeProperties<T>([DisallowNull] T obj)
         {
             return GetValueTypeProperties(obj.GetType());
         }
@@ -1421,7 +1422,7 @@ namespace JSR.Utilities
         /// <param name="options">Options specifying which properties to get.
         /// These options ignore other value type choices, and only select value type properties.</param>
         /// <returns>A list of properties with value types.</returns>
-        public static List<PropertyInfo> GetValueTypeProperties<T>(T obj, GetPropertiesOptions options)
+        public static List<PropertyInfo> GetValueTypeProperties<T>([DisallowNull] T obj, GetPropertiesOptions options)
         {
             return GetValueTypeProperties(obj.GetType(), options);
         }
@@ -1463,7 +1464,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type with properties to evaluate.</typeparam>
         /// <param name="obj">Object to get the properties from.</param>
         /// <returns>A list of property names with value types.</returns>
-        public static List<string> GetValueTypePropertyNames<T>(T obj)
+        public static List<string> GetValueTypePropertyNames<T>([DisallowNull] T obj)
         {
             return GetValueTypePropertyNames(obj.GetType());
         }
@@ -1498,7 +1499,7 @@ namespace JSR.Utilities
         /// <param name="options">Options specifying which properties to get.
         /// These options ignore other value type choices, and only select value type properties.</param>
         /// <returns>A list of property names with value types.</returns>
-        public static List<string> GetValueTypePropertyNames<T>(T obj, GetPropertiesOptions options)
+        public static List<string> GetValueTypePropertyNames<T>([DisallowNull] T obj, GetPropertiesOptions options)
         {
             return GetValueTypePropertyNames(obj.GetType(), options);
         }

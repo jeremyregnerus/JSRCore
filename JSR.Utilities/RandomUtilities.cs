@@ -46,7 +46,7 @@ namespace JSR.Utilities
         /// <param name="type">Type of value.</param>
         /// <param name="currentValue">Value to not duplicate.</param>
         /// <returns>A random Value of the specified type.</returns>
-        public static dynamic GetRandom(Type type, dynamic currentValue)
+        public static dynamic GetRandom(Type type, dynamic? currentValue)
         {
             return type switch
             {
@@ -218,18 +218,13 @@ namespace JSR.Utilities
         /// <returns>A random <see cref="Enum"/> value.</returns>
         public static dynamic GetRandomEnum(Type enumType)
         {
-            if (enumType == null)
-            {
-                throw new ArgumentNullException(nameof(enumType));
-            }
-
             if (!enumType.IsEnum)
             {
                 throw new ArgumentException($"{nameof(enumType)} is not an enum.", nameof(enumType));
             }
 
             Array values = Enum.GetValues(enumType);
-            return values.GetValue(new Random().Next(values.Length));
+            return values.GetValue(new Random().Next(values.Length))!;
         }
 
         /// <summary>
