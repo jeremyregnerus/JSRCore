@@ -4,6 +4,7 @@
 
 using System.Collections;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using JSR.BaseClasses;
 using JSR.Utilities;
@@ -658,7 +659,7 @@ namespace JSR.Asserts
                 // for each class, populate it with random values
                 foreach (PropertyInfo property in properties)
                 {
-                    ObjectUtilities.PopulateObjectWithRandomValues(property.GetValue(obj));
+                    ObjectUtilities.PopulateObjectWithRandomValues(property.GetValue(obj)!);
                 }
 
                 // assert that OnChanged was raised only once
@@ -673,7 +674,7 @@ namespace JSR.Asserts
             {
                 foreach (PropertyInfo property in properties)
                 {
-                    ObjectUtilities.PopulateObjectWithRandomValues(property.GetValue(obj));
+                    ObjectUtilities.PopulateObjectWithRandomValues(property.GetValue(obj)!);
                 }
             }
 
@@ -803,7 +804,7 @@ namespace JSR.Asserts
         /// <param name="property">Property to test.</param>
         public static void NotifiesIsChangedWhenClassPropertyChanges<T>(this Assert assert, T obj, PropertyInfo property) where T : INotifyChanged
         {
-            NotifiesIsChangedWhenChildClassChanges(assert, obj, property.GetValue(obj));
+            NotifiesIsChangedWhenChildClassChanges(assert, obj, property.GetValue(obj)!);
         }
 
         #endregion
@@ -816,7 +817,7 @@ namespace JSR.Asserts
         /// <param name="assert">Assert extension.</param>
         /// <param name="parentObj">Object with child to test.</param>
         /// <param name="childObj">Child object to change.</param>
-        public static void NotifiesIsChangedWhenChildClassChanges<TParent, TChild>(this Assert assert, TParent parentObj, TChild childObj) where TParent : INotifyChanged
+        public static void NotifiesIsChangedWhenChildClassChanges<TParent, TChild>(this Assert assert, TParent parentObj, [DisallowNull] TChild childObj) where TParent : INotifyChanged
         {
             _ = assert;
 

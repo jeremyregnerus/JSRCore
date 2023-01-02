@@ -4,6 +4,7 @@
 
 using System.Collections;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using JSR.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -654,7 +655,7 @@ namespace JSR.Asserts
         /// <param name="property">Property that implements <see cref="IChangeTracking"/> to test.</param>
         public static void IsChangedWhenClassPropertyChanges<T>(this Assert assert, T obj, PropertyInfo property) where T : IChangeTracking
         {
-            IsChangedWhenChildClassChanges(assert, obj, property.GetValue(obj));
+            IsChangedWhenChildClassChanges(assert, obj, property.GetValue(obj)!);
         }
 
         #endregion
@@ -671,7 +672,7 @@ namespace JSR.Asserts
         {
             foreach (TChild child in children)
             {
-                IsChangedWhenChildClassChanges(assert, parent, child);
+                IsChangedWhenChildClassChanges(assert, parent, child ?? throw new ArgumentNullException(nameof(children), $"{nameof(child)} object of {nameof(children)} is null."));
             }
         }
 
@@ -683,7 +684,7 @@ namespace JSR.Asserts
         /// <param name="assert">Assert extension.</param>
         /// <param name="parentObj">Parent object to test.</param>
         /// <param name="childObj">Child object to change.</param>
-        public static void IsChangedWhenChildClassChanges<TParent, TChild>(this Assert assert, TParent parentObj, TChild childObj) where TParent : IChangeTracking
+        public static void IsChangedWhenChildClassChanges<TParent, TChild>(this Assert assert, TParent parentObj, [DisallowNull] TChild childObj) where TParent : IChangeTracking
         {
             _ = assert;
 

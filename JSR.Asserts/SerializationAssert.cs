@@ -3,6 +3,7 @@
 // </copyright>
 
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using JSR.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -32,7 +33,7 @@ namespace JSR.Asserts
         /// <param name="assert">Assert extension.</param>
         public static void SerializesAndDeserializes<T>(this Assert assert)
         {
-            SerializesAndDeserializes(assert, ObjectUtilities.CreateInstanceWithRandomValues<T>());
+            SerializesAndDeserializes(assert, ObjectUtilities.CreateInstanceWithRandomValues<T>()!);
         }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace JSR.Asserts
         /// <typeparam name="T">Type of object to test serialization.</typeparam>
         /// <param name="assert">Assertion extension.</param>
         /// <param name="obj">Object to test serialization.</param>
-        public static void SerializesAndDeserializes<T>(this Assert assert, T obj)
+        public static void SerializesAndDeserializes<T>(this Assert assert, [DisallowNull] T obj)
         {
             _ = assert;
 
