@@ -273,6 +273,15 @@ namespace JSR.Utilities.Tests
         {
             int random = RandomUtilities.GetRandomInteger();
             Assert.AreNotEqual(random, RandomUtilities.GetRandomInteger(random));
+
+            int min = new Random().Next(10);
+            int max = new Random().Next(11, 100);
+
+            random = new Random().Next(max);
+            Assert.AreNotEqual(random, RandomUtilities.GetRandomInteger(random, max));
+
+            random = new Random().Next(min, max);
+            Assert.AreNotEqual(random, RandomUtilities.GetRandomInteger(random, min, max));
         }
 
         [TestMethod]
@@ -302,6 +311,14 @@ namespace JSR.Utilities.Tests
         }
 
         [TestMethod]
+        public void GetRandomString_CreatesStringOfLength()
+        {
+            int length = new Random().Next(5, 100);
+
+            Assert.AreEqual(length, RandomUtilities.GetRandomString(length).Length);
+        }
+
+        [TestMethod]
         public void NextBool_CreatesRandomBool()
         {
             bool isRandom = false;
@@ -318,6 +335,39 @@ namespace JSR.Utilities.Tests
             }
 
             Assert.IsTrue(isRandom);
+        }
+
+        [TestMethod]
+        public void NextBool_CreatesDifferentBool()
+        {
+            bool random = new Random().NextBool();
+            Assert.AreNotEqual(random, new Random().NextBool(random));
+        }
+
+        [TestMethod]
+        public void NextChar_CreatesRandomChar()
+        {
+            bool isRandom = false;
+            char random = new Random().NextChar();
+
+            for (int i = 0; i < 100; i++)
+            {
+                isRandom = random != new Random().NextChar();
+
+                if (isRandom)
+                {
+                    break;
+                }
+            }
+
+            Assert.IsTrue(isRandom);
+        }
+
+        [TestMethod]
+        public void NextChar_CreatesDifferentChar()
+        {
+            char random = new Random().NextChar();
+            Assert.AreNotEqual(random, new Random().NextChar(random));
         }
 
         [TestMethod]
@@ -340,6 +390,13 @@ namespace JSR.Utilities.Tests
         }
 
         [TestMethod]
+        public void NextDateTime_CreatesDifferentDateTime()
+        {
+            DateTime random = new Random().NextDateTime();
+            Assert.AreNotEqual(random, new Random().NextDateTime(random));
+        }
+
+        [TestMethod]
         public void NextDecimal_CreatesRandomDecimal()
         {
             bool isRandom = false;
@@ -359,14 +416,21 @@ namespace JSR.Utilities.Tests
         }
 
         [TestMethod]
-        public void NextInt32_CreatesRandomInteger()
+        public void NextDecimal_CreatesDifferentDecimal()
+        {
+            decimal random = new Random().NextDecimal();
+            Assert.AreNotEqual(random, new Random().NextDecimal(random));
+        }
+
+        [TestMethod]
+        public void NextDouble_CreatesRandomDouble()
         {
             bool isRandom = false;
-            int random = new Random().NextInt32();
+            double random = new Random().NextDouble();
 
             for (int i = 0; i < 100; i++)
             {
-                isRandom = random != new Random().NextInt32();
+                isRandom = random != new Random().NextDouble();
 
                 if (isRandom)
                 {
@@ -375,6 +439,31 @@ namespace JSR.Utilities.Tests
             }
 
             Assert.IsTrue(isRandom);
+        }
+
+        [TestMethod]
+        public void NextDouble_CreatesDifferentDouble()
+        {
+            double random = new Random().NextDouble();
+            Assert.AreNotEqual(random, new Random().NextDouble(random));
+        }
+
+        [TestMethod]
+        public void NextInt_CreatesDifferentInt()
+        {
+            int random = new Random().Next();
+            Assert.AreNotEqual(random, new Random().NextInt(random));
+
+            int min = new Random().Next(10);
+            int max = new Random().Next(11, 100);
+
+            random = new Random().Next(max);
+
+            Assert.AreNotEqual(random, new Random().NextInt(random, max));
+
+            random = new Random().Next(min, max);
+
+            Assert.AreNotEqual(random, new Random().NextInt(random, min, max));
         }
 
         [TestMethod]
@@ -401,6 +490,24 @@ namespace JSR.Utilities.Tests
         {
             int count = new Random().Next(5, 30);
             Assert.AreEqual(count, new Random().NextString(count).Length);
+        }
+
+        [TestMethod]
+        public void NextString_CreatesDifferentString()
+        {
+            string random = new Random().NextString();
+            Assert.AreNotEqual(random, new Random().NextString(random));
+        }
+
+        [TestMethod]
+        public void NextString_CreatesDifferentString_OfLength()
+        {
+            int length = new Random().Next(5, 30);
+            string random = new Random().NextString(length);
+            string newRandom = new Random().NextString(length, random);
+
+            Assert.AreNotEqual(random, newRandom);
+            Assert.AreEqual(length, newRandom.Length);
         }
     }
 }

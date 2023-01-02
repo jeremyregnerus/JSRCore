@@ -2,6 +2,8 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace JSR.Utilities
 {
     /// <summary>
@@ -9,6 +11,9 @@ namespace JSR.Utilities
     /// </summary>
     public static class RandomUtilities
     {
+        private const string CHARSTRING = "$%#@!*abcdefghijklmnopqrstuvwxyz1234567890?;:ABCDEFGHIJKLMNOPQRSTUVWXYZ^&";
+        private static readonly char[] CHARS = CHARSTRING.ToCharArray();
+
         /// <summary>
         /// Generates a random value of the specified type.
         /// </summary>
@@ -25,7 +30,7 @@ namespace JSR.Utilities
         /// <typeparam name="T">Type of value to generate.</typeparam>
         /// <param name="currentValue">Current value to not match.</param>
         /// <returns>A random value of the specified type.</returns>
-        public static T GetRandom<T>(T currentValue)
+        public static T GetRandom<T>([DisallowNull] T currentValue)
         {
             return GetRandom(currentValue.GetType(), currentValue);
         }
@@ -80,15 +85,7 @@ namespace JSR.Utilities
         /// <returns>Random <see cref="bool"/>.</returns>
         public static bool GetRandomBoolean(bool currentValue)
         {
-            do
-            {
-                bool v = GetRandomBoolean();
-
-                if (v != currentValue)
-                {
-                    return v;
-                }
-            } while (true);
+            return new Random().NextBool(currentValue);
         }
 
         /// <summary>
@@ -97,8 +94,7 @@ namespace JSR.Utilities
         /// <returns>Random <see cref="char"/>.</returns>
         public static char GetRandomChar()
         {
-            char[] chars = "$%#@!*abcdefghijklmnopqrstuvwxyz1234567890?;:ABCDEFGHIJKLMNOPQRSTUVWXYZ^&".ToCharArray();
-            return chars[new Random().Next(0, chars.Length)];
+            return new Random().NextChar();
         }
 
         /// <summary>
@@ -108,15 +104,7 @@ namespace JSR.Utilities
         /// <returns>Random <see cref="char"/>.</returns>
         public static char GetRandomChar(char currentValue)
         {
-            do
-            {
-                char v = GetRandomChar();
-
-                if (v != currentValue)
-                {
-                    return v;
-                }
-            } while (true);
+            return new Random().NextChar(currentValue);
         }
 
         /// <summary>
@@ -133,17 +121,9 @@ namespace JSR.Utilities
         /// </summary>
         /// <param name="currentValue">Value to not duplicate.</param>
         /// <returns>Random <see cref="DateTime"/>.</returns>
-        public static DateTime GetRandomDateTime(DateTime? currentValue)
+        public static DateTime GetRandomDateTime(DateTime currentValue)
         {
-            do
-            {
-                DateTime v = new Random().NextDateTime();
-
-                if (v != currentValue)
-                {
-                    return v;
-                }
-            } while (true);
+            return new Random().NextDateTime(currentValue);
         }
 
         /// <summary>
@@ -162,15 +142,7 @@ namespace JSR.Utilities
         /// <returns>Random <see cref="decimal"/>.</returns>
         public static decimal GetRandomDecimal(decimal currentValue)
         {
-            do
-            {
-                decimal v = new Random().NextDecimal();
-
-                if (v != currentValue)
-                {
-                    return v;
-                }
-            } while (true);
+            return new Random().NextDecimal(currentValue);
         }
 
         /// <summary>
@@ -189,15 +161,7 @@ namespace JSR.Utilities
         /// <returns>A random <see cref="double"/>.</returns>
         public static double GetRandomDouble(double currentValue)
         {
-            do
-            {
-                double v = new Random().NextDouble();
-
-                if (v != currentValue)
-                {
-                    return v;
-                }
-            } while (true);
+            return new Random().NextDouble(currentValue);
         }
 
         /// <summary>
@@ -208,7 +172,7 @@ namespace JSR.Utilities
         public static T GetRandomEnum<T>() where T : Enum
         {
             Array values = Enum.GetValues(typeof(T));
-            return (T)values.GetValue(new Random().Next(values.Length));
+            return (T)values.GetValue(new Random().Next(values.Length))!;
         }
 
         /// <summary>
@@ -267,15 +231,7 @@ namespace JSR.Utilities
         /// <returns>A random <see cref="int"/>.</returns>
         public static int GetRandomInteger(int currentValue)
         {
-            do
-            {
-                int v = new Random().NextInt32();
-
-                if (v != currentValue)
-                {
-                    return v;
-                }
-            } while (true);
+            return new Random().NextInt(currentValue);
         }
 
         /// <summary>
@@ -286,15 +242,7 @@ namespace JSR.Utilities
         /// <returns>A random <see cref="int"/>.</returns>
         public static int GetRandomInteger(int currentValue, int maxValue)
         {
-            do
-            {
-                int v = new Random().Next(maxValue);
-
-                if (v != currentValue)
-                {
-                    return v;
-                }
-            } while (true);
+            return new Random().NextInt(currentValue, maxValue);
         }
 
         /// <summary>
@@ -306,15 +254,7 @@ namespace JSR.Utilities
         /// <returns>A random <see cref="int"/>.</returns>
         public static int GetRandomInteger(int currentValue, int minValue, int maxValue)
         {
-            do
-            {
-                int v = new Random().Next(minValue, maxValue);
-
-                if (v != currentValue)
-                {
-                    return v;
-                }
-            } while (true);
+            return new Random().NextInt(currentValue, minValue, maxValue);
         }
 
         /// <summary>
@@ -333,15 +273,7 @@ namespace JSR.Utilities
         /// <returns>A random <see cref="string"/>.</returns>
         public static string GetRandomString(string currentValue)
         {
-            do
-            {
-                string v = new Random().NextString();
-
-                if (v != currentValue)
-                {
-                    return v;
-                }
-            } while (true);
+            return new Random().NextString(currentValue);
         }
 
         /// <summary>
@@ -365,6 +297,54 @@ namespace JSR.Utilities
         }
 
         /// <summary>
+        /// Returns a random <see cref="bool"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not match.</param>
+        /// <returns>A random <see cref="bool"/>.</returns>
+        public static bool NextBool(this Random random, bool currentValue)
+        {
+            do
+            {
+                bool v = random.NextBool();
+
+                if (v != currentValue)
+                {
+                    return v;
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Returns a random <see cref="char"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <returns>A random <see cref="char"/>.</returns>
+        public static char NextChar(this Random random)
+        {
+            return CHARS[random.Next(0, CHARS.Length)];
+        }
+
+        /// <summary>
+        /// Returns a random <see cref="char"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not match.</param>
+        /// <returns>A random <see cref="char"/>.</returns>
+        public static char NextChar(this Random random, char currentValue)
+        {
+            do
+            {
+                char v = random.NextChar();
+
+                if (v != currentValue)
+                {
+                    return v;
+                }
+            } while (true);
+        }
+
+        /// <summary>
         /// Returns a random <see cref="DateTime"/>.
         /// </summary>
         /// <param name="random"><see cref="Random"/> to add extension.</param>
@@ -382,6 +362,25 @@ namespace JSR.Utilities
         }
 
         /// <summary>
+        /// Returns a random <see cref="DateTime"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not match.</param>
+        /// <returns>A random <see cref="DateTime"/>.</returns>
+        public static DateTime NextDateTime(this Random random, DateTime currentValue)
+        {
+            do
+            {
+                DateTime v = random.NextDateTime();
+
+                if (v != currentValue)
+                {
+                    return v;
+                }
+            } while (true);
+        }
+
+        /// <summary>
         /// Returns a random <see cref="decimal"/>.
         /// </summary>
         /// <param name="random"><see cref="Random"/> to add extension.</param>
@@ -391,23 +390,105 @@ namespace JSR.Utilities
             byte scale = (byte)random.Next(29);
             bool sign = random.Next(2) == 1;
 
-            return new decimal(random.NextInt32(), random.NextInt32(), random.NextInt32(), sign, scale);
+            return new decimal(random.DoubleSeed(), random.DoubleSeed(), random.DoubleSeed(), sign, scale);
         }
 
         /// <summary>
-        /// Returns a random 32bit <see cref="int"/>.
+        /// Returns a random <see cref="decimal"/>.
         /// </summary>
         /// <param name="random"><see cref="Random"/> to add extension.</param>
-        /// <returns>A random 32 bit <see cref="int"/>.</returns>
-        public static int NextInt32(this Random random)
+        /// <param name="currentValue">Value to not match.</param>
+        /// <returns>A random <see cref="decimal"/>.</returns>
+        public static decimal NextDecimal(this Random random, decimal currentValue)
         {
-            unchecked
+            do
             {
-                int firstBit = random.Next(0, 1 << 4) << 28;
-                int lastBit = random.Next(0, 1 << 28);
+                decimal v = random.NextDecimal();
 
-                return firstBit | lastBit;
-            }
+                if (v != currentValue)
+                {
+                    return v;
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Returns a random <see cref="double"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not match.</param>
+        /// <returns>A random <see cref="double"/>.</returns>
+        public static double NextDouble(this Random random, double currentValue)
+        {
+            do
+            {
+                double v = random.NextDouble();
+
+                if (v != currentValue)
+                {
+                    return v;
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Returns a random <see cref="int"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not match.</param>
+        /// <returns>A random <see cref="int"/>.</returns>
+        public static int NextInt(this Random random, int currentValue)
+        {
+            do
+            {
+                int result = random.Next();
+
+                if (result != currentValue)
+                {
+                    return result;
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Returns a random <see cref="int"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not match.</param>
+        /// <param name="maxValue">Maximum value.</param>
+        /// <returns>A random <see cref="int"/>.</returns>
+        public static int NextInt(this Random random, int currentValue, int maxValue)
+        {
+            do
+            {
+                int result = random.Next(maxValue);
+
+                if (result != currentValue)
+                {
+                    return result;
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Returns a random <see cref="int"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not match.</param>
+        /// <param name="minValue">Minimum value.</param>
+        /// <param name="maxValue">Maximum value.</param>
+        /// <returns>A random <see cref="int"/> between the <paramref name="maxValue"/> and the <paramref name="maxValue"/>.</returns>
+        public static int NextInt(this Random random, int currentValue, int minValue, int maxValue)
+        {
+            do
+            {
+                int result = random.Next(minValue, maxValue);
+
+                if (result != currentValue)
+                {
+                    return result;
+                }
+            } while (true);
         }
 
         /// <summary>
@@ -428,8 +509,62 @@ namespace JSR.Utilities
         /// <returns>A random <see cref="string"/>.</returns>
         public static string NextString(this Random random, int length)
         {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
+            return new string(Enumerable.Repeat(CHARSTRING, length).Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        /// <summary>
+        /// Returns a random <see cref="string"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not match.</param>
+        /// <returns>A random <see cref="string"/>.</returns>
+        public static string NextString(this Random random, string currentValue)
+        {
+            do
+            {
+                string result = random.NextString();
+
+                if (result != currentValue)
+                {
+                    return result;
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Returns a random <see cref="string"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="length">Number of characters in the string.</param>
+        /// <param name="currentValue">Value to not match.</param>
+        /// <returns>A random <see cref="string"/>.</returns>
+        public static string NextString(this Random random, int length, string currentValue)
+        {
+            do
+            {
+                string result = random.NextString(length);
+
+                if (result != currentValue)
+                {
+                    return result;
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Returns a random 32bit <see cref="int"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <returns>A random 32 bit <see cref="int"/>.</returns>
+        private static int DoubleSeed(this Random random)
+        {
+            unchecked
+            {
+                int firstBit = random.Next(0, 1 << 4) << 28;
+                int lastBit = random.Next(0, 1 << 28);
+
+                return firstBit | lastBit;
+            }
         }
     }
 }
