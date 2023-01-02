@@ -2,6 +2,7 @@
 // Copyright (c) Jeremy Regnerus. All rights reserved.
 // </copyright>
 
+using System.Data;
 using System.Diagnostics.CodeAnalysis;
 
 namespace JSR.Utilities
@@ -85,7 +86,7 @@ namespace JSR.Utilities
         /// <returns>Random <see cref="bool"/>.</returns>
         public static bool GetRandomBoolean(bool currentValue)
         {
-            return new Random().NextBool(currentValue);
+            return new Random().NewBool(currentValue);
         }
 
         /// <summary>
@@ -104,7 +105,7 @@ namespace JSR.Utilities
         /// <returns>Random <see cref="char"/>.</returns>
         public static char GetRandomChar(char currentValue)
         {
-            return new Random().NextChar(currentValue);
+            return new Random().NewChar(currentValue);
         }
 
         /// <summary>
@@ -123,7 +124,7 @@ namespace JSR.Utilities
         /// <returns>Random <see cref="DateTime"/>.</returns>
         public static DateTime GetRandomDateTime(DateTime currentValue)
         {
-            return new Random().NextDateTime(currentValue);
+            return new Random().NewDateTime(currentValue);
         }
 
         /// <summary>
@@ -142,7 +143,7 @@ namespace JSR.Utilities
         /// <returns>Random <see cref="decimal"/>.</returns>
         public static decimal GetRandomDecimal(decimal currentValue)
         {
-            return new Random().NextDecimal(currentValue);
+            return new Random().NewDecimal(currentValue);
         }
 
         /// <summary>
@@ -161,7 +162,7 @@ namespace JSR.Utilities
         /// <returns>A random <see cref="double"/>.</returns>
         public static double GetRandomDouble(double currentValue)
         {
-            return new Random().NextDouble(currentValue);
+            return new Random().NewDouble(currentValue);
         }
 
         /// <summary>
@@ -231,7 +232,7 @@ namespace JSR.Utilities
         /// <returns>A random <see cref="int"/>.</returns>
         public static int GetRandomInteger(int currentValue)
         {
-            return new Random().NextInt(currentValue);
+            return new Random().NewInt(currentValue);
         }
 
         /// <summary>
@@ -242,7 +243,7 @@ namespace JSR.Utilities
         /// <returns>A random <see cref="int"/>.</returns>
         public static int GetRandomInteger(int currentValue, int maxValue)
         {
-            return new Random().NextInt(currentValue, maxValue);
+            return new Random().NewInt(currentValue, maxValue);
         }
 
         /// <summary>
@@ -254,7 +255,7 @@ namespace JSR.Utilities
         /// <returns>A random <see cref="int"/>.</returns>
         public static int GetRandomInteger(int currentValue, int minValue, int maxValue)
         {
-            return new Random().NextInt(currentValue, minValue, maxValue);
+            return new Random().NewInt(currentValue, minValue, maxValue);
         }
 
         /// <summary>
@@ -273,7 +274,7 @@ namespace JSR.Utilities
         /// <returns>A random <see cref="string"/>.</returns>
         public static string GetRandomString(string currentValue)
         {
-            return new Random().NextString(currentValue);
+            return new Random().NewString(currentValue);
         }
 
         /// <summary>
@@ -297,25 +298,6 @@ namespace JSR.Utilities
         }
 
         /// <summary>
-        /// Returns a random <see cref="bool"/>.
-        /// </summary>
-        /// <param name="random"><see cref="Random"/> to add extension.</param>
-        /// <param name="currentValue">Value to not match.</param>
-        /// <returns>A random <see cref="bool"/>.</returns>
-        public static bool NextBool(this Random random, bool currentValue)
-        {
-            do
-            {
-                bool v = random.NextBool();
-
-                if (v != currentValue)
-                {
-                    return v;
-                }
-            } while (true);
-        }
-
-        /// <summary>
         /// Returns a random <see cref="char"/>.
         /// </summary>
         /// <param name="random"><see cref="Random"/> to add extension.</param>
@@ -323,25 +305,6 @@ namespace JSR.Utilities
         public static char NextChar(this Random random)
         {
             return CHARS[random.Next(0, CHARS.Length)];
-        }
-
-        /// <summary>
-        /// Returns a random <see cref="char"/>.
-        /// </summary>
-        /// <param name="random"><see cref="Random"/> to add extension.</param>
-        /// <param name="currentValue">Value to not match.</param>
-        /// <returns>A random <see cref="char"/>.</returns>
-        public static char NextChar(this Random random, char currentValue)
-        {
-            do
-            {
-                char v = random.NextChar();
-
-                if (v != currentValue)
-                {
-                    return v;
-                }
-            } while (true);
         }
 
         /// <summary>
@@ -362,25 +325,6 @@ namespace JSR.Utilities
         }
 
         /// <summary>
-        /// Returns a random <see cref="DateTime"/>.
-        /// </summary>
-        /// <param name="random"><see cref="Random"/> to add extension.</param>
-        /// <param name="currentValue">Value to not match.</param>
-        /// <returns>A random <see cref="DateTime"/>.</returns>
-        public static DateTime NextDateTime(this Random random, DateTime currentValue)
-        {
-            do
-            {
-                DateTime v = random.NextDateTime();
-
-                if (v != currentValue)
-                {
-                    return v;
-                }
-            } while (true);
-        }
-
-        /// <summary>
         /// Returns a random <see cref="decimal"/>.
         /// </summary>
         /// <param name="random"><see cref="Random"/> to add extension.</param>
@@ -394,101 +338,31 @@ namespace JSR.Utilities
         }
 
         /// <summary>
-        /// Returns a random <see cref="decimal"/>.
+        /// Returns a random <see cref="Enum"/> value.
         /// </summary>
+        /// <typeparam name="T">Type of <see cref="Enum"/> to get.</typeparam>
         /// <param name="random"><see cref="Random"/> to add extension.</param>
-        /// <param name="currentValue">Value to not match.</param>
-        /// <returns>A random <see cref="decimal"/>.</returns>
-        public static decimal NextDecimal(this Random random, decimal currentValue)
+        /// <returns>A random <see cref="Enum"/> value of type <typeparamref name="T"/>.</returns>
+        public static T NextEnum<T>(this Random random) where T : Enum
         {
-            do
-            {
-                decimal v = random.NextDecimal();
-
-                if (v != currentValue)
-                {
-                    return v;
-                }
-            } while (true);
+            return NextEnum(random, typeof(T));
         }
 
         /// <summary>
-        /// Returns a random <see cref="double"/>.
+        /// Returns a random <see cref="Enum"/> value.
         /// </summary>
         /// <param name="random"><see cref="Random"/> to add extension.</param>
-        /// <param name="currentValue">Value to not match.</param>
-        /// <returns>A random <see cref="double"/>.</returns>
-        public static double NextDouble(this Random random, double currentValue)
+        /// <param name="type">Type of <see cref="Enum"/> to create.</param>
+        /// <returns>A random <see cref="Enum"/> value.</returns>
+        public static dynamic NextEnum(this Random random, Type type)
         {
-            do
+            if (!type.IsEnum)
             {
-                double v = random.NextDouble();
+                throw new ArgumentException($"{nameof(type)} is not an enum.", nameof(type));
+            }
 
-                if (v != currentValue)
-                {
-                    return v;
-                }
-            } while (true);
-        }
-
-        /// <summary>
-        /// Returns a random <see cref="int"/>.
-        /// </summary>
-        /// <param name="random"><see cref="Random"/> to add extension.</param>
-        /// <param name="currentValue">Value to not match.</param>
-        /// <returns>A random <see cref="int"/>.</returns>
-        public static int NextInt(this Random random, int currentValue)
-        {
-            do
-            {
-                int result = random.Next();
-
-                if (result != currentValue)
-                {
-                    return result;
-                }
-            } while (true);
-        }
-
-        /// <summary>
-        /// Returns a random <see cref="int"/>.
-        /// </summary>
-        /// <param name="random"><see cref="Random"/> to add extension.</param>
-        /// <param name="currentValue">Value to not match.</param>
-        /// <param name="maxValue">Maximum value.</param>
-        /// <returns>A random <see cref="int"/>.</returns>
-        public static int NextInt(this Random random, int currentValue, int maxValue)
-        {
-            do
-            {
-                int result = random.Next(maxValue);
-
-                if (result != currentValue)
-                {
-                    return result;
-                }
-            } while (true);
-        }
-
-        /// <summary>
-        /// Returns a random <see cref="int"/>.
-        /// </summary>
-        /// <param name="random"><see cref="Random"/> to add extension.</param>
-        /// <param name="currentValue">Value to not match.</param>
-        /// <param name="minValue">Minimum value.</param>
-        /// <param name="maxValue">Maximum value.</param>
-        /// <returns>A random <see cref="int"/> between the <paramref name="maxValue"/> and the <paramref name="maxValue"/>.</returns>
-        public static int NextInt(this Random random, int currentValue, int minValue, int maxValue)
-        {
-            do
-            {
-                int result = random.Next(minValue, maxValue);
-
-                if (result != currentValue)
-                {
-                    return result;
-                }
-            } while (true);
+            Array values = Enum.GetValues(type);
+            return values.GetValue(random.Next(values.Length))!;
         }
 
         /// <summary>
@@ -513,12 +387,229 @@ namespace JSR.Utilities
         }
 
         /// <summary>
+        /// Returns a random value of the specified type.
+        /// </summary>
+        /// <typeparam name="T">Type of random value to create.</typeparam>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <returns>A random value of the type <typeparamref name="T"/>.</returns>
+        public static T NextTypeOf<T>(this Random random)
+        {
+            return NextTypeOf(random, typeof(T));
+        }
+
+        /// <summary>
+        /// Returns a random value of the specified type.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="type">Type of random value to create.</param>
+        /// <returns>A random value of type <paramref name="type"/>.</returns>
+        public static dynamic NextTypeOf(this Random random, Type type)
+        {
+            return NewTypeOf(random, type, null);
+        }
+
+        /// <summary>
+        /// Returns a random <see cref="bool"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not match.</param>
+        /// <returns>A random <see cref="bool"/>.</returns>
+        public static bool NewBool(this Random random, bool currentValue)
+        {
+            do
+            {
+                bool v = random.NextBool();
+
+                if (v != currentValue)
+                {
+                    return v;
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Returns a random <see cref="char"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not match.</param>
+        /// <returns>A random <see cref="char"/>.</returns>
+        public static char NewChar(this Random random, char currentValue)
+        {
+            do
+            {
+                char v = random.NextChar();
+
+                if (v != currentValue)
+                {
+                    return v;
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Returns a random <see cref="DateTime"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not match.</param>
+        /// <returns>A random <see cref="DateTime"/>.</returns>
+        public static DateTime NewDateTime(this Random random, DateTime currentValue)
+        {
+            do
+            {
+                DateTime v = random.NextDateTime();
+
+                if (v != currentValue)
+                {
+                    return v;
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Returns a random <see cref="decimal"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not match.</param>
+        /// <returns>A random <see cref="decimal"/>.</returns>
+        public static decimal NewDecimal(this Random random, decimal currentValue)
+        {
+            do
+            {
+                decimal v = random.NextDecimal();
+
+                if (v != currentValue)
+                {
+                    return v;
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Returns a random <see cref="double"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not match.</param>
+        /// <returns>A random <see cref="double"/>.</returns>
+        public static double NewDouble(this Random random, double currentValue)
+        {
+            do
+            {
+                double v = random.NextDouble();
+
+                if (v != currentValue)
+                {
+                    return v;
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Returns a new random <see cref="Enum"/> value.
+        /// </summary>
+        /// <typeparam name="T">Type of <see cref="Enum"/> value to create.</typeparam>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not duplicate.</param>
+        /// <returns>A random <see cref="Enum"/> value.</returns>
+        public static T NewEnum<T>(this Random random, T currentValue)
+        {
+            do
+            {
+                var result = NextEnum(random, typeof(T));
+
+                if (result != currentValue)
+                {
+                    return result;
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Returns a new random <see cref="Enum"/> value.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="type">Type of <see cref="Enum"/> value to create.</param>
+        /// <param name="currentValue">Value to not duplicate.</param>
+        /// <returns>A random <see cref="Enum"/> value.</returns>
+        public static dynamic NewEnum(this Random random, Type type, dynamic currentValue)
+        {
+            do
+            {
+                dynamic result = NextEnum(random, type);
+
+                if (result != currentValue)
+                {
+                    return result;
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Returns a random <see cref="int"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not match.</param>
+        /// <returns>A random <see cref="int"/>.</returns>
+        public static int NewInt(this Random random, int currentValue)
+        {
+            do
+            {
+                int result = random.Next();
+
+                if (result != currentValue)
+                {
+                    return result;
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Returns a random <see cref="int"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not match.</param>
+        /// <param name="maxValue">Maximum value.</param>
+        /// <returns>A random <see cref="int"/>.</returns>
+        public static int NewInt(this Random random, int currentValue, int maxValue)
+        {
+            do
+            {
+                int result = random.Next(maxValue);
+
+                if (result != currentValue)
+                {
+                    return result;
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Returns a random <see cref="int"/>.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not match.</param>
+        /// <param name="minValue">Minimum value.</param>
+        /// <param name="maxValue">Maximum value.</param>
+        /// <returns>A random <see cref="int"/> between the <paramref name="maxValue"/> and the <paramref name="maxValue"/>.</returns>
+        public static int NewInt(this Random random, int currentValue, int minValue, int maxValue)
+        {
+            do
+            {
+                int result = random.Next(minValue, maxValue);
+
+                if (result != currentValue)
+                {
+                    return result;
+                }
+            } while (true);
+        }
+
+        /// <summary>
         /// Returns a random <see cref="string"/>.
         /// </summary>
         /// <param name="random"><see cref="Random"/> to add extension.</param>
         /// <param name="currentValue">Value to not match.</param>
         /// <returns>A random <see cref="string"/>.</returns>
-        public static string NextString(this Random random, string currentValue)
+        public static string NewString(this Random random, string currentValue)
         {
             do
             {
@@ -535,20 +626,58 @@ namespace JSR.Utilities
         /// Returns a random <see cref="string"/>.
         /// </summary>
         /// <param name="random"><see cref="Random"/> to add extension.</param>
-        /// <param name="length">Number of characters in the string.</param>
         /// <param name="currentValue">Value to not match.</param>
+        /// <param name="length">Number of characters in the string.</param>
         /// <returns>A random <see cref="string"/>.</returns>
-        public static string NextString(this Random random, int length, string currentValue)
+        public static string NewString(this Random random, string currentValue, int length)
         {
             do
             {
-                string result = random.NextString(length);
+                string result = NextString(random, length);
 
                 if (result != currentValue)
                 {
                     return result;
                 }
             } while (true);
+        }
+
+        /// <summary>
+        /// Returns a new random of the type specified.
+        /// </summary>
+        /// <typeparam name="T">Type of random object to create.</typeparam>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="currentValue">Value to not duplicate.</param>
+        /// <returns>A random value of type <typeparamref name="T"/>.</returns>
+        public static T NewTypeOf<T>(this Random random, T currentValue)
+        {
+            return NewTypeOf(random, typeof(T), currentValue);
+        }
+
+        /// <summary>
+        /// Returns a new random of the specified type.
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> to add extension.</param>
+        /// <param name="type">Type of random object to create.</param>
+        /// <param name="currentValue">Value to not duplicate.</param>
+        /// <returns>A random value of type <paramref name="type"/> specified.</returns>
+        /// <exception cref="ArgumentException">Thrown for unsupported types.</exception>
+        public static dynamic NewTypeOf(this Random random, Type type, dynamic? currentValue)
+        {
+            return type switch
+            {
+                Type t when t == typeof(bool) => currentValue == null ? NextBool(random) : NewBool(random, currentValue),
+                Type t when t == typeof(char) => currentValue == null ? NextChar(random) : NewChar(random, currentValue),
+                Type t when t == typeof(DateTime) => currentValue == null ? NextDateTime(random) : NewDateTime(random, currentValue),
+                Type t when t == typeof(decimal) => currentValue == null ? NextDecimal(random) : NewDecimal(random, currentValue),
+                Type t when t == typeof(double) => currentValue == null ? random.NextDouble() : NewDouble(random, currentValue),
+                Type t when t == typeof(int) => currentValue == null ? random.Next() : NewInt(random, currentValue),
+                Type t when t == typeof(string) => currentValue == null ? NextString(random) : NewString(random, currentValue),
+                Type t when t.IsEnum => currentValue == null ? NextEnum(random, type) : NewEnum(random, currentValue),
+                Type t when t.IsClass => ObjectUtilities.CreateInstanceWithRandomValues(type),
+                Type t when t.IsValueType && !t.IsEnum => ObjectUtilities.CreateInstanceWithRandomValues(type),
+                _ => throw new ArgumentException($"The type {type} is an unsupported value type for the {nameof(GetRandom)} method.", nameof(type)),
+            };
         }
 
         /// <summary>

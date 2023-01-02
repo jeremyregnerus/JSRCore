@@ -81,6 +81,20 @@ namespace JSR.Utilities.Tests
         {
             var random = RandomUtilities.GetRandom(type);
             Assert.AreNotEqual(random, RandomUtilities.GetRandom(type, random));
+        }
+
+        [TestMethod]
+        [DataRow(typeof(bool))]
+        [DataRow(typeof(char))]
+        [DataRow(typeof(decimal))]
+        [DataRow(typeof(double))]
+        [DataRow(typeof(int))]
+        [DataRow(typeof(string))]
+        [DataRow(typeof(DateTime))]
+        [DataRow(typeof(EnumMock))]
+        public void GetRandom_Generic_CreatesDifferentValue(Type type)
+        {
+            var random = RandomUtilities.GetRandom(type);
             Assert.AreNotEqual(random, RandomUtilities.GetRandom(random));
         }
 
@@ -338,13 +352,6 @@ namespace JSR.Utilities.Tests
         }
 
         [TestMethod]
-        public void NextBool_CreatesDifferentBool()
-        {
-            bool random = new Random().NextBool();
-            Assert.AreNotEqual(random, new Random().NextBool(random));
-        }
-
-        [TestMethod]
         public void NextChar_CreatesRandomChar()
         {
             bool isRandom = false;
@@ -361,13 +368,6 @@ namespace JSR.Utilities.Tests
             }
 
             Assert.IsTrue(isRandom);
-        }
-
-        [TestMethod]
-        public void NextChar_CreatesDifferentChar()
-        {
-            char random = new Random().NextChar();
-            Assert.AreNotEqual(random, new Random().NextChar(random));
         }
 
         [TestMethod]
@@ -390,13 +390,6 @@ namespace JSR.Utilities.Tests
         }
 
         [TestMethod]
-        public void NextDateTime_CreatesDifferentDateTime()
-        {
-            DateTime random = new Random().NextDateTime();
-            Assert.AreNotEqual(random, new Random().NextDateTime(random));
-        }
-
-        [TestMethod]
         public void NextDecimal_CreatesRandomDecimal()
         {
             bool isRandom = false;
@@ -413,13 +406,6 @@ namespace JSR.Utilities.Tests
             }
 
             Assert.IsTrue(isRandom);
-        }
-
-        [TestMethod]
-        public void NextDecimal_CreatesDifferentDecimal()
-        {
-            decimal random = new Random().NextDecimal();
-            Assert.AreNotEqual(random, new Random().NextDecimal(random));
         }
 
         [TestMethod]
@@ -442,28 +428,37 @@ namespace JSR.Utilities.Tests
         }
 
         [TestMethod]
-        public void NextDouble_CreatesDifferentDouble()
+        public void NextEnum_CreatesRandomEnumValue()
         {
-            double random = new Random().NextDouble();
-            Assert.AreNotEqual(random, new Random().NextDouble(random));
-        }
+            bool isRandom = false;
+            EnumMock randomEnum = new Random().NextEnum(typeof(EnumMock));
 
-        [TestMethod]
-        public void NextInt_CreatesDifferentInt()
-        {
-            int random = new Random().Next();
-            Assert.AreNotEqual(random, new Random().NextInt(random));
+            for (int i = 0; i < 100; i++)
+            {
+                isRandom = randomEnum != new Random().NextEnum(typeof(EnumMock));
 
-            int min = new Random().Next(10);
-            int max = new Random().Next(11, 100);
+                if (isRandom)
+                {
+                    break;
+                }
+            }
 
-            random = new Random().Next(max);
+            Assert.IsTrue(isRandom);
 
-            Assert.AreNotEqual(random, new Random().NextInt(random, max));
+            isRandom = false;
+            randomEnum = new Random().NextEnum<EnumMock>();
 
-            random = new Random().Next(min, max);
+            for (int i = 0; i < 100; i++)
+            {
+                isRandom = randomEnum != new Random().NextEnum<EnumMock>();
 
-            Assert.AreNotEqual(random, new Random().NextInt(random, min, max));
+                if (isRandom)
+                {
+                    break;
+                }
+            }
+
+            Assert.IsTrue(isRandom);
         }
 
         [TestMethod]
@@ -493,18 +488,175 @@ namespace JSR.Utilities.Tests
         }
 
         [TestMethod]
-        public void NextString_CreatesDifferentString()
+        [DataRow(typeof(bool))]
+        [DataRow(typeof(char))]
+        [DataRow(typeof(decimal))]
+        [DataRow(typeof(double))]
+        [DataRow(typeof(int))]
+        [DataRow(typeof(string))]
+        [DataRow(typeof(DateTime))]
+        [DataRow(typeof(EnumMock))]
+        public void NextTypeOf_Type_CreatesRandomValueOfType(Type type)
         {
-            string random = new Random().NextString();
-            Assert.AreNotEqual(random, new Random().NextString(random));
+            bool isRandom = false;
+            var randomValue = new Random().NextTypeOf(type);
+
+            for (int i = 0; i < 100; i++)
+            {
+                // var newRandom = RandomUtilities.GetRandom(type);
+                isRandom = randomValue != new Random().NextTypeOf(type);
+
+                if (isRandom)
+                {
+                    break;
+                }
+            }
+
+            Assert.IsTrue(isRandom);
         }
 
         [TestMethod]
-        public void NextString_CreatesDifferentString_OfLength()
+        [DataRow(typeof(bool))]
+        [DataRow(typeof(char))]
+        [DataRow(typeof(decimal))]
+        [DataRow(typeof(double))]
+        [DataRow(typeof(int))]
+        [DataRow(typeof(string))]
+        [DataRow(typeof(DateTime))]
+        [DataRow(typeof(EnumMock))]
+        public void NextTypeOf_Generic_CreatesRandomValueOfType(Type type)
+        {
+            bool isRandom = false;
+            Random r = new();
+
+            var randomValue = typeof(RandomUtilities).GetMethod(nameof(RandomUtilities.NextTypeOf), new Type[] { typeof(Random) }).MakeGenericMethod(type).Invoke(null, new[] { r });
+
+            for (int i = 0; i < 100; i++)
+            {
+                isRandom = randomValue != typeof(RandomUtilities).GetMethod(nameof(RandomUtilities.NextTypeOf), new Type[] { typeof(Random) }).MakeGenericMethod(type).Invoke(null, new[] { r });
+
+                if (isRandom)
+                {
+                    break;
+                }
+            }
+
+            Assert.IsTrue(isRandom);
+        }
+
+        [TestMethod]
+        public void NewBool_CreatesDifferentBool()
+        {
+            bool random = new Random().NextBool();
+            Assert.AreNotEqual(random, new Random().NewBool(random));
+        }
+
+        [TestMethod]
+        public void NewChar_CreatesDifferentChar()
+        {
+            char random = new Random().NextChar();
+            Assert.AreNotEqual(random, new Random().NewChar(random));
+        }
+
+        [TestMethod]
+        public void NewDateTime_CreatesDifferentDateTime()
+        {
+            DateTime random = new Random().NextDateTime();
+            Assert.AreNotEqual(random, new Random().NewDateTime(random));
+        }
+
+        [TestMethod]
+        public void NewDecimal_CreatesDifferentDecimal()
+        {
+            decimal random = new Random().NextDecimal();
+            Assert.AreNotEqual(random, new Random().NewDecimal(random));
+        }
+
+        [TestMethod]
+        public void NewDouble_CreatesDifferentDouble()
+        {
+            double random = new Random().NextDouble();
+            Assert.AreNotEqual(random, new Random().NewDouble(random));
+        }
+
+        [TestMethod]
+        public void NewEnum_CreatedDifferentEnum()
+        {
+            EnumMock random = new Random().NextEnum(typeof(EnumMock));
+            Assert.AreNotEqual(random, new Random().NewEnum(typeof(EnumMock), random));
+
+            random = new Random().NextEnum<EnumMock>();
+            Assert.AreNotEqual(random, new Random().NewEnum(random));
+        }
+
+        [TestMethod]
+        public void NewInt_CreatesDifferentInt()
+        {
+            int random = new Random().Next();
+            Assert.AreNotEqual(random, new Random().NewInt(random));
+
+            int min = new Random().Next(10);
+            int max = new Random().Next(11, 100);
+
+            random = new Random().Next(max);
+
+            Assert.AreNotEqual(random, new Random().NewInt(random, max));
+
+            random = new Random().Next(min, max);
+
+            Assert.AreNotEqual(random, new Random().NewInt(random, min, max));
+        }
+
+        [TestMethod]
+        public void NewString_CreatesDifferentString()
+        {
+            string random = new Random().NextString();
+            Assert.AreNotEqual(random, new Random().NewString(random));
+        }
+
+        [TestMethod]
+        [DataRow(typeof(bool))]
+        [DataRow(typeof(char))]
+        [DataRow(typeof(decimal))]
+        [DataRow(typeof(double))]
+        [DataRow(typeof(int))]
+        [DataRow(typeof(string))]
+        [DataRow(typeof(DateTime))]
+        [DataRow(typeof(EnumMock))]
+        public void NewTypeOf_Type_CreatesRandomValueOfType(Type type)
+        {
+            var random = new Random().NextTypeOf(type);
+            Assert.AreNotEqual(random, RandomUtilities.NewTypeOf(new Random(), type, random));
+        }
+
+        [TestMethod]
+        [DataRow(typeof(bool))]
+        [DataRow(typeof(char))]
+        [DataRow(typeof(decimal))]
+        [DataRow(typeof(double))]
+        [DataRow(typeof(int))]
+        [DataRow(typeof(string))]
+        [DataRow(typeof(DateTime))]
+        [DataRow(typeof(EnumMock))]
+        public void NewTypeOf_Generic_CreatesRandomValueOfType(Type type)
+        {
+            Random r = new();
+            var random = typeof(RandomUtilities).GetMethod(nameof(RandomUtilities.NextTypeOf), new Type[] { typeof(Random) }).MakeGenericMethod(type).Invoke(null, new[] { r });
+
+            var method = typeof(RandomUtilities).GetMethods().Single(m => m.Name == nameof(RandomUtilities.NewTypeOf) && m.IsGenericMethodDefinition);
+            var genericMethod = method.MakeGenericMethod(type);
+
+            var newVal = genericMethod.Invoke(null, new object[] { r, random });
+
+            Assert.AreNotEqual(random, newVal);
+        }
+
+        [TestMethod]
+        public void NewString_CreatesDifferentString_OfLength()
         {
             int length = new Random().Next(5, 30);
             string random = new Random().NextString(length);
-            string newRandom = new Random().NextString(length, random);
+            string newRandom = new Random().NewString(random, length);
 
             Assert.AreNotEqual(random, newRandom);
             Assert.AreEqual(length, newRandom.Length);
