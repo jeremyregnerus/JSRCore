@@ -1,35 +1,10 @@
-﻿namespace JSR.NumberGenerator
+﻿namespace JSR.Utilities
 {
     /// <summary>
     /// This class generates serial numbers based on <see cref="DateTime"/>.
     /// </summary>
     public static class SerialNumber
     {
-        /// <summary>
-        /// Number of seconds in a minute.
-        /// </summary>
-        public const int SecondsInAMinute = 60;
-
-        /// <summary>
-        /// Number of minutes in an hour.
-        /// </summary>
-        public const int MinutesInAnHour = 60;
-
-        /// <summary>
-        /// Number of seconds in an hour.
-        /// </summary>
-        public const int SecondsInAnHour = SecondsInAMinute * MinutesInAnHour;
-
-        /// <summary>
-        /// Number of hours in a day.
-        /// </summary>
-        public const int HoursInADay = 24;
-
-        /// <summary>
-        /// Number of seconds in a day.
-        /// </summary>
-        public const int SecondsInADay = HoursInADay * SecondsInAnHour;
-
         /// <summary>
         /// Generate a formatted serial number for the current <see cref="DateTime"/>.
         /// </summary>
@@ -85,13 +60,7 @@
         /// <returns>12 digit long value serial number.</returns>
         public static long GetSerialNumber(DateTime date)
         {
-            long year = (date.Year % 1000) * 100000000;
-            long day = (date.DayOfYear - 1) * SecondsInADay;
-            long hour = date.Hour * SecondsInAnHour;
-            long minute = date.Minute * SecondsInAMinute;
-            long second = date.Second;
-
-            return year + day + hour + minute + second;
+            return ((date.Year % 1000) * 100000000) + ((date.DayOfYear - 1) * 86400) + (date.Hour * 3600) + (date.Minute * 60) + date.Second;
         }
 
         /// <summary>
