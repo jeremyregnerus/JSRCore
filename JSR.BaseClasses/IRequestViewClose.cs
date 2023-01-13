@@ -1,8 +1,4 @@
-﻿// <copyright file="IRequestViewClose.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-namespace JSR.BaseClasses
+﻿namespace JSR.BaseClasses
 {
     /// <summary>
     /// Interface for requesting closing a viewmodel.

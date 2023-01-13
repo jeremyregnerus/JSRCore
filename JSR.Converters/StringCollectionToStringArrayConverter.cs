@@ -1,8 +1,4 @@
-﻿// <copyright file="StringCollectionToStringArrayConverter.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.Globalization;
 using System.Windows.Data;
 

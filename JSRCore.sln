@@ -8,7 +8,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		Publish.txt = Publish.txt
 		README.md = README.md
-		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Utilities", "JSR.Utilities\JSR.Utilities.csproj", "{73FDD3AC-A74A-4904-8A28-3A32CF67C178}"
@@ -25,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.Converters", "JSR.Conve
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.BaseClasses", "JSR.BaseClasses\JSR.BaseClasses.csproj", "{1F91CB25-1AB4-4EF7-AA52-47E7AEC60EF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSR.BaseClasses.Tests", "JSR.BaseClasses.Tests\JSR.BaseClasses.Tests.csproj", "{58FABA21-CD76-4FFF-A328-89AABF6981EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSR.BaseClasses.Tests", "JSR.BaseClasses.Tests\JSR.BaseClasses.Tests.csproj", "{58FABA21-CD76-4FFF-A328-89AABF6981EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

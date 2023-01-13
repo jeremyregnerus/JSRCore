@@ -1,8 +1,4 @@
-﻿// <copyright file="ObjectUtilities.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-using System.Collections;
+﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.Serialization;

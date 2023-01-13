@@ -1,8 +1,4 @@
-﻿// <copyright file="ViewModelBase.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-namespace JSR.BaseClasses
+﻿namespace JSR.BaseClasses
 {
     /// <summary>
     /// Base ViewModel object for MVVM environments.

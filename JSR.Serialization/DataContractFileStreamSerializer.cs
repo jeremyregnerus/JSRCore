@@ -1,8 +1,4 @@
-﻿// <copyright file="DataContractFileStreamSerializer.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using System.Xml;
 
 namespace JSR.Serialization

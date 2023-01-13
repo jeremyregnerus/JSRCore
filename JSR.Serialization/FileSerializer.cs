@@ -1,8 +1,4 @@
-﻿// <copyright file="FileSerializer.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-namespace JSR.Serialization
+﻿namespace JSR.Serialization
 {
     /// <summary>
     /// Provides basic serialization and deserialization of files.

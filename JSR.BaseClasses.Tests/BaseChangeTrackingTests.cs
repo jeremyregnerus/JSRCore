@@ -1,8 +1,4 @@
-﻿// <copyright file="BaseChangeTrackingTests.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-using JSR.Asserts;
+﻿using JSR.Asserts;
 using JSR.BaseClasses.Tests.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -1,8 +1,4 @@
-﻿// <copyright file="BaseMessenger.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-namespace JSR.BaseClasses
+﻿namespace JSR.BaseClasses
 {
     /// <summary>
     /// Base implementation of <see cref="IMessenger"/>.

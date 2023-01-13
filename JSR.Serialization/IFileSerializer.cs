@@ -1,8 +1,4 @@
-﻿// <copyright file="IFileSerializer.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-namespace JSR.Serialization
+﻿namespace JSR.Serialization
 {
     /// <summary>
     /// Interface for serializers used for simple loading and saving of files.

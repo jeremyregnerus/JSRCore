@@ -1,8 +1,4 @@
-﻿// <copyright file="GetPropertiesOptions.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-namespace JSR.Utilities
+﻿namespace JSR.Utilities
 {
     /// <summary>
     /// Options for using <see cref="PropertyUtilities.GetProperties"/>.

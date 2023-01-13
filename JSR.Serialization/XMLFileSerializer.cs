@@ -1,8 +1,4 @@
-﻿// <copyright file="XMLFileSerializer.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-namespace JSR.Serialization
+﻿namespace JSR.Serialization
 {
     /// <summary>
     /// Loads and saves objects using the <see cref="XMLFileSerializer{T}"/>.

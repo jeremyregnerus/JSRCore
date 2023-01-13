@@ -1,8 +1,4 @@
-﻿// <copyright file="SerializationAssert.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using JSR.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

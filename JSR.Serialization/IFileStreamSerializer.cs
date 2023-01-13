@@ -1,8 +1,4 @@
-﻿// <copyright file="IFileStreamSerializer.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-namespace JSR.Serialization
+﻿namespace JSR.Serialization
 {
     /// <summary>
     /// Interface for serializing and deserializing objects from a <see cref="FileStream"/>.

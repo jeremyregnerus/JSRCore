@@ -1,8 +1,4 @@
-﻿// <copyright file="BaseNotifyPropertyChangedNotifyChanged.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace JSR.BaseClasses
 {

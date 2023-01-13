@@ -1,8 +1,4 @@
-﻿// <copyright file="IMessenger.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-namespace JSR.BaseClasses
+﻿namespace JSR.BaseClasses
 {
     /// <summary>
     /// This event handler is raised when a message is raised by an object.

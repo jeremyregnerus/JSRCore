@@ -1,8 +1,4 @@
-﻿// <copyright file="BaseChangeTracking.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace JSR.BaseClasses
 {

@@ -1,8 +1,4 @@
-﻿// <copyright file="DelegateCommandParam.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace JSR.BaseClasses
 {

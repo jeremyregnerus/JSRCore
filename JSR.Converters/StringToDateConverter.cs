@@ -1,8 +1,4 @@
-﻿// <copyright file="StringToDateConverter.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Data;
 
 namespace JSR.Converters

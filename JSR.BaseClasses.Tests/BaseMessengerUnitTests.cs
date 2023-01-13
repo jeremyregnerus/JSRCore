@@ -1,8 +1,4 @@
-﻿// <copyright file="BaseMessengerUnitTests.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-using JSR.BaseClasses.Tests.Mocks;
+﻿using JSR.BaseClasses.Tests.Mocks;
 using JSR.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -1,8 +1,4 @@
-﻿// <copyright file="PropertyUtilitiesTests.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-using System.Data;
+﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using JSR.Utilities.Tests.Mocks;

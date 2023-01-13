@@ -1,8 +1,4 @@
-﻿// <copyright file="SerialNumber.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-namespace JSR.NumberGenerator
+﻿namespace JSR.NumberGenerator
 {
     /// <summary>
     /// This class generates serial numbers based on <see cref="DateTime"/>.

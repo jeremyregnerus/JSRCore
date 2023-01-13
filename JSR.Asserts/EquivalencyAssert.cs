@@ -1,8 +1,4 @@
-﻿// <copyright file="EquivalencyAssert.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-using System.Collections;
+﻿using System.Collections;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

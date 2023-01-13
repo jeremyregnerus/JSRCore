@@ -1,8 +1,4 @@
-﻿// <copyright file="PropertyMock.cs" company="Jeremy Regnerus">
-// Copyright (c) Jeremy Regnerus. All rights reserved.
-// </copyright>
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 
 namespace JSR.Utilities.Tests.Mocks
