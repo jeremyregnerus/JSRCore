@@ -14,23 +14,23 @@ jobs:
     - name: Update version numbers
       run: |
         git checkout ${{ github.ref }}
-        for ($dir in (Get-ChildItem -Directory)) {
-            cd $dir
+        Get-ChildItem -Directory | ForEach-Object {
+            cd $_.Name
             (Get-Content project.json | ForEach-Object { $_ -replace "0.0.0", "${{github.ref}}" }) | Set-Content project.json
             cd ..
         }
     - name: Build and create nuget packages
       run: |
-        for ($dir in (Get-ChildItem -Directory)) {
-            cd $dir
+        Get-ChildItem -Directory | ForEach-Object {
+            cd $_.Name
             dotnet build -c Release
             dotnet pack -c Release
             cd ..
         }
     - name: Publish packages
       run: |
-        for ($dir in (Get-ChildItem -Directory)) {
-            cd $dir
-            nuget push *.nupkg -Source https://nuget.pkg.github.com/OWNER/index.json -ApiKey ${{secrets.PACKAGE_API_KEY}}
+        Get-ChildItem -Directory | ForEach-Object {
+            cd $_.Name
+            nuget push *.nupkg -Source https://nuget.pkg.github.com/jeremyregnerus/index.json -ApiKey ${{secrets.PACKAGE_API_KEY}}
             cd ..
         }
