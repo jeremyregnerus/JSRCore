@@ -16,21 +16,25 @@ jobs:
         git checkout ${{ github.ref }}
         Get-ChildItem -Directory | ForEach-Object {
             cd $_.Name
-            (Get-Content project.json | ForEach-Object { $_ -replace "0.0.0", "${{github.ref}}" }) | Set-Content project.json
+            (Get-Content *.csproj -Raw) -replace '<Version>*.*.*</Version>', "`<Version>${{github.ref}}</Version>`" | Set-Content *.csproj
             cd ..
         }
     - name: Build and create nuget packages
       run: |
         Get-ChildItem -Directory | ForEach-Object {
             cd $_.Name
-            dotnet build -c Release
-            dotnet pack -c Release
+            if (Test-Path .\*.nuspec) {
+                dotnet build -c Release
+                dotnet pack -c Release
+            }
             cd ..
         }
     - name: Publish packages
       run: |
         Get-ChildItem -Directory | ForEach-Object {
             cd $_.Name
-            nuget push *.nupkg -Source https://nuget.pkg.github.com/jeremyregnerus/index.json -ApiKey ${{secrets.PACKAGE_API_KEY}}
+            if (Test-Path .\*.nuspec) {
+                nuget push *.nupkg -Source https://nuget.pkg.github.com/jeremyregnerus/index.json -ApiKey ${{secrets.PACKAGE_API_KEY}}
+            }
             cd ..
         }
