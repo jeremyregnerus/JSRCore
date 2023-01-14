@@ -16,6 +16,7 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <Nullable>enable</Nullable>
+    <PackageOutputPath>..\Packages</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>

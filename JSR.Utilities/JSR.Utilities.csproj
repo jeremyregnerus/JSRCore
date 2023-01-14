@@ -17,6 +17,7 @@
         <RepositoryType>GitHub</RepositoryType>
         <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+        <PackageOutputPath>..\Packages</PackageOutputPath>
     </PropertyGroup>
 
     <ItemGroup>
