@@ -10,6 +10,6 @@
             AddChildMessaging(child);
         }
 
-        public MockBaseMessenger Child { get => child; set => SetValue(ref child, value); }
+        public MockBaseMessenger Child { get => child; set => SetProperty(ref child, value); }
     }
 }

@@ -10,6 +10,6 @@
             AddChildChangeTracking(child);
         }
 
-        public MockBaseNotifyChanged Child { get => child; set => SetValue(ref child, value); }
+        public MockBaseNotifyChanged Child { get => child; set => SetProperty(ref child, value); }
     }
 }

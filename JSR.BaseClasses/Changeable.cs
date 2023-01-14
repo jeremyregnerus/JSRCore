@@ -1,29 +1,55 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace JSR.BaseClasses
+﻿namespace JSR.BaseClasses
 {
     /// <summary>
     /// Base implementation of <see cref="INotifyChanged"/>.
     /// </summary>
-    public abstract class BaseNotifyPropertyChangedNotifyChanged : BaseNotifyPropertyChangedChangeTracking, INotifyChanged
+    public abstract class Changeable : INotifyChanged
     {
+        private bool isChanged = true;
+
         /// <inheritdoc/>
         public event OnChangedEventHandler? OnChanged;
 
         /// <inheritdoc/>
-        public override bool IsChanged
+        public virtual bool IsChanged
         {
-            get => base.IsChanged;
+            get => isChanged;
 
             protected set
             {
-                if (base.IsChanged != value)
+                if (value != isChanged)
                 {
-                    base.IsChanged = value;
-                    NotifyPropertyChanged();
-                    OnChanged?.Invoke(this, base.IsChanged);
+                    isChanged = value;
+                    OnChanged?.Invoke(this, value);
                 }
             }
+        }
+
+        /// <inheritdoc/>
+        public void AcceptChanges()
+        {
+            IsChanged = false;
+        }
+
+        /// <summary>
+        /// Sets the value property and changes the <see cref="IsChanged"/> if the value changes.
+        /// </summary>
+        /// <typeparam name="T">Type of property value to set.</typeparam>
+        /// <param name="field">Field containing the property value.</param>
+        /// <param name="value">Value to assign to the property.</param>
+        /// <returns>True if the value was changed, otherwise false.</returns>
+        protected virtual bool SetProperty<T>(ref T field, T value)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value))
+            {
+                return false;
+            }
+
+            RemoveChildChangeTracking(field);
+            field = value;
+            AddChildChangeTracking(field);
+
+            return true;
         }
 
         /// <summary>
@@ -52,30 +78,17 @@ namespace JSR.BaseClasses
             }
         }
 
-        /// <inheritdoc/>
-        protected override bool SetValue<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value))
-            {
-                return false;
-            }
-
-            RemoveChildChangeTracking(field);
-            field = value;
-            AddChildChangeTracking(field);
-            NotifyPropertyChanged(propertyName);
-
-            return true;
-        }
-
         /// <summary>
-        /// Changes the <see cref="IsChanged"/> state of this object when a child raises <see cref="OnChanged"/>.
+        /// Changes <see cref="IsChanged"/> when a child raises <see cref="OnChanged"/> with a value of true.
         /// </summary>
         /// <param name="sender">Object raising <see cref="OnChangedEventHandler"/>.</param>
-        /// <param name="wasChanged">True if the object was changed, false otherwise.</param>
+        /// <param name="wasChanged">True if the object was changed, otherwise false.</param>
         private void OnChildChanged(object sender, bool wasChanged)
         {
-            IsChanged = true;
+            if (wasChanged)
+            {
+                IsChanged = true;
+            }
         }
     }
 }

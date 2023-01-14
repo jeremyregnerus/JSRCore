@@ -1,26 +1,50 @@
-﻿namespace JSR.BaseClasses
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
+namespace JSR.BaseClasses
 {
     /// <summary>
-    /// Base implementation of <see cref="INotifyChanged"/>.
+    /// Base implementation of <see cref="INotifyPropertyChanged"/> with <see cref="IChangeTracking"/>.
     /// </summary>
-    public abstract class BaseNotifyChanged : BaseChangeTracking, INotifyChanged
+    public class ObservableChangeable : Observable, INotifyChanged
     {
+        private bool isChanged = true;
+
         /// <inheritdoc/>
         public event OnChangedEventHandler? OnChanged;
 
         /// <inheritdoc/>
-        public override bool IsChanged
+        public virtual bool IsChanged
         {
-            get => base.IsChanged;
+            get => isChanged;
 
             protected set
             {
-                if (value != base.IsChanged)
+                if (value != isChanged)
                 {
-                    base.IsChanged = value;
-                    OnChanged?.Invoke(this, value);
+                    isChanged = value;
+                    NotifyPropertyChanged();
+                    OnChanged?.Invoke(this, isChanged);
                 }
             }
+        }
+
+        /// <inheritdoc/>
+        public virtual void AcceptChanges()
+        {
+            IsChanged = false;
+        }
+
+        /// <inheritdoc/>
+        protected override bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+        {
+            if (base.SetProperty(ref field, value, propertyName))
+            {
+                IsChanged = true;
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -49,27 +73,12 @@
             }
         }
 
-        /// <inheritdoc/>
-        protected override bool SetValue<T>(ref T field, T value)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value))
-            {
-                return false;
-            }
-
-            RemoveChildChangeTracking(field);
-            field = value;
-            AddChildChangeTracking(field);
-
-            return true;
-        }
-
         /// <summary>
         /// Changes <see cref="IsChanged"/> when a child raises <see cref="OnChanged"/> with a value of true.
         /// </summary>
         /// <param name="sender">Object raising <see cref="OnChangedEventHandler"/>.</param>
         /// <param name="wasChanged">True if the object was changed, otherwise false.</param>
-        private void OnChildChanged(object sender, bool wasChanged)
+        protected void OnChildChanged(object sender, bool wasChanged)
         {
             if (wasChanged)
             {

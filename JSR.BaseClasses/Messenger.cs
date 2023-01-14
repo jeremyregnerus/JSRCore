@@ -3,7 +3,7 @@
     /// <summary>
     /// Base implementation of <see cref="IMessenger"/>.
     /// </summary>
-    public abstract class BaseMessenger : IMessenger
+    public abstract class Messenger : IMessenger
     {
         private string message = string.Empty;
 
@@ -22,6 +22,27 @@
                     OnMessage?.Invoke(this, message);
                 }
             }
+        }
+
+        /// <summary>
+        /// Sets the value for a property, and manages <see cref="IMessenger"/> tracking if the object supports it.
+        /// </summary>
+        /// <typeparam name="T">Type of value to set.</typeparam>
+        /// <param name="field">Field storing the value for the property.</param>
+        /// <param name="value">Value to assign to the property.</param>
+        /// <returns>True if the value was changed. This will return false if the values are the same.</returns>
+        protected virtual bool SetProperty<T>(ref T field, T value)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value))
+            {
+                return false;
+            }
+
+            RemoveChildMessaging(field);
+            field = value;
+            AddChildMessaging(field);
+
+            return true;
         }
 
         /// <summary>
@@ -48,27 +69,6 @@
             {
                 messenger.OnMessage -= OnChildMessage;
             }
-        }
-
-        /// <summary>
-        /// Sets the value for a property, and manages <see cref="IMessenger"/> tracking if the object supports it.
-        /// </summary>
-        /// <typeparam name="T">Type of value to set.</typeparam>
-        /// <param name="field">Field storing the value for the property.</param>
-        /// <param name="value">Value to assign to the property.</param>
-        /// <returns>True if the value was changed. This will return false if the values are the same.</returns>
-        protected virtual bool SetValue<T>(ref T field, T value)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value))
-            {
-                return false;
-            }
-
-            RemoveChildMessaging(field);
-            field = value;
-            AddChildMessaging(field);
-
-            return true;
         }
 
         /// <summary>
