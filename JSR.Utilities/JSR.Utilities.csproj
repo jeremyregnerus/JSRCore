@@ -13,7 +13,7 @@
         <PackageReadmeFile></PackageReadmeFile>
         <PackageProjectUrl>https://github.com/jeremyregnerus/JSRCore</PackageProjectUrl>
         <RepositoryUrl>https://github.com/jeremyregnerus/JSRCore</RepositoryUrl>
-        <Version>0.2.1</Version>
+        <Version>0.3.0</Version>
         <RepositoryType>GitHub</RepositoryType>
         <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>

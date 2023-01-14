@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <Authors>Jeremy Regnerus</Authors>
     <Copyright>Copywrite © 2023 Jeremy Regnerus, all rights reserved.</Copyright>
     <PackageProjectUrl>https://github.com/jeremyregnerus/JSRCore</PackageProjectUrl>
