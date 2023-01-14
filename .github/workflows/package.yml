@@ -14,23 +14,23 @@ jobs:
     - name: Update version numbers
       run: |
         git checkout ${{ github.ref }}
-        for /d %i in (*) do (
-            cd %i
-            (for /f "tokens=*" %a in ('type project.json') do (echo(%a) | findstr /v "version" | findstr /v "0.0.0" & echo(version "${{github.ref}}")) > project.json
+        for ($dir in (Get-ChildItem -Directory)) {
+            cd $dir
+            (Get-Content project.json | ForEach-Object { $_ -replace "0.0.0", "${{github.ref}}" }) | Set-Content project.json
             cd ..
-        )
+        }
     - name: Build and create nuget packages
       run: |
-        for /d %i in (*) do (
-            cd %i
+        for ($dir in (Get-ChildItem -Directory)) {
+            cd $dir
             dotnet build -c Release
             dotnet pack -c Release
             cd ..
-        )
+        }
     - name: Publish packages
       run: |
-        for /d %i in (*) do (
-            cd %i
+        for ($dir in (Get-ChildItem -Directory)) {
+            cd $dir
             nuget push *.nupkg -Source https://nuget.pkg.github.com/OWNER/index.json -ApiKey ${{secrets.PACKAGE_API_KEY}}
             cd ..
-        )
+        }
