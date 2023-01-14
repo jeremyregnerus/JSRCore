@@ -1,22 +1,36 @@
-name: Nuget Package
+name: Release
 
 on:
   release:
     types: [created]
 
 jobs:
-  build:
+  build-and-publish:
     runs-on: windows-latest
-
+    if: startsWith(github.ref, 'refs/tags/')
     steps:
-    - name: Checkout
+    - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Build
-      run: dotnet build --configuration Release
-
-    - name: Pack
-      run: dotnet pack --configuration Release
-
-    - name: Deploy
-      run: nuget push **/JSR.Asserts/bin/Release/JSR.Asserts.`tag`.nupkg --api-key ${{ secrets.PACKAGE_API_KEY }} -s "https://nuget.pkg.github.com/jeremyregnerus/index.json"
+    - name: Update version numbers
+      run: |
+        git checkout ${{ github.ref }}
+        for /d %i in (*) do (
+            cd %i
+            (for /f "tokens=*" %a in ('type project.json') do (echo(%a) | findstr /v "version" | findstr /v "0.0.0" & echo(version "${{github.ref}}")) > project.json
+            cd ..
+        )
+    - name: Build and create nuget packages
+      run: |
+        for /d %i in (*) do (
+            cd %i
+            dotnet build -c Release
+            dotnet pack -c Release
+            cd ..
+        )
+    - name: Publish packages
+      run: |
+        for /d %i in (*) do (
+            cd %i
+            nuget push *.nupkg -Source https://nuget.pkg.github.com/jeremyregnerus/index.json -ApiKey ${{secrets.PACKAGE_API_KEY}}
+            cd ..
+        )
