@@ -6,10 +6,31 @@ namespace JSR.BaseClasses
     /// <summary>
     /// Base implementation of <see cref="INotifyPropertyChanged"/>.
     /// </summary>
-    public abstract class BaseNotifyPropertyChanged : INotifyPropertyChanged
+    public abstract class Observable : INotifyPropertyChanged
     {
         /// <inheritdoc/>
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// <summary>
+        /// Sets the value for a property.
+        /// </summary>
+        /// <typeparam name="T">Type of value to set.</typeparam>
+        /// <param name="field">Field storing the  property value.</param>
+        /// <param name="value">Value to assign to the property.</param>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns>True if the value was changed, otherwise false.</returns>
+        protected virtual bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value))
+            {
+                return false;
+            }
+
+            field = value;
+            NotifyPropertyChanged(propertyName);
+
+            return true;
+        }
 
         /// <summary>
         /// Raise the <see cref="PropertyChangedEventHandler"/> for multiple properties.
@@ -48,27 +69,6 @@ namespace JSR.BaseClasses
         protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        /// <summary>
-        /// Sets the value for a property.
-        /// </summary>
-        /// <typeparam name="T">Type of value to set.</typeparam>
-        /// <param name="field">Field storing the value for the property.</param>
-        /// <param name="value">Value to assign to the property.</param>
-        /// <param name="propertyName">Name of the property.</param>
-        /// <returns>True if the value was changed. This will return false if the values are the same.</returns>
-        protected virtual bool SetValue<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value))
-            {
-                return false;
-            }
-
-            field = value;
-            NotifyPropertyChanged(propertyName);
-
-            return true;
         }
     }
 }

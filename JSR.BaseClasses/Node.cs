@@ -4,7 +4,7 @@
     /// Node / Tree structure for managing objects.
     /// </summary>
     /// <typeparam name="T">Type of object contained in this Node within the Item property.</typeparam>
-    public class Node<T> : BaseNotifyPropertyChangedNotifyChangedMessenger where T : BaseNotifyPropertyChangedNotifyChangedMessenger
+    public class Node<T> : ObservableChangeableMessenger where T : ObservableChangeableMessenger
     {
         private T item;
         private Node<T>? parent;
@@ -35,7 +35,7 @@
         /// <param name="children">Children Nodes of this Node.</param>
         public Node(T item, IEnumerable<Node<T>> children) : this(item)
         {
-            Children = new BaseCollection<Node<T>>(children);
+            Children = new(children);
         }
 
         /// <summary>
@@ -46,13 +46,13 @@
         /// <param name="children">Children Nodes of this Node.</param>
         public Node(T item, Node<T> parent, IEnumerable<Node<T>> children) : this(item, parent)
         {
-            Children = new BaseCollection<Node<T>>(children);
+            Children = new(children);
         }
 
         /// <summary>
         /// Gets a list of child Nodes within this Node.
         /// </summary>
-        public BaseCollection<Node<T>> Children { get; } = new BaseCollection<Node<T>>();
+        public ObservableChangeableMessengerCollection<Node<T>> Children { get; } = new();
 
         /// <summary>
         /// Gets or sets a value indicating whether this Node is a copy of another.
@@ -72,12 +72,12 @@
         /// <summary>
         /// Gets or sets the Item managed by this Node.
         /// </summary>
-        public T Item { get => item; set => SetValue(ref item, value); }
+        public T Item { get => item; set => SetProperty(ref item, value); }
 
         /// <summary>
         /// Gets or sets the Parent to this Node.
         /// </summary>
-        public Node<T>? Parent { get => parent; set => SetValue(ref parent, value); }
+        public Node<T>? Parent { get => parent; set => SetProperty(ref parent, value); }
 
         /// <summary>
         /// Gets the Root node for the tree that this Node is contained within.

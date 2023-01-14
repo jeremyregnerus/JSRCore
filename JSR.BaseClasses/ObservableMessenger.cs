@@ -6,7 +6,7 @@ namespace JSR.BaseClasses
     /// <summary>
     /// Base implementation of <see cref="INotifyPropertyChanged"/> with <see cref="IMessenger"/>.
     /// </summary>
-    public abstract class BaseNotifyPropertyChangedMessenger : BaseNotifyPropertyChanged, IMessenger
+    public abstract class ObservableMessenger : Observable, IMessenger
     {
         private string message = string.Empty;
 
@@ -19,7 +19,7 @@ namespace JSR.BaseClasses
             get => message;
             protected set
             {
-                if (SetValue(ref message, value))
+                if (SetProperty(ref message, value))
                 {
                     OnMessage?.Invoke(this, message);
                 }
@@ -60,7 +60,7 @@ namespace JSR.BaseClasses
         /// <param name="value">Value to assign to the property.</param>
         /// <param name="propertyName">Name of the property.</param>
         /// <returns>True if the value was changed. This will return false if the values are the same.</returns>
-        protected override bool SetValue<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+        protected override bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
         {
             if (EqualityComparer<T>.Default.Equals(value, field))
             {
@@ -80,7 +80,7 @@ namespace JSR.BaseClasses
         /// </summary>
         /// <param name="sender">Object raising <see cref="OnMessageEventHandler"/>.</param>
         /// <param name="message">Message the child raised.</param>
-        private void OnChildMessage(object sender, string message)
+        protected void OnChildMessage(object sender, string message)
         {
             Message = message;
         }
