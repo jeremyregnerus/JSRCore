@@ -1,0 +1,22 @@
+name: Nuget Package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Build
+      run: dotnet build --configuration Release
+
+    - name: Pack
+      run: dotnet pack --configuration Release
+
+    - name: Deploy
+      run: nuget push **/*.nupkg -k ${{ secrets.PACKAGE_API_KEY }} -s "https://nuget.pkg.github.com/jeremyregnerus/index.json"
